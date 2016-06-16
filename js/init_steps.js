@@ -35,9 +35,14 @@ var settings = {
     transitionEffectSpeed: 200,
 
     /* Events */
-    /*onStepChanging: function (event, currentIndex, newIndex) { return true; },
-     onStepChanged: function (event, currentIndex, priorIndex) { }},
-     onCanceled: function (event) { },
+    onStepChanging: function (event, currentIndex, newIndex) {
+        return true;
+    },
+    onStepChanged: function (event, currentIndex, priorIndex) {
+        $(settings.headerTag + ".label-success").removeClass("label-success").addClass("label-default");
+        $(settings.headerTag + ".current").removeClass("label-default").addClass("label-success");
+    },
+    /*onCanceled: function (event) { },
      onFinishing: function (event, currentIndex) { return true; },
      onFinished: function (event, currentIndex) { },*/
 
