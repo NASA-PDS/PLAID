@@ -22,7 +22,7 @@ var settings = {
     enablePagination: true,
     suppressPaginationOnFocus: true,
     enableContentCache: true,
-    enableCancelButton: true,
+    enableCancelButton: false,
     enableFinishButton: true,
     preloadContent: false,
     showFinishButtonAlways: false,
@@ -39,12 +39,10 @@ var settings = {
         return true;
     },
     onStepChanged: function (event, currentIndex, priorIndex) {
-        $(settings.headerTag + ".label-success").removeClass("label-success").addClass("label-default");
-        $(settings.headerTag + ".current").removeClass("label-default").addClass("label-success");
     },
-    /*onCanceled: function (event) { },
-     onFinishing: function (event, currentIndex) { return true; },
-     onFinished: function (event, currentIndex) { },*/
+    onCanceled: function (event) { },
+    onFinishing: function (event, currentIndex) { return true; },
+    onFinished: function (event, currentIndex) { },
 
     /* Labels */
     labels: {
