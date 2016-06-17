@@ -1,4 +1,8 @@
 /* tag */
+iframe {
+    border: none;
+    font-family: Helvetica;
+}
 section {
     overflow: auto;
 }
@@ -7,7 +11,7 @@ table {
 }
 td {
     width: 50%;
-    padding: 2px;
+    padding: 0.3em;
 }
 /* id */
 #details {

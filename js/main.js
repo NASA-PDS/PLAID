@@ -6,6 +6,7 @@ $(document).ready(function(){
         $(this).mouseenter(previewDetails);
         $(this).click(captureSelection);
     });
+    loadDescriptionFromFile();
 });
 /*
 * When the user hovers over an option in the wizard pane,
@@ -31,4 +32,23 @@ function captureSelection(){
 */
 function clearActiveElements(){
     $(".active").removeClass("active");
+}
+/*
+* Parse out the title of the current step and use that to determine
+* which text file to pull the description from for the help pane.
+*/
+function loadDescriptionFromFile(){
+    var currentStep = $(".title.current")[0].innerHTML;
+    var filename = currentStep.split(" ").join("_") + ".txt";
+    filename = filename.toLowerCase();
+    var filepath = "descriptions/" + filename;
+    $.ajax({
+        async:false,
+        url: filepath,
+        dataType: 'text',
+        success: function(data)
+        {
+            $("#help").append(data);
+        }
+    });
 }
