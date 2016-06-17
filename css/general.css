@@ -2,6 +2,13 @@
 section {
     overflow: auto;
 }
+table {
+    width: 100%;
+}
+td {
+    width: 50%;
+    padding: 2px;
+}
 /* id */
 #details {
     height: 60%;
@@ -32,6 +39,10 @@ section {
     border-radius: 5px;
 }
 /* class */
+.active {
+    background-color: #2184be !important;
+    color: white;
+}
 .question {
     font-weight: bold;
     font-size: large;

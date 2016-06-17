@@ -66,11 +66,6 @@
     width: 30%;
 }
 
-.wizard > .steps .number
-{
-    font-size: 1.429em;
-}
-
 .wizard > .steps > ul > li
 {
     width: 25%;
@@ -95,7 +90,7 @@
     display: block;
     width: auto;
     margin: 0 0.5em 0.5em;
-    padding: 1em 1em;
+    padding: 0.5em 0.5em;
     text-decoration: none;
 
     -webkit-border-radius: 5px;

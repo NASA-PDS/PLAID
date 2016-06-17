@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
         <script src="js/jquery.steps.min.js"></script>
+        <script src="js/main.js"></script>
         <script src="js/init_steps.js"></script>
         <link href="css/jquery.steps.css" rel="stylesheet">
         <link href="css/bootstrap.css" rel="stylesheet">
@@ -14,42 +15,67 @@
         <div id="wrapper">
             <h1 id="title">APPS Label Design Tool</h1>
             <div id="wizard">
-                <h3>Choose Product Type</h3>
+                <h3>Product Type</h3>
                 <section id="product_selection">
                     <p class="question">What type of product would you like to create a label for?</p>
-                    <div class="list-group">
-                        <button class="list-group-item">Browse</button>
-                        <button class="list-group-item">Bundle</button>
-                        <button class="list-group-item">Collection</button>
-                        <button class="list-group-item">Context</button>
-                        <button class="list-group-item">Document</button>
-                        <button class="list-group-item">File Text</button>
-                        <button class="list-group-item">Observational</button>
-                        <button class="list-group-item">SPICE Kernel</button>
-                        <button class="list-group-item">Thumbnail</button>
-                        <button class="list-group-item">Update</button>
-                        <button class="list-group-item">XML Schema</button>
-                    </div>
+                    <table class="list-group">
+                        <tr>
+                            <td><button class="list-group-item">Browse</button></td>
+                            <td><button class="list-group-item">Bundle</button></td>
+                        </tr>
+                        <tr>
+                            <td><button class="list-group-item">Collection</button></td>
+                            <td><button class="list-group-item">Context</button></td>
+                        </tr>
+                        <tr>
+                            <td><button class="list-group-item">Document</button></td>
+                            <td><button class="list-group-item">File Text</button></td>
+                        </tr>
+                        <tr>
+                            <td><button class="list-group-item">Observational</button></td>
+                            <td><button class="list-group-item">SPICE Kernel</button></td>
+                        </tr>
+                        <tr>
+                            <td><button class="list-group-item">Thumbnail</button></td>
+                            <td><button class="list-group-item">Update</button></td>
+                        </tr>
+                        <tr>
+                            <td><button class="list-group-item">XML Schema</button></td>
+                        </tr>
+                    </table>
                 </section>
 
-                <h3>Attribute Selection</h3>
+                <h3>Optional Attributes</h3>
                 <section id="attribute_selection">
                     <p class="question">Which attributes would you like to include for this product type?</p>
                 </section>
-                <br/>
+
+                <h3>Discipline Nodes</h3>
+                <section id="disc_node_selection">
+                    <p class="question">Which discipline nodes are needed for this label?</p>
+                </section>
+
+                <h3>Optional Nodes</h3>
+                <section id="opt_node_selection">
+                    <p class="question">Are any of these optional nodes applicable?</p>
+                </section>
+
+                <h3>Mission Specifics</h3>
+                <section id="specifics_selection">
+                    <p class="question">Please add the specific details related to your mission:</p>
+                </section>
+
+                <h3>Export</h3>
+                <section id="export">
+                    <p class="question">How would you like to store the label?</p>
+                </section>
             </div>
             <div id="sidebar">
                 <div id="help">Choose Product Type</div>
                 <div id="details"></div>
             </div>
         </div>
-        <script>
-            var wizard = $("#wizard");
-            var sidebar = $("#sidebar");
-            init_steps_object(wizard);
-            match_wizard_height(wizard[0], sidebar[0]);
-        </script>
     </body>
+    <script src="js/setup.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
 </html>

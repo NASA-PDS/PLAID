@@ -1,6 +1,7 @@
 /**
  * Created by morse on 6/16/16.
  */
+
 var settings = {
     /* Appearance */
     headerTag: "h3",
