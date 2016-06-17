@@ -4,6 +4,7 @@
 #wizard {
     float: left;
     width: 65% !important;
+    padding-top: 10px;
     border-left: medium solid #2184be;
     border-top: medium solid #2184be;
     border-bottom: medium solid #2184be;
@@ -12,13 +13,15 @@
 #sidebar {
     float: right;
     width: 35%;
-    padding: 10px 10px 10px 10px;
     border: medium solid #2184be;
     border-radius: 5px;
 }
 #help {
     height: 40%;
+    border-bottom: medium solid #2184be;
+    padding: 10px 10px 10px 10px;
 }
 #details {
     height: 60%;
+    padding: 10px 10px 10px 10px;
 }
