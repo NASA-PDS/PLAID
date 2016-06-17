@@ -55,7 +55,21 @@ var settings = {
         loading: "Loading ..."
     }
 };
-
+/*
+* Initialize the wizard using jQuery-Steps built-in method
+*/
 function init_steps_object(wiz_object) {
     wiz_object.steps(settings);
+}
+/*
+* Since the wizard object is controlled by the jQuery-Steps, it is
+* set to a specific height based on its content. We want to match this
+* height for the sidebar on the right.
+* @param {object} wizard
+* @param {object} sidebar
+*/
+function match_wizard_height(wizard, sidebar){
+    $(document).ready(function() {
+        $(sidebar).css("height", $(wizard).height());
+    });
 }

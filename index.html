@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>LDT Test Wireframe</title>
-    <meta charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-    <script src="js/jquery.steps.min.js"></script>
-    <script src="js/init_steps.js"></script>
-    <link href="css/jquery.steps.css" rel="stylesheet">
-    <link href="css/bootstrap.css" rel="stylesheet">
-</head>
-<body>
-<div id="root">
-    <h3>Choose Product Type</h3>
-    <h3>Attribute Selection</h3>
-    <section>What product would you like to create a label for?</section>
-    <section>Select the applicable attributes for your product:</section>
-    <br/>
-</div>
-<script>
-    init_steps_object($("#root"));
-</script>
-</body>
-<script src="js/bootstrap.min.js"></script>
+    <head>
+        <title>LDT Test Wireframe</title>
+        <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <script src="js/jquery.steps.min.js"></script>
+        <script src="js/init_steps.js"></script>
+        <link href="css/jquery.steps.css" rel="stylesheet">
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/general.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1 id="title">APPS Label Design Tool</h1>
+            <div id="wizard">
+                <h3>Choose Product Type</h3>
+                <h3>Attribute Selection</h3>
+                <section>What product would you like to create a label for?</section>
+                <section>Select the applicable attributes for your product:</section>
+                <br/>
+            </div>
+            <div id="sidebar">
+                <div id="help">help</div>
+                <div id="details">details</div>
+            </div>
+        </div>
+        <script>
+            var wizard = $("#wizard");
+            var sidebar = $("#sidebar");
+            init_steps_object(wizard);
+            match_wizard_height(wizard[0], sidebar[0]);
+        </script>
+    </body>
+    <script src="js/bootstrap.min.js"></script>
 </html>

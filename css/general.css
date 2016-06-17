@@ -1,0 +1,24 @@
+#title {
+    text-align: center;
+}
+#wizard {
+    float: left;
+    width: 65% !important;
+    border-left: medium solid #2184be;
+    border-top: medium solid #2184be;
+    border-bottom: medium solid #2184be;
+    border-radius: 5px;
+}
+#sidebar {
+    float: right;
+    width: 35%;
+    padding: 10px 10px 10px 10px;
+    border: medium solid #2184be;
+    border-radius: 5px;
+}
+#help {
+    height: 40%;
+}
+#details {
+    height: 60%;
+}
