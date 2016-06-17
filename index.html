@@ -15,14 +15,32 @@
             <h1 id="title">APPS Label Design Tool</h1>
             <div id="wizard">
                 <h3>Choose Product Type</h3>
+                <section id="product_selection">
+                    <p class="question">What type of product would you like to create a label for?</p>
+                    <div class="list-group">
+                        <button class="list-group-item">Browse</button>
+                        <button class="list-group-item">Bundle</button>
+                        <button class="list-group-item">Collection</button>
+                        <button class="list-group-item">Context</button>
+                        <button class="list-group-item">Document</button>
+                        <button class="list-group-item">File Text</button>
+                        <button class="list-group-item">Observational</button>
+                        <button class="list-group-item">SPICE Kernel</button>
+                        <button class="list-group-item">Thumbnail</button>
+                        <button class="list-group-item">Update</button>
+                        <button class="list-group-item">XML Schema</button>
+                    </div>
+                </section>
+
                 <h3>Attribute Selection</h3>
-                <section>What product would you like to create a label for?</section>
-                <section>Select the applicable attributes for your product:</section>
+                <section id="attribute_selection">
+                    <p class="question">Which attributes would you like to include for this product type?</p>
+                </section>
                 <br/>
             </div>
             <div id="sidebar">
-                <div id="help">help</div>
-                <div id="details">details</div>
+                <div id="help">Choose Product Type</div>
+                <div id="details"></div>
             </div>
         </div>
         <script>
@@ -33,4 +51,5 @@
         </script>
     </body>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
 </html>

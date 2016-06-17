@@ -39,6 +39,8 @@ var settings = {
         return true;
     },
     onStepChanged: function (event, currentIndex, priorIndex) {
+        $("#help")[0].innerHTML = $(settings.headerTag + ".current")[0].innerHTML;
+        $("#details")[0].innerHTML = "";
     },
     onCanceled: function (event) { },
     onFinishing: function (event, currentIndex) { return true; },
