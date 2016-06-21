@@ -1,2 +1,1 @@
-Product Thumbnail:
 A basic product consisting of a highly reduced version of an image, typically used in displaying the results from search interfaces

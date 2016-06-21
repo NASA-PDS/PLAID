@@ -31,8 +31,9 @@ function clearActiveElements(){
  * display a description of that option in the details pane.
  */
 function previewDetails(){
-    $("#details")[0].innerHTML = "";
+    var details = $("#details")[0];
     var selection = $(this)[0].textContent;
+    details.innerHTML = "<h6>" + selection + ":</h6>";
     var filepath = formFilePath(selection, "descriptions/product_types/");
     loadDescriptionFromFile(filepath, "#details");
 }

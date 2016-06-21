@@ -1,2 +1,1 @@
-Product Observational:
 A basic product comprising one or more images, tables, and/or other fundamental data structures that are the result of a science or engineering observation. Most of the time, this is the product type our users are making labels for!
