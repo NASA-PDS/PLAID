@@ -39,7 +39,7 @@ function clearActiveElements(){
 */
 function loadDescriptionFromFile(){
     var currentStep = $(".title.current")[0].innerHTML;
-    var filename = currentStep.split(" ").join("_") + ".txt";
+    var filename = currentStep.replace(/\s/, "_") + ".txt";
     filename = filename.toLowerCase();
     var filepath = "descriptions/" + filename;
     $.ajax({

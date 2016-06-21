@@ -10,7 +10,7 @@ var settings = {
     actionContainerTag: "div",
     stepsContainerTag: "div",
     cssClass: "wizard",
-    stepsOrientation: $.fn.steps.stepsOrientation.horizontal,
+    stepsOrientation: $.fn.steps.stepsOrientation.vertical,
 
     /* Templates */
     titleTemplate: '<span class="number">#index#.</span> #title#',
