@@ -111,7 +111,9 @@
 .wizard > .steps .current a:hover,
 .wizard > .steps .current a:active
 {
-    background: #2184be;
+    font-style: italic;
+    font-weight: bold;
+    background: #72C342;
     color: #fff;
     cursor: default;
 }
@@ -120,8 +122,9 @@
 .wizard > .steps .done a:hover,
 .wizard > .steps .done a:active
 {
-    background: #9dc8e2;
+    background: #72C342;
     color: #fff;
+    opacity: 0.5;
 }
 
 .wizard > .steps .error a,
@@ -244,11 +247,11 @@
     margin: 0 0 0 1em;
 }
 
-.wizard > .actions a,
+.wizard > .actions a:not([href~="#previous"]),
 .wizard > .actions a:hover,
 .wizard > .actions a:active
 {
-    background: #2184be;
+    background: #72C342;
     color: #fff;
     display: block;
     padding: 0.5em 1em;
@@ -258,6 +261,22 @@
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
+
+.wizard > .actions a[href~="#previous"]
+{
+    background: #8a1f11;
+    opacity: 0.6;
+    color: #fff;
+    display: block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+
 
 .wizard > .actions .disabled a,
 .wizard > .actions .disabled a:hover,
@@ -353,7 +372,7 @@
     width: 100%;
     height: 35em;
     overflow: hidden;
-    border-top: 1px solid #bbb;
+    border-top: 1px solid #ccc;
     padding-top: 20px;
 }
 

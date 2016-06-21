@@ -21,13 +21,13 @@ td {
 }
 #help {
     height: 40%;
-    border-bottom: medium solid #2184be;
+    border-bottom: medium solid #ccc;
     padding: 10px 10px 10px 10px;
 }
 #sidebar {
      float: right;
      width: 35%;
-     border: medium solid #2184be;
+     border: medium solid #ccc;
      border-radius: 5px;
  }
 #title {
@@ -37,14 +37,15 @@ td {
     float: left;
     width: 65% !important;
     padding-top: 10px;
-    border-left: medium solid #2184be;
-    border-top: medium solid #2184be;
-    border-bottom: medium solid #2184be;
+    border-left: medium solid #ccc;
+    border-top: medium solid #ccc;
+    border-bottom: medium solid #ccc;
     border-radius: 5px;
 }
 /* class */
 .active {
-    background-color: #2184be !important;
+    background-color: #72C342 !important;
+    border-color: #72C342 !important;
     color: white;
 }
 .question {

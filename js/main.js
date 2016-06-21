@@ -25,6 +25,8 @@ function captureSelection(){
     var element = $(this)[0];
     clearActiveElements();
     $(element).addClass("active");
+    //this value will either be returned or stored for use later
+    //temporarily being written out to the console
     console.log(element.innerHTML);
 }
 /*
