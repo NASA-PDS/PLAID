@@ -43,7 +43,7 @@ var settings = {
         //$("#help")[0].innerHTML = $(settings.headerTag + ".current")[0].innerHTML;
         $("#details")[0].innerHTML = "";
         $("#help")[0].innerHTML = "";
-        loadDescriptionFromFile();
+        previewDescription();
     },
     onCanceled: function (event) { },
     onFinishing: function (event, currentIndex) { return true; },
