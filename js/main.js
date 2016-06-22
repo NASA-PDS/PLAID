@@ -18,7 +18,8 @@ function captureSelection(){
     $(element).addClass("active");
     //this value will either be returned or stored for use later
     //temporarily being written out to the console
-    console.log(element.innerHTML);
+    var selection = $(".productType", element)[0].textContent;
+    console.log(selection);
 }
 /*
 * Helper function to remove the active class from all elements.
@@ -54,8 +55,9 @@ function previewDescription(){
 * @return {string} path to the file
 */
 function formFilePath(contentStr, path){
-    contentStr = contentStr.trim();
-    var filename = contentStr.replace(/\b\s\b/, "_") + ".txt";
+    var filename = contentStr.trim()
+                             .replace(/\b\s\b/, "_")
+                             + ".txt";
     filename = filename.toLowerCase();
     return (path + filename);
 }
@@ -65,6 +67,7 @@ function formFilePath(contentStr, path){
 * @param {string} filepath path to the file to read
 * @param {string} selector jQuery style selection string
 */
+//TODO: load from JSON instead of text file
 function loadDescriptionFromFile(filepath, selector){
     $.ajax({
         async:false,
