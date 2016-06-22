@@ -1,63 +1,68 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>LDT Test Wireframe</title>
-        <meta charset="utf-8">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-        <script src="js/jquery.steps.min.js"></script>
-        <script src="js/main.js"></script>
-        <script src="js/init_steps.js"></script>
-        <link href="css/jquery.steps.css" rel="stylesheet">
-        <link href="css/bootstrap.css" rel="stylesheet">
-        <link href="css/general.css" rel="stylesheet">
-    </head>
-    <body>
-        <div id="wrapper">
-            <h1 id="title">APPS Label Design Tool</h1>
-            <div id="wizard">
-                <h3>Product Type</h3>
-                <section id="product_selection">
-                    <p class="question">What type of product would you like to create a label for?</p>
-                    <table class="list-group">
-                        <tr><td><button class="list-group-item">Context</button></td></tr>
-                        <tr><td><button class="list-group-item">Document</button></td></tr>
-                        <tr><td><button class="list-group-item">File Text</button></td></tr>
-                        <tr><td><button class="list-group-item">Observational</button></td></tr>
-                        <tr><td><button class="list-group-item">Thumbnail</button></td></tr>
-                    </table>
-                </section>
+<head>
+    <title>LDT Test Wireframe</title>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="js/jquery.steps.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/init_steps.js"></script>
+    <link href="css/jquery.steps.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/general.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-dark no-border-radius" style="background-color: #2184be;">
+    <h1 class="navbar-brand">Label Design Tool</h1>
+</nav>
+<div id="wrapper">
+    <!--<h1 id="title">APPS Label Design Tool</h1>-->
+    <div id="wizard">
+        <h3>Product Type</h3>
+        <section id="product_selection">
+            <p class="question">What type of product would you like to create a label for?</p>
+            <table class="list-group">
+                <tr><td><button class="list-group-item">Context</button></td></tr>
+                <tr><td><button class="list-group-item">Document</button></td></tr>
+                <tr><td><button class="list-group-item">File Text</button></td></tr>
+                <tr><td><button class="list-group-item">Observational</button></td></tr>
+                <tr><td><button class="list-group-item">Thumbnail</button></td></tr>
+            </table>
+        </section>
 
-                <h3>Optional Attributes</h3>
-                <section id="attribute_selection">
-                    <p class="question">Which attributes would you like to include for this product type?</p>
-                </section>
+        <h3>Optional Attributes</h3>
+        <section id="attribute_selection">
+            <p class="question">Which attributes would you like to include for this product type?</p>
+        </section>
 
-                <h3>Discipline Nodes</h3>
-                <section id="disc_node_selection">
-                    <p class="question">Which discipline nodes are needed for this label?</p>
-                </section>
+        <h3>Discipline Nodes</h3>
+        <section id="disc_node_selection">
+            <p class="question">Which discipline nodes are needed for this label?</p>
+        </section>
 
-                <h3>Optional Nodes</h3>
-                <section id="opt_node_selection">
-                    <p class="question">Are any of these optional nodes applicable?</p>
-                </section>
+        <h3>Optional Nodes</h3>
+        <section id="opt_node_selection">
+            <p class="question">Are any of these optional nodes applicable?</p>
+        </section>
 
-                <h3>Mission Specifics</h3>
-                <section id="specifics_selection">
-                    <p class="question">Please add the specific details related to your mission:</p>
-                </section>
+        <h3>Mission Specifics</h3>
+        <section id="specifics_selection">
+            <p class="question">Please add the specific details related to your mission:</p>
+        </section>
 
-                <h3>Export</h3>
-                <section id="export">
-                    <p class="question">How would you like to store the label?</p>
-                </section>
-            </div>
-            <div id="sidebar">
-                <div id="help"></div>
-                <div id="details"></div>
-            </div>
+        <h3>Export</h3>
+        <section id="export">
+            <p class="question">How would you like to store the label?</p>
+        </section>
+    </div>
+    <div id="sidebar">
+        <div class="cardContainer" class="card">
+            <div id="help" class="card"></div>
+            <div id="details" class="card"></div>
         </div>
-    </body>
-    <script src="js/setup.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    </div>
+</div>
+</body>
+<script src="js/setup.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </html>
