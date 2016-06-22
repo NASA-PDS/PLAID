@@ -11,46 +11,79 @@ table {
 }
 td {
     width: 50%;
-    padding: 0.3rem;
+    padding: 0.3em;
 }
 /* id */
-#details {
-    height: 60%;
-    padding: 1rem;
-}
 #help {
     height: 40%;
-    border-bottom: medium solid #428BCF;
-    padding: 1rem;
+    padding: 10px 10px 10px 10px;
+    margin-bottom: 0.8rem;
+}
+#details {
+    height: 50%;
+    padding: 10px 10px 10px 10px;
+    font-weight: bold;
 }
 #sidebar {
-     float: right;
-     width: 35%;
-     border: medium solid #428BCF;
-     border-radius: 0.3rem;
- }
+    height: inherit;
+    float: right;
+    width: 35%;
+}
 #title {
     text-align: center;
 }
 #wizard {
     float: left;
     width: 65% !important;
-    padding-top: 1rem;
-    border-left: medium solid #428BCF;
-    border-top: medium solid #428BCF;
-    border-bottom: medium solid #428BCF;
-    border-radius: 0.3rem;
+    padding-top: 10px;
+    border-radius: 5px;
 }
+
+#wizard .actions {
+    width: 65%;
+    padding-right: 0.5rem;
+    background: #eeeeee;
+    height: 4rem;
+}
+
+#wizard .content {
+    border-radius: 0rem;
+    margin-bottom: 0rem;
+}
+
+#wizard > .actions > ul {
+    margin-top: 0.6rem;
+    margin-right: 0.5rem;
+}
+
 /* class */
 .active {
-    background-color: #428BCF !important;
-    border-color: #428BCF !important;
+    background-color: #2184be !important;
     color: white;
 }
 .question {
     font-weight: bold;
     font-size: large;
 }
-span.productType {
-    padding-left: 1rem;
+.card {
+    margin-bottom: inherit;
 }
+
+.cardContainer {
+    height: inherit;
+    padding: 0.7rem;
+    background: #eeeeee;
+    margin: 0.7rem 0.7rem 0.7rem 0.4rem;
+}
+
+.no-border-radius {
+    -webkit-border-radius: 0rem;
+    -moz-border-radius: 0rem;
+    border-radius: 0rem;
+}
+
+.disabled {
+    background-color: transparent;
+    border-color: #ccc;
+}
+
