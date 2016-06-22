@@ -51,3 +51,6 @@ td {
     font-weight: bold;
     font-size: large;
 }
+span.productType {
+    padding-left: 1rem;
+}

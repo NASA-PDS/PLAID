@@ -54,7 +54,8 @@ function previewDescription(){
 * @return {string} path to the file
 */
 function formFilePath(contentStr, path){
-    var filename = contentStr.replace(/\s/, "_") + ".txt";
+    contentStr = contentStr.trim();
+    var filename = contentStr.replace(/\b\s\b/, "_") + ".txt";
     filename = filename.toLowerCase();
     return (path + filename);
 }
