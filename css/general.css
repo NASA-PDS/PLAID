@@ -11,23 +11,23 @@ table {
 }
 td {
     width: 50%;
-    padding: 0.3em;
+    padding: 0.3rem;
 }
 /* id */
 #details {
     height: 60%;
-    padding: 10px 10px 10px 10px;
+    padding: 1rem;
 }
 #help {
     height: 40%;
-    border-bottom: medium solid #ccc;
-    padding: 10px 10px 10px 10px;
+    border-bottom: medium solid #428BCF;
+    padding: 1rem;
 }
 #sidebar {
      float: right;
      width: 35%;
-     border: medium solid #ccc;
-     border-radius: 5px;
+     border: medium solid #428BCF;
+     border-radius: 0.3rem;
  }
 #title {
     text-align: center;
@@ -35,16 +35,16 @@ td {
 #wizard {
     float: left;
     width: 65% !important;
-    padding-top: 10px;
-    border-left: medium solid #ccc;
-    border-top: medium solid #ccc;
-    border-bottom: medium solid #ccc;
-    border-radius: 5px;
+    padding-top: 1rem;
+    border-left: medium solid #428BCF;
+    border-top: medium solid #428BCF;
+    border-bottom: medium solid #428BCF;
+    border-radius: 0.3rem;
 }
 /* class */
 .active {
-    background-color: #72C342 !important;
-    border-color: #72C342 !important;
+    background-color: #428BCF !important;
+    border-color: #428BCF !important;
     color: white;
 }
 .question {

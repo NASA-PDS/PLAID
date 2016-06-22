@@ -113,7 +113,7 @@
 {
     font-style: italic;
     font-weight: bold;
-    background: #72C342;
+    background: #428BCF;
     color: #fff;
     cursor: default;
 }
@@ -122,7 +122,7 @@
 .wizard > .steps .done a:hover,
 .wizard > .steps .done a:active
 {
-    background: #72C342;
+    background: #428BCF;
     color: #fff;
     opacity: 0.5;
 }
@@ -251,7 +251,7 @@
 .wizard > .actions a:hover,
 .wizard > .actions a:active
 {
-    background: #72C342;
+    background: #428BCF;
     color: #fff;
     display: block;
     padding: 0.5em 1em;

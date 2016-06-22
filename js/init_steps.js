@@ -75,7 +75,7 @@ function init_steps_object(wiz_object) {
 */
 function match_wizard_height(wizard, sidebar){
     $(document).ready(function() {
-        var offset = 15;
+        var offset = 22;
         $(sidebar).css("height", $(wizard).height() + offset);
     });
 }
