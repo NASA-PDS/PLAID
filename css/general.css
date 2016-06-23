@@ -15,7 +15,7 @@ td {
 }
 /* id */
 #details {
-    height: 50%;
+    height: 60%;
     padding: 1rem;
 }
 #help {
@@ -24,9 +24,10 @@ td {
     margin-bottom: 0.8rem;
 }
 #sidebar {
-    height: inherit;
     float: right;
     width: 35%;
+    border: medium solid #eee;
+    border-radius: 0.3rem;
 }
 #wizard {
     float: left;
@@ -34,7 +35,6 @@ td {
     padding-top: 1rem;
     border-radius: 0.3rem;
 }
-
 #wizard .actions {
     width: 65%;
     padding-right: 0.5rem;
