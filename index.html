@@ -10,23 +10,58 @@
     <link href="css/jquery.steps.css" rel="stylesheet">
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/general.css" rel="stylesheet">
+    <link href="font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-dark no-border-radius" style="background-color: #2184be;">
     <h1 class="navbar-brand">Label Design Tool</h1>
 </nav>
 <div id="wrapper">
-    <!--<h1 id="title">APPS Label Design Tool</h1>-->
     <div id="wizard">
         <h3>Product Type</h3>
         <section id="product_selection">
             <p class="question">What type of product would you like to create a label for?</p>
             <table class="list-group">
-                <tr><td><button class="list-group-item">Context</button></td></tr>
-                <tr><td><button class="list-group-item">Document</button></td></tr>
-                <tr><td><button class="list-group-item">File Text</button></td></tr>
-                <tr><td><button class="list-group-item">Observational</button></td></tr>
-                <tr><td><button class="list-group-item">Thumbnail</button></td></tr>
+                <tr>
+                    <td>
+                        <button class="list-group-item">
+                            <i class="fa fa-list fa-fw" aria-hidden="true"></i>
+                            <span class="productType">Context</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="list-group-item">
+                            <i class="fa fa-file-o fa-fw" aria-hidden="true"></i>
+                            <span class="productType">Document</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="list-group-item">
+                            <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                            <span class="productType">File Text</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="list-group-item">
+                            <i class="fa fa-binoculars fa-fw" aria-hidden="true"></i>
+                            <span class="productType">Observational</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="list-group-item">
+                            <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
+                            <span class="productType">Thumbnail</span>
+                        </button>
+                    </td>
+                </tr>
             </table>
         </section>
 
