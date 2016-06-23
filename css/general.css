@@ -14,29 +14,25 @@ td {
     padding: 0.3em;
 }
 /* id */
-#help {
-    height: 40%;
-    padding: 10px 10px 10px 10px;
-    margin-bottom: 0.8rem;
-}
 #details {
     height: 50%;
-    padding: 10px 10px 10px 10px;
-    font-weight: bold;
+    padding: 1rem;
+}
+#help {
+    height: 40%;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
 }
 #sidebar {
     height: inherit;
     float: right;
     width: 35%;
 }
-#title {
-    text-align: center;
-}
 #wizard {
     float: left;
     width: 65% !important;
-    padding-top: 10px;
-    border-radius: 5px;
+    padding-top: 1rem;
+    border-radius: 0.3rem;
 }
 
 #wizard .actions {
