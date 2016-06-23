@@ -14,20 +14,20 @@ td {
     padding: 0.3em;
 }
 /* id */
+#details {
+    height: 60%;
+    padding: 1rem;
+}
 #help {
     height: 40%;
-    padding: 10px 10px 10px 10px;
-    margin-bottom: 0.8rem;
-}
-#details {
-    height: 50%;
-    padding: 10px 10px 10px 10px;
-    font-weight: bold;
+    border-bottom: medium solid #eee;
+    padding: 1rem;
 }
 #sidebar {
-    height: inherit;
     float: right;
     width: 35%;
+    border: medium solid #eee;
+    border-radius: 0.3rem;
 }
 #title {
     text-align: center;
@@ -35,10 +35,12 @@ td {
 #wizard {
     float: left;
     width: 65% !important;
-    padding-top: 10px;
-    border-radius: 5px;
+    padding-top: 1rem;
+    border-left: medium solid #eee;
+    border-top: medium solid #eee;
+    border-bottom: medium solid #eee;
+    border-radius: 0.3rem;
 }
-
 #wizard .actions {
     width: 65%;
     padding-right: 0.5rem;
