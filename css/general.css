@@ -20,13 +20,13 @@ td {
 }
 #help {
     height: 40%;
-    border-bottom: medium solid #428BCF;
+    border-bottom: medium solid #eee;
     padding: 1rem;
 }
 #sidebar {
      float: right;
      width: 35%;
-     border: medium solid #428BCF;
+     border: medium solid #eee;
      border-radius: 0.3rem;
  }
 #title {
@@ -36,9 +36,9 @@ td {
     float: left;
     width: 65% !important;
     padding-top: 1rem;
-    border-left: medium solid #428BCF;
-    border-top: medium solid #428BCF;
-    border-bottom: medium solid #428BCF;
+    border-left: medium solid #eee;
+    border-top: medium solid #eee;
+    border-bottom: medium solid #eee;
     border-radius: 0.3rem;
 }
 /* class */
