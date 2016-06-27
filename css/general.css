@@ -19,18 +19,30 @@ td {
     padding: 1rem;
 }
 #help {
-    height: 40%;
-    padding: 1rem;
+    height: inherit;
+    /*padding: 1rem;*/
     margin-bottom: 0.8rem;
+    text-align: center;
+    padding-top: 0.5rem;
 }
 #sidebar {
     float: right;
-    width: 35%;
+    width: 25%;
     height: inherit;
+}
+#sidebarIcon {
+    font-size: 290%;
+    text-align: center;
+    text-shadow: 1.2px 1.2px 1.2px #ccc;
+}
+#sidebarLine {
+    color: #aaaaaa;
+    width: 65%;
+    margin-bottom: 0.5rem;
 }
 #wizard {
     float: left;
-    width: 65% !important;
+    width: 75% !important;
     padding-top: 1rem;
     border-radius: 0.3rem;
 }
@@ -66,9 +78,11 @@ td {
 
 .cardContainer {
     height: inherit;
-    padding: 0.7rem;
+    padding: 1rem 1rem 1rem 1rem;
     background: #eeeeee;
     margin: 1rem 1rem 1rem 0.4rem;
+    color: #aaaaaa;
+    text-align: center;
 }
 
 .no-border-radius {

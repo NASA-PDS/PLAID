@@ -37,13 +37,15 @@ var settings = {
 
     /* Events */
     onStepChanging: function (event, currentIndex, newIndex) {
+        $("#help").fadeOut(200);
         return true;
     },
     onStepChanged: function (event, currentIndex, priorIndex) {
-        //$("#help")[0].innerHTML = $(settings.headerTag + ".current")[0].innerHTML;
-        $("#details")[0].innerHTML = "";
-        $("#help")[0].innerHTML = "";
+        //TODO: CHANGE TO TOOLTIP
+        //$("#details")[0].innerHTML = "";
+        $("#help").empty();
         previewDescription();
+        $("#help").fadeIn(200);
     },
     onCanceled: function (event) { },
     onFinishing: function (event, currentIndex) { return true; },
