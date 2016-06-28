@@ -32,8 +32,8 @@ var settings = {
     startIndex: 0,
 
     /* Transition Effects */
-    transitionEffect: $.fn.steps.transitionEffect.slideLeft,
-    transitionEffectSpeed: 600,
+    transitionEffect: $.fn.steps.transitionEffect.fade,
+    transitionEffectSpeed: 200,
 
     /* Events */
     onStepChanging: function (event, currentIndex, newIndex) {
