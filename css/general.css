@@ -15,33 +15,42 @@ td {
 }
 /* id */
 #details {
-    height: 60%;
-    padding: 10px 10px 10px 10px;
-    font-weight: bold;
+    height: 50%;
+    padding: 1rem;
 }
 #help {
     height: 40%;
-    border-bottom: medium solid #2184be;
-    padding: 10px 10px 10px 10px;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
 }
 #sidebar {
-     float: right;
-     width: 35%;
-     border: medium solid #2184be;
-     border-radius: 5px;
- }
-#title {
-    text-align: center;
+    float: right;
+    width: 35%;
+    height: inherit;
 }
 #wizard {
     float: left;
     width: 65% !important;
-    padding-top: 10px;
-    border-left: medium solid #2184be;
-    border-top: medium solid #2184be;
-    border-bottom: medium solid #2184be;
-    border-radius: 5px;
+    padding-top: 1rem;
+    border-radius: 0.3rem;
 }
+#wizard .actions {
+    width: 65%;
+    padding-right: 0.5rem;
+    background: #eeeeee;
+    height: 4rem;
+}
+
+#wizard .content {
+    border-radius: 0rem;
+    margin-bottom: 0rem;
+}
+
+#wizard > .actions > ul {
+    margin-top: 0.6rem;
+    margin-right: 0.5rem;
+}
+
 /* class */
 .active {
     background-color: #2184be !important;
@@ -51,10 +60,24 @@ td {
     font-weight: bold;
     font-size: large;
 }
+.card {
+    margin-bottom: inherit;
+}
 
+.cardContainer {
+    height: inherit;
+    padding: 0.7rem;
+    background: #eeeeee;
+    margin: 1rem 1rem 1rem 0.4rem;
+}
 
+.no-border-radius {
+    -webkit-border-radius: 0rem;
+    -moz-border-radius: 0rem;
+    border-radius: 0rem;
+}
 
-
-
-
-
+.disabled {
+    background-color: transparent;
+    border-color: #ccc;
+}

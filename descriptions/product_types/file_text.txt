@@ -1,0 +1,1 @@
+A basic product with a single digital file with ASCII character encoding
