@@ -14,7 +14,10 @@
 </head>
 <body>
 <nav class="navbar navbar-dark no-border-radius" style="background-color: #2184be;">
-    <h1 class="navbar-brand">Label Design Tool</h1>
+    <div class="nav navbar-nav">
+        <a class="navbar-brand">Label Design Tool</a>
+        <!--<a class="nav-item nav-link pull-xs-right" href="#">Sign In</a>-->
+    </div>
 </nav>
 <div id="wrapper">
     <div id="wizard">
@@ -92,8 +95,11 @@
     </div>
     <div id="sidebar">
         <div class="cardContainer" class="card">
-            <div id="help" class="card"></div>
-            <div id="details" class="card"></div>
+            <i id="sidebarIcon" class="fa fa-info-circle" aria-hidden="true"></i>
+            <!--<hr id="sidebarLine" align="center">-->
+            <div id="help"></div>
+            <!--<div id="help" class="card"></div>
+            <div id="details" class="card"></div>-->
         </div>
     </div>
 </div>

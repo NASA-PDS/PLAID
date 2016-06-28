@@ -3,7 +3,8 @@
  */
 $(document).ready(function(){
     $(".list-group-item").each(function(){
-        $(this).mouseenter(previewDetails);
+        //TODO: REPLACE WITH TOOLTIPS
+        //$(this).mouseenter(previewDetails);
         $(this).click(captureSelection);
     });
     previewDescription();
