@@ -15,292 +15,292 @@
     <link href="font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-dark no-border-radius" style="background-color: #2184be;">
-    <div class="nav navbar-nav">
-        <a class="navbar-brand">Label Design Tool</a>
-        <!--<a class="nav-item nav-link pull-xs-right" href="#">Sign In</a>-->
-    </div>
-</nav>
-<div id="wrapper">
-    <div id="wizard">
-        <h3>Product Type</h3>
-        <section id="product_selection">
-            <p class="question">What type of product would you like to create a label for?</p>
-            <table class="list-group">
-                <tr>
-                    <td>
-                        <button class="list-group-item" data-toggle="popover">
-                            <i class="fa fa-list fa-fw" aria-hidden="true"></i>
-                            <span class="productType">Context</span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button class="list-group-item" data-toggle="popover">
-                            <i class="fa fa-file-o fa-fw" aria-hidden="true"></i>
-                            <span class="productType">Document</span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button class="list-group-item" data-toggle="popover">
-                            <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                            <span class="productType">File Text</span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button class="list-group-item" data-toggle="popover">
-                            <i class="fa fa-binoculars fa-fw" aria-hidden="true"></i>
-                            <span class="productType">Observational</span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button class="list-group-item" data-toggle="popover">
-                            <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
-                            <span class="productType">Thumbnail</span>
-                        </button>
-                    </td>
-                </tr>
-            </table>
-        </section>
+    <nav class="navbar navbar-dark no-border-radius" style="background-color: #2184be;">
+        <div class="nav navbar-nav">
+            <a class="navbar-brand">Label Design Tool</a>
+            <!--<a class="nav-item nav-link pull-xs-right" href="#">Sign In</a>-->
+        </div>
+    </nav>
+    <div id="wrapper">
+        <div id="wizard">
+            <h3>Product Type</h3>
+            <section id="product_selection">
+                <p class="question">What type of product would you like to create a label for?</p>
+                <table class="list-group">
+                    <tr>
+                        <td>
+                            <button class="list-group-item" data-toggle="popover">
+                                <i class="fa fa-list fa-fw" aria-hidden="true"></i>
+                                <span class="productType">Context</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="list-group-item" data-toggle="popover">
+                                <i class="fa fa-file-o fa-fw" aria-hidden="true"></i>
+                                <span class="productType">Document</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="list-group-item" data-toggle="popover">
+                                <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                                <span class="productType">File Text</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="list-group-item" data-toggle="popover">
+                                <i class="fa fa-binoculars fa-fw" aria-hidden="true"></i>
+                                <span class="productType">Observational</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="list-group-item" data-toggle="popover">
+                                <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
+                                <span class="productType">Thumbnail</span>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </section>
 
-        <h3>Primary Sections</h3>
-        <section id="primary_selection">
-            <p class="question">Which primary sections would you like to include for Product Type 'Observational'?</p>
-            <div class="list-group">
-                <div class="btn-group" role="group" data-toggle="popover">
-                    <button type="button" class="node required btn btn-secondary">Identification Area</button>
-                    <button type="button" class="btn btn-secondary counter" min="1" max="1" disabled>1</button>
+            <h3>Primary Sections</h3>
+            <section id="primary_selection">
+                <p class="question">Which primary sections would you like to include for Product Type 'Observational'?</p>
+                <div class="list-group">
+                    <div class="btn-group" role="group" data-toggle="popover">
+                        <button type="button" class="node required btn btn-secondary">Identification Area</button>
+                        <button type="button" class="btn btn-secondary counter" min="1" max="1" disabled>1</button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node required btn btn-secondary">Observation Area</button>
+                        <button type="button" class="btn btn-secondary counter" min="1" max="1" disabled>1</button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node optional btn btn-secondary">Reference List</button>
+                        <button type="button" class="btn btn-secondary subtractNode">
+                            <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
+                        <button type="button" class="btn btn-secondary addNode">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node optional btn btn-secondary">File Area Observational</button>
+                        <button type="button" class="btn btn-secondary subtractNode">
+                            <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary counter" min="1" max="inf" disabled>1</button>
+                        <button type="button" class="btn btn-secondary addNode">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node optional btn btn-secondary">File Area Observational Supplemental</button>
+                        <button type="button" class="btn btn-secondary subtractNode">
+                            <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary counter" min="0" max="inf" disabled>0</button>
+                        <button type="button" class="btn btn-secondary addNode">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node required btn btn-secondary">Observation Area</button>
-                    <button type="button" class="btn btn-secondary counter" min="1" max="1" disabled>1</button>
+            </section>
+
+            <h3>Identification Area</h3>
+            <section id="id_area">
+                <p class="question">To be filled in later (skipping to observation area for demo)...</p>
+            </section>
+
+            <h3>Observation Area</h3>
+            <section id="observation_area">
+                <p class="question">Which nodes would you like to include under 'Observation Area'?</p>
+                <div class="list-group">
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node optional btn btn-secondary">Comment</button>
+                        <button type="button" class="btn btn-secondary subtractNode">
+                            <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
+                        <button type="button" class="btn btn-secondary addNode">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node required btn btn-secondary">Time Coordinates</button>
+                        <button type="button" class="btn btn-secondary counter" min="1" max="1" disabled>1</button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node optional btn btn-secondary">Primary Result Summary</button>
+                        <button type="button" class="btn btn-secondary subtractNode">
+                            <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
+                        <button type="button" class="btn btn-secondary addNode">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node optional btn btn-secondary">Investigation Area</button>
+                        <button type="button" class="btn btn-secondary subtractNode">
+                            <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary counter" min="1" max="inf" disabled>1</button>
+                        <button type="button" class="btn btn-secondary addNode">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node optional btn btn-secondary">Observing System</button>
+                        <button type="button" class="btn btn-secondary subtractNode">
+                            <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary counter" min="1" max="inf" disabled>1</button>
+                        <button type="button" class="btn btn-secondary addNode">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node optional btn btn-secondary">Target Identification</button>
+                        <button type="button" class="btn btn-secondary subtractNode">
+                            <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary counter" min="1" max="inf" disabled>1</button>
+                        <button type="button" class="btn btn-secondary addNode">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <!--<div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node optional btn btn-secondary">Mission Area</button>
+                        <button type="button" class="btn btn-secondary subtractNode">
+                            <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
+                        <button type="button" class="btn btn-secondary addNode">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node optional btn btn-secondary">Discipline Area</button>
+                        <button type="button" class="btn btn-secondary subtractNode">
+                            <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
+                        <button type="button" class="btn btn-secondary addNode">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>-->
                 </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node optional btn btn-secondary">Reference List</button>
-                    <button type="button" class="btn btn-secondary subtractNode">
-                        <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
-                    <button type="button" class="btn btn-secondary addNode">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button>
+            </section>
+
+            <h3>Time Coordinates</h3>
+            <section id="time_coords">
+                <p class="question">Which nodes would you like to include under 'Time Coordinates'?</p>
+                <div class="list-group">
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node required btn btn-secondary">start date time</button>
+                        <button type="button" class="btn btn-secondary counter" min="1" max="1" disabled>1</button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node required btn btn-secondary">stop date time</button>
+                        <button type="button" class="btn btn-secondary counter" min="1" max="1" disabled>1</button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node optional btn btn-secondary">local mean solar time</button>
+                        <button type="button" class="btn btn-secondary subtractNode">
+                            <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
+                        <button type="button" class="btn btn-secondary addNode">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node optional btn btn-secondary">local true solar time</button>
+                        <button type="button" class="btn btn-secondary subtractNode">
+                            <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
+                        <button type="button" class="btn btn-secondary addNode">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node optional btn btn-secondary">solar longitude</button>
+                        <button type="button" class="btn btn-secondary subtractNode">
+                            <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
+                        <button type="button" class="btn btn-secondary addNode">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node optional btn btn-secondary">File Area Observational</button>
-                    <button type="button" class="btn btn-secondary subtractNode">
-                        <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary counter" min="1" max="inf" disabled>1</button>
-                    <button type="button" class="btn btn-secondary addNode">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button>
+            </section>
+
+            <h3>Investigation Area</h3>
+            <section id="invest_area">
+                <p class="question">Which nodes would you like to include under 'Investigation Area'?</p>
+                <div class="list-group">
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node required btn btn-secondary">name</button>
+                        <button type="button" class="btn btn-secondary counter" min="1" max="1" disabled>1</button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node required btn btn-secondary">type</button>
+                        <button type="button" class="btn btn-secondary counter" min="1" max="1" disabled>1</button>
+                    </div>
+                    <div class="btn-group"role="group" data-toggle="popover">
+                        <button type="button" class="node optional btn btn-secondary">Internal Reference</button>
+                        <button type="button" class="btn btn-secondary subtractNode">
+                            <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary counter" min="1" max="inf" disabled>1</button>
+                        <button type="button" class="btn btn-secondary addNode">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node optional btn btn-secondary">File Area Observational Supplemental</button>
-                    <button type="button" class="btn btn-secondary subtractNode">
-                        <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary counter" min="0" max="inf" disabled>0</button>
-                    <button type="button" class="btn btn-secondary addNode">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button>
-                </div>
+            </section>
+
+            <h3>Discipline Nodes</h3>
+            <section id="disc_node_selection">
+                <p class="question">Which discipline nodes are needed for this label?</p>
+            </section>
+
+            <h3>Optional Nodes</h3>
+            <section id="opt_node_selection">
+                <p class="question">Are any of these optional nodes applicable?</p>
+            </section>
+
+            <h3>Mission Specifics</h3>
+            <section id="specifics_selection">
+                <p class="question">Please add the specific details related to your mission:</p>
+            </section>
+
+            <h3>Export</h3>
+            <section id="export">
+                <p class="question">How would you like to store the label?</p>
+            </section>
+        </div>
+        <div id="sidebar">
+            <div class="cardContainer" class="card">
+                <i id="sidebarIcon" class="fa fa-info-circle" aria-hidden="true"></i>
+                <!--<hr id="sidebarLine" align="center">-->
+                <div id="help"></div>
+                <!--<div id="help" class="card"></div>
+                <div id="details" class="card"></div>-->
             </div>
-        </section>
-
-        <h3>Identification Area</h3>
-        <section id="id_area">
-            <p class="question">To be filled in later (skipping to observation area for demo)...</p>
-        </section>
-
-        <h3>Observation Area</h3>
-        <section id="observation_area">
-            <p class="question">Which nodes would you like to include under 'Observation Area'?</p>
-            <div class="list-group">
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node optional btn btn-secondary">Comment</button>
-                    <button type="button" class="btn btn-secondary subtractNode">
-                        <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
-                    <button type="button" class="btn btn-secondary addNode">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node required btn btn-secondary">Time Coordinates</button>
-                    <button type="button" class="btn btn-secondary counter" min="1" max="1" disabled>1</button>
-                </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node optional btn btn-secondary">Primary Result Summary</button>
-                    <button type="button" class="btn btn-secondary subtractNode">
-                        <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
-                    <button type="button" class="btn btn-secondary addNode">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node optional btn btn-secondary">Investigation Area</button>
-                    <button type="button" class="btn btn-secondary subtractNode">
-                        <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary counter" min="1" max="inf" disabled>1</button>
-                    <button type="button" class="btn btn-secondary addNode">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node optional btn btn-secondary">Observing System</button>
-                    <button type="button" class="btn btn-secondary subtractNode">
-                        <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary counter" min="1" max="inf" disabled>1</button>
-                    <button type="button" class="btn btn-secondary addNode">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node optional btn btn-secondary">Target Identification</button>
-                    <button type="button" class="btn btn-secondary subtractNode">
-                        <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary counter" min="1" max="inf" disabled>1</button>
-                    <button type="button" class="btn btn-secondary addNode">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <!--<div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node optional btn btn-secondary">Mission Area</button>
-                    <button type="button" class="btn btn-secondary subtractNode">
-                        <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
-                    <button type="button" class="btn btn-secondary addNode">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node optional btn btn-secondary">Discipline Area</button>
-                    <button type="button" class="btn btn-secondary subtractNode">
-                        <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
-                    <button type="button" class="btn btn-secondary addNode">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button>
-                </div>-->
-            </div>
-        </section>
-
-        <h3>Time Coordinates</h3>
-        <section id="time_coords">
-            <p class="question">Which nodes would you like to include under 'Time Coordinates'?</p>
-            <div class="list-group">
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node required btn btn-secondary">start date time</button>
-                    <button type="button" class="btn btn-secondary counter" min="1" max="1" disabled>1</button>
-                </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node required btn btn-secondary">stop date time</button>
-                    <button type="button" class="btn btn-secondary counter" min="1" max="1" disabled>1</button>
-                </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node optional btn btn-secondary">local mean solar time</button>
-                    <button type="button" class="btn btn-secondary subtractNode">
-                        <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
-                    <button type="button" class="btn btn-secondary addNode">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node optional btn btn-secondary">local true solar time</button>
-                    <button type="button" class="btn btn-secondary subtractNode">
-                        <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
-                    <button type="button" class="btn btn-secondary addNode">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node optional btn btn-secondary">solar longitude</button>
-                    <button type="button" class="btn btn-secondary subtractNode">
-                        <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary counter" min="0" max="1" disabled>0</button>
-                    <button type="button" class="btn btn-secondary addNode">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <h3>Investigation Area</h3>
-        <section id="invest_area">
-            <p class="question">Which nodes would you like to include under 'Investigation Area'?</p>
-            <div class="list-group">
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node required btn btn-secondary">name</button>
-                    <button type="button" class="btn btn-secondary counter" min="1" max="1" disabled>1</button>
-                </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node required btn btn-secondary">type</button>
-                    <button type="button" class="btn btn-secondary counter" min="1" max="1" disabled>1</button>
-                </div>
-                <div class="btn-group"role="group" data-toggle="popover">
-                    <button type="button" class="node optional btn btn-secondary">Internal Reference</button>
-                    <button type="button" class="btn btn-secondary subtractNode">
-                        <i class="fa fa-minus fa-fw" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary counter" min="1" max="inf" disabled>1</button>
-                    <button type="button" class="btn btn-secondary addNode">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <h3>Discipline Nodes</h3>
-        <section id="disc_node_selection">
-            <p class="question">Which discipline nodes are needed for this label?</p>
-        </section>
-
-        <h3>Optional Nodes</h3>
-        <section id="opt_node_selection">
-            <p class="question">Are any of these optional nodes applicable?</p>
-        </section>
-
-        <h3>Mission Specifics</h3>
-        <section id="specifics_selection">
-            <p class="question">Please add the specific details related to your mission:</p>
-        </section>
-
-        <h3>Export</h3>
-        <section id="export">
-            <p class="question">How would you like to store the label?</p>
-        </section>
-    </div>
-    <div id="sidebar">
-        <div class="cardContainer" class="card">
-            <i id="sidebarIcon" class="fa fa-info-circle" aria-hidden="true"></i>
-            <!--<hr id="sidebarLine" align="center">-->
-            <div id="help"></div>
-            <!--<div id="help" class="card"></div>
-            <div id="details" class="card"></div>-->
         </div>
     </div>
-</div>
 </body>
 <script src="js/setup.js"></script>
 <script src="js/tether.js"></script>
