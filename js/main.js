@@ -15,9 +15,6 @@ $(document).ready(function(){
     });
     previewDescription();
     setNodeStyle();
-    $('[data-toggle="popover"]').popover({
-        trigger: "hover"
-    });
 });
 /*
 * When the user selects an option in the wizard pane, add
