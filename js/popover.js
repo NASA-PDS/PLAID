@@ -3,12 +3,17 @@
  */
 $(document).ready(function(){
     $('[data-toggle="popover"]').each(function(){
+        var flag = true;
         var title = $(this).children(".node").html();
+        if (title === undefined){
+            title = $(this).children(".productType").html();
+            flag = false;
+        }
         var key = title.trim().replace(/\b\s\b/g, "_").toLowerCase();
-        if ($(this).hasClass("required")){
+        if (flag && $(this).children(".node").hasClass("required")){
             title = title + " (Required)";
         }
-        else{
+        else if (flag){
             title = title + " (Optional)";
         }
         $(this).popover({
@@ -21,6 +26,7 @@ $(document).ready(function(){
 });
 
 var dict = {
+    identification_area: "The identification area consists of attributes that identify and name an object.<br/><i>Contains: <br/>- logical identifier<br/>- version id<br/>- title<br/>- information model version<br/>- Alias List<br/>- Citation Information<br/>- Modification History</i>",
     observation_area: "The observation area consists of attributes that provide information about the circumstances under which the data were collected.<br/><i>Contains: <br/>- Comment<br/>- Time Coordinates<br/>- Primary Result Summary<br/>- Investigation Area<br/>- Observing System<br/>- Target Identification<br/>- Mission Area<br/>- Discipline Area</i>",
     reference_list: "The Reference_List class provides lists general references and cross-references for the product. References cited elsewhere in the label need not be repeated here.<br/><i>Contains: <br/>- Internal Reference<br/>- External Reference<br/></i>",
     file_area_observational: "The File Area Observational class describes, for an observational product, a file and one or more tagged_data_objects contained within the file.",
@@ -40,5 +46,10 @@ var dict = {
     solar_longitude: "The solar_longitude attribute provides the angle between the body-Sun line at the time of interest and the body-Sun line at its vernal equinox.",
     name: "The name attribute provides a word or combination of words by which the Agency is known.",
     type: "The type attribute classifies the attribute definition according to origin.",
-    internal_reference: "The Internal_Reference class is used to cross-reference other products in the PDS registry system."
+    internal_reference: "The Internal_Reference class is used to cross-reference other products in the PDS registry system.",
+    context: "A basic product identifying the physical and conceptual objects related to an observational product provenance.",
+    document: "A basic product identifying a single logical document, such as a description of an instrument or even a user’s manual.",
+    file_text: "A basic product with a single digital file with ASCII character encoding.",
+    observational: "A basic product comprising one or more images, tables, and/or other fundamental data structures that are the result of a science or engineering observation.",
+    thumbnail: "A basic product consisting of a highly reduced version of an image, typically used in displaying the results from search interfaces."
 };
