@@ -68,10 +68,15 @@ td {
     background-color: #2184be !important;
     color: white;
 }
-.question {
-    font-weight: bold;
-    font-size: large;
+
+.btn-group {
+    padding: 0.3rem;
 }
+
+.btn-secondary {
+    padding: 0.73rem 1.25rem;
+}
+
 .card {
     margin-bottom: inherit;
 }
@@ -85,13 +90,23 @@ td {
     text-align: center;
 }
 
+.disabled {
+    background-color: transparent;
+    border-color: #ccc;
+}
+
 .no-border-radius {
     -webkit-border-radius: 0rem;
     -moz-border-radius: 0rem;
     border-radius: 0rem;
 }
 
-.disabled {
-    background-color: transparent;
-    border-color: #ccc;
+.optAttr {
+    width: 20rem;
+    text-align: left;
+}
+
+.question {
+    font-weight: bold;
+    font-size: large;
 }
