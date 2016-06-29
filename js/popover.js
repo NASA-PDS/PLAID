@@ -3,9 +3,16 @@
  */
 $(document).ready(function(){
     $('[data-toggle="popover"]').each(function(){
-        var title = $(this).html();
-        var key = title.trim().replace(/\b\s\b/, "_").toLowerCase();
+        var title = $(this).children(".node").html();
+        var key = title.trim().replace(/\b\s\b/g, "_").toLowerCase();
+        if ($(this).hasClass("required")){
+            title = title + " (Required)";
+        }
+        else{
+            title = title + " (Optional)";
+        }
         $(this).popover({
+            html: true,
             title: title,
             content: dict[key],
             trigger: "hover"
@@ -14,16 +21,16 @@ $(document).ready(function(){
 });
 
 var dict = {
-    observation_area: "The observation area consists of attributes that provide information about the circumstances under which the data were collected.",
-    reference_list: "The Reference_List class provides lists general references and cross-references for the product. References cited elsewhere in the label need not be repeated here.",
+    observation_area: "The observation area consists of attributes that provide information about the circumstances under which the data were collected.<br/><i>Contains: <br/>- Comment<br/>- Time Coordinates<br/>- Primary Result Summary<br/>- Investigation Area<br/>- Observing System<br/>- Target Identification<br/>- Mission Area<br/>- Discipline Area</i>",
+    reference_list: "The Reference_List class provides lists general references and cross-references for the product. References cited elsewhere in the label need not be repeated here.<br/><i>Contains: <br/>- Internal Reference<br/>- External Reference<br/></i>",
     file_area_observational: "The File Area Observational class describes, for an observational product, a file and one or more tagged_data_objects contained within the file.",
     file_area_observational_supplemental: "The File Area Observational Supplemental class describes, for an observational product, additional files and tagged_data_objects contained within the file.",
     comment: "The comment attribute is a character string expressing one or more remarks or thoughts relevant to the object.",
-    time_coordinates: "The Time_Coordinates class provides a list of time coordinates.",
-    primary_result_summary: "The Primary_Result_Summary class provides a high-level description of the types of products included in the collection or bundle.",
-    investigation_area: "The Investigation_Area class provides information about an investigation (mission, observing campaign or other coordinated, large-scale data collection effort).",
-    observing_system: "The Observing System class describes the entire suite used to collect the data.",
-    target_identification: "The Target_Identification class provides detailed target identification information.",
+    time_coordinates: "The Time_Coordinates class provides a list of time coordinates.<br/><i>Contains: <br/>- start date time<br/>- stop date time<br/>- local mean solar time<br/>- local true solar time<br/>- solar longitude</i>",
+    primary_result_summary: "The Primary_Result_Summary class provides a high-level description of the types of products included in the collection or bundle.<br/><i>Contains: <br/>- type<br/>- purpose<br/>- data regime<br/>- processing level<br/>- processing level id<br/>- description<br/>- Science Facets</i>",
+    investigation_area: "The Investigation_Area class provides information about an investigation (mission, observing campaign or other coordinated, large-scale data collection effort).<br/><i>Contains: <br/>- name<br/>- type<br/>- Internal Reference</i>",
+    observing_system: "The Observing System class describes the entire suite used to collect the data.<br/><i>Contains: <br/>- name<br/>- description<br/>- Observing System Component</i>",
+    target_identification: "The Target_Identification class provides detailed target identification information.<br/><i>Contains: <br/>- name<br/>- alternate designation<br/>- type<br/>- description<br/>- Internal Reference</i>",
     mission_area: "The mission area allows the insertion of mission specific metadata.",
     discipline_area: "The Discipline area allows the insertion of discipline specific metadata.",
     start_date_time: "The start_date_time attribute provides the date and time at the beginning of the data set.",
