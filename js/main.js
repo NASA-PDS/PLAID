@@ -7,7 +7,14 @@ $(document).ready(function(){
         //$(this).mouseenter(previewDetails);
         $(this).click(captureSelection);
     });
+    $(".addNode").each(function(){
+        $(this).click(increaseCounter);
+    });
+    $(".subtractNode").each(function(){
+        $(this).click(decreaseCounter);
+    });
     previewDescription();
+    setNodeStyle();
 });
 /*
 * When the user selects an option in the wizard pane, add
@@ -79,4 +86,70 @@ function loadDescriptionFromFile(filepath, selector){
             $(selector).append(data);
         }
     });
+}
+/*
+* Loop through each counter element and determine whether
+* to show the corresponding node element as disabled or not.
+*/
+function setNodeStyle(){
+    $(".counter").each(function(){
+        var node = $(this).siblings(".node");
+        var val = $(this)[0].innerHTML;
+        if (parseInt(val, 10) === 0 && $(node).hasClass("optional")){
+            $(node).prop('disabled', true);
+            $(this).siblings(".subtractNode").prop('disabled', true);
+        }
+    });
+}
+/*
+* When the user clicks on a plus button, increment the corresponding counter.
+*/
+function increaseCounter(){
+    var counter = $(this).siblings(".counter")[0];
+    var minAndMax = getMinMax(counter);
+    var counterMin = minAndMax[0], counterMax = minAndMax[1];
+    var currVal = parseInt(counter.innerHTML, 10);
+    var newVal = (currVal + 1);
+    if (newVal >= counterMin && newVal <= counterMax){
+        counter.innerHTML = newVal.toString();
+        $(this).siblings(".node").prop('disabled', false);
+        $(this).siblings(".subtractNode").prop('disabled', false);
+    }
+    if (newVal === counterMax){
+        $(this).prop('disabled', true);
+    }
+}
+/*
+* When the user clicks on a minus button, decrement the corresponding counter.
+*/
+function decreaseCounter(){
+    var counter = $(this).siblings(".counter")[0];
+    var minAndMax = getMinMax(counter);
+    var counterMin = minAndMax[0], counterMax = minAndMax[1];
+    var currVal = parseInt(counter.innerHTML, 10);
+    var newVal = (currVal - 1);
+    if (newVal >= counterMin && newVal <= counterMax){
+        counter.innerHTML = newVal.toString();
+        $(this).siblings(".addNode").prop('disabled', false);
+    }
+    if (newVal === counterMin){
+        $(this).prop('disabled', true);
+    }
+    if (newVal === 0){
+        $(this).siblings(".node").prop('disabled', true);
+    }
+}
+/*
+* Helper function to return min/max values from the element's attributes.
+*/
+function getMinMax(counter){
+    var counterMin = parseInt($(counter).attr("min"), 10);
+    var counterMax = $(counter).attr("max");
+    if (counterMax === "inf"){
+        counterMax = 999999999999;
+    }
+    else{
+        counterMax = parseInt(counterMax);
+    }
+    return Array(counterMin, counterMax);
 }
