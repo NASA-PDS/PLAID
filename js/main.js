@@ -95,8 +95,11 @@ function setNodeStyle(){
     $(".counter").each(function(){
         var node = $(this).siblings(".node");
         var val = $(this)[0].innerHTML;
+        var min = getMinMax(this)[0];
         if (parseInt(val, 10) === 0 && $(node).hasClass("optional")){
             $(node).prop('disabled', true);
+        }
+        if (parseInt(val, 10) === min){
             $(this).siblings(".subtractNode").prop('disabled', true);
         }
     });
