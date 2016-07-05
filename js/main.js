@@ -13,6 +13,7 @@ $(document).ready(function(){
     });
     previewDescription();
     setNodeStyle();
+    parseJSON("config/PDS4DD_JSON_140204.JSON", "Observational");
 });
 /*
 * When the user selects an option in the wizard pane, add
