@@ -113,7 +113,7 @@
 {
     font-style: italic;
     font-weight: bold;
-    background: #428BCF;
+    background: #2184BE;
     color: #fff;
     cursor: default;
 }
@@ -122,7 +122,7 @@
 .wizard > .steps .done a:hover,
 .wizard > .steps .done a:active
 {
-    background: #428BCF;
+    background: #2184BE;
     color: #fff;
     opacity: 0.5;
 }

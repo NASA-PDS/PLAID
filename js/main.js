@@ -3,8 +3,6 @@
  */
 $(document).ready(function(){
     $(".list-group-item").each(function(){
-        //TODO: REPLACE WITH TOOLTIPS
-        //$(this).mouseenter(previewDetails);
         $(this).click(captureSelection);
     });
     $(".addNode").each(function(){
@@ -97,7 +95,8 @@ function setNodeStyle(){
         var val = $(this)[0].innerHTML;
         var min = getMinMax(this)[0];
         if (parseInt(val, 10) === 0 && $(node).hasClass("optional")){
-            $(node).prop('disabled', true);
+            //$(node).prop('disabled', true);
+            $(node).addClass("zero-instances");
         }
         if (parseInt(val, 10) === min){
             $(this).siblings(".subtractNode").prop('disabled', true);
@@ -115,7 +114,8 @@ function increaseCounter(){
     var newVal = (currVal + 1);
     if (newVal >= counterMin && newVal <= counterMax){
         counter.innerHTML = newVal.toString();
-        $(this).siblings(".node").prop('disabled', false);
+        //$(this).siblings(".node").prop('disabled', false);
+        $(this).siblings(".node").removeClass("zero-instances");
         $(this).siblings(".subtractNode").prop('disabled', false);
     }
     if (newVal === counterMax){
@@ -139,7 +139,8 @@ function decreaseCounter(){
         $(this).prop('disabled', true);
     }
     if (newVal === 0){
-        $(this).siblings(".node").prop('disabled', true);
+        //$(this).siblings(".node").prop('disabled', true);
+        $(this).siblings(".node").addClass("zero-instances");
     }
 }
 /*
