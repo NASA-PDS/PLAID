@@ -19,7 +19,8 @@ function loadJSON(file, callback) {
     xobj.open('GET', file, false);
     xobj.onreadystatechange = function () {
         if (xobj.readyState == 4 && xobj.status == "200") {
-            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            // Required use of an anonymous callback as .open will NOT return a
+            // value but simply returns undefined in asynchronous mode
             callback(xobj.responseText);
         }
     };
@@ -78,25 +79,36 @@ function getAssociations(object, associationList, tabbing){
             var attr = getAttribute(object, title);
         }
         else{
-            var regex = new RegExp("has_");
-            if (title.match(regex)){
-                title = title.replace("has_", "");
-            }
-            if (title === "primary_result_description"){
-                title = title.replace("description", "summary");
-            }
-            else if (title === "Science_Facet"){
-                title += "s";
-            }
-            else if (title === "file_area_supplemental"){
-                title = title.replace("_supplemental", "");
-            }
+            title = handleSpecialCases(title);
             var classObj = getClass(object, title);
             if (classObj["associationList"]){
                 getAssociations(object, classObj["associationList"], tabbing);
             }
         }
     }
+}
+/*
+* Due to the structure and labelling within the PDS JSON, there are
+* some special cases that need to be handled accordingly (in order
+* to properly match associations to other objects).
+* @param {string} title title of an object to search for
+* @return {string} adjusted title for the special case
+ */
+function handleSpecialCases(title){
+    var regex = new RegExp("has_");
+    if (title.match(regex)){
+        title = title.replace("has_", "");
+    }
+    if (title === "primary_result_description"){
+        title = title.replace("description", "summary");
+    }
+    else if (title === "Science_Facet"){
+        title += "s";
+    }
+    else if (title === "file_area_supplemental"){
+        title = title.replace("_supplemental", "");
+    }
+    return title;
 }
 /*
 * Search the specified object for a given class entry.
