@@ -113,7 +113,7 @@
 {
     font-style: italic;
     font-weight: bold;
-    background: #428BCF;
+    background: #2184BE;
     color: #fff;
     cursor: default;
 }
@@ -122,7 +122,7 @@
 .wizard > .steps .done a:hover,
 .wizard > .steps .done a:active
 {
-    background: #428BCF;
+    background: #2184BE;
     color: #fff;
     opacity: 0.5;
 }
@@ -251,7 +251,7 @@
 .wizard > .actions a:hover,
 .wizard > .actions a:active
 {
-    background: #428BCF;
+    background: #72C342;
     color: #fff;
     display: block;
     padding: 0.5em 1em;
@@ -264,7 +264,7 @@
 
 .wizard > .actions a[href~="#previous"]
 {
-    background: #8a1f11;
+    background: #428BCF;
     opacity: 0.6;
     color: #fff;
     display: block;

@@ -41,8 +41,11 @@ var settings = {
         return true;
     },
     onStepChanged: function (event, currentIndex, priorIndex) {
-        //TODO: CHANGE TO TOOLTIP
-        //$("#details")[0].innerHTML = "";
+        if (currentIndex > priorIndex){
+            var priorStepHeading = $("#wizard-t-" + priorIndex.toString());
+            var number = $(".number", priorStepHeading)[0];
+            number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
+        }
         $("#help").empty();
         previewDescription();
         $("#help").fadeIn(200);
