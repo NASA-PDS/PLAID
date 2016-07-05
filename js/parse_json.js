@@ -2,6 +2,11 @@
  * Created by morse on 7/5/16.
  */
 
+$(document).ready(function(){
+    var jsonObj = getJSON("config/PDS4DD_JSON_140204.JSON");
+    console.log(jsonObj);
+    getProductType(jsonObj, "Observational");
+});
 /*
 * Read in the text from a file as a JSON.
 * Modified from: https://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript
@@ -21,27 +26,80 @@ function loadJSON(file, callback) {
     xobj.send(null);
 }
 
-function parseJSON(file, productType){
+function getJSON(file){
+    var obj = {};
     loadJSON(file, function(data){
-        var obj = JSON.parse(data);
-        obj = (obj.length === 1 ? obj[0] : obj);
-        console.log(obj);
-        if ("dataDictionary" in obj){
-            var dataDict = obj["dataDictionary"];
-            if ("classDictionary" in dataDict){
-                var classDict = dataDict["classDictionary"];
-                for (var key in classDict){
-                    var classObj = classDict[key]["class"];
-                    var product = "Product_" + productType;
-                    if (classObj["title"] === product){
-                        var assocList = classObj["associationList"];
-                        for (var key in assocList){
-                            var child = assocList[key]["association"];
-                            console.log(child["identifier"]);
-                        }
-                    }
+        obj = JSON.parse(data);
+    });
+    return (obj.length === 1 ? obj[0] : obj);
+}
+
+function getProductType(object, productType){
+    if ("dataDictionary" in object){
+        var dataDict = object["dataDictionary"];
+        if ("classDictionary" in dataDict){
+            var classDict = dataDict["classDictionary"];
+            for (var key in classDict){
+                var classObj = classDict[key]["class"];
+                var product = "Product_" + productType;
+                if (classObj["title"] === product){
+                    var assocList = classObj["associationList"];
+                    getAssociations(object, assocList);
                 }
             }
         }
-    });
+    }
+}
+
+function getAssociations(object, associationList){
+    for (var key in associationList){
+        var child = associationList[key]["association"];
+        var identifier = child["identifier"];
+        console.log(identifier);
+        var isAttr = (child["isAttribute"] === "true");
+        if (isAttr){
+            var attr = getAttribute(object, identifier);
+        }
+        else{
+            if (child["title"] === "has_identification_area"){
+                identifier = "0001_NASA_PDS_1.pds.Identification_Area";
+            }
+            var classObj = getClass(object, identifier);
+            if (classObj["associationList"]){
+                getAssociations(object, classObj["associationList"]);
+            }
+        }
+    }
+}
+
+function getClass(object, className){
+    if ("dataDictionary" in object){
+        var dataDict = object["dataDictionary"];
+        if ("classDictionary" in dataDict){
+            var classDict = dataDict["classDictionary"];
+            for (var key in classDict){
+                var classObj = classDict[key]["class"];
+                if (classObj["identifier"] === className){
+                    console.log(classObj);
+                    return (classObj);
+                }
+            }
+        }
+    }
+}
+
+function getAttribute(object, attribute){
+    if ("dataDictionary" in object){
+        var dataDict = object["dataDictionary"];
+        if ("attributeDictionary" in dataDict){
+            var attrDict = dataDict["attributeDictionary"];
+            for (var key in attrDict){
+                var attrObj = attrDict[key]["attribute"];
+                if (attrObj["identifier"] === attribute){
+                    console.log(attrObj);
+                    return (attrObj);
+                }
+            }
+        }
+    }
 }
