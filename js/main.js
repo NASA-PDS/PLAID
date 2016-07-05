@@ -26,6 +26,7 @@ function captureSelection(){
     //temporarily being written out to the console
     var selection = $(".productType", element)[0].textContent;
     console.log(selection);
+    getProductType(JSONOBJ, selection.replace(/\b\s\b/, "_"));
 }
 /*
 * Helper function to remove the active class from all elements.

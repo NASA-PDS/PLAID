@@ -3,9 +3,9 @@
  */
 
 $(document).ready(function(){
-    var jsonObj = getJSON("config/PDS4DD_JSON_140204.JSON");
-    console.log(jsonObj);
-    getProductType(jsonObj, "Observational");
+    JSONOBJ = getJSON("config/PDS4DD_JSON_140204.JSON");
+    console.log(JSONOBJ);
+    //getProductType(JSONOBJ, "Observational");
 });
 /*
 * Read in the text from a file as a JSON.
@@ -44,29 +44,40 @@ function getProductType(object, productType){
                 var product = "Product_" + productType;
                 if (classObj["title"] === product){
                     var assocList = classObj["associationList"];
-                    getAssociations(object, assocList);
+                    getAssociations(object, assocList, "");
                 }
             }
         }
     }
 }
 
-function getAssociations(object, associationList){
+function getAssociations(object, associationList, tabbing){
+    tabbing += "-";
     for (var key in associationList){
         var child = associationList[key]["association"];
-        var identifier = child["identifier"];
-        console.log(identifier);
+        var title = child["title"];
+        console.log(tabbing + title);
         var isAttr = (child["isAttribute"] === "true");
         if (isAttr){
-            var attr = getAttribute(object, identifier);
+            var attr = getAttribute(object, title);
         }
         else{
-            if (child["title"] === "has_identification_area"){
-                identifier = "0001_NASA_PDS_1.pds.Identification_Area";
+            var regex = new RegExp("has_");
+            if (title.match(regex)){
+                title = title.replace("has_", "");
             }
-            var classObj = getClass(object, identifier);
+            if (title === "primary_result_description"){
+                title = title.replace("description", "summary");
+            }
+            else if (title === "Science_Facet"){
+                title += "s";
+            }
+            else if (title === "file_area_supplemental"){
+                title = title.replace("_supplemental", "");
+            }
+            var classObj = getClass(object, title);
             if (classObj["associationList"]){
-                getAssociations(object, classObj["associationList"]);
+                getAssociations(object, classObj["associationList"], tabbing);
             }
         }
     }
@@ -79,8 +90,8 @@ function getClass(object, className){
             var classDict = dataDict["classDictionary"];
             for (var key in classDict){
                 var classObj = classDict[key]["class"];
-                if (classObj["identifier"] === className){
-                    console.log(classObj);
+                if (classObj["title"].toLowerCase() === className.toLowerCase()){
+                    //console.log(classObj);
                     return (classObj);
                 }
             }
@@ -95,8 +106,8 @@ function getAttribute(object, attribute){
             var attrDict = dataDict["attributeDictionary"];
             for (var key in attrDict){
                 var attrObj = attrDict[key]["attribute"];
-                if (attrObj["identifier"] === attribute){
-                    console.log(attrObj);
+                if (attrObj["title"].toLowerCase() === attribute.toLowerCase()){
+                    //console.log(attrObj);
                     return (attrObj);
                 }
             }
