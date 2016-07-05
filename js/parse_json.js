@@ -25,7 +25,11 @@ function loadJSON(file, callback) {
     };
     xobj.send(null);
 }
-
+/*
+* Get the text contents from the specified JSON file and store them in
+* a JavaScript Object.
+* @param {string} file path to the JSON file
+*/
 function getJSON(file){
     var obj = {};
     loadJSON(file, function(data){
@@ -33,7 +37,13 @@ function getJSON(file){
     });
     return (obj.length === 1 ? obj[0] : obj);
 }
-
+/*
+* Once the user has selected a product type, loop through the JSON
+* to find the entry for that type. Then find the associations with that
+* product type.
+* @param {Object} object JSON object to search
+* @param {string} productType product type string chosen by user
+*/
 function getProductType(object, productType){
     if ("dataDictionary" in object){
         var dataDict = object["dataDictionary"];
@@ -50,7 +60,13 @@ function getProductType(object, productType){
         }
     }
 }
-
+/*
+* Recursively search for associations to a class. Has to handle
+* some special cases due to the structure of the PDS XML/JSON.
+* @param {Object} object JSON object to search through
+* @param {array} associationList list of association objects to search for
+* @param {string} tabbing temporary formatting for console output
+*/
 function getAssociations(object, associationList, tabbing){
     tabbing += "-";
     for (var key in associationList){
@@ -82,7 +98,12 @@ function getAssociations(object, associationList, tabbing){
         }
     }
 }
-
+/*
+* Search the specified object for a given class entry.
+* @param {Object} object object to search through
+* @param {string} className name of the class to search for
+* @return {Object} object corresponding to the specified class name
+*/
 function getClass(object, className){
     if ("dataDictionary" in object){
         var dataDict = object["dataDictionary"];
@@ -98,7 +119,12 @@ function getClass(object, className){
         }
     }
 }
-
+/*
+ * Search the specified object for a given attribute entry.
+ * @param {Object} object object to search through
+ * @param {string} attribute name of the attribute to search for
+ * @return {Object} object corresponding to the specified attribute name
+ */
 function getAttribute(object, attribute){
     if ("dataDictionary" in object){
         var dataDict = object["dataDictionary"];
