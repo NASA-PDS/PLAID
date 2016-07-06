@@ -68,8 +68,8 @@ var settings = {
 /*
  * Initialize the wizard using jQuery-Steps built-in method
  */
-function init_steps_object(wiz_object) {
-    wiz_object.steps(settings);
+function init_steps_object(wizard) {
+    wizard.steps(settings);
 }
 /*
  * Since the wizard object is controlled by the jQuery-Steps, it is
@@ -82,4 +82,19 @@ function match_wizard_height(wizard, sidebar){
     $(document).ready(function() {
         $(sidebar).css("height", $(wizard).height());
     });
+}
+
+function insertStep(wizard, dataObj){
+    wizard.steps("insert", index, {
+        title: "",
+        content: generateContent(dataObj)
+    });
+}
+
+function generateContent(dataObj){
+    var section = document.createElement("section");
+    var question = document.createElement("p");
+    question.addClass("question");
+    question.innerText = "What elements do you want to keep?";
+    section.appendChild(question);
 }
