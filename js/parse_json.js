@@ -1,7 +1,7 @@
 /**
  * Created by morse on 7/5/16.
  */
-
+INDEX = 2;
 $(document).ready(function(){
     JSONOBJ = getJSON("config/PDS4DD_JSON_140204.JSON");
 });
@@ -56,6 +56,8 @@ function getProductType(object, productType){
                     var productObj = {};
                     getAssociations(object, assocList, productObj, 0);
                     console.log(productObj);
+                    //insertStep($("#wizard"), 2, productObj["1observation_area"]);
+                    break;
                 }
             }
         }
@@ -92,6 +94,8 @@ function getAssociations(object, associationList, currObj, orderNum){
             if (classObj["associationList"]){
                 getAssociations(object, classObj["associationList"], currObj[modTitle]["next"], 0);
             }
+            insertStep($("#wizard"), INDEX, currObj[modTitle]);
+            INDEX += 1;
         }
         orderNum += 1;
     }
