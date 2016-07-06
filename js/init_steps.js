@@ -83,14 +83,24 @@ function match_wizard_height(wizard, sidebar){
         $(sidebar).css("height", $(wizard).height());
     });
 }
-
+/*
+* Insert a step into the wizard at the specified index with content
+* generated from the specified data object.
+* @param {Object} wizard
+* @param {Number} index zero-based position to insert step into wizard at
+* @param {Object} dataObj object containing the PDS data to generate content from
+ */
 function insertStep(wizard, index, dataObj){
     wizard.steps("insert", index, {
         title: dataObj["title"],
         content: generateContent(dataObj["next"])
     });
 }
-
+/*
+* Generate the content section for a new step in the wizard.
+* @param {Object} dataObj object containing the PDS data to generate content from
+* @return {HTML element} section
+ */
 function generateContent(dataObj){
     var section = document.createElement("section");
     var question = document.createElement("p");
@@ -102,7 +112,11 @@ function generateContent(dataObj){
     }
     return section;
 }
-
+/*
+* Create an element-bar populated with data from the specified object.
+* @param {Object} dataObj object containing the PDS data to generate content from
+* @return {HTML element} elementBar
+ */
 function createElementBar(dataObj){
     var elementBar = document.createElement("div");
     elementBar.className = "input-group element-bar";
@@ -114,38 +128,38 @@ function createElementBar(dataObj){
 
     var minusBtn = createControlButton("minus");
     elementBar.appendChild(minusBtn);
+    var plusBtn = createControlButton("plus");
 
-    var counter = document.createElement("input");
-    counter.className = "form-control element-bar-counter";
-    $(counter).attr("value", 0);
-    var min, max;
-    if (dataObj["range"] === "required"){
-        min = 1;
-        max = 1;
+    var counter = createCounterInput(dataObj);
+    if ($(counter).prop("value") === $(counter).prop("max")){
+        $("button", plusBtn).prop("disabled", true);
     }
-    else{
-        min = dataObj["range"].split("-")[0];
-        max = dataObj["range"].split("-")[1];
+    if ($(counter).prop("min") === "0") {
+        label.className += " zero-instances";
     }
-    $(counter).attr("min", min);
-    $(counter).attr("max", max);
-    $(counter).attr("type", "text");
+    $("button", minusBtn).prop("disabled", true);
     elementBar.appendChild(counter);
 
-    var plusBtn = createControlButton("plus");
     elementBar.appendChild(plusBtn);
 
     return elementBar;
 }
+/*
+* Create a plus/minus button for controlling the form in an element-bar.
+* @param {string} type ["plus" | "minus"]
+* @return {HTML element} wrapper
+ */
 function createControlButton(type){
-    var btnClass, iconClass;
+    var btnClass, iconClass, handler;
     if (type === "plus"){
         btnClass = "element-bar-plus";
         iconClass = "fa fa-plus fa-fw";
+        handler = increaseCounter;
     }
     else{
         btnClass = "element-bar-minus";
         iconClass = "fa fa-minus fa-fw";
+        handler = decreaseCounter;
     }
     var wrapper = document.createElement("span");
     wrapper.className = "input-group-btn element-bar-button";
@@ -153,6 +167,7 @@ function createControlButton(type){
     var btn = document.createElement("button");
     btn.className = "btn btn-secondary " + btnClass;
     $(btn).attr("type", "button");
+    $(btn).click(handler);
 
     var icon = document.createElement("i");
     icon.className = iconClass;
@@ -162,4 +177,33 @@ function createControlButton(type){
     wrapper.appendChild(btn);
 
     return wrapper;
+}
+/*
+ * Create a counter input (populated with data from the specified object) for
+ * tracking how many elements the user wants of a specific type.
+ * @param {Object} dataObj object containing the PDS data to generate content from
+ * @return {HTML element} counter
+ */
+function createCounterInput(dataObj){
+    var counter = document.createElement("input");
+    counter.className = "form-control element-bar-counter";
+    var min, max;
+    if (dataObj["range"] === "required"){
+        min = 1;
+        max = 1;
+        $(counter).prop("disabled", true);
+    }
+    else{
+        min = dataObj["range"].split("-")[0];
+        max = dataObj["range"].split("-")[1];
+        if (max === "*") { max = "9999999999";}
+    }
+    $(counter).attr("min", min);
+    $(counter).attr("max", max);
+    $(counter).attr("value", min);
+    $(counter).attr("type", "text");
+    $(counter).keydown(preventInput);
+    $(counter).keyup({arg1: captureValue(counter)}, validateInput);
+
+    return counter;
 }
