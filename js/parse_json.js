@@ -54,7 +54,7 @@ function getProductType(object, productType){
                 if (classObj["title"] === product){
                     var assocList = classObj["associationList"];
                     var productObj = {};
-                    getAssociations(object, assocList, productObj, "");
+                    getAssociations(object, assocList, productObj, 0);
                     console.log(productObj);
                 }
             }
@@ -67,25 +67,33 @@ function getProductType(object, productType){
 * @param {Object} object JSON object to search through
 * @param {array} associationList list of association objects to search for
 * @param {Object} currObj object to store each child of the overall product type, maintaining relations
+* @param {Number} orderNum integer to track the ordering of child elements
+* Note: orderNum is necessary to preserve the order of child elements in the object. Otherwise,
+* the order would be determined alphabetically in the "next" object. This order is important to
+* maintain as it reflects the definitions in the PDS4 XML schema.
 */
-function getAssociations(object, associationList, currObj){
+function getAssociations(object, associationList, currObj, orderNum){
     for (var key in associationList){
         var child = associationList[key]["association"];
         var title = child["title"];
         var isAttr = (child["isAttribute"] === "true");
         if (isAttr){
             var attr = getAttribute(object, title);
-            currObj[title] = attr;
+            currObj[orderNum + title] = attr;
+            determineRequirements(child, currObj[orderNum + title]);
         }
         else{
             title = handleSpecialCases(title);
             var classObj = getClass(object, title);
-            currObj[title] = Object.assign(classObj);
-            currObj[title]["next"] = {};
+            var modTitle = orderNum + title;
+            currObj[modTitle] = Object.assign(classObj);
+            currObj[modTitle]["next"] = {};
+            determineRequirements(child, currObj[modTitle]);
             if (classObj["associationList"]){
-                getAssociations(object, classObj["associationList"], currObj[title]["next"]);
+                getAssociations(object, classObj["associationList"], currObj[modTitle]["next"], 0);
             }
         }
+        orderNum += 1;
     }
 }
 /*
@@ -149,5 +157,20 @@ function getAttribute(object, attribute){
                 }
             }
         }
+    }
+}
+/*
+* Using the values stored in the association list objects (assocMention), determine
+* whether the association is required, set the range, and store the info in the
+* detailed object for that association (assocDetails).
+* @param {Object} assocMention
+* @param {Object} assocDetails
+ */
+function determineRequirements(assocMention, assocDetails){
+    if (assocMention && assocDetails){
+        var min = assocMention["minimumCardinality"];
+        var max = assocMention["maximumCardinality"];
+        var range = (min === max ? "required" : min+"-"+max);
+        assocDetails["range"] = range;
     }
 }
