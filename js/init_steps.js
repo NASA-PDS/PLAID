@@ -84,35 +84,39 @@ function match_wizard_height(wizard, sidebar){
     });
 }
 
-function insertStep(wizard, dataObj){
+function insertStep(wizard, index, dataObj){
     wizard.steps("insert", index, {
-        title: "",
-        content: generateContent(dataObj)
+        title: dataObj["title"],
+        content: generateContent(dataObj["next"])
     });
 }
 
 function generateContent(dataObj){
     var section = document.createElement("section");
     var question = document.createElement("p");
-    question.addClass("question");
-    question.innerText = "What elements do you want to keep?";
+    question.className = "question";
+    question.innerHTML = "What elements do you want to keep?";
     section.appendChild(question);
+    for (var key in dataObj){
+        section.appendChild(createElementBar(dataObj[key]));
+    }
+    return section;
 }
 
 function createElementBar(dataObj){
     var elementBar = document.createElement("div");
-    elementBar.addClass("input-group element-bar");
+    elementBar.className = "input-group element-bar";
 
     var label = document.createElement("span");
-    label.addClass("input-group-addon element-bar-label");
-    label.innerText = dataObj["title"];
+    label.className = "input-group-addon element-bar-label";
+    label.innerHTML = dataObj["title"];
     elementBar.appendChild(label);
 
     var minusBtn = createControlButton("minus");
     elementBar.appendChild(minusBtn);
 
     var counter = document.createElement("input");
-    counter.addClass("form-control element-bar-counter");
+    counter.className = "form-control element-bar-counter";
     $(counter).attr("value", 0);
     var min, max;
     if (dataObj["range"] === "required"){
@@ -144,14 +148,14 @@ function createControlButton(type){
         iconClass = "fa fa-minus fa-fw";
     }
     var wrapper = document.createElement("span");
-    wrapper.addClass("input-group-btn element-bar-button");
+    wrapper.className = "input-group-btn element-bar-button";
 
     var btn = document.createElement("button");
-    btn.addClass("btn btn-secondary " + btnClass);
+    btn.className = "btn btn-secondary " + btnClass;
     $(btn).attr("type", "button");
 
     var icon = document.createElement("i");
-    icon.addClass(iconClass)
+    icon.className = iconClass;
     $(icon).attr("aria-hidden", "true");
 
     btn.appendChild(icon);
