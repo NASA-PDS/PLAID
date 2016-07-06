@@ -5,14 +5,20 @@ $(document).ready(function(){
     $(".list-group-item").each(function(){
         $(this).click(captureSelection);
     });
-    $(".addNode").each(function(){
+    $(".element-bar-plus").each(function(){
         $(this).click(increaseCounter);
     });
-    $(".subtractNode").each(function(){
+    $(".element-bar-minus").each(function(){
         $(this).click(decreaseCounter);
     });
+    $(".element-bar-counter").each(function(){
+        //$(this).focusin(captureValue);
+        $(this).keydown(preventInput);
+        $(this).keyup({arg1: captureValue(this)}, validateInput);
+        //$(this).focusout({arg1: val}, checkForValidCounter);
+    });
     previewDescription();
-    setNodeStyle();
+    setElementBarStyle();
 });
 /*
 * When the user selects an option in the wizard pane, add
@@ -88,19 +94,28 @@ function loadDescriptionFromFile(filepath, selector){
 }
 /*
 * Loop through each counter element and determine whether
-* to show the corresponding node element as disabled or not.
+* to show the corresponding label and counter as disabled or not.
 */
-function setNodeStyle(){
-    $(".counter").each(function(){
-        var node = $(this).siblings(".node");
-        var val = $(this)[0].innerHTML;
-        var min = getMinMax(this)[0];
-        if (parseInt(val, 10) === 0 && $(node).hasClass("optional")){
+function setElementBarStyle(){
+    $(".element-bar-counter").each(function(){
+        var label = $(this).siblings(".element-bar-label");
+        var val = parseInt($(this).val(), 10);
+        var minAndMax = getMinMax(this);
+        var min = minAndMax[0], max = minAndMax[1];
+        if (val === 0
+            //&& $(node).hasClass("optional")
+        ){
             //$(node).prop('disabled', true);
-            $(node).addClass("zero-instances");
+            $(label).addClass("zero-instances");
         }
-        if (parseInt(val, 10) === min){
-            $(this).siblings(".subtractNode").prop('disabled', true);
+        if (val === min){
+            $(this).siblings(".element-bar-button").children(".element-bar-minus").prop('disabled', true);
+        }
+        if (val === max) {
+            $(this).siblings(".element-bar-button").children(".element-bar-plus").prop('disabled', true);
+        }
+        if (min === max) {
+            $(this).prop('disabled', true);
         }
     });
 }
@@ -108,16 +123,16 @@ function setNodeStyle(){
 * When the user clicks on a plus button, increment the corresponding counter.
 */
 function increaseCounter(){
-    var counter = $(this).siblings(".counter")[0];
+    var counter = $(this).parent().siblings(".element-bar-counter");
     var minAndMax = getMinMax(counter);
     var counterMin = minAndMax[0], counterMax = minAndMax[1];
-    var currVal = parseInt(counter.innerHTML, 10);
+    var currVal = parseInt(counter.val(), 10);
     var newVal = (currVal + 1);
     if (newVal >= counterMin && newVal <= counterMax){
-        counter.innerHTML = newVal.toString();
+        counter.val(newVal.toString());
         //$(this).siblings(".node").prop('disabled', false);
-        $(this).siblings(".node").removeClass("zero-instances");
-        $(this).siblings(".subtractNode").prop('disabled', false);
+        $(this).parent().siblings(".element-bar-label").removeClass("zero-instances");
+        $(this).parent().siblings(".element-bar-button").children(".element-bar-minus").prop('disabled', false);
     }
     if (newVal === counterMax){
         $(this).prop('disabled', true);
@@ -127,21 +142,21 @@ function increaseCounter(){
 * When the user clicks on a minus button, decrement the corresponding counter.
 */
 function decreaseCounter(){
-    var counter = $(this).siblings(".counter")[0];
+    var counter = $(this).parent().siblings(".element-bar-counter");
     var minAndMax = getMinMax(counter);
     var counterMin = minAndMax[0], counterMax = minAndMax[1];
-    var currVal = parseInt(counter.innerHTML, 10);
+    var currVal = parseInt(counter.val(), 10);
     var newVal = (currVal - 1);
     if (newVal >= counterMin && newVal <= counterMax){
-        counter.innerHTML = newVal.toString();
-        $(this).siblings(".addNode").prop('disabled', false);
+        counter.val(newVal.toString());
+        $(this).parent().siblings(".element-bar-button").children(".element-bar-plus").prop('disabled', false);
     }
     if (newVal === counterMin){
         $(this).prop('disabled', true);
     }
     if (newVal === 0){
         //$(this).siblings(".node").prop('disabled', true);
-        $(this).siblings(".node").addClass("zero-instances");
+        $(this).parent().siblings(".element-bar-label").addClass("zero-instances");
     }
 }
 /*
@@ -157,4 +172,35 @@ function getMinMax(counter){
         counterMax = parseInt(counterMax);
     }
     return Array(counterMin, counterMax);
+}
+
+/*
+ * When the user clicks into the counter, keep track of what number was in there initially
+ */
+function captureValue(counter) {
+    console.log(parseInt($(counter).val(), 10));
+    return parseInt($(counter).val(), 10);
+}
+
+/*
+ *
+ */
+function preventInput(event) {
+    var regex = new RegExp("^[0-9]+$");
+    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (!regex.test(key) && (event.keyCode !== 8)) {
+        event.preventDefault();
+    }
+}
+
+/*
+ *
+ */
+function validateInput(event) {
+    var val = event.data.arg1;
+    if (parseInt($(this).val()) > 8) {
+        $(this).val(val);
+    } else {
+        console.log($(this).val());
+    }
 }
