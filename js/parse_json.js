@@ -4,8 +4,6 @@
 
 $(document).ready(function(){
     JSONOBJ = getJSON("config/PDS4DD_JSON_140204.JSON");
-    console.log(JSONOBJ);
-    //getProductType(JSONOBJ, "Observational");
 });
 /*
 * Read in the text from a file as a JSON.
@@ -55,7 +53,9 @@ function getProductType(object, productType){
                 var product = "Product_" + productType;
                 if (classObj["title"] === product){
                     var assocList = classObj["associationList"];
-                    getAssociations(object, assocList, "");
+                    var productObj = {};
+                    getAssociations(object, assocList, productObj, "");
+                    console.log(productObj);
                 }
             }
         }
@@ -66,23 +66,24 @@ function getProductType(object, productType){
 * some special cases due to the structure of the PDS XML/JSON.
 * @param {Object} object JSON object to search through
 * @param {array} associationList list of association objects to search for
-* @param {string} tabbing temporary formatting for console output
+* @param {Object} currObj object to store each child of the overall product type, maintaining relations
 */
-function getAssociations(object, associationList, tabbing){
-    tabbing += "-";
+function getAssociations(object, associationList, currObj){
     for (var key in associationList){
         var child = associationList[key]["association"];
         var title = child["title"];
-        console.log(tabbing + title);
         var isAttr = (child["isAttribute"] === "true");
         if (isAttr){
             var attr = getAttribute(object, title);
+            currObj[title] = attr;
         }
         else{
             title = handleSpecialCases(title);
             var classObj = getClass(object, title);
+            currObj[title] = Object.assign(classObj);
+            currObj[title]["next"] = {};
             if (classObj["associationList"]){
-                getAssociations(object, classObj["associationList"], tabbing);
+                getAssociations(object, classObj["associationList"], currObj[title]["next"]);
             }
         }
     }
@@ -124,7 +125,6 @@ function getClass(object, className){
             for (var key in classDict){
                 var classObj = classDict[key]["class"];
                 if (classObj["title"].toLowerCase() === className.toLowerCase()){
-                    //console.log(classObj);
                     return (classObj);
                 }
             }
@@ -145,7 +145,6 @@ function getAttribute(object, attribute){
             for (var key in attrDict){
                 var attrObj = attrDict[key]["attribute"];
                 if (attrObj["title"].toLowerCase() === attribute.toLowerCase()){
-                    //console.log(attrObj);
                     return (attrObj);
                 }
             }
