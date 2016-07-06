@@ -98,3 +98,64 @@ function generateContent(dataObj){
     question.innerText = "What elements do you want to keep?";
     section.appendChild(question);
 }
+
+function createElementBar(dataObj){
+    var elementBar = document.createElement("div");
+    elementBar.addClass("input-group element-bar");
+
+    var label = document.createElement("span");
+    label.addClass("input-group-addon element-bar-label");
+    label.innerText = dataObj["title"];
+    elementBar.appendChild(label);
+
+    var minusBtn = createControlButton("minus");
+    elementBar.appendChild(minusBtn);
+
+    var counter = document.createElement("input");
+    counter.addClass("form-control element-bar-counter");
+    $(counter).attr("value", 0);
+    var min, max;
+    if (dataObj["range"] === "required"){
+        min = 1;
+        max = 1;
+    }
+    else{
+        min = dataObj["range"].split("-")[0];
+        max = dataObj["range"].split("-")[1];
+    }
+    $(counter).attr("min", min);
+    $(counter).attr("max", max);
+    $(counter).attr("type", "text");
+    elementBar.appendChild(counter);
+
+    var plusBtn = createControlButton("plus");
+    elementBar.appendChild(plusBtn);
+
+    return elementBar;
+}
+function createControlButton(type){
+    var btnClass, iconClass;
+    if (type === "plus"){
+        btnClass = "element-bar-plus";
+        iconClass = "fa fa-plus fa-fw";
+    }
+    else{
+        btnClass = "element-bar-minus";
+        iconClass = "fa fa-minus fa-fw";
+    }
+    var wrapper = document.createElement("span");
+    wrapper.addClass("input-group-btn element-bar-button");
+
+    var btn = document.createElement("button");
+    btn.addClass("btn btn-secondary " + btnClass);
+    $(btn).attr("type", "button");
+
+    var icon = document.createElement("i");
+    icon.addClass(iconClass)
+    $(icon).attr("aria-hidden", "true");
+
+    btn.appendChild(icon);
+    wrapper.appendChild(btn);
+
+    return wrapper;
+}
