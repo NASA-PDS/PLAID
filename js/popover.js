@@ -37,16 +37,16 @@ var dict = {
 * the content for the popover is parsed out of the dict object.
 */
 function initPopovers(){
-    $('.element-bar').each(function(){
+    $('.label-item').each(function(){
         var includeSpecifier = true;
-        var title = $(this).find(".element-bar-label").html();
+        var title = $(this).find(".node").html();
         if (title === undefined){
             title = $(this).find(".productType").html();
             includeSpecifier = false;
         }
         var key = title.trim().replace(/\b\s\b/g, "_").toLowerCase();
         if (includeSpecifier){
-            if ($(this).children(".element-bar-label").hasClass("required")){
+            if ($(this).children(".node").hasClass("required")){
                 title += " (Required)";
             }
             else {
