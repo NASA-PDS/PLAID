@@ -36,35 +36,51 @@ function getJSON(file){
     return (obj.length === 1 ? obj[0] : obj);
 }
 /*
-* Once the user has selected a product type, loop through the JSON
-* to find the entry for that type. Then find the associations with that
-* product type.
-* @param {Object} object JSON object to search
-* @param {string} productType product type string chosen by user
-*/
-function getProductType(object, productType){
-    if ("dataDictionary" in object){
-        var dataDict = object["dataDictionary"];
-        if ("classDictionary" in dataDict){
-            var classDict = dataDict["classDictionary"];
-            for (var key in classDict){
-                var classObj = classDict[key]["class"];
-                var product = "Product_" + productType;
-                if (classObj["title"] === product){
-                    var assocList = classObj["associationList"];
-                    var productObj = {};
-                    getAssociations(object, assocList, productObj, 0);
-                    console.log(productObj);
-                    //this adds the first level of steps to the wizard
-                    //TODO: determine when/how to insert the next level of steps
-                    //TODO(cont): will need to track current level in the object
-                    //TODO(cont): also, be able to back out to previous level(s) once the user finishes a level
-                    insertLevelOfSteps(1, productObj);
-                    break;
+ * Search the specified object for an element of a specified type.
+ * @param {Object} object object to search through
+ * @param {string} type ["class" | "attribute" | "product"]
+ * @param {string} dictName name of the dictionary to search in
+ * @param {string} elementName name of the element to search for
+ * @return {Object} object corresponding to the specified class name
+ */
+function getElement(outerObj, type, dictName, elementName){
+    if ("dataDictionary" in outerObj){
+        var dataDict = outerObj["dataDictionary"];
+        if (dictName in dataDict){
+            var dict = dataDict[dictName];
+            for (var key in dict){
+                var specifier = dictName.replace("Dictionary", "");
+                var innerObj = dict[key][specifier];
+                //must convert to lower case to accurately compare across inconsistencies in PDS
+                if (innerObj["title"].toLowerCase() === elementName.toLowerCase()){
+                    if (type === "class" || type === "attribute"){
+                        return innerObj;
+                    }
+                    else if (type === "product"){
+                        handleProduct(outerObj, innerObj);
+                        return;
+                    }
                 }
             }
         }
     }
+}
+/*
+ * Once the product object has been found in the overall JSON object, get the associations
+ * and start creating corresponding steps in the wizard.
+ * @param {Object} object JSON object to search
+ * @param {Object} product object containing the overall info for the product
+ */
+function handleProduct(overallObj, product){
+    var assocList = product["associationList"];
+    var productObj = {};
+    getAssociations(overallObj, assocList, productObj, 0);
+    console.log(productObj);
+    //this adds the first level of steps to the wizard
+    //TODO: determine when/how to insert the next level of steps
+    //TODO(cont): will need to track current level in the object
+    //TODO(cont): also, be able to back out to previous level(s) once the user finishes a level
+    insertLevelOfSteps(1, productObj);
 }
 /*
 * Recursively search for associations to a class. Has to handle
@@ -83,13 +99,13 @@ function getAssociations(object, associationList, currObj, orderNum){
         var title = child["title"];
         var isAttr = (child["isAttribute"] === "true");
         if (isAttr){
-            var attr = getAttribute(object, title);
+            var attr = getElement(object, "attribute", "attributeDictionary", title);
             currObj[orderNum + title] = attr;
             determineRequirements(child, currObj[orderNum + title]);
         }
         else{
             title = handleSpecialCases(title);
-            var classObj = getClass(object, title);
+            var classObj = getElement(object, "class", "classDictionary", title);
             var modTitle = orderNum + title;
             //use Object.assign to make a copy of the object
             //this prevents overwriting the original object in future modifications
@@ -127,48 +143,6 @@ function handleSpecialCases(title){
         title = title.replace("_supplemental", "");
     }
     return title;
-}
-/*
-* Search the specified object for a given class entry.
-* @param {Object} object object to search through
-* @param {string} className name of the class to search for
-* @return {Object} object corresponding to the specified class name
-*/
-function getClass(object, className){
-    if ("dataDictionary" in object){
-        var dataDict = object["dataDictionary"];
-        if ("classDictionary" in dataDict){
-            var classDict = dataDict["classDictionary"];
-            for (var key in classDict){
-                var classObj = classDict[key]["class"];
-                //must convert to lower case to accurately compare across inconsistencies in PDS
-                if (classObj["title"].toLowerCase() === className.toLowerCase()){
-                    return (classObj);
-                }
-            }
-        }
-    }
-}
-/*
- * Search the specified object for a given attribute entry.
- * @param {Object} object object to search through
- * @param {string} attribute name of the attribute to search for
- * @return {Object} object corresponding to the specified attribute name
- */
-function getAttribute(object, attribute){
-    if ("dataDictionary" in object){
-        var dataDict = object["dataDictionary"];
-        if ("attributeDictionary" in dataDict){
-            var attrDict = dataDict["attributeDictionary"];
-            for (var key in attrDict){
-                var attrObj = attrDict[key]["attribute"];
-                //must convert to lower case to accurately compare across inconsistencies in PDS
-                if (attrObj["title"].toLowerCase() === attribute.toLowerCase()){
-                    return (attrObj);
-                }
-            }
-        }
-    }
 }
 /*
 * Using the values stored in the association list objects (assocMention), determine
