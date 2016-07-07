@@ -2,7 +2,7 @@
  * Created by morse on 7/5/16.
  */
 $(document).ready(function(){
-    JSONOBJ = getJSON("config/PDS4DD_JSON_140204.JSON");
+    JSONOBJ = getJSON(filePaths.PDS4_JSON);
 });
 /*
 * Read in the text from a file as a JSON.
@@ -75,7 +75,6 @@ function handleProduct(overallObj, product){
     var assocList = product["associationList"];
     var productObj = {};
     getAssociations(overallObj, assocList, productObj, 0);
-    console.log(productObj);
     //this adds the first level of steps to the wizard
     //TODO: determine when/how to insert the next level of steps
     //TODO(cont): will need to track current level in the object
@@ -115,8 +114,6 @@ function getAssociations(object, associationList, currObj, orderNum){
             if (classObj["associationList"]){
                 getAssociations(object, classObj["associationList"], currObj[modTitle]["next"], 0);
             }
-            //insertStep($("#wizard"), INDEX, currObj[modTitle]);
-            //INDEX += 1;
         }
         orderNum += 1;
     }
@@ -155,7 +152,7 @@ function determineRequirements(assocMention, assocDetails){
     if (assocMention && assocDetails){
         var min = assocMention["minimumCardinality"];
         var max = assocMention["maximumCardinality"];
-        var range = (min === max ? "required" : min+"-"+max);
-        assocDetails["range"] = range;
+        assocDetails["range"] = min + "-" + max;
+        assocDetails["isRequired"] = (min === max);
     }
 }

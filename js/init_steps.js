@@ -199,21 +199,17 @@ function createControlButton(type){
 function createCounterInput(dataObj){
     var counter = document.createElement("input");
     counter.className = "form-control element-bar-counter";
-    var min, max;
-    if (dataObj["range"] === "required"){
-        min = 1;
-        max = 1;
-        $(counter).prop("disabled", true);
-    }
-    else{
-        min = parseInt(dataObj["range"].split("-")[0], 10);
-        max = dataObj["range"].split("-")[1];
-        max = (max === "*" ? 9999999999 : parseInt(max, 10));
-    }
+    
+    var min = parseInt(dataObj["range"].split("-")[0], 10);
+    var max = dataObj["range"].split("-")[1];
+    max = (max === "*" ? 9999999999 : parseInt(max, 10));
+    if (min === max){ $(counter).prop("disabled", true); }
+
     $(counter).attr("min", min);
     $(counter).attr("max", max);
     $(counter).attr("value", min);
     $(counter).attr("type", "text");
+
     $(counter).keydown(preventInput);
     $(counter).keyup({arg1: captureValue(counter)}, validateInput);
 
