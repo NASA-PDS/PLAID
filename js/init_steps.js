@@ -84,6 +84,17 @@ function match_wizard_height(wizard, sidebar){
     });
 }
 /*
+* Insert a batch of steps corresponding to the same level in the object hierarchy.
+* @param {Number} currentIndex zero-based index corresponding to step position in wizard
+* @param {Object} dataObj object containing the PDS data to generate content from
+ */
+function insertLevelOfSteps(currIndex, dataObj){
+    for (var key in dataObj){
+        insertStep($("#wizard"), currIndex, dataObj[key]);
+        currIndex +=1;
+    }
+}
+/*
 * Insert a step into the wizard at the specified index with content
 * generated from the specified data object.
 * @param {Object} wizard
@@ -102,7 +113,8 @@ function insertStep(wizard, index, dataObj){
 * @return {HTML element} section
  */
 function generateContent(dataObj){
-    var section = document.createElement("section");
+    var section = document.createElement("div");
+    section.className = "optional-section";
     var question = document.createElement("p");
     question.className = "question";
     question.innerHTML = "What elements do you want to keep?";
@@ -194,9 +206,9 @@ function createCounterInput(dataObj){
         $(counter).prop("disabled", true);
     }
     else{
-        min = dataObj["range"].split("-")[0];
+        min = parseInt(dataObj["range"].split("-")[0], 10);
         max = dataObj["range"].split("-")[1];
-        if (max === "*") { max = "9999999999";}
+        max = (max === "*" ? 9999999999 : parseInt(max, 10));
     }
     $(counter).attr("min", min);
     $(counter).attr("max", max);
