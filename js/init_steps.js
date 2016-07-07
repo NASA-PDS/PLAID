@@ -210,8 +210,10 @@ function createCounterInput(dataObj){
     $(counter).attr("value", min);
     $(counter).attr("type", "text");
 
-    $(counter).keydown(preventInput);
-    $(counter).keyup({arg1: captureValue(counter)}, validateInput);
+    $(counter).focus(captureValue);
+    $(counter).keypress(preventInput);
+    $(counter).keyup(validateInput);
+    $(counter).focusout(releaseValue);
 
     return counter;
 }
