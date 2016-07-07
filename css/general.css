@@ -77,6 +77,10 @@ td {
     padding: 0.73rem 1.25rem;
 }
 
+.btn:disabled {
+    opacity: 0.3;
+}
+
 .card {
     margin-bottom: inherit;
 }
@@ -90,40 +94,12 @@ td {
     text-align: center;
 }
 
-.disabled {
-    background-color: transparent;
-    border-color: #ccc;
-}
-
-.no-border-radius {
-    -webkit-border-radius: 0rem;
-    -moz-border-radius: 0rem;
-    border-radius: 0rem;
-}
-
-.node {
-    width: 20rem;
-    text-align: left;
-}
-
-.question {
-    font-weight: bold;
-    font-size: large;
-}
-
-.zero-instances {
-    opacity: 0.3;
-}
-
 .element-bar {
     padding: 0.3rem;
 }
 
-.element-bar .element-bar-label {
-    padding: 0.719rem 0rem 0.719rem 1.25rem;
-    width: 70%;
-    background-color: #ffffff;
-    text-align: left;
+.element-bar .element-bar-button {
+    width: 10%;
 }
 
 .element-bar .element-bar-counter {
@@ -132,13 +108,11 @@ td {
     text-align: center;
 }
 
-.element-bar .element-bar-button {
-    width: 10%;
-}
-
-.element-bar .element-bar-plus {
-    padding: 0.719rem 0rem;
-    width: 100%;
+.element-bar .element-bar-label {
+    padding: 0.719rem 0rem 0.719rem 1.25rem;
+    width: 70%;
+    background-color: #ffffff;
+    text-align: left;
 }
 
 .element-bar .element-bar-minus {
@@ -149,11 +123,27 @@ td {
     width: 100%;
 }
 
-.btn:disabled {
-    opacity: 0.3;
+.element-bar .element-bar-plus {
+    padding: 0.719rem 0rem;
+    width: 100%;
 }
 
 .form-control:disabled {
     background-color: #ffffff;
+    opacity: 0.3;
+}
+
+.no-border-radius {
+    -webkit-border-radius: 0rem;
+    -moz-border-radius: 0rem;
+    border-radius: 0rem;
+}
+
+.question {
+    font-weight: bold;
+    font-size: large;
+}
+
+.zero-instances {
     opacity: 0.3;
 }
