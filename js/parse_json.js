@@ -1,7 +1,6 @@
 /**
  * Created by morse on 7/5/16.
  */
-INDEX = 2;
 $(document).ready(function(){
     JSONOBJ = getJSON("config/PDS4DD_JSON_140204.JSON");
 });
@@ -56,7 +55,11 @@ function getProductType(object, productType){
                     var productObj = {};
                     getAssociations(object, assocList, productObj, 0);
                     console.log(productObj);
-                    //insertStep($("#wizard"), 2, productObj["1observation_area"]);
+                    //this adds the first level of steps to the wizard
+                    //TODO: determine when/how to insert the next level of steps
+                    //TODO(cont): will need to track current level in the object
+                    //TODO(cont): also, be able to back out to previous level(s) once the user finishes a level
+                    insertLevelOfSteps(1, productObj);
                     break;
                 }
             }
@@ -75,8 +78,8 @@ function getProductType(object, productType){
 * maintain as it reflects the definitions in the PDS4 XML schema.
 */
 function getAssociations(object, associationList, currObj, orderNum){
-    for (var key in associationList){
-        var child = associationList[key]["association"];
+    for (var index in associationList){
+        var child = associationList[index]["association"];
         var title = child["title"];
         var isAttr = (child["isAttribute"] === "true");
         if (isAttr){
@@ -88,22 +91,24 @@ function getAssociations(object, associationList, currObj, orderNum){
             title = handleSpecialCases(title);
             var classObj = getClass(object, title);
             var modTitle = orderNum + title;
+            //use Object.assign to make a copy of the object
+            //this prevents overwriting the original object in future modifications
             currObj[modTitle] = Object.assign(classObj);
             currObj[modTitle]["next"] = {};
             determineRequirements(child, currObj[modTitle]);
             if (classObj["associationList"]){
                 getAssociations(object, classObj["associationList"], currObj[modTitle]["next"], 0);
             }
-            insertStep($("#wizard"), INDEX, currObj[modTitle]);
-            INDEX += 1;
+            //insertStep($("#wizard"), INDEX, currObj[modTitle]);
+            //INDEX += 1;
         }
         orderNum += 1;
     }
 }
 /*
-* Due to the structure and labelling within the PDS JSON, there are
-* some special cases that need to be handled accordingly (in order
-* to properly match associations to other objects).
+* Due to some inconsistencies in the structure and labelling within the PDS JSON, there are
+* some special cases that need to be handled accordingly (in order to properly match
+* associations to other objects).
 * @param {string} title title of an object to search for
 * @return {string} adjusted title for the special case
  */
@@ -136,6 +141,7 @@ function getClass(object, className){
             var classDict = dataDict["classDictionary"];
             for (var key in classDict){
                 var classObj = classDict[key]["class"];
+                //must convert to lower case to accurately compare across inconsistencies in PDS
                 if (classObj["title"].toLowerCase() === className.toLowerCase()){
                     return (classObj);
                 }
@@ -156,6 +162,7 @@ function getAttribute(object, attribute){
             var attrDict = dataDict["attributeDictionary"];
             for (var key in attrDict){
                 var attrObj = attrDict[key]["attribute"];
+                //must convert to lower case to accurately compare across inconsistencies in PDS
                 if (attrObj["title"].toLowerCase() === attribute.toLowerCase()){
                     return (attrObj);
                 }
