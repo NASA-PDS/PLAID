@@ -98,7 +98,8 @@ function setOneElementBarStyle(counter) {
         $(counter).siblings(".element-bar-button").children(".element-bar-minus").prop('disabled', true);
     } else if (val === max) {
         $(counter).siblings(".element-bar-button").children(".element-bar-plus").prop('disabled', true);
-    } else if (val > min) {
+    }
+    if (val > min) {
         $(counter).siblings(".element-bar-button").children(".element-bar-minus").prop('disabled', false);
     } else if (val < max) {
         $(counter).siblings(".element-bar-button").children(".element-bar-plus").prop('disabled', false);
