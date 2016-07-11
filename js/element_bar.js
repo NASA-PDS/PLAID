@@ -48,7 +48,7 @@ function preventInput(event) {
 function validateInput() {
     var prevVal = $(this).attr('prevValue');
     var currVal = $(this).val();
-    if (parseInt($(this).val()) > $(this).attr('max')) {
+    if (parseInt(currVal) > $(this).attr('max') || parseInt(currVal) < $(this).attr('min')) {
         $(this).val(prevVal);
     } else if (prevVal !== currVal) {
         if (currVal !== "") {
@@ -98,7 +98,8 @@ function setOneElementBarStyle(counter) {
         $(counter).siblings(".element-bar-button").children(".element-bar-minus").prop('disabled', true);
     } else if (val === max) {
         $(counter).siblings(".element-bar-button").children(".element-bar-plus").prop('disabled', true);
-    } else if (val > min) {
+    }
+    if (val > min) {
         $(counter).siblings(".element-bar-button").children(".element-bar-minus").prop('disabled', false);
     } else if (val < max) {
         $(counter).siblings(".element-bar-button").children(".element-bar-plus").prop('disabled', false);
