@@ -1,6 +1,8 @@
 /**
  * Created by morse on 7/5/16.
  */
+//store PRODUCTOBJ as a global for reference in init_steps.js
+PRODUCTOBJ = {};
 $(document).ready(function(){
     JSONOBJ = getJSON(filePaths.PDS4_JSON);
 });
@@ -75,10 +77,8 @@ function handleProduct(overallObj, product){
     var assocList = product["associationList"];
     var productObj = {};
     getAssociations(overallObj, assocList, productObj, 0);
+    PRODUCTOBJ = productObj;
     //this adds the first level of steps to the wizard
-    //TODO: determine when/how to insert the next level of steps
-    //TODO(cont): will need to track current level in the object
-    //TODO(cont): also, be able to back out to previous level(s) once the user finishes a level
     insertLevelOfSteps(1, productObj);
 }
 /*
@@ -113,6 +113,7 @@ function getAssociations(object, associationList, currObj, orderNum){
             determineRequirements(child, currObj[modTitle]);
             if (classObj["associationList"]){
                 getAssociations(object, classObj["associationList"], currObj[modTitle]["next"], 0);
+                assignObjectPath(currObj[modTitle], currObj[modTitle]["next"]);
             }
         }
         orderNum += 1;
@@ -140,6 +141,25 @@ function handleSpecialCases(title){
         title = title.replace("_supplemental", "");
     }
     return title;
+}
+/*
+* Recursively add an attribute to each element in the overall object that specifies
+* the path (in terms of the hierarchy) from the root of the object to that element.
+* This function is recursive to revert incorrect ordering from original call.
+* @param {Object} currentObject to get preceding path from
+* @param {Object} children to add full path to
+ */
+function assignObjectPath(currObject, children){
+    if (currObject["path"] === undefined){
+        currObject["path"] = currObject["title"];
+    }
+    var path = currObject["path"];
+    for (var key in children){
+        children[key]["path"] = path + "-" + children[key]["title"];
+        if (children[key]["next"]){
+            assignObjectPath(children[key], children[key]["next"]);
+        }
+    }
 }
 /*
 * Using the values stored in the association list objects (assocMention), determine
