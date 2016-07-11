@@ -139,9 +139,10 @@ function insertLevelOfSteps(currIndex, dataObj){
 * @param {Object} dataObj object containing the PDS data to generate content from
  */
 function insertStep(wizard, index, dataObj){
+    var title = dataObj["title"].replace(/_/g, " ");
     wizard.steps("insert", index, {
-        title: dataObj["title"],
-        content: generateContent(dataObj["title"], dataObj["next"])
+        title: title,
+        content: generateContent(title, dataObj["next"])
     });
 }
 /*
@@ -174,7 +175,7 @@ function createElementBar(dataObj){
 
     var label = document.createElement("span");
     label.className = "input-group-addon element-bar-label";
-    label.innerHTML = dataObj["title"];
+    label.innerHTML = dataObj["title"].replace(/_/g, " ");
     elementBar.appendChild(label);
 
     var minusBtn = createControlButton("minus");
