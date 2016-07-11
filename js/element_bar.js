@@ -48,7 +48,7 @@ function preventInput(event) {
 function validateInput() {
     var prevVal = $(this).attr('prevValue');
     var currVal = $(this).val();
-    if (parseInt($(this).val()) > $(this).attr('max')) {
+    if (parseInt(currVal) > $(this).attr('max') || parseInt(currVal) < $(this).attr('min')) {
         $(this).val(prevVal);
     } else if (prevVal !== currVal) {
         if (currVal !== "") {
