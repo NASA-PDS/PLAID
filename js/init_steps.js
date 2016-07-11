@@ -38,6 +38,9 @@ var settings = {
     /* Events */
     onStepChanging: function (event, currentIndex, newIndex) {
         $("#help").fadeOut(200);
+        if (currentIndex < newIndex){
+            handleStepAddition(currentIndex, newIndex);
+        }
         return true;
     },
     onStepChanged: function (event, currentIndex, priorIndex) {
@@ -84,6 +87,40 @@ function match_wizard_height(wizard, sidebar){
     });
 }
 /*
+* Handles the dynamic creation of new steps populated with data from the product
+* object created from the PDS4 JSON. This function looks up the corresponding object
+* for each element bar in a step, checks if the user opted to add that object and that
+* the object has options underneath it, and adds a new step accordingly.
+* @param {number} currentIndex for the current step in the wizard
+* @param {number} newIndex for the next step in the wizard
+ */
+function handleStepAddition(currentIndex, newIndex){
+    var insertionIndex = newIndex;
+    var currSection = $("#wizard-p-" + currentIndex.toString());
+    if ($(".optional-section", currSection)){
+        $(".element-bar", currSection).each(function(){
+            var id = $(this).attr("id");
+            var elementKeys = id.split("-");
+            var currObj = PRODUCTOBJ;
+            for (var index in elementKeys){
+                var regex = new RegExp("[0-9]+" + elementKeys[index].toLowerCase());
+                for (var key in currObj){
+                    if (key.match(regex)){
+                        currObj = currObj[key];
+                        break;
+                    }
+                }
+                if (index < elementKeys.length-1) { currObj = currObj["next"]; }
+            }
+            var val = $(".element-bar-counter", this).val();
+            if (val !== "0" && !areAllRequired(currObj["next"])){
+                insertStep($("#wizard"), insertionIndex, currObj)
+                insertionIndex +=1;
+            }
+        });
+    }
+}
+/*
 * Insert a batch of steps corresponding to the same level in the object hierarchy.
 * @param {Number} currentIndex zero-based index corresponding to step position in wizard
 * @param {Object} dataObj object containing the PDS data to generate content from
@@ -104,20 +141,21 @@ function insertLevelOfSteps(currIndex, dataObj){
 function insertStep(wizard, index, dataObj){
     wizard.steps("insert", index, {
         title: dataObj["title"],
-        content: generateContent(dataObj["next"])
+        content: generateContent(dataObj["title"], dataObj["next"])
     });
 }
 /*
 * Generate the content section for a new step in the wizard.
+* @param {string} sectionTitle title of the current section from object data
 * @param {Object} dataObj object containing the PDS data to generate content from
 * @return {HTML element} section
  */
-function generateContent(dataObj){
+function generateContent(sectionTitle, dataObj){
     var section = document.createElement("div");
     section.className = "optional-section";
     var question = document.createElement("p");
     question.className = "question";
-    question.innerHTML = "What elements do you want to keep?";
+    question.innerHTML = "What elements do you want to keep in '" + sectionTitle + "'?";
     section.appendChild(question);
     for (var key in dataObj){
         section.appendChild(createElementBar(dataObj[key]));
@@ -132,6 +170,7 @@ function generateContent(dataObj){
 function createElementBar(dataObj){
     var elementBar = document.createElement("div");
     elementBar.className = "input-group element-bar";
+    elementBar.id = dataObj["path"];
 
     var label = document.createElement("span");
     label.className = "input-group-addon element-bar-label";
@@ -216,4 +255,20 @@ function createCounterInput(dataObj){
     $(counter).focusout(releaseValue);
 
     return counter;
+}
+/*
+* Looks through all of the children of some object and checks to see if they are all
+* required. If they are, return true. If not, return false.
+* @param {Object} children
+* @return {Bool}
+ */
+function areAllRequired(children){
+    var retval = true;
+    for (var key in children){
+        if (!children[key]["isRequired"]){
+            retval = false;
+            break;
+        }
+    }
+    return retval;
 }
