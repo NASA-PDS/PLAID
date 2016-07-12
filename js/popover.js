@@ -37,22 +37,9 @@ var dict = {
 * the content for the popover is parsed out of the dict object.
 */
 function initPopovers(){
-    $('.element-bar').each(function(){
-        var includeSpecifier = true;
-        var title = $(this).find(".element-bar-label").html();
-        if (title === undefined){
-            title = $(this).find(".productType").html();
-            includeSpecifier = false;
-        }
+    $('.label-item').each(function(){
+        var title = $(this).find(".productType").html();
         var key = title.trim().replace(/\b\s\b/g, "_").toLowerCase();
-        if (includeSpecifier){
-            if ($(this).children(".element-bar-label").hasClass("required")){
-                title += " (Required)";
-            }
-            else {
-                title += " (Optional)";
-            }
-        }
         $(this).popover({
             container: "body",
             html: true,
@@ -60,5 +47,35 @@ function initPopovers(){
             content: dict[key],
             trigger: "hover"
         });
+    });
+}
+/*
+* Called to dynamically add popovers as elements are added to the wizard.
+* Uses data from the corresponding objects.
+* @param {HTML element} element to add the popover to
+* @param {Object} data object containing info for the popover
+* @param {string} min info from element denoting minimum occurrences of the object
+* @param {string} max info from element denoting maximum occurrences of the object
+ */
+function addPopover(element, data, min, max){
+    if (max === "9999999999"){ max = "unbounded"; }
+    var title = data["title"].replace(/_/g, " ");
+    var description = "";
+    if (data["isRequired"]){
+        title += " (Required)";
+        description = data["description"];
+    }
+    else {
+        title += " (Optional)";
+        min = "<b>Min: " + min + "</b><br/>";
+        max = "<b>Max: " + max + "</b><br/>";
+        description = min + max + data["description"];
+    }
+    $(element).popover({
+        container: "body",
+        html: true,
+        title: title,
+        content: description,
+        trigger: "hover"
     });
 }

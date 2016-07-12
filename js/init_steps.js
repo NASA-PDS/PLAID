@@ -200,6 +200,8 @@ function createElementBar(dataObj){
 
     elementBar.appendChild(plusBtn);
 
+    addPopover(elementBar, dataObj, $(counter).prop("min"), $(counter).prop("max"));
+
     return elementBar;
 }
 /*
