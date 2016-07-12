@@ -146,6 +146,9 @@ function handleSpecialCases(title){
 * Recursively add an attribute to each element in the overall object that specifies
 * the path (in terms of the hierarchy) from the root of the object to that element.
 * This function is recursive to revert incorrect ordering from original call.
+* Note: Since this function goes through all the children of an object, it also checks
+* to see if any of the children are optional and sets the "allChildrenRequired" attribute
+* accordingly.
 * @param {Object} currentObject to get preceding path from
 * @param {Object} children to add full path to
  */
@@ -154,7 +157,9 @@ function assignObjectPath(currObject, children){
         currObject["path"] = currObject["title"];
     }
     var path = currObject["path"];
+    currObject["allChildrenRequired"] = true;
     for (var key in children){
+        if (!children[key]["isRequired"]) { currObject["allChildrenRequired"] = false; }
         children[key]["path"] = path + "-" + children[key]["title"];
         if (children[key]["next"]){
             assignObjectPath(children[key], children[key]["next"]);

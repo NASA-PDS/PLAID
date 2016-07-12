@@ -113,7 +113,14 @@ function handleStepAddition(currentIndex, newIndex){
                 if (index < elementKeys.length-1) { currObj = currObj["next"]; }
             }
             var val = $(".element-bar-counter", this).val();
-            if (val !== "0" && !areAllRequired(currObj["next"])){
+            //the following handles three checks:
+            //- if the counter value (val) is not 0, then the user added an instance of the element
+            //- if the "allChildrenRequired" property is not undefined, then it is a class with children (not an attribute)
+            //- if the "allChildrenRequired" property is false, then there are optional children
+            // if all of these checks are true, then insert a step for the current object/element
+            if (val !== "0" &&
+                currObj["allChildrenRequired"] !== undefined &&
+                !currObj["allChildrenRequired"]){
                 insertStep($("#wizard"), insertionIndex, currObj)
                 insertionIndex +=1;
             }
@@ -256,20 +263,4 @@ function createCounterInput(dataObj){
     $(counter).focusout(releaseValue);
 
     return counter;
-}
-/*
-* Looks through all of the children of some object and checks to see if they are all
-* required. If they are, return true. If not, return false.
-* @param {Object} children
-* @return {Bool}
- */
-function areAllRequired(children){
-    var retval = true;
-    for (var key in children){
-        if (!children[key]["isRequired"]){
-            retval = false;
-            break;
-        }
-    }
-    return retval;
 }
