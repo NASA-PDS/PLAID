@@ -24,7 +24,6 @@ function captureSelection(){
     //this value will either be returned or stored for use later
     //temporarily being written out to the console
     var selection = $(".productType", element)[0].textContent;
-    console.log(selection);
     var product = "Product_" + selection.replace(/\b\s\b/, "_");
     getElement(JSONOBJ, "product", "classDictionary", product);
 }
