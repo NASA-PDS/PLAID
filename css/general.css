@@ -152,6 +152,10 @@ input::-webkit-inner-spin-button {
     font-size: large;
 }
 
+div.steps {
+    overflow: auto;
+}
+
 .zero-instances {
     opacity: 0.3;
 }

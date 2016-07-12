@@ -82,9 +82,8 @@ function init_steps_object(wizard) {
  * @param {object} sidebar
  */
 function match_wizard_height(wizard, sidebar){
-    $(document).ready(function() {
-        $(sidebar).css("height", $(wizard).height());
-    });
+    $(sidebar).css("height", $(wizard).height());
+    $("div.steps").css("height", $(wizard).height());
 }
 /*
 * Handles the dynamic creation of new steps populated with data from the product
