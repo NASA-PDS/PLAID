@@ -23,9 +23,8 @@ function captureSelection(){
     $(element).addClass("active");
     //this value will either be returned or stored for use later
     //temporarily being written out to the console
-    var selection = $(".productType", element)[0].textContent;
-    var product = "Product_" + selection.replace(/\b\s\b/, "_");
-    getElement(JSONOBJ, "product", "classDictionary", product);
+    var selection = $(".productType", element).attr("data-id");
+    getElement(JSONOBJ, "product", "classDictionary", selection);
 }
 /*
  * Helper function to remove the active class from all elements.

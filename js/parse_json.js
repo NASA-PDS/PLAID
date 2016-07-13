@@ -42,7 +42,7 @@ function getJSON(file){
  * @param {Object} object object to search through
  * @param {string} type ["class" | "attribute" | "product"]
  * @param {string} dictName name of the dictionary to search in
- * @param {string} elementName name of the element to search for
+ * @param {string} elementName id/name of the element to search for
  * @return {Object} object corresponding to the specified class name
  */
 function getElement(outerObj, type, dictName, elementName){
@@ -53,8 +53,7 @@ function getElement(outerObj, type, dictName, elementName){
             for (var key in dict){
                 var specifier = dictName.replace("Dictionary", "");
                 var innerObj = dict[key][specifier];
-                //must convert to lower case to accurately compare across inconsistencies in PDS
-                if (innerObj["title"].toLowerCase() === elementName.toLowerCase()){
+                if (innerObj["identifier"] === elementName){
                     if (type === "class" || type === "attribute"){
                         return innerObj;
                     }
@@ -82,8 +81,7 @@ function handleProduct(overallObj, product){
     insertLevelOfSteps(1, productObj);
 }
 /*
-* Recursively search for associations to a class. Has to handle
-* some special cases due to the structure of the PDS XML/JSON.
+* Recursively search for associations to a class.
 * @param {Object} object JSON object to search through
 * @param {array} associationList list of association objects to search for
 * @param {Object} currObj object to store each child of the overall product type, maintaining relations
@@ -95,16 +93,19 @@ function handleProduct(overallObj, product){
 function getAssociations(object, associationList, currObj, orderNum){
     for (var index in associationList){
         var child = associationList[index]["association"];
-        var title = child["title"];
         var isAttr = (child["isAttribute"] === "true");
+        var identifier = "", title = "";
         if (isAttr){
-            var attr = getElement(object, "attribute", "attributeDictionary", title);
+            identifier = child["attributeIdentifier"][0];
+            title = identifier.split(".").pop();
+            var attr = getElement(object, "attribute", "attributeDictionary", identifier);
             currObj[orderNum + title] = attr;
             determineRequirements(child, currObj[orderNum + title]);
         }
         else{
-            title = handleSpecialCases(title);
-            var classObj = getElement(object, "class", "classDictionary", title);
+            identifier = child["classIdentifier"][0];
+            title = identifier.split(".").pop();
+            var classObj = getElement(object, "class", "classDictionary", identifier);
             var modTitle = orderNum + title;
             //use Object.assign to make a copy of the object
             //this prevents overwriting the original object in future modifications
@@ -118,29 +119,6 @@ function getAssociations(object, associationList, currObj, orderNum){
         }
         orderNum += 1;
     }
-}
-/*
-* Due to some inconsistencies in the structure and labelling within the PDS JSON, there are
-* some special cases that need to be handled accordingly (in order to properly match
-* associations to other objects).
-* @param {string} title title of an object to search for
-* @return {string} adjusted title for the special case
- */
-function handleSpecialCases(title){
-    var regex = new RegExp("has_");
-    if (title.match(regex)){
-        title = title.replace("has_", "");
-    }
-    if (title === "primary_result_description"){
-        title = title.replace("description", "summary");
-    }
-    else if (title === "Science_Facet"){
-        title += "s";
-    }
-    else if (title === "file_area_supplemental"){
-        title = title.replace("_supplemental", "");
-    }
-    return title;
 }
 /*
 * Recursively add an attribute to each element in the overall object that specifies

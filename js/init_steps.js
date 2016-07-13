@@ -102,7 +102,7 @@ function handleStepAddition(currentIndex, newIndex){
             var elementKeys = id.split("-");
             var currObj = PRODUCTOBJ;
             for (var index in elementKeys){
-                var regex = new RegExp("[0-9]+" + elementKeys[index].toLowerCase());
+                var regex = new RegExp("[0-9]+" + elementKeys[index]);
                 for (var key in currObj){
                     if (key.match(regex)){
                         currObj = currObj[key];
