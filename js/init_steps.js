@@ -117,11 +117,16 @@ function handleStepAddition(currentIndex, newIndex){
             //- if the "allChildrenRequired" property is not undefined, then it is a class with children (not an attribute)
             //- if the "allChildrenRequired" property is false, then there are optional children
             // if all of these checks are true, then insert a step for the current object/element
-            if (val !== "0" &&
-                currObj["allChildrenRequired"] !== undefined &&
-                !currObj["allChildrenRequired"]){
-                insertStep($("#wizard"), insertionIndex, currObj)
-                insertionIndex +=1;
+            if (val !== "0" && true) {
+
+                var quantity = val - $(".element-bar-counter", this).attr("min");
+                updateLabel(id, quantity);
+
+                if (currObj["allChildrenRequired"] !== undefined &&
+                    !currObj["allChildrenRequired"]) {
+                    insertStep($("#wizard"), insertionIndex, currObj)
+                    insertionIndex += 1;
+                }
             }
         });
     }
@@ -264,4 +269,11 @@ function createCounterInput(dataObj){
     $(counter).focusout(releaseValue);
 
     return counter;
+}
+
+/*
+ * 
+ */
+function updateLabel(path, quantity) {
+    $.post("xml_mutator.php", {Function: addNode, Data: [{path:path, quantity:quantity}] });
 }
