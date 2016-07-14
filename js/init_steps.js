@@ -99,7 +99,7 @@ function handleStepAddition(currentIndex, newIndex){
     if ($(".optional-section", currSection)){
         $(".element-bar", currSection).each(function(){
             var id = $(this).attr("id");
-            var elementKeys = id.split("-");
+            var elementKeys = id.split("/");
             var currObj = PRODUCTOBJ;
             for (var index in elementKeys){
                 var regex = new RegExp("[0-9]+" + elementKeys[index]);
