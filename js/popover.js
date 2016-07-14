@@ -71,10 +71,6 @@ function addPopover(element, data, min, max){
         max = "<b>Max: " + max + "</b><br/>";
         description = min + max + data["description"];
     }
-    if(data["next"]){ description += "<br/><b>Sub-elements: </b><br/>"; }
-    for (var key in data["next"]){
-        description += "<i>- " + data["next"][key]["title"] + "</i><br/>";
-    }
     $(element).popover({
         container: "body",
         html: true,
