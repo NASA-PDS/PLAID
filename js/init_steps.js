@@ -275,5 +275,7 @@ function createCounterInput(dataObj){
  * 
  */
 function updateLabel(path, quantity) {
-    $.post("xml_mutator.php", {Function: addNode, Data: [{path:path, quantity:quantity}] });
+    $.post("php/xml_mutator.php", {Function: "addNode", Data: [{path:path, quantity:quantity}] }).done(function(data){
+        console.log(data);
+    });
 }

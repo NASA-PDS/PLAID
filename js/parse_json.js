@@ -138,7 +138,7 @@ function assignObjectPath(currObject, children){
     currObject["allChildrenRequired"] = true;
     for (var key in children){
         if (!children[key]["isRequired"]) { currObject["allChildrenRequired"] = false; }
-        children[key]["path"] = path + "-" + children[key]["title"];
+        children[key]["path"] = path + "/" + children[key]["title"];
         if (children[key]["next"]){
             assignObjectPath(children[key], children[key]["next"]);
         }
