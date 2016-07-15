@@ -98,7 +98,7 @@ function handleStepAddition(currentIndex, newIndex){
     var insertionIndex = newIndex;
     var currSection = $("#wizard-p-" + currentIndex.toString());
     if ($(".optional-section", currSection)){
-        $(".element-bar", currSection).each(function(){
+        $(".element-bar:not(.stepAdded)", currSection).each(function(){
             var id = $(this).attr("id");
             var elementKeys = id.split("/");
             var currObj = PRODUCTOBJ;
@@ -124,6 +124,7 @@ function handleStepAddition(currentIndex, newIndex){
                 insertStep($("#wizard"), insertionIndex, currObj)
                 insertionIndex +=1;
             }
+            $(this).addClass("stepAdded");
         });
     }
 }
