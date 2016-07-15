@@ -21,10 +21,10 @@ function captureSelection(){
     var element = $(this)[0];
     clearActiveElements();
     $(element).addClass("active");
-    //this value will either be returned or stored for use later
-    //temporarily being written out to the console
     var selection = $(".productType", element).attr("data-id");
     getElement(JSONOBJ, "product", "classDictionary", selection);
+    //auto-advance to the next step after capturing the user's product selection
+    $("#wizard").steps("next");
 }
 /*
  * Helper function to remove the active class from all elements.
