@@ -94,6 +94,16 @@ td {
     text-align: center;
 }
 
+.checkbox-item {
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: .25rem;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
@@ -150,6 +160,11 @@ input::-webkit-inner-spin-button {
 .question {
     font-weight: bold;
     font-size: large;
+}
+
+.spacer {
+   margin-right: 0.2rem;
+   margin-left: 0.2rem;
 }
 
 div.steps {
