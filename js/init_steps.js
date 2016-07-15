@@ -40,6 +40,7 @@ var settings = {
         $("#help").fadeOut(200);
         if (currentIndex < newIndex){
             handleStepAddition(currentIndex, newIndex);
+            discNodesSelection(currentIndex);
         }
         return true;
     },
