@@ -3,9 +3,6 @@ iframe {
     border: none;
     font-family: Helvetica;
 }
-section {
-    overflow: auto;
-}
 table {
     width: 100%;
 }
@@ -102,6 +99,11 @@ td {
     border-radius: .25rem;
 }
 
+.data-section {
+    height: inherit;
+    overflow: auto;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
@@ -153,6 +155,10 @@ input::-webkit-inner-spin-button {
     -webkit-border-radius: 0rem;
     -moz-border-radius: 0rem;
     border-radius: 0rem;
+}
+
+.optional-section {
+    height: inherit;
 }
 
 .question {

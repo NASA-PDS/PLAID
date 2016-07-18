@@ -166,9 +166,12 @@ function generateContent(sectionTitle, dataObj){
     question.className = "question";
     question.innerHTML = "What elements do you want to keep in '" + sectionTitle + "'?";
     section.appendChild(question);
+    var subsection = document.createElement("div");
+    subsection.className = "data-section";
     for (var key in dataObj){
-        section.appendChild(createElementBar(dataObj[key]));
+        subsection.appendChild(createElementBar(dataObj[key]));
     }
+    section.appendChild(subsection);
     return section;
 }
 /*
