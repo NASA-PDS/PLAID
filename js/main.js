@@ -33,17 +33,6 @@ function clearActiveElements(){
     $(".active").removeClass("active");
 }
 /*
- * When the user hovers over an option in the wizard pane,
- * display a description of that option in the details pane.
- */
-function previewDetails(){
-    var details = $("#details")[0];
-    var selection = $(this)[0].textContent;
-    details.innerHTML = "<h6>" + selection + ":</h6>";
-    var filepath = formFilePath(selection, "descriptions/product_types/");
-    loadDescriptionFromFile(filepath, "#details");
-}
-/*
  * Parse out the title of the current step and use that to determine
  * which text file to pull the description from for the help pane.
  */
