@@ -55,8 +55,8 @@ function addPopover(element, data, min, max){
     }
     else {
         title += " (Optional)";
-        min = "<b>Min: " + min + "</b><br/>";
-        max = "<b>Max: " + max + "</b><br/>";
+        min = "<b>Min Occurrences: " + min + "</b><br/>";
+        max = "<b>Max Occurrences: " + max + "</b><br/>";
         description = min + max + data["description"];
     }
     if(data["next"]){ description += "<br/><b>Sub-elements: </b><br/>"; }
