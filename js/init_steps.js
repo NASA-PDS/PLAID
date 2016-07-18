@@ -170,7 +170,10 @@ function generateContent(sectionTitle, dataObj){
     var subsection = document.createElement("div");
     subsection.className = "data-section";
     for (var key in dataObj){
-        subsection.appendChild(createElementBar(dataObj[key]));
+        if (dataObj[key]["title"] !== "Mission_Area" &&
+            dataObj[key]["title"] !== "Discipline_Area"){
+            subsection.appendChild(createElementBar(dataObj[key]));
+        }
     }
     section.appendChild(subsection);
     return section;
