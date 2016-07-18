@@ -71,3 +71,11 @@ function addPopover(element, data, min, max){
         trigger: "hover"
     });
 }
+/*
+* Sometimes popovers remain on the page after the user has stopped hovering
+* over the corresponding element. This will hide all remaining popovers.
+ */
+function removePopovers(){
+    $(".label-item").popover('hide');
+    $(".element-bar").popover('hide');
+}
