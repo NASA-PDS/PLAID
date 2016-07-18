@@ -1,1 +1,0 @@
-A basic product identifying a single logical document, such as a description of an instrument or even a user’s manual.
