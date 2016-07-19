@@ -177,16 +177,11 @@ function generateContent(sectionTitle, dataObj){
             if (dataObj[index].length === 1){
                 if (currObj["title"] !== "Mission_Area" &&
                     currObj["title"] !== "Discipline_Area"){
-                    subsection.appendChild(createElementBar(currObj, createLabel));
+                    subsection.appendChild(createElementBar(currObj, createLabel, false));
                 }
             }
             else {
-                //only need to create one element bar per list of options
-                //so reverse the flag value after executing this conditional once
-                if (!flag){
-                    subsection.appendChild(createElementBar(dataObj[index], createDropdown));
-                    flag = true;
-                }
+                subsection.appendChild(createElementBar(currObj, createLabel, true));
             }
             getAssociations(JSONOBJ, currObj["associationList"], currObj["next"]);
             assignObjectPath(null, currObj, currObj["next"]);
@@ -201,7 +196,7 @@ function generateContent(sectionTitle, dataObj){
 * @param {function} genLabel function to create the label portion of the element-bar
 * @return {HTML element} elementBar
  */
-function createElementBar(data, genLabel){
+function createElementBar(data, genLabel, isChoice){
     var defaultObj, param;
     if (Array.isArray(data)){
         defaultObj = data[Object.keys(data)[0]];
@@ -215,7 +210,7 @@ function createElementBar(data, genLabel){
     elementBar.className = "input-group element-bar";
     elementBar.id = defaultObj["path"];
 
-    var label = genLabel(param);
+    var label = genLabel(param, isChoice);
     elementBar.appendChild(label);
 
     var minusBtn = createControlButton("minus");
@@ -243,38 +238,17 @@ function createElementBar(data, genLabel){
  * @param {string} text
  * @return {HTML Element} label
  */
-function createLabel(text){
+function createLabel(text, isChoice){
     var label = document.createElement("span");
     label.className = "input-group-addon element-bar-label";
-    label.innerHTML = text.replace(/_/g, " ");
-    return label;
-}
-/*
- * Create a dropdown with options from the specified data object.
- * @param {Object} data
- * @return {HTML Element} span contains dropdown
- */
-function createDropdown(data){
-    var span = document.createElement("span");
-    span.className = "input-group-addon";
-    var dropdown = document.createElement("select");
-    dropdown.className = "element-bar-label";
-    for (var key in data){
-        var option = document.createElement("option");
-        option.value = data[key]["title"];
-        option.innerHTML = data[key]["title"].replace(/_/g, " ");
-        option.id = data[key]["path"];
-        dropdown.appendChild(option);
+    if (isChoice) {
+        label.innerHTML = "<i>" + text.replace(/_/g, " ") + " °</i>";
+        label.className += " option";
     }
-    $(dropdown).change(function(){
-        var elementBar = $(this).parents(".element-bar")[0];
-        var selectedOption = $("option:selected", this)[0];
-        elementBar.id = selectedOption.id;
-        /*$(elementBar).popover('destroy');
-         addPopover(elementBar, data[selectedOption.value], $(counter).prop("min"), $(counter).prop("max"));*/
-    });
-    span.appendChild(dropdown);
-    return span;
+    else {
+        label.innerHTML = text.replace(/_/g, " ");
+    }
+    return label;
 }
 /*
 * Create a plus/minus button for controlling the form in an element-bar.
