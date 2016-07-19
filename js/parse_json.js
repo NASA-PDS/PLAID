@@ -74,19 +74,17 @@ function getElement(outerObj, type, dictName, elementName){
  */
 function handleProduct(overallObj, product){
     var assocList = product["associationList"];
-    var productObj = {};
-    getAssociations(overallObj, assocList, productObj);
-    for (var index in productObj){
-        for (var key in productObj[index]){
-            var currObj = productObj[index][key];
+    getAssociations(overallObj, assocList, PRODUCTOBJ);
+    for (var index in PRODUCTOBJ){
+        for (var key in PRODUCTOBJ[index]){
+            var currObj = PRODUCTOBJ[index][key];
             getAssociations(overallObj, currObj["associationList"], currObj["next"]);
             assignObjectPath(index, currObj, currObj["next"]);
         }
     }
-    PRODUCTOBJ = productObj;
-    console.log(productObj);
+    console.log(PRODUCTOBJ);
     //this adds the first level of steps to the wizard
-    insertLevelOfSteps(1, productObj);
+    insertLevelOfSteps(1, PRODUCTOBJ);
 }
 /*
 * Search for and form associations in the new object from the overall object.
