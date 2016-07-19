@@ -42,6 +42,9 @@ var settings = {
             handleStepAddition(currentIndex, newIndex);
             discNodesSelection(currentIndex);
         }
+        else if (newIndex === 0 && currentIndex > newIndex){
+            return false;
+        }
         removePopovers();
         return true;
     },
