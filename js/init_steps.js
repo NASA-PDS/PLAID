@@ -116,7 +116,7 @@ function handleStepAddition(currentIndex, newIndex){
             if (val !== "0" &&
                 currObj["allChildrenRequired"] !== undefined &&
                 !currObj["allChildrenRequired"]){
-                insertStep($("#wizard"), insertionIndex, currObj)
+                insertStep($("#wizard"), insertionIndex, currObj);
                 insertionIndex +=1;
             }
             $(this).addClass("stepAdded");
@@ -173,20 +173,23 @@ function generateContent(sectionTitle, dataObj){
         dataObj[index].length = counter;
         key = "";
         for (key in dataObj[index]){
+            var currObj = dataObj[index][key];
             if (dataObj[index].length === 1){
-                if (dataObj[index][key]["title"] !== "Mission_Area" &&
-                    dataObj[index][key]["title"] !== "Discipline_Area"){
-                    subsection.appendChild(createElementBar(dataObj[index][key]));
+                if (currObj["title"] !== "Mission_Area" &&
+                    currObj["title"] !== "Discipline_Area"){
+                    subsection.appendChild(createElementBar(currObj, createLabel));
                 }
             }
             else {
+                //only need to create one element bar per list of options
+                //so reverse the flag value after executing this conditional once
                 if (!flag){
-                    subsection.appendChild(createOptionElementBar(dataObj[index]));
+                    subsection.appendChild(createElementBar(dataObj[index], createDropdown));
                     flag = true;
                 }
             }
-            getAssociations(JSONOBJ, dataObj[index][key]["associationList"], dataObj[index][key]["next"], 0);
-            assignObjectPath(null, dataObj[index][key], dataObj[index][key]["next"]);
+            getAssociations(JSONOBJ, currObj["associationList"], currObj["next"]);
+            assignObjectPath(null, currObj, currObj["next"]);
         }
     }
     section.appendChild(subsection);
@@ -194,24 +197,32 @@ function generateContent(sectionTitle, dataObj){
 }
 /*
 * Create an element-bar populated with data from the specified object.
-* @param {Object} dataObj object containing the PDS data to generate content from
+* @param {list|object} data either a list of data objects or single data object
+* @param {function} genLabel function to create the label portion of the element-bar
 * @return {HTML element} elementBar
  */
-function createElementBar(dataObj){
+function createElementBar(data, genLabel){
+    var defaultObj, param;
+    if (Array.isArray(data)){
+        defaultObj = data[Object.keys(data)[0]];
+        param = data;
+    }
+    else {
+        defaultObj = data;
+        param = defaultObj["title"];
+    }
     var elementBar = document.createElement("div");
     elementBar.className = "input-group element-bar";
-    elementBar.id = dataObj["path"];
+    elementBar.id = defaultObj["path"];
 
-    var label = document.createElement("span");
-    label.className = "input-group-addon element-bar-label";
-    label.innerHTML = dataObj["title"].replace(/_/g, " ");
+    var label = genLabel(param);
     elementBar.appendChild(label);
 
     var minusBtn = createControlButton("minus");
     elementBar.appendChild(minusBtn);
     var plusBtn = createControlButton("plus");
 
-    var counter = createCounterInput(dataObj);
+    var counter = createCounterInput(defaultObj);
     if ($(counter).prop("value") === $(counter).prop("max")){
         $("button", plusBtn).prop("disabled", true);
     }
@@ -223,45 +234,47 @@ function createElementBar(dataObj){
 
     elementBar.appendChild(plusBtn);
 
-    addPopover(elementBar, dataObj, $(counter).prop("min"), $(counter).prop("max"));
+    addPopover(elementBar, defaultObj, $(counter).prop("min"), $(counter).prop("max"));
 
     return elementBar;
 }
-function createOptionElementBar(dataList){
-    var elementBar = document.createElement("div");
-    elementBar.className = "input-group element-bar";
-    //elementBar.id = dataObj["path"];
-
-    var label = document.createElement("select");
+/*
+ * Create a span to act as a label with the specified text.
+ * @param {string} text
+ * @return {HTML Element} label
+ */
+function createLabel(text){
+    var label = document.createElement("span");
     label.className = "input-group-addon element-bar-label";
-    for (var key in dataList){
+    label.innerHTML = text.replace(/_/g, " ");
+    return label;
+}
+/*
+ * Create a dropdown with options from the specified data object.
+ * @param {Object} data
+ * @return {HTML Element} span contains dropdown
+ */
+function createDropdown(data){
+    var span = document.createElement("span");
+    span.className = "input-group-addon";
+    var dropdown = document.createElement("select");
+    dropdown.className = "element-bar-label";
+    for (var key in data){
         var option = document.createElement("option");
-        option.value = dataList[key]["title"];
-        option.innerHTML = dataList[key]["title"].replace(/_/g, " ");
-        label.appendChild(option);
+        option.value = data[key]["title"];
+        option.innerHTML = data[key]["title"].replace(/_/g, " ");
+        option.id = data[key]["path"];
+        dropdown.appendChild(option);
     }
-    elementBar.appendChild(label);
-    elementBar.id = dataList[key]["path"];
-
-    var minusBtn = createControlButton("minus");
-    elementBar.appendChild(minusBtn);
-    var plusBtn = createControlButton("plus");
-
-    var counter = createCounterInput(dataList[key]);
-    if ($(counter).prop("value") === $(counter).prop("max")){
-        $("button", plusBtn).prop("disabled", true);
-    }
-    if ($(counter).prop("min") === "0") {
-        label.className += " zero-instances";
-    }
-    $("button", minusBtn).prop("disabled", true);
-    elementBar.appendChild(counter);
-
-    elementBar.appendChild(plusBtn);
-
-    //addPopover(elementBar, dataObj, $(counter).prop("min"), $(counter).prop("max"));
-
-    return elementBar;
+    $(dropdown).change(function(){
+        var elementBar = $(this).parents(".element-bar")[0];
+        var selectedOption = $("option:selected", this)[0];
+        elementBar.id = selectedOption.id;
+        /*$(elementBar).popover('destroy');
+         addPopover(elementBar, data[selectedOption.value], $(counter).prop("min"), $(counter).prop("max"));*/
+    });
+    span.appendChild(dropdown);
+    return span;
 }
 /*
 * Create a plus/minus button for controlling the form in an element-bar.

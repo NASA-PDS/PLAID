@@ -75,13 +75,12 @@ function getElement(outerObj, type, dictName, elementName){
 function handleProduct(overallObj, product){
     var assocList = product["associationList"];
     var productObj = {};
-    getAssociations(overallObj, assocList, productObj, 0);
+    getAssociations(overallObj, assocList, productObj);
     for (var index in productObj){
-        var tmp = productObj[index];
         for (var key in productObj[index]){
-            var tmp2 = tmp[key];
-            getAssociations(overallObj, tmp2["associationList"], tmp2["next"], 0);
-            assignObjectPath(index, tmp2, tmp2["next"]);
+            var currObj = productObj[index][key];
+            getAssociations(overallObj, currObj["associationList"], currObj["next"]);
+            assignObjectPath(index, currObj, currObj["next"]);
         }
     }
     PRODUCTOBJ = productObj;
@@ -90,23 +89,17 @@ function handleProduct(overallObj, product){
     insertLevelOfSteps(1, productObj);
 }
 /*
-* Recursively search for associations to a class.
+* Search for and form associations in the new object from the overall object.
 * @param {Object} object JSON object to search through
 * @param {array} associationList list of association objects to search for
 * @param {Object} currObj object to store each child of the overall product type, maintaining relations
-* @param {Number} orderNum integer to track the ordering of child elements
-* Note: orderNum is necessary to preserve the order of child elements in the object. Otherwise,
-* the order would be determined alphabetically in the "next" object. This order is important to
-* maintain as it reflects the definitions in the PDS4 XML schema.
 */
-function getAssociations(object, associationList, currObj, orderNum){
+function getAssociations(object, associationList, currObj){
     for (var index in associationList){
         var child = associationList[index]["association"];
         var isAttr = (child["isAttribute"] === "true");
         var identifiers = [], title = "";
         currObj[index] = [];
-        //TODO: figure out how to store the different identifiers in such a way
-        //that I can create different types of elements for those that have options
         if (isAttr){
             identifiers = child["attributeIdentifier"];
             for (var attIndex in identifiers){
@@ -120,7 +113,6 @@ function getAssociations(object, associationList, currObj, orderNum){
             for (var clIndex in identifiers){
                 title = identifiers[clIndex].split(".").pop();
                 var classObj = getElement(object, "class", "classDictionary", identifiers[clIndex]);
-                var modTitle = orderNum + title;
                 //use Object.assign to make a copy of the object
                 //this prevents overwriting the original object in future modifications
                 currObj[index][title] = Object.assign(classObj);
@@ -128,22 +120,21 @@ function getAssociations(object, associationList, currObj, orderNum){
                 determineRequirements(child, currObj[index][title]);
             }
         }
-        orderNum += 1;
     }
 }
 /*
-* Recursively add an attribute to each element in the overall object that specifies
-* the path (in terms of the hierarchy) from the root of the object to that element.
-* This function is recursive to revert incorrect ordering from original call.
+* Loop through all of the children of an object and add their respective paths (formed
+* from the parent path).
 * Note: Since this function goes through all the children of an object, it also checks
 * to see if any of the children are optional and sets the "allChildrenRequired" attribute
 * accordingly.
+* @param {number} startingIndex index for the first level of children in the PRODUCTOBJ
 * @param {Object} currentObject to get preceding path from
 * @param {Object} children to add full path to
  */
-function assignObjectPath(index, currObject, children){
+function assignObjectPath(startingIndex, currObject, children){
     if (currObject["path"] === undefined){
-        currObject["path"] = index.toString() + "/" + currObject["title"];
+        currObject["path"] = startingIndex.toString() + "/" + currObject["title"];
     }
     var path = currObject["path"];
     currObject["allChildrenRequired"] = true;
