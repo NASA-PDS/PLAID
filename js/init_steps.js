@@ -104,14 +104,8 @@ function handleStepAddition(currentIndex, newIndex){
             var elementKeys = id.split("/");
             var currObj = PRODUCTOBJ;
             for (var index in elementKeys){
-                var regex = new RegExp("[0-9]+" + elementKeys[index]);
-                for (var key in currObj){
-                    if (key.match(regex)){
-                        currObj = currObj[key];
-                        break;
-                    }
-                }
-                if (index < elementKeys.length-1) { currObj = currObj["next"]; }
+                currObj = currObj[elementKeys[index]];
+                if (index < elementKeys.length-1 && isNaN(elementKeys[index])) { currObj = currObj["next"]; }
             }
             var val = $(".element-bar-counter", this).val();
             //the following handles three checks:
@@ -135,9 +129,11 @@ function handleStepAddition(currentIndex, newIndex){
 * @param {Object} dataObj object containing the PDS data to generate content from
  */
 function insertLevelOfSteps(currIndex, dataObj){
-    for (var key in dataObj){
-        insertStep($("#wizard"), currIndex, dataObj[key]);
-        currIndex +=1;
+    for (var index in dataObj){
+        for (var key in dataObj[index]){
+            insertStep($("#wizard"), currIndex, dataObj[index][key]);
+            currIndex +=1;
+        }
     }
 }
 /*
@@ -169,10 +165,28 @@ function generateContent(sectionTitle, dataObj){
     section.appendChild(question);
     var subsection = document.createElement("div");
     subsection.className = "data-section";
-    for (var key in dataObj){
-        if (dataObj[key]["title"] !== "Mission_Area" &&
-            dataObj[key]["title"] !== "Discipline_Area"){
-            subsection.appendChild(createElementBar(dataObj[key]));
+    for (var index in dataObj){
+        var counter = 0, flag = false;
+        for (var key in dataObj[index]){
+            counter += 1;
+        }
+        dataObj[index].length = counter;
+        key = "";
+        for (key in dataObj[index]){
+            if (dataObj[index].length === 1){
+                if (dataObj[index][key]["title"] !== "Mission_Area" &&
+                    dataObj[index][key]["title"] !== "Discipline_Area"){
+                    subsection.appendChild(createElementBar(dataObj[index][key]));
+                }
+            }
+            else {
+                if (!flag){
+                    subsection.appendChild(createOptionElementBar(dataObj[index]));
+                    flag = true;
+                }
+            }
+            getAssociations(JSONOBJ, dataObj[index][key]["associationList"], dataObj[index][key]["next"], 0);
+            assignObjectPath(null, dataObj[index][key], dataObj[index][key]["next"]);
         }
     }
     section.appendChild(subsection);
@@ -210,6 +224,42 @@ function createElementBar(dataObj){
     elementBar.appendChild(plusBtn);
 
     addPopover(elementBar, dataObj, $(counter).prop("min"), $(counter).prop("max"));
+
+    return elementBar;
+}
+function createOptionElementBar(dataList){
+    var elementBar = document.createElement("div");
+    elementBar.className = "input-group element-bar";
+    //elementBar.id = dataObj["path"];
+
+    var label = document.createElement("select");
+    label.className = "input-group-addon element-bar-label";
+    for (var key in dataList){
+        var option = document.createElement("option");
+        option.value = dataList[key]["title"];
+        option.innerHTML = dataList[key]["title"].replace(/_/g, " ");
+        label.appendChild(option);
+    }
+    elementBar.appendChild(label);
+    elementBar.id = dataList[key]["path"];
+
+    var minusBtn = createControlButton("minus");
+    elementBar.appendChild(minusBtn);
+    var plusBtn = createControlButton("plus");
+
+    var counter = createCounterInput(dataList[key]);
+    if ($(counter).prop("value") === $(counter).prop("max")){
+        $("button", plusBtn).prop("disabled", true);
+    }
+    if ($(counter).prop("min") === "0") {
+        label.className += " zero-instances";
+    }
+    $("button", minusBtn).prop("disabled", true);
+    elementBar.appendChild(counter);
+
+    elementBar.appendChild(plusBtn);
+
+    //addPopover(elementBar, dataObj, $(counter).prop("min"), $(counter).prop("max"));
 
     return elementBar;
 }
