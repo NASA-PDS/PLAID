@@ -1,10 +1,8 @@
 /**
  * Created by morse on 7/5/16.
  */
-//store PRODUCTOBJ as a global for reference in init_steps.js
-PRODUCTOBJ = {};
 $(document).ready(function(){
-    JSONOBJ = getJSON(filePaths.PDS4_JSON);
+    jsonData.pds4Obj = getJSON(filePaths.PDS4_JSON);
 });
 /*
 * Read in the text from a file as a JSON.
@@ -40,7 +38,7 @@ function getJSON(file){
 /*
  * Search the specified object for an element of a specified type.
  * @param {Object} object object to search through
- * @param {string} type ["class" | "attribute" | "product"]
+ * @param {string} type ["class" | "attribute" | "product" | nodeName]
  * @param {string} dictName name of the dictionary to search in
  * @param {string} elementName id/name of the element to search for
  * @return {Object} object corresponding to the specified class name
@@ -57,8 +55,8 @@ function getElement(outerObj, type, dictName, elementName){
                     if (type === "class" || type === "attribute"){
                         return innerObj;
                     }
-                    else if (type === "product"){
-                        handleProduct(outerObj, innerObj);
+                    else {
+                        handleProductOrNode(outerObj, innerObj, type);
                         return;
                     }
                 }
@@ -67,18 +65,26 @@ function getElement(outerObj, type, dictName, elementName){
     }
 }
 /*
- * Once the product object has been found in the overall JSON object, get the associations
- * and start creating corresponding steps in the wizard.
+ * Once the product or discipline node object has been found in the overall JSON object, get the
+ * associations and start creating corresponding steps in the wizard.
  * @param {Object} object JSON object to search
- * @param {Object} product object containing the overall info for the product
+ * @param {Object} element object containing the overall info for the product or node
+ * @type {string} type ["product" | nodeName]
  */
-function handleProduct(overallObj, product){
-    var assocList = product["associationList"];
-    var productObj = {};
-    getAssociations(overallObj, assocList, productObj, 0);
-    PRODUCTOBJ = productObj;
-    //this adds the first level of steps to the wizard
-    insertLevelOfSteps(1, productObj);
+function handleProductOrNode(overallObj, element, type){
+    var assocList = element["associationList"];
+    var elementObj = {};
+    getAssociations(overallObj, assocList, elementObj, 0);
+    if (type === "product"){
+        jsonData.refObj = elementObj;
+        //this adds the first level of steps to the wizard
+        insertLevelOfSteps(1, jsonData.refObj);
+    }
+    else {
+        jsonData.refObj = elementObj;
+        insertLevelOfSteps(wizardData.currentStep+1, jsonData.refObj);
+    }
+
 }
 /*
 * Recursively search for associations to a class.
@@ -96,7 +102,12 @@ function getAssociations(object, associationList, currObj, orderNum){
         var isAttr = (child["isAttribute"] === "true");
         var identifier = "", title = "";
         if (isAttr){
-            identifier = child["attributeIdentifier"][0];
+            try {
+                identifier = child["attributeIdentifier"][0];
+            }
+            catch (e){
+                identifier = child["attributeId"][0];
+            }
             title = identifier.split(".").pop();
             var attr = getElement(object, "attribute", "attributeDictionary", identifier);
             currObj[orderNum + title] = attr;

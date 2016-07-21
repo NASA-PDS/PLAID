@@ -2,7 +2,7 @@
  * Created by morse on 7/15/16.
  */
 /*
-* Capture the user's selections of discipline nodes throught the checkbox interface.
+* Capture the user's selections of discipline nodes through the checkbox interface.
 * @param {number} currentIndex indicates current step in the wizard
  */
 function discNodesSelection(currentIndex){
@@ -10,10 +10,21 @@ function discNodesSelection(currentIndex){
     if ($(".checkbox-group", currSection)){
         $("input", currSection).each(function(){
             if ($(this).is(":checked")){
-                var nodeName = $(this).siblings("span.discNode").html();
+                var span = $(this).siblings("span.discNode");
+                var nodeName = span.html();
                 nodeName = nodeName.replace(/\b\s\b/, "_").toLowerCase();
-                console.log(nodeName);
+                var nodeId = span.attr("data-id");
+                jsonData.nodes[nodeName] = getJSON(getNodeJsonFilename(nodeName));
+                getElement(jsonData.nodes[nodeName], nodeName, "classDictionary", nodeId);
             }
         });
+    }
+}
+function getNodeJsonFilename(nodeName){
+    switch (nodeName){
+        case "geometry":
+            return filePaths.GEOM_JSON;
+        default:
+            return null;
     }
 }
