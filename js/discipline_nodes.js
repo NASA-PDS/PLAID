@@ -20,10 +20,31 @@ function discNodesSelection(currentIndex){
         });
     }
 }
+/*
+ * Return the file path to the JSON of data for the specified discipline node.
+ * @param {string} nodeName parsed from the HTML element content
+ * @return {string} path to the JSON file
+ */
 function getNodeJsonFilename(nodeName){
     switch (nodeName){
+        case "cartography":
+            return filePaths.CART_JSON;
+        case "display":
+            return filePaths.DISP_JSON;
         case "geometry":
             return filePaths.GEOM_JSON;
+        case "imaging":
+            return filePaths.IMG_JSON;
+        case "plasma_particle":
+            return filePaths.PART_JSON;
+        case "ring-moon_systems":
+            return filePaths.RMS_JSON;
+        case "small_bodies":
+            return filePaths.BOD_JSON;
+        case "spectra":
+            return filePaths.SPECT_JSON;
+        case "wave":
+            return filePaths.WAV_JSON;
         default:
             return null;
     }

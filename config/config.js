@@ -3,7 +3,15 @@
  */
 var filePaths = {
     PDS4_JSON: "config/PDS4_PDS_JSON_1700.json",
-    GEOM_JSON: "config/input-PDS4_GEOM_1600_1300_GEOM_1300.JSON"
+    CART_JSON: "",
+    DISP_JSON: "",
+    GEOM_JSON: "config/input-PDS4_GEOM_1600_1300_GEOM_1300.JSON",
+    IMG_JSON: "",
+    PART_JSON: "",
+    RMS_JSON: "",
+    BOD_JSON: "",
+    SPECT_JSON: "",
+    WAV_JSON: ""
 };
 var jsonData = {
     refObj: {},
