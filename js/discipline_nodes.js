@@ -7,7 +7,7 @@
  */
 function discNodesSelection(currentIndex){
     var currSection = $("#wizard-p-" + currentIndex.toString());
-    if ($(".checkbox-group", currSection)){
+    if ($(".checkbox-group", currSection).length > 0){
         $("input", currSection).each(function(){
             if ($(this).is(":checked")){
                 var span = $(this).siblings("span.discNode");
