@@ -166,7 +166,8 @@ function generateContent(sectionTitle, dataObj){
     var subsection = document.createElement("div");
     subsection.className = "data-section";
     for (var index in dataObj){
-        var counter = 0, flag = false, fieldset, label;
+        var counter = 0, flag = false;
+        var choicegroup;
         for (var key in dataObj[index]){
             counter += 1;
         }
@@ -182,20 +183,17 @@ function generateContent(sectionTitle, dataObj){
             }
             else {
                 if (!flag){
-                    fieldset = document.createElement("div");
-                    fieldset.className = "choice-field";
-                    label = document.createElement("div");
-                    label.className = "choice-prompt";
-                    label.innerHTML = "Choose between these options:";
-                    fieldset.appendChild(label);
+                    choicegroup = createChoiceGroup();
                 }
-                fieldset.appendChild(createElementBar(currObj, createLabel, true));
+                var range = currObj["range"].split("-");
+                currObj["range"] = (parseInt(range[0], 10) - 1).toString() + "-" + range[1];
+                choicegroup.appendChild(createElementBar(currObj, createLabel, true));
                 flag = true;
             }
             getAssociations(JSONOBJ, currObj["associationList"], currObj["next"]);
             assignObjectPath(null, currObj, currObj["next"]);
         }
-        if (flag){ subsection.appendChild(fieldset); }
+        if (flag){ subsection.appendChild(choicegroup); }
     }
     section.appendChild(subsection);
     return section;
@@ -322,4 +320,17 @@ function createCounterInput(dataObj) {
     $(counter).focusout(releaseValue);
 
     return counter;
+}
+/*
+ * Create a wrapper div with a label for denoting a group of element choices.
+ * @return {HTML Element}
+ */
+function createChoiceGroup(){
+    var cg = document.createElement("div");
+    cg.className = "choice-field";
+    var label = document.createElement("div");
+    label.className = "choice-prompt";
+    label.innerHTML = "Choose between these options:";
+    cg.appendChild(label);
+    return cg;
 }

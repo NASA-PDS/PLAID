@@ -103,6 +103,7 @@ td {
     border: solid thin gainsboro;
     border-radius: 0.2rem;
     padding: 0.2rem;
+    margin: 0.3rem;
 }
 
 .choice-prompt {
