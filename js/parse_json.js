@@ -56,7 +56,7 @@ function getElement(outerObj, type, dictName, elementName){
                         return innerObj;
                     }
                     else {
-                        handleProductOrNode(outerObj, innerObj, type);
+                        handleProductOrNode(outerObj, innerObj);
                         return;
                     }
                 }
@@ -69,21 +69,13 @@ function getElement(outerObj, type, dictName, elementName){
  * associations and start creating corresponding steps in the wizard.
  * @param {Object} object JSON object to search
  * @param {Object} element object containing the overall info for the product or node
- * @type {string} type ["product" | nodeName]
  */
-function handleProductOrNode(overallObj, element, type){
+function handleProductOrNode(overallObj, element){
     var assocList = element["associationList"];
     var elementObj = {};
     getAssociations(overallObj, assocList, elementObj, 0);
-    if (type === "product"){
-        jsonData.refObj = elementObj;
-        //this adds the first level of steps to the wizard
-        insertLevelOfSteps(1, jsonData.refObj);
-    }
-    else {
-        jsonData.refObj = elementObj;
-        insertLevelOfSteps(wizardData.currentStep+1, jsonData.refObj);
-    }
+    jsonData.refObj = elementObj;
+    insertLevelOfSteps(wizardData.currentStep+1, jsonData.refObj);
 
 }
 /*
