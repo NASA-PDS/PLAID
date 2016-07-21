@@ -40,7 +40,9 @@ var settings = {
         $("#help").fadeOut(200);
         if (currentIndex < newIndex){
             handleStepAddition(currentIndex, newIndex);
+            handleMissionSpecificsStep(currentIndex, newIndex);
         }
+        updateActionBar(newIndex);
         return true;
     },
     onStepChanged: function (event, currentIndex, priorIndex) {

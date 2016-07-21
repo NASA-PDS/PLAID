@@ -11,9 +11,11 @@
     <script src="js/init_steps.js"></script>
     <script src="js/popover.js"></script>
     <script src="js/parse_json.js"></script>
+    <script src="js/mission_specifics.js"></script>
     <link href="thirdparty/css/jquery.steps.css" rel="stylesheet">
     <link href="thirdparty/css/bootstrap.css" rel="stylesheet">
     <link href="css/general.css" rel="stylesheet">
+    <link href="css/mission_specifics.css" rel="stylesheet">
     <link href="thirdparty/css/tether.min.css" rel="stylesheet">
     <link href="thirdparty/font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet">
 </head>
@@ -25,6 +27,7 @@
     </nav>
     <div id="wrapper">
         <div id="wizard">
+
             <h3>Product Type</h3>
             <section id="product_selection">
                 <p class="question">What type of product would you like to create a label for?</p>
@@ -81,9 +84,32 @@
             <section id="opt_node_selection">
                 <p class="question">Are any of these optional nodes applicable?</p>
             </section>
+
             <h3>Mission Specifics</h3>
-            <section id="specifics_selection">
-                <p class="question">Please add the specific details related to your mission:</p>
+            <section>
+                <div class="mission_specifics">
+                    <p class="question">Does your mission call for additional information? If so, please complete the following form.</p>
+                    <div class="data-section">
+                        <table class="list-group">
+                            <tr>
+                                <td>
+                                    <button class="list-group-item yesButton">
+                                        <i class="fa fa-check fa-fw" aria-hidden="true"></i>
+                                        <span>Yes</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="list-group-item noButton">
+                                        <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                                        <span>No</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </section>
 
             <h3>Export</h3>

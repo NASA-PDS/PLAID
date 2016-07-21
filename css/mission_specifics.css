@@ -1,0 +1,53 @@
+#include_mission_specifics {
+
+}
+
+.missionSpecificsActionBar {
+    text-align: center;
+    margin-left: 0.2rem;
+    margin-right: 0.5rem;
+}
+
+/*
+.missionSpecificsActionBar .btn {
+    padding: 0.5em 1em;
+}
+*/
+
+#saveButton {
+    margin-left: 1em;
+}
+
+.goBack {
+
+}
+
+.list-group-item.goBack {
+    background-color: #5d9bd5;
+    color: white;
+}
+
+.list-group-item.goBack:hover {
+    background-color: #428BCF;
+    color: white;
+}
+
+.list-group-item.save {
+    background-color: #8bce64;
+    color: white;
+}
+
+.list-group-item.save:hover {
+    background-color: #72C342;
+    color: white;
+}
+
+.mission_specifics_form {
+    display: none;
+}
+
+.previewContainer {
+    height: 30%;
+    padding: 0.3em;
+}
+

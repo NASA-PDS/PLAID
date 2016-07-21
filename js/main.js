@@ -11,6 +11,8 @@ $(document).ready(function(){
     $(".element-bar-minus").each(function(){
         $(this).click(decreaseCounter);
     });
+    addMissionSpecificsActionBar();
+    addMissionSpecificsHandlers();
     previewDescription();
 });
 /*
