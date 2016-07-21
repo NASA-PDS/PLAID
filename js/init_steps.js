@@ -166,7 +166,7 @@ function generateContent(sectionTitle, dataObj){
     var subsection = document.createElement("div");
     subsection.className = "data-section";
     for (var index in dataObj){
-        var counter = 0, flag = false;
+        var counter = 0, flag = false, fieldset, label;
         for (var key in dataObj[index]){
             counter += 1;
         }
@@ -181,11 +181,21 @@ function generateContent(sectionTitle, dataObj){
                 }
             }
             else {
-                subsection.appendChild(createElementBar(currObj, createLabel, true));
+                if (!flag){
+                    fieldset = document.createElement("div");
+                    fieldset.className = "choice-field";
+                    label = document.createElement("div");
+                    label.className = "choice-prompt";
+                    label.innerHTML = "Choose between these options:";
+                    fieldset.appendChild(label);
+                }
+                fieldset.appendChild(createElementBar(currObj, createLabel, true));
+                flag = true;
             }
             getAssociations(JSONOBJ, currObj["associationList"], currObj["next"]);
             assignObjectPath(null, currObj, currObj["next"]);
         }
+        if (flag){ subsection.appendChild(fieldset); }
     }
     section.appendChild(subsection);
     return section;
@@ -242,7 +252,7 @@ function createLabel(text, isChoice){
     var label = document.createElement("span");
     label.className = "input-group-addon element-bar-label";
     if (isChoice) {
-        label.innerHTML = "<i>" + text.replace(/_/g, " ") + " °</i>";
+        label.innerHTML = "<i>" + text.replace(/_/g, " ") + "</i>";
         label.className += " option";
     }
     else {

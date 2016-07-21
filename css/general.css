@@ -99,6 +99,17 @@ td {
     border-radius: .25rem;
 }
 
+.choice-field {
+    border: solid thin gainsboro;
+    border-radius: 0.2rem;
+    padding: 0.2rem;
+}
+
+.choice-prompt {
+    font-size: small;
+    opacity: 0.7;
+}
+
 .data-section {
     height: inherit;
     overflow: auto;
