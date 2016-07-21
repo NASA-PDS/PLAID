@@ -22,7 +22,7 @@ function captureSelection(){
     clearActiveElements();
     $(element).addClass("active");
     var selection = $(".productType", element).attr("data-id");
-    getElement(JSONOBJ, "product", "classDictionary", selection);
+    getElement(jsonData.pds4Obj, "product", "classDictionary", selection);
     //auto-advance to the next step after capturing the user's product selection
     $("#wizard").steps("next");
 }

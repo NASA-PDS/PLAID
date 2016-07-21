@@ -1,7 +1,6 @@
 /**
  * Created by morse on 6/16/16.
  */
-
 var settings = {
     /* Appearance */
     headerTag: "h3",
@@ -54,6 +53,7 @@ var settings = {
             var number = $(".number", priorStepHeading)[0];
             number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
         }
+        wizardData.currentStep = currentIndex;
         $("#help").empty();
         previewDescription();
         $("#help").fadeIn(200);
@@ -105,7 +105,7 @@ function handleStepAddition(currentIndex, newIndex){
         $(".element-bar:not(.stepAdded)", currSection).each(function(){
             var id = $(this).attr("id");
             var elementKeys = id.split("/");
-            var currObj = PRODUCTOBJ;
+            var currObj = jsonData.refObj;
             for (var index in elementKeys){
                 var regex = new RegExp("[0-9]+" + elementKeys[index]);
                 for (var key in currObj){
@@ -125,7 +125,7 @@ function handleStepAddition(currentIndex, newIndex){
             if (val !== "0" &&
                 currObj["allChildrenRequired"] !== undefined &&
                 !currObj["allChildrenRequired"]){
-                insertStep($("#wizard"), insertionIndex, currObj)
+                insertStep($("#wizard"), insertionIndex, currObj);
                 insertionIndex +=1;
             }
             $(this).addClass("stepAdded");
