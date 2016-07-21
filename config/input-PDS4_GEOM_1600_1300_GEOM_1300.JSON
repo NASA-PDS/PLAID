@@ -3,7 +3,7 @@
     "dataDictionary": {
       "Title": "PDS4 Data Dictionary" ,
       "Version": "1.6.0.0" ,
-      "Date": "Wed Jul 20 09:46:37 PDT 2016" ,
+      "Date": "Thu Jul 21 11:49:25 PDT 2016" ,
       "Description": "This document is a dump of the contents of the PDS4 Data Dictionary" ,
       "classDictionary": [
         {
@@ -202,7 +202,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Local_Internal_Reference"
                  ]
               }
@@ -216,7 +216,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.disp.Display_Direction"
                  ]
               }
@@ -230,7 +230,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.disp.Color_Display_Settings"
                  ]
               }
@@ -244,7 +244,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.disp.Movie_Display_Settings"
                  ]
               }
@@ -452,7 +452,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_Space_Present",
                    "0001_NASA_PDS_1.geom.Coordinate_Space_Reference",
                    "0001_NASA_PDS_1.geom.Device_Angle",
@@ -513,7 +513,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -568,7 +568,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Entrance"
                  ]
               }
@@ -582,7 +582,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Optical_Terms"
                  ]
               }
@@ -596,7 +596,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Center"
                  ]
               }
@@ -610,7 +610,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Radial_Terms"
                  ]
               }
@@ -624,7 +624,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Axis"
                  ]
               }
@@ -638,7 +638,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Horizontal"
                  ]
               }
@@ -652,7 +652,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Vertical"
                  ]
               }
@@ -679,7 +679,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Optical_Terms"
                  ]
               }
@@ -693,7 +693,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Center"
                  ]
               }
@@ -707,7 +707,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Radial_Terms"
                  ]
               }
@@ -721,7 +721,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Axis"
                  ]
               }
@@ -735,7 +735,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Horizontal"
                  ]
               }
@@ -749,7 +749,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Vertical"
                  ]
               }
@@ -776,7 +776,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Center"
                  ]
               }
@@ -790,7 +790,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Axis"
                  ]
               }
@@ -804,7 +804,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Horizontal"
                  ]
               }
@@ -818,7 +818,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Vertical"
                  ]
               }
@@ -887,7 +887,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -901,7 +901,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.CAHVORE_Model",
                    "0001_NASA_PDS_1.geom.CAHVOR_Model",
                    "0001_NASA_PDS_1.geom.CAHV_Model"
@@ -917,7 +917,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_Space_Reference",
                    "0001_NASA_PDS_1.geom.Reference_Frame_Identification"
                  ]
@@ -932,7 +932,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1120" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Quaternion_Model_Transform"
                  ]
               }
@@ -946,7 +946,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1130" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Model_Transform"
                  ]
               }
@@ -1001,7 +1001,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -1070,7 +1070,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_Space_Present"
                  ]
               }
@@ -1084,7 +1084,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Origin_Offset"
                  ]
               }
@@ -1098,7 +1098,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Quaternion_Plus_Direction"
                  ]
               }
@@ -1112,7 +1112,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_Space_Reference"
                  ]
               }
@@ -1139,7 +1139,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_Space_Indexed",
                    "0001_NASA_PDS_1.geom.Coordinate_Space_SPICE"
                  ]
@@ -1238,7 +1238,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_Space_Index"
                  ]
               }
@@ -1265,7 +1265,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_Space_Indexed",
                    "0001_NASA_PDS_1.geom.Coordinate_Space_SPICE"
                  ]
@@ -1293,7 +1293,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_Space_Indexed",
                    "0001_NASA_PDS_1.geom.Coordinate_Space_SPICE"
                  ]
@@ -1404,7 +1404,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Origin_Identification"
                  ]
               }
@@ -1418,7 +1418,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Reference_Frame_Identification"
                  ]
               }
@@ -1473,7 +1473,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -1600,7 +1600,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1110" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_Space_Reference"
                  ]
               }
@@ -1641,7 +1641,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Device_Angle_Index"
                  ]
               }
@@ -1725,7 +1725,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Device_Component_State_Index"
                  ]
               }
@@ -1809,7 +1809,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Device_Motor_Counts_Index"
                  ]
               }
@@ -1893,7 +1893,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Device_Temperature_Index"
                  ]
               }
@@ -2060,7 +2060,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Observer_Identification"
                  ]
               }
@@ -2074,7 +2074,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Geometry_Target_Identification"
                  ]
               }
@@ -2115,7 +2115,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Distances_Specific"
                  ]
               }
@@ -2129,7 +2129,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Distances_Min_Max"
                  ]
               }
@@ -2143,7 +2143,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Distances_Start_Stop"
                  ]
               }
@@ -2157,7 +2157,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Distance_Generic"
                  ]
               }
@@ -2749,7 +2749,7 @@
                 "minimumCardinality": "2" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Pixel_Intercept"
                  ]
               }
@@ -2818,7 +2818,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -2859,7 +2859,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Cartesian_Acceleration_Generic",
                    "0001_NASA_PDS_1.geom.Vector_Cartesian_Position_Generic",
                    "0001_NASA_PDS_1.geom.Vector_Cartesian_Velocity_Generic",
@@ -2890,7 +2890,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.SPICE_Kernel_Files"
                  ]
               }
@@ -2904,7 +2904,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Image_Display_Geometry"
                  ]
               }
@@ -2918,7 +2918,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Geometry_Orbiter"
                  ]
               }
@@ -2932,7 +2932,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Geometry_Lander"
                  ]
               }
@@ -2959,7 +2959,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Articulation_Device_Parameters"
                  ]
               }
@@ -2973,7 +2973,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Camera_Model_Parameters"
                  ]
               }
@@ -2987,7 +2987,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_Space_Definition"
                  ]
               }
@@ -3001,7 +3001,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Derived_Geometry"
                  ]
               }
@@ -3015,7 +3015,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Motion_Counter"
                  ]
               }
@@ -3058,7 +3058,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Orbiter_Identification"
                  ]
               }
@@ -3072,7 +3072,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Pixel_Dimensions"
                  ]
               }
@@ -3086,7 +3086,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Distances"
                  ]
               }
@@ -3100,7 +3100,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Surface_Geometry"
                  ]
               }
@@ -3114,7 +3114,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Illumination_Geometry"
                  ]
               }
@@ -3128,7 +3128,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1100" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vectors"
                  ]
               }
@@ -3183,7 +3183,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -3224,7 +3224,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Illumination_Specific"
                  ]
               }
@@ -3238,7 +3238,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Illumination_Min_Max"
                  ]
               }
@@ -3252,7 +3252,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Illumination_Start_Stop"
                  ]
               }
@@ -3449,7 +3449,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Reference_Pixel"
                  ]
               }
@@ -3601,7 +3601,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Local_Internal_Reference"
                  ]
               }
@@ -3615,7 +3615,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Display_Direction"
                  ]
               }
@@ -3629,7 +3629,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Central_Body_Identification"
                  ]
               }
@@ -3643,7 +3643,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Geometry_Target_Identification"
                  ]
               }
@@ -3657,7 +3657,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "2" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Object_Orientation_North_East",
                    "0001_NASA_PDS_1.geom.Object_Orientation_RA_Dec"
                  ]
@@ -3672,7 +3672,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Quaternion_Plus_To_From"
                  ]
               }
@@ -3686,7 +3686,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Object_Orientation_Clock_Angles"
                  ]
               }
@@ -3985,7 +3985,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Motion_Counter_Index"
                  ]
               }
@@ -4118,7 +4118,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Reference_Frame_Identification"
                  ]
               }
@@ -4203,7 +4203,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Reference_Pixel"
                  ]
               }
@@ -4217,7 +4217,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1100" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Reference_Frame_Identification"
                  ]
               }
@@ -4272,7 +4272,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -4354,7 +4354,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Central_Body_Identification"
                  ]
               }
@@ -4368,7 +4368,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Geometry_Target_Identification"
                  ]
               }
@@ -4382,7 +4382,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -4451,7 +4451,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Pixel_Size_Projected"
                  ]
               }
@@ -4520,7 +4520,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Reference_Pixel"
                  ]
               }
@@ -5003,7 +5003,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Rotate_From"
                  ]
               }
@@ -5017,7 +5017,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Rotate_To"
                  ]
               }
@@ -5141,7 +5141,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -5251,7 +5251,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -5320,7 +5320,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -5361,7 +5361,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.SPICE_Kernel_Identification"
                  ]
               }
@@ -5416,7 +5416,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -5457,7 +5457,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Surface_Geometry_Specific"
                  ]
               }
@@ -5471,7 +5471,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Surface_Geometry_Min_Max"
                  ]
               }
@@ -5485,7 +5485,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Surface_Geometry_Start_Stop"
                  ]
               }
@@ -5833,7 +5833,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Pixel_Intercept"
                  ]
               }
@@ -5847,7 +5847,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Footprint_Vertices"
                  ]
               }
@@ -6291,7 +6291,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -6374,7 +6374,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Observer_Identification"
                  ]
               }
@@ -6388,7 +6388,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -6402,7 +6402,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Geometry_Target_Identification"
                  ]
               }
@@ -6650,7 +6650,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -6733,7 +6733,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -6816,7 +6816,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -6899,7 +6899,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -6982,7 +6982,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -7065,7 +7065,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -7148,7 +7148,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Observer_Identification"
                  ]
               }
@@ -7162,7 +7162,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -7176,7 +7176,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Geometry_Target_Identification"
                  ]
               }
@@ -7259,7 +7259,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -7342,7 +7342,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -7425,7 +7425,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -7508,7 +7508,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -7591,7 +7591,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -7674,7 +7674,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -7757,7 +7757,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -7950,7 +7950,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -8033,7 +8033,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Observer_Identification"
                  ]
               }
@@ -8047,7 +8047,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -8061,7 +8061,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Geometry_Target_Identification"
                  ]
               }
@@ -8144,7 +8144,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -8227,7 +8227,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -8310,7 +8310,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -8393,7 +8393,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -8476,7 +8476,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -8559,7 +8559,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -8642,7 +8642,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -8725,7 +8725,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -8808,7 +8808,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -8891,7 +8891,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -9359,7 +9359,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -9442,7 +9442,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -9525,7 +9525,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -9608,7 +9608,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Observer_Identification"
                  ]
               }
@@ -9622,7 +9622,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -9636,7 +9636,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Geometry_Target_Identification"
                  ]
               }
@@ -9719,7 +9719,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -9857,7 +9857,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -9940,7 +9940,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Observer_Identification"
                  ]
               }
@@ -9954,7 +9954,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -9968,7 +9968,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Geometry_Target_Identification"
                  ]
               }
@@ -10051,7 +10051,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -10134,7 +10134,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -10217,7 +10217,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Coordinate_System_Identification"
                  ]
               }
@@ -10313,7 +10313,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vectors_Cartesian_Specific"
                  ]
               }
@@ -10327,7 +10327,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vectors_Planetocentric_Specific"
                  ]
               }
@@ -10341,7 +10341,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Generic_Vectors"
                  ]
               }
@@ -10368,7 +10368,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Cartesian_Position_Central_Body_To_Spacecraft",
                    "0001_NASA_PDS_1.geom.Vector_Cartesian_Position_Central_Body_To_Target",
                    "0001_NASA_PDS_1.geom.Vector_Cartesian_Position_Earth_To_Central_Body",
@@ -10416,7 +10416,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.geom.Vector_Planetocentric_Position_Central_Body_To_Spacecraft",
                    "0001_NASA_PDS_1.geom.Vector_Planetocentric_Position_Central_Body_To_Target",
                    "0001_NASA_PDS_1.geom.Vector_Planetocentric_Position_Spacecraft_To_Target",
@@ -15193,7 +15193,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -15341,7 +15341,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Alias"
                  ]
               }
@@ -15533,7 +15533,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Element_Array"
                  ]
               }
@@ -15547,7 +15547,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Axis_Array"
                  ]
               }
@@ -15561,7 +15561,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Special_Constants"
                  ]
               }
@@ -15575,7 +15575,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Object_Statistics"
                  ]
               }
@@ -15589,7 +15589,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -15603,7 +15603,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Local_Internal_Reference"
                  ]
               }
@@ -15714,7 +15714,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Element_Array"
                  ]
               }
@@ -15728,7 +15728,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Special_Constants"
                  ]
               }
@@ -15742,7 +15742,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Object_Statistics"
                  ]
               }
@@ -15756,7 +15756,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -15770,7 +15770,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Local_Internal_Reference"
                  ]
               }
@@ -15784,7 +15784,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Axis_Array"
                  ]
               }
@@ -15895,7 +15895,7 @@
                 "minimumCardinality": "2" ,
                 "maximumCardinality": "2" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Axis_Array"
                  ]
               }
@@ -15909,7 +15909,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Element_Array"
                  ]
               }
@@ -15923,7 +15923,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Special_Constants"
                  ]
               }
@@ -15937,7 +15937,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Object_Statistics"
                  ]
               }
@@ -15951,7 +15951,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -15965,7 +15965,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Local_Internal_Reference"
                  ]
               }
@@ -16076,7 +16076,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Display_2D_Image"
                  ]
               }
@@ -16090,7 +16090,7 @@
                 "minimumCardinality": "2" ,
                 "maximumCardinality": "2" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Axis_Array"
                  ]
               }
@@ -16104,7 +16104,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Element_Array"
                  ]
               }
@@ -16118,7 +16118,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Special_Constants"
                  ]
               }
@@ -16132,7 +16132,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Object_Statistics"
                  ]
               }
@@ -16146,7 +16146,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -16160,7 +16160,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Local_Internal_Reference"
                  ]
               }
@@ -16271,7 +16271,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Display_2D_Image"
                  ]
               }
@@ -16285,7 +16285,7 @@
                 "minimumCardinality": "2" ,
                 "maximumCardinality": "2" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Axis_Array"
                  ]
               }
@@ -16299,7 +16299,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Element_Array"
                  ]
               }
@@ -16313,7 +16313,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Special_Constants"
                  ]
               }
@@ -16327,7 +16327,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Object_Statistics"
                  ]
               }
@@ -16341,7 +16341,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -16355,7 +16355,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Local_Internal_Reference"
                  ]
               }
@@ -16466,7 +16466,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Display_2D_Image"
                  ]
               }
@@ -16480,7 +16480,7 @@
                 "minimumCardinality": "2" ,
                 "maximumCardinality": "2" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Axis_Array"
                  ]
               }
@@ -16494,7 +16494,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Element_Array"
                  ]
               }
@@ -16508,7 +16508,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Special_Constants"
                  ]
               }
@@ -16522,7 +16522,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Object_Statistics"
                  ]
               }
@@ -16536,7 +16536,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -16550,7 +16550,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Local_Internal_Reference"
                  ]
               }
@@ -16661,7 +16661,7 @@
                 "minimumCardinality": "3" ,
                 "maximumCardinality": "3" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Axis_Array"
                  ]
               }
@@ -16675,7 +16675,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Element_Array"
                  ]
               }
@@ -16689,7 +16689,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Special_Constants"
                  ]
               }
@@ -16703,7 +16703,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Object_Statistics"
                  ]
               }
@@ -16717,7 +16717,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -16731,7 +16731,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Local_Internal_Reference"
                  ]
               }
@@ -16842,7 +16842,7 @@
                 "minimumCardinality": "3" ,
                 "maximumCardinality": "3" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Axis_Array"
                  ]
               }
@@ -16856,7 +16856,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Element_Array"
                  ]
               }
@@ -16870,7 +16870,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Special_Constants"
                  ]
               }
@@ -16884,7 +16884,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Object_Statistics"
                  ]
               }
@@ -16898,7 +16898,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -16912,7 +16912,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Local_Internal_Reference"
                  ]
               }
@@ -17023,7 +17023,7 @@
                 "minimumCardinality": "3" ,
                 "maximumCardinality": "3" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Axis_Array"
                  ]
               }
@@ -17037,7 +17037,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Element_Array"
                  ]
               }
@@ -17051,7 +17051,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Special_Constants"
                  ]
               }
@@ -17065,7 +17065,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Object_Statistics"
                  ]
               }
@@ -17079,7 +17079,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -17093,7 +17093,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Local_Internal_Reference"
                  ]
               }
@@ -17204,7 +17204,7 @@
                 "minimumCardinality": "3" ,
                 "maximumCardinality": "3" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Axis_Array"
                  ]
               }
@@ -17218,7 +17218,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Element_Array"
                  ]
               }
@@ -17232,7 +17232,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Special_Constants"
                  ]
               }
@@ -17246,7 +17246,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Object_Statistics"
                  ]
               }
@@ -17260,7 +17260,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -17274,7 +17274,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Local_Internal_Reference"
                  ]
               }
@@ -17371,7 +17371,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Band_Bin_Set"
                  ]
               }
@@ -17551,7 +17551,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Band_Bin"
                  ]
               }
@@ -17617,7 +17617,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -17978,7 +17978,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -18220,7 +18220,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Time_Coordinates"
                  ]
               }
@@ -18234,7 +18234,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Primary_Result_Summary"
                  ]
               }
@@ -18248,7 +18248,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Investigation_Area"
                  ]
               }
@@ -18262,7 +18262,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Observing_System"
                  ]
               }
@@ -18276,7 +18276,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Target_Identification"
                  ]
               }
@@ -18290,7 +18290,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Mission_Area"
                  ]
               }
@@ -18304,7 +18304,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Discipline_Area"
                  ]
               }
@@ -18401,7 +18401,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Attribute_Reference"
                  ]
               }
@@ -18415,7 +18415,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Class_Reference"
                  ]
               }
@@ -18623,7 +18623,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -18637,7 +18637,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -18651,7 +18651,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1100" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Terminological_Entry"
                  ]
               }
@@ -18665,7 +18665,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1110" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Value_Domain"
                  ]
               }
@@ -18888,7 +18888,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1150" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -18902,7 +18902,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1160" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Terminological_Entry"
                  ]
               }
@@ -18916,7 +18916,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1170" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Value_Domain_Full"
                  ]
               }
@@ -19082,7 +19082,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -19096,7 +19096,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -19110,7 +19110,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Association",
                    "0001_NASA_PDS_1.pds.DD_Association_External"
                  ]
@@ -19125,7 +19125,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1100" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Terminological_Entry"
                  ]
               }
@@ -19334,7 +19334,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1130" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -19348,7 +19348,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1140" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Association"
                  ]
               }
@@ -19362,7 +19362,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1150" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Terminological_Entry"
                  ]
               }
@@ -19458,7 +19458,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Terminological_Entry"
                  ]
               }
@@ -19541,7 +19541,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Terminological_Entry"
                  ]
               }
@@ -19610,7 +19610,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1033" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Attribute_Reference"
                  ]
               }
@@ -19624,7 +19624,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1036" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Class_Reference"
                  ]
               }
@@ -19638,7 +19638,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Rule_Statement"
                  ]
               }
@@ -19888,7 +19888,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1110" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Permissible_Value"
                  ]
               }
@@ -20069,7 +20069,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1120" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Permissible_Value_Full"
                  ]
               }
@@ -20219,7 +20219,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Group_Facet1"
                  ]
               }
@@ -20233,7 +20233,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Group_Facet2"
                  ]
               }
@@ -20468,7 +20468,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1095" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Document_Edition"
                  ]
               }
@@ -20482,7 +20482,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1100" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -20579,7 +20579,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Document_File"
                  ]
               }
@@ -20732,7 +20732,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -20939,7 +20939,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -21050,7 +21050,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -21161,7 +21161,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -21272,7 +21272,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -21383,7 +21383,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -21618,7 +21618,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Physical_Object"
                  ]
               }
@@ -21826,7 +21826,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1100" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Special_Constants"
                  ]
               }
@@ -21840,7 +21840,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1110" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Field_Statistics"
                  ]
               }
@@ -21854,7 +21854,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1120" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Packed_Data_Fields"
                  ]
               }
@@ -22021,7 +22021,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1100" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Special_Constants"
                  ]
               }
@@ -22188,7 +22188,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1100" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Special_Constants"
                  ]
               }
@@ -22202,7 +22202,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1110" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Field_Statistics"
                  ]
               }
@@ -22355,7 +22355,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Special_Constants"
                  ]
               }
@@ -22369,7 +22369,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1100" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Field_Statistics"
                  ]
               }
@@ -22494,7 +22494,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -22619,7 +22619,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -22657,7 +22657,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -22671,7 +22671,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Array",
                    "0001_NASA_PDS_1.pds.Array_2D",
                    "0001_NASA_PDS_1.pds.Array_2D_Image",
@@ -22714,7 +22714,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -22728,7 +22728,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Encoded_Binary"
                  ]
               }
@@ -22755,7 +22755,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -22769,7 +22769,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Array",
                    "0001_NASA_PDS_1.pds.Array_1D",
                    "0001_NASA_PDS_1.pds.Array_2D",
@@ -22812,7 +22812,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -22826,7 +22826,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Checksum_Manifest"
                  ]
               }
@@ -22853,7 +22853,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -22867,7 +22867,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Encoded_Image"
                  ]
               }
@@ -22894,7 +22894,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -22908,7 +22908,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Inventory"
                  ]
               }
@@ -22935,7 +22935,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -22949,7 +22949,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Encoded_Native"
                  ]
               }
@@ -22976,7 +22976,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -22990,7 +22990,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Array",
                    "0001_NASA_PDS_1.pds.Array_1D",
                    "0001_NASA_PDS_1.pds.Array_2D",
@@ -23032,7 +23032,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -23046,7 +23046,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Array",
                    "0001_NASA_PDS_1.pds.Array_1D",
                    "0001_NASA_PDS_1.pds.Array_2D",
@@ -23092,7 +23092,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -23106,7 +23106,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Manifest_SIP_Deep_Archive"
                  ]
               }
@@ -23133,7 +23133,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -23147,7 +23147,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.SPICE_Kernel"
                  ]
               }
@@ -23174,7 +23174,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -23188,7 +23188,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Service_Description"
                  ]
               }
@@ -23215,7 +23215,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -23229,7 +23229,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Stream_Text"
                  ]
               }
@@ -23256,7 +23256,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -23270,7 +23270,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Transfer_Manifest"
                  ]
               }
@@ -23297,7 +23297,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -23311,7 +23311,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1015" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Header"
                  ]
               }
@@ -23325,7 +23325,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Table_Character",
                    "0001_NASA_PDS_1.pds.Table_Delimited"
                  ]
@@ -23353,7 +23353,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -23367,7 +23367,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.XML_Schema"
                  ]
               }
@@ -23435,7 +23435,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -23449,7 +23449,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Vector"
                  ]
               }
@@ -23767,7 +23767,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Field_Binary",
                    "0001_NASA_PDS_1.pds.Group_Field_Binary"
                  ]
@@ -23907,7 +23907,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Field_Character",
                    "0001_NASA_PDS_1.pds.Group_Field_Character"
                  ]
@@ -24019,7 +24019,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Field_Delimited",
                    "0001_NASA_PDS_1.pds.Group_Field_Delimited"
                  ]
@@ -24131,7 +24131,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -24272,7 +24272,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Alias_List"
                  ]
               }
@@ -24286,7 +24286,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1075" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Citation_Information"
                  ]
               }
@@ -24300,7 +24300,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Modification_History"
                  ]
               }
@@ -24396,7 +24396,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -24410,7 +24410,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_Checksum_Manifest"
                  ]
               }
@@ -24424,7 +24424,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_Transfer_Manifest"
                  ]
               }
@@ -24521,7 +24521,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_SIP_Deep_Archive"
                  ]
               }
@@ -24535,7 +24535,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -24674,7 +24674,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -24688,7 +24688,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Attribute"
                  ]
               }
@@ -24702,7 +24702,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1100" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Class"
                  ]
               }
@@ -24716,7 +24716,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1110" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Rule"
                  ]
               }
@@ -24730,7 +24730,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1120" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Property_Maps"
                  ]
               }
@@ -24841,7 +24841,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Physical_Object"
                  ]
               }
@@ -24966,7 +24966,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Physical_Object"
                  ]
               }
@@ -25189,7 +25189,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -25203,7 +25203,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Uniformly_Sampled"
                  ]
               }
@@ -25217,7 +25217,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Record_Delimited"
                  ]
               }
@@ -25314,7 +25314,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -25369,7 +25369,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -25577,7 +25577,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -25591,7 +25591,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Uniformly_Sampled"
                  ]
               }
@@ -25605,7 +25605,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Record_Delimited"
                  ]
               }
@@ -25698,7 +25698,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Modification_Detail"
                  ]
               }
@@ -25835,7 +25835,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -26016,7 +26016,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1120" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -26057,7 +26057,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Time_Coordinates"
                  ]
               }
@@ -26071,7 +26071,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Primary_Result_Summary"
                  ]
               }
@@ -26085,7 +26085,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Investigation_Area"
                  ]
               }
@@ -26099,7 +26099,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Observing_System"
                  ]
               }
@@ -26113,7 +26113,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Target_Identification"
                  ]
               }
@@ -26127,7 +26127,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Mission_Area"
                  ]
               }
@@ -26141,7 +26141,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Discipline_Area"
                  ]
               }
@@ -26223,7 +26223,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Observing_System_Component"
                  ]
               }
@@ -26237,7 +26237,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object",
                    "0001_NASA_PDS_1.pds.Physical_Object"
                  ]
@@ -26307,7 +26307,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -26321,7 +26321,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.External_Reference"
                  ]
               }
@@ -26362,7 +26362,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -26557,7 +26557,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1130" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Physical_Object"
                  ]
               }
@@ -26654,7 +26654,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Physical_Object"
                  ]
               }
@@ -26709,7 +26709,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Field_Bit"
                  ]
               }
@@ -26820,7 +26820,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -26953,7 +26953,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1070" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Science_Facets"
                  ]
               }
@@ -26980,7 +26980,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27007,7 +27007,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27021,7 +27021,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -27035,7 +27035,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Information_Package_Component"
                  ]
               }
@@ -27049,7 +27049,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Archival_Information_Package"
                  ]
               }
@@ -27076,7 +27076,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27090,7 +27090,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Context_Area"
                  ]
               }
@@ -27104,7 +27104,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -27118,7 +27118,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_Ancillary"
                  ]
               }
@@ -27145,7 +27145,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27159,7 +27159,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -27173,7 +27173,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Attribute_Full"
                  ]
               }
@@ -27200,7 +27200,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27214,7 +27214,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -27228,7 +27228,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_Browse"
                  ]
               }
@@ -27255,7 +27255,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27269,7 +27269,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Context_Area"
                  ]
               }
@@ -27283,7 +27283,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -27297,7 +27297,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Bundle"
                  ]
               }
@@ -27311,7 +27311,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_Text"
                  ]
               }
@@ -27325,7 +27325,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Bundle_Member_Entry"
                  ]
               }
@@ -27352,7 +27352,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27366,7 +27366,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -27380,7 +27380,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DD_Class_Full"
                  ]
               }
@@ -27407,7 +27407,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27421,7 +27421,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Context_Area"
                  ]
               }
@@ -27435,7 +27435,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -27449,7 +27449,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Collection"
                  ]
               }
@@ -27463,7 +27463,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_Inventory"
                  ]
               }
@@ -27501,7 +27501,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27515,7 +27515,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Discipline_Area"
                  ]
               }
@@ -27529,7 +27529,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -27543,7 +27543,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Agency",
                    "0001_NASA_PDS_1.pds.Airborne",
                    "0001_NASA_PDS_1.pds.Facility",
@@ -27582,7 +27582,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27596,7 +27596,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -27610,7 +27610,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Information_Package_Component"
                  ]
               }
@@ -27624,7 +27624,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Dissemination_Information_Package"
                  ]
               }
@@ -27651,7 +27651,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27665,7 +27665,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -27679,7 +27679,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Information_Package_Component"
                  ]
               }
@@ -27693,7 +27693,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.DIP_Deep_Archive"
                  ]
               }
@@ -27720,7 +27720,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27734,7 +27734,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Context_Area"
                  ]
               }
@@ -27748,7 +27748,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -27762,7 +27762,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Document"
                  ]
               }
@@ -27789,7 +27789,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27803,7 +27803,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -27817,7 +27817,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_Binary"
                  ]
               }
@@ -27844,7 +27844,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27858,7 +27858,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -27872,7 +27872,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_Text"
                  ]
               }
@@ -27899,7 +27899,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27913,7 +27913,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Context_Area"
                  ]
               }
@@ -27927,7 +27927,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -27941,7 +27941,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_Native"
                  ]
               }
@@ -27968,7 +27968,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -27982,7 +27982,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Observation_Area"
                  ]
               }
@@ -27996,7 +27996,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -28010,7 +28010,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_Observational"
                  ]
               }
@@ -28024,7 +28024,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_Observational_Supplemental"
                  ]
               }
@@ -28051,7 +28051,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -28065,7 +28065,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -28079,7 +28079,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Information_Package_Component"
                  ]
               }
@@ -28093,7 +28093,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Submission_Information_Package"
                  ]
               }
@@ -28120,7 +28120,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -28134,7 +28134,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Information_Package_Component_Deep_Archive"
                  ]
               }
@@ -28148,7 +28148,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.SIP_Deep_Archive"
                  ]
               }
@@ -28162,7 +28162,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -28189,7 +28189,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -28203,7 +28203,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Context_Area"
                  ]
               }
@@ -28217,7 +28217,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -28231,7 +28231,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_SPICE_Kernel"
                  ]
               }
@@ -28258,7 +28258,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -28272,7 +28272,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Service"
                  ]
               }
@@ -28286,7 +28286,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -28300,7 +28300,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_Service_Description"
                  ]
               }
@@ -28327,7 +28327,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -28341,7 +28341,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -28355,7 +28355,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Software"
                  ]
               }
@@ -28369,7 +28369,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Software_Binary",
                    "0001_NASA_PDS_1.pds.Software_Script",
                    "0001_NASA_PDS_1.pds.Software_Source"
@@ -28398,7 +28398,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -28412,7 +28412,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -28426,7 +28426,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_Encoded_Image"
                  ]
               }
@@ -28453,7 +28453,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -28467,7 +28467,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Update"
                  ]
               }
@@ -28481,7 +28481,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -28495,7 +28495,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_Update"
                  ]
               }
@@ -28522,7 +28522,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1005" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Context_Area"
                  ]
               }
@@ -28536,7 +28536,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -28550,7 +28550,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Reference_List"
                  ]
               }
@@ -28564,7 +28564,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File_Area_XML_Schema"
                  ]
               }
@@ -28591,7 +28591,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Identification_Area"
                  ]
               }
@@ -28605,7 +28605,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -28619,7 +28619,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Zip"
                  ]
               }
@@ -28633,7 +28633,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.File"
                  ]
               }
@@ -28758,7 +28758,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Property_Map_Entry"
                  ]
               }
@@ -28924,7 +28924,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Property_Map"
                  ]
               }
@@ -29007,7 +29007,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -29021,7 +29021,7 @@
                 "minimumCardinality": "4" ,
                 "maximumCardinality": "4" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Quaternion_Component"
                  ]
               }
@@ -29214,7 +29214,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Field_Binary",
                    "0001_NASA_PDS_1.pds.Group_Field_Binary"
                  ]
@@ -29284,7 +29284,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Field_Character",
                    "0001_NASA_PDS_1.pds.Group_Field_Character"
                  ]
@@ -29354,7 +29354,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Field_Delimited",
                    "0001_NASA_PDS_1.pds.Group_Field_Delimited"
                  ]
@@ -29382,7 +29382,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1010" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -29396,7 +29396,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.External_Reference"
                  ]
               }
@@ -29479,7 +29479,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -29659,7 +29659,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -29741,7 +29741,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Discipline_Facets"
                  ]
               }
@@ -29936,7 +29936,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -30047,7 +30047,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -30288,7 +30288,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -30413,7 +30413,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -30496,7 +30496,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -30663,7 +30663,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1110" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -30969,7 +30969,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -31169,7 +31169,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -31280,7 +31280,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Uniformly_Sampled"
                  ]
               }
@@ -31294,7 +31294,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Record_Binary"
                  ]
               }
@@ -31308,7 +31308,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -31419,7 +31419,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Uniformly_Sampled"
                  ]
               }
@@ -31433,7 +31433,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Record_Character"
                  ]
               }
@@ -31447,7 +31447,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -31600,7 +31600,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -31614,7 +31614,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Uniformly_Sampled"
                  ]
               }
@@ -31628,7 +31628,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1060" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Record_Delimited"
                  ]
               }
@@ -31741,7 +31741,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Physical_Object"
                  ]
               }
@@ -31824,7 +31824,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -31949,7 +31949,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "9999" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Physical_Object"
                  ]
               }
@@ -32046,7 +32046,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.External_Reference_Extended"
                  ]
               }
@@ -32240,7 +32240,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Uniformly_Sampled"
                  ]
               }
@@ -32254,7 +32254,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Record_Character"
                  ]
               }
@@ -32268,7 +32268,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
@@ -34646,7 +34646,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -34660,7 +34660,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Update_Entry"
                  ]
               }
@@ -34729,7 +34729,7 @@
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1040" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
@@ -34881,7 +34881,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1080" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Conceptual_Object"
                  ]
               }
@@ -34895,7 +34895,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1090" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Vector_Component"
                  ]
               }
@@ -35448,7 +35448,7 @@
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1050" ,
-                "classIdentifier": [
+                "classId": [
                    "0001_NASA_PDS_1.pds.Digital_Object"
                  ]
               }
