@@ -12,7 +12,6 @@ $(document).ready(function(){
         $(this).click(decreaseCounter);
     });
     addMissionSpecificsActionBar();
-    addMissionSpecificsHandlers();
     previewDescription();
 });
 /*
@@ -23,27 +22,16 @@ function captureSelection(){
     var element = $(this)[0];
     clearActiveElements();
     $(element).addClass("active");
-    //this value will either be returned or stored for use later
-    //temporarily being written out to the console
     var selection = $(".productType", element).attr("data-id");
-    getElement(JSONOBJ, "product", "classDictionary", selection);
+    getElement(jsonData.pds4Obj, "product", "classDictionary", selection);
+    //auto-advance to the next step after capturing the user's product selection
+    $("#wizard").steps("next");
 }
 /*
  * Helper function to remove the active class from all elements.
  */
 function clearActiveElements(){
     $(".active").removeClass("active");
-}
-/*
- * When the user hovers over an option in the wizard pane,
- * display a description of that option in the details pane.
- */
-function previewDetails(){
-    var details = $("#details")[0];
-    var selection = $(this)[0].textContent;
-    details.innerHTML = "<h6>" + selection + ":</h6>";
-    var filepath = formFilePath(selection, "descriptions/product_types/");
-    loadDescriptionFromFile(filepath, "#details");
 }
 /*
  * Parse out the title of the current step and use that to determine

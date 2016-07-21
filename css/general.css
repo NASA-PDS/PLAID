@@ -3,9 +3,6 @@ iframe {
     border: none;
     font-family: Helvetica;
 }
-section {
-    overflow: auto;
-}
 table {
     width: 100%;
 }
@@ -19,7 +16,6 @@ td {
     padding: 1rem;
 }
 #help {
-    height: inherit;
     /*padding: 1rem;*/
     margin-bottom: 0.8rem;
     text-align: center;
@@ -28,7 +24,6 @@ td {
 #sidebar {
     float: right;
     width: 25%;
-    height: inherit;
 }
 #sidebarIcon {
     font-size: 290%;
@@ -87,11 +82,26 @@ td {
 
 .cardContainer {
     height: inherit;
-    padding: 1rem 1rem 1rem 1rem;
+    padding: 1rem 1rem 0rem 1rem;
     background: #eeeeee;
-    margin: 1rem 1rem 1rem 0.4rem;
+    margin: 1rem 1rem 0rem 0.4rem;
     color: #aaaaaa;
     text-align: center;
+}
+
+.checkbox-item {
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: .25rem;
+}
+
+.data-section {
+    height: inherit;
+    overflow: auto;
 }
 
 input::-webkit-outer-spin-button,
@@ -147,9 +157,18 @@ input::-webkit-inner-spin-button {
     border-radius: 0rem;
 }
 
+.optional-section {
+    height: inherit;
+}
+
 .question {
     font-weight: bold;
     font-size: large;
+}
+
+.spacer {
+   margin-right: 0.2rem;
+   margin-left: 0.2rem;
 }
 
 div.steps {

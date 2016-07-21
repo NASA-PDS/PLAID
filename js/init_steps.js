@@ -1,7 +1,6 @@
 /**
  * Created by morse on 6/16/16.
  */
-
 var settings = {
     /* Appearance */
     headerTag: "h3",
@@ -41,8 +40,13 @@ var settings = {
         if (currentIndex < newIndex){
             handleStepAddition(currentIndex, newIndex);
             handleMissionSpecificsStep(currentIndex, newIndex);
+            discNodesSelection(currentIndex);
+        }
+        else if (newIndex === 0 && currentIndex > newIndex){
+            return false;
         }
         updateActionBar(newIndex);
+        removePopovers();
         return true;
     },
     onStepChanged: function (event, currentIndex, priorIndex) {
@@ -51,6 +55,7 @@ var settings = {
             var number = $(".number", priorStepHeading)[0];
             number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
         }
+        wizardData.currentStep = currentIndex;
         $("#help").empty();
         previewDescription();
         $("#help").fadeIn(200);
@@ -98,11 +103,11 @@ function match_wizard_height(wizard, sidebar){
 function handleStepAddition(currentIndex, newIndex){
     var insertionIndex = newIndex;
     var currSection = $("#wizard-p-" + currentIndex.toString());
-    if ($(".optional-section", currSection)){
-        $(".element-bar", currSection).each(function(){
+    if ($(".optional-section", currSection).length > 0){
+        $(".element-bar:not(.stepAdded)", currSection).each(function(){
             var id = $(this).attr("id");
             var elementKeys = id.split("/");
-            var currObj = PRODUCTOBJ;
+            var currObj = jsonData.refObj;
             for (var index in elementKeys){
                 var regex = new RegExp("[0-9]+" + elementKeys[index]);
                 for (var key in currObj){
@@ -122,9 +127,10 @@ function handleStepAddition(currentIndex, newIndex){
             if (val !== "0" &&
                 currObj["allChildrenRequired"] !== undefined &&
                 !currObj["allChildrenRequired"]){
-                insertStep($("#wizard"), insertionIndex, currObj)
+                insertStep($("#wizard"), insertionIndex, currObj);
                 insertionIndex +=1;
             }
+            $(this).addClass("stepAdded");
         });
     }
 }
@@ -166,9 +172,15 @@ function generateContent(sectionTitle, dataObj){
     question.className = "question";
     question.innerHTML = "What elements do you want to keep in '" + sectionTitle + "'?";
     section.appendChild(question);
+    var subsection = document.createElement("div");
+    subsection.className = "data-section";
     for (var key in dataObj){
-        section.appendChild(createElementBar(dataObj[key]));
+        if (dataObj[key]["title"] !== "Mission_Area" &&
+            dataObj[key]["title"] !== "Discipline_Area"){
+            subsection.appendChild(createElementBar(dataObj[key]));
+        }
     }
+    section.appendChild(subsection);
     return section;
 }
 /*

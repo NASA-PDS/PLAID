@@ -81,14 +81,6 @@ function updateActionBarHandlers(builderState, goBackSelector, saveSelector) {
 }
 
 /**
- * Upon initialization of the app, assigns handlers to the Yes and No buttons in the
- * Mission Specifics step for auto-stepping the wizard forward once
- */
-function addMissionSpecificsHandlers() {
-    $(".yesButton, .noButton").click(function() {$("#wizard").steps("next")});
-}
-
-/**
  * Called during the onStepChanging event for jQuery Steps, this function toggles
  * the display between the Previous/Next buttons and Go Back/Save buttons used
  * in either the Mission Specifics or Builder steps
@@ -124,7 +116,7 @@ function handleMissionSpecificsStep(currentIndex, newIndex) {
     var isMissionSpecificsStep = $(currSection).find(".mission_specifics").length > 0;
     if (isMissionSpecificsStep && $(".yesButton").hasClass("active")){
         var title = "Builder";
-        wizard.steps("insert", insertionIndex, {
+        $("#wizard").steps("insert", insertionIndex, {
             title: title,
             content: generateHomepage("mission_specifics_builder")
         });
@@ -145,8 +137,7 @@ function handleMissionSpecificsStep(currentIndex, newIndex) {
  *  TODO USE GLOBAL CURRENT INDEX VAR AFTER CODE MERGE
  */
 function mutatePage(nextPage) {
-    //var currSection = $("#wizard-p-" + currentIndex.toString());
-    var currSection = $("#wizard-p-4");
+    var currSection = $("#wizard-p-" + wizardData.currentStep.toString());
     $(currSection).empty();
 
     if (nextPage === "home") {
