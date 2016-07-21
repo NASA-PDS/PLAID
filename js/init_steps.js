@@ -101,7 +101,7 @@ function match_wizard_height(wizard, sidebar){
 function handleStepAddition(currentIndex, newIndex){
     var insertionIndex = newIndex;
     var currSection = $("#wizard-p-" + currentIndex.toString());
-    if ($(".optional-section", currSection)){
+    if ($(".optional-section", currSection).length > 0){
         $(".element-bar:not(.stepAdded)", currSection).each(function(){
             var id = $(this).attr("id");
             var elementKeys = id.split("/");
