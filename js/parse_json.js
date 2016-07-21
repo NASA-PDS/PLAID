@@ -106,7 +106,12 @@ function getAssociations(object, associationList, currObj, orderNum){
             determineRequirements(child, currObj[orderNum + title]);
         }
         else{
-            identifier = child["classIdentifier"][0];
+            try {
+                identifier = child["classIdentifier"][0];
+            }
+            catch (e){
+                identifier = child["classId"][0];
+            }
             title = identifier.split(".").pop();
             var classObj = getElement(object, "class", "classDictionary", identifier);
             var modTitle = orderNum + title;
