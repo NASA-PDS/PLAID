@@ -15,6 +15,7 @@ function discNodesSelection(currentIndex){
                 nodeName = nodeName.replace(/\b\s\b/, "_").toLowerCase();
                 var nodeId = span.attr("data-id");
                 jsonData.nodes[nodeName] = getJSON(getNodeJsonFilename(nodeName));
+                jsonData.searchObj = jsonData.nodes[nodeName];
                 getElement(jsonData.nodes[nodeName], nodeName, "classDictionary", nodeId);
             }
         });

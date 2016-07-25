@@ -72,83 +72,75 @@ function getElement(outerObj, type, dictName, elementName){
  */
 function handleProductOrNode(overallObj, element){
     var assocList = element["associationList"];
-    var elementObj = {};
-    getAssociations(overallObj, assocList, elementObj, 0);
-    jsonData.refObj = elementObj;
+    jsonData.refObj = {};
+    getAssociations(overallObj, assocList, jsonData.refObj);
+    for (var index in jsonData.refObj){
+        for (var key in jsonData.refObj[index]){
+            var currObj = jsonData.refObj[index][key];
+            getAssociations(overallObj, currObj["associationList"], currObj["next"]);
+            assignObjectPath(index, currObj, currObj["next"]);
+        }
+    }
     insertLevelOfSteps(wizardData.currentStep+1, jsonData.refObj);
-
 }
 /*
-* Recursively search for associations to a class.
+* Search for and form associations in the new object from the overall object.
 * @param {Object} object JSON object to search through
 * @param {array} associationList list of association objects to search for
 * @param {Object} currObj object to store each child of the overall product type, maintaining relations
-* @param {Number} orderNum integer to track the ordering of child elements
-* Note: orderNum is necessary to preserve the order of child elements in the object. Otherwise,
-* the order would be determined alphabetically in the "next" object. This order is important to
-* maintain as it reflects the definitions in the PDS4 XML schema.
 */
-function getAssociations(object, associationList, currObj, orderNum){
+function getAssociations(object, associationList, currObj){
     for (var index in associationList){
         var child = associationList[index]["association"];
         var isAttr = (child["isAttribute"] === "true");
-        var identifier = "", title = "";
+        var identifiers = [], title = "";
+        currObj[index] = [];
         if (isAttr){
-            try {
-                identifier = child["attributeIdentifier"][0];
+            identifiers = child["attributeIdentifier"];
+            if (identifiers === undefined) { identifiers = child["attributeId"]; }
+            for (var attIndex in identifiers){
+                title = identifiers[attIndex].split(".").pop();
+                currObj[index][title] = getElement(object, "attribute", "attributeDictionary", identifiers[attIndex]);
+                determineRequirements(child, currObj[index][title]);
             }
-            catch (e){
-                identifier = child["attributeId"][0];
-            }
-            title = identifier.split(".").pop();
-            var attr = getElement(object, "attribute", "attributeDictionary", identifier);
-            currObj[orderNum + title] = attr;
-            determineRequirements(child, currObj[orderNum + title]);
         }
         else{
-            try {
-                identifier = child["classIdentifier"][0];
-            }
-            catch (e){
-                identifier = child["classId"][0];
-            }
-            title = identifier.split(".").pop();
-            var classObj = getElement(object, "class", "classDictionary", identifier);
-            var modTitle = orderNum + title;
-            //use Object.assign to make a copy of the object
-            //this prevents overwriting the original object in future modifications
-            currObj[modTitle] = Object.assign(classObj);
-            currObj[modTitle]["next"] = {};
-            determineRequirements(child, currObj[modTitle]);
-            if (classObj["associationList"]){
-                getAssociations(object, classObj["associationList"], currObj[modTitle]["next"], 0);
-                assignObjectPath(currObj[modTitle], currObj[modTitle]["next"]);
+            identifiers = child["classIdentifier"];
+            if (identifiers === undefined) { identifiers = child["classId"]; }
+            for (var clIndex in identifiers){
+                title = identifiers[clIndex].split(".").pop();
+                var classObj = getElement(object, "class", "classDictionary", identifiers[clIndex]);
+                //use Object.assign to make a copy of the object
+                //this prevents overwriting the original object in future modifications
+                currObj[index][title] = Object.assign(classObj);
+                currObj[index][title]["next"] = {};
+                determineRequirements(child, currObj[index][title]);
             }
         }
-        orderNum += 1;
     }
 }
 /*
-* Recursively add an attribute to each element in the overall object that specifies
-* the path (in terms of the hierarchy) from the root of the object to that element.
-* This function is recursive to revert incorrect ordering from original call.
+* Loop through all of the children of an object and add their respective paths (formed
+* from the parent path).
 * Note: Since this function goes through all the children of an object, it also checks
 * to see if any of the children are optional and sets the "allChildrenRequired" attribute
 * accordingly.
+* @param {number} startingIndex index for the first level of children in the refObject
 * @param {Object} currentObject to get preceding path from
 * @param {Object} children to add full path to
  */
-function assignObjectPath(currObject, children){
+function assignObjectPath(startingIndex, currObject, children){
     if (currObject["path"] === undefined){
-        currObject["path"] = currObject["title"];
+        currObject["path"] = startingIndex.toString() + "/" + currObject["title"];
     }
     var path = currObject["path"];
     currObject["allChildrenRequired"] = true;
-    for (var key in children){
-        if (!children[key]["isRequired"]) { currObject["allChildrenRequired"] = false; }
-        children[key]["path"] = path + "/" + children[key]["title"];
-        if (children[key]["next"]){
-            assignObjectPath(children[key], children[key]["next"]);
+    for (var index in children){
+        for (var key in children[index]){
+            if (children[index][key]){
+                if (!children[index][key]["isRequired"]) { currObject["allChildrenRequired"] = false; }
+                children[index][key]["path"] = path + "/" + index.toString() + "/" + children[index][key]["title"];
+            }
         }
     }
 }

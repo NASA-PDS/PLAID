@@ -99,6 +99,18 @@ td {
     border-radius: .25rem;
 }
 
+.choice-field {
+    border: solid thin gainsboro;
+    border-radius: 0.2rem;
+    padding: 0.2rem;
+    margin: 0.3rem;
+}
+
+.choice-prompt {
+    font-size: small;
+    opacity: 0.7;
+}
+
 .data-section {
     height: inherit;
     overflow: auto;
@@ -128,7 +140,7 @@ input::-webkit-inner-spin-button {
 
 .element-bar .element-bar-label {
     padding: 0.719rem 0rem 0.719rem 1.25rem;
-    width: 70%;
+    /*width: 70%;*/
     background-color: #ffffff;
     text-align: left;
 }
@@ -149,6 +161,10 @@ input::-webkit-inner-spin-button {
 .form-control:disabled {
     background-color: #ffffff;
     opacity: 0.3;
+}
+
+.input-group-addon {
+    width: 70%;
 }
 
 .no-border-radius {

@@ -109,14 +109,8 @@ function handleStepAddition(currentIndex, newIndex){
             var elementKeys = id.split("/");
             var currObj = jsonData.refObj;
             for (var index in elementKeys){
-                var regex = new RegExp("[0-9]+" + elementKeys[index]);
-                for (var key in currObj){
-                    if (key.match(regex)){
-                        currObj = currObj[key];
-                        break;
-                    }
-                }
-                if (index < elementKeys.length-1) { currObj = currObj["next"]; }
+                currObj = currObj[elementKeys[index]];
+                if (index < elementKeys.length-1 && isNaN(elementKeys[index])) { currObj = currObj["next"]; }
             }
             var val = $(".element-bar-counter", this).val();
             //the following handles three checks:
@@ -140,9 +134,11 @@ function handleStepAddition(currentIndex, newIndex){
 * @param {Object} dataObj object containing the PDS data to generate content from
  */
 function insertLevelOfSteps(currIndex, dataObj){
-    for (var key in dataObj){
-        insertStep($("#wizard"), currIndex, dataObj[key]);
-        currIndex +=1;
+    for (var index in dataObj){
+        for (var key in dataObj[index]){
+            insertStep($("#wizard"), currIndex, dataObj[index][key]);
+            currIndex +=1;
+        }
     }
 }
 /*
@@ -174,49 +170,103 @@ function generateContent(sectionTitle, dataObj){
     section.appendChild(question);
     var subsection = document.createElement("div");
     subsection.className = "data-section";
-    for (var key in dataObj){
-        if (dataObj[key]["title"] !== "Mission_Area" &&
-            dataObj[key]["title"] !== "Discipline_Area"){
-            subsection.appendChild(createElementBar(dataObj[key]));
+    for (var index in dataObj){
+        var counter = 0, flag = false;
+        var choicegroup;
+        for (var key in dataObj[index]){
+            counter += 1;
         }
+        dataObj[index].length = counter;
+        key = "";
+        for (key in dataObj[index]){
+            var currObj = dataObj[index][key];
+            if (dataObj[index].length === 1){
+                if (currObj["title"] !== "Mission_Area" &&
+                    currObj["title"] !== "Discipline_Area"){
+                    subsection.appendChild(createElementBar(currObj, createLabel, false));
+                }
+            }
+            else {
+                var range = currObj["range"].split("-");
+                if (!flag){
+                    choicegroup = createChoiceGroup(range[0], range[1]);
+                }
+                range[0] = (range[0] === "0" ? range[0] : (parseInt(range[0], 10) - 1).toString());
+                currObj["range"] =  range[0] + "-" + range[1];
+                choicegroup.appendChild(createElementBar(currObj, createLabel, true));
+                flag = true;
+            }
+            getAssociations(jsonData.searchObj, currObj["associationList"], currObj["next"]);
+            assignObjectPath(null, currObj, currObj["next"]);
+        }
+        if (flag){ subsection.appendChild(choicegroup); }
     }
     section.appendChild(subsection);
     return section;
 }
 /*
 * Create an element-bar populated with data from the specified object.
-* @param {Object} dataObj object containing the PDS data to generate content from
+* @param {list|object} data either a list of data objects or single data object
+* @param {function} genLabel function to create the label portion of the element-bar
 * @return {HTML element} elementBar
  */
-function createElementBar(dataObj){
+function createElementBar(data, genLabel, isChoice){
+    var defaultObj, param;
+    if (Array.isArray(data)){
+        defaultObj = data[Object.keys(data)[0]];
+        param = data;
+    }
+    else {
+        defaultObj = data;
+        param = defaultObj["title"];
+    }
     var elementBar = document.createElement("div");
     elementBar.className = "input-group element-bar";
-    elementBar.id = dataObj["path"];
+    elementBar.id = defaultObj["path"];
 
-    var label = document.createElement("span");
-    label.className = "input-group-addon element-bar-label";
-    label.innerHTML = dataObj["title"].replace(/_/g, " ");
+    var label = genLabel(param, isChoice);
     elementBar.appendChild(label);
 
     var minusBtn = createControlButton("minus");
     elementBar.appendChild(minusBtn);
     var plusBtn = createControlButton("plus");
 
-    var counter = createCounterInput(dataObj);
+    var counter = createCounterInput(defaultObj);
     if ($(counter).prop("value") === $(counter).prop("max")){
         $("button", plusBtn).prop("disabled", true);
     }
     if ($(counter).prop("min") === "0") {
         label.className += " zero-instances";
     }
+    if (isChoice){
+        $(counter).prop("disabled", true);
+        $(counter).css("opacity", 1);
+    }
     $("button", minusBtn).prop("disabled", true);
     elementBar.appendChild(counter);
 
     elementBar.appendChild(plusBtn);
 
-    addPopover(elementBar, dataObj, $(counter).prop("min"), $(counter).prop("max"));
+    addPopover(elementBar, defaultObj, $(counter).prop("min"), $(counter).prop("max"));
 
     return elementBar;
+}
+/*
+ * Create a span to act as a label with the specified text.
+ * @param {string} text
+ * @return {HTML Element} label
+ */
+function createLabel(text, isChoice){
+    var label = document.createElement("span");
+    label.className = "input-group-addon element-bar-label";
+    if (isChoice) {
+        label.innerHTML = "<i>" + text.replace(/_/g, " ") + "</i>";
+        label.className += " option";
+    }
+    else {
+        label.innerHTML = text.replace(/_/g, " ");
+    }
+    return label;
 }
 /*
 * Create a plus/minus button for controlling the form in an element-bar.
@@ -280,4 +330,33 @@ function createCounterInput(dataObj) {
     $(counter).focusout(releaseValue);
 
     return counter;
+}
+/*
+ * Create a wrapper div with a label for denoting a group of element choices.
+ * @param {string} min minimum total value for the choice group
+ * @param {string} max maximum total value for the choice group
+ * @return {HTML Element}
+ */
+function createChoiceGroup(min, max){
+    var cg = document.createElement("div");
+    cg.className = "choice-field";
+    var label = document.createElement("div");
+    label.className = "choice-prompt";
+    max = (max === "*" ? "9999999999" : max);
+    if (min === max && min === "1"){
+        label.innerHTML = "You must keep <b>one</b> of these options:";
+    }
+    else if (min < max && min === "0"){
+        label.innerHTML = "You may <b>keep or remove</b> these options:";
+    }
+    else {
+        label.innerHTML = "You must keep <b>at least</b> one of these options:";
+    }
+
+    $(cg).attr("min", min);
+    $(cg).attr("max", max);
+    $(cg).attr("total", parseInt(min, 10)-1);
+
+    cg.appendChild(label);
+    return cg;
 }

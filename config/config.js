@@ -16,6 +16,7 @@ var filePaths = {
 var jsonData = {
     refObj: {},
     pds4Obj: {},
+    searchObj: {},
     nodes: []
 };
 var wizardData = {
