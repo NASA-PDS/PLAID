@@ -182,11 +182,12 @@ function generateContent(sectionTitle, dataObj){
                 }
             }
             else {
-                if (!flag){
-                    choicegroup = createChoiceGroup();
-                }
                 var range = currObj["range"].split("-");
-                currObj["range"] = (parseInt(range[0], 10) - 1).toString() + "-" + range[1];
+                if (!flag){
+                    choicegroup = createChoiceGroup(range[0], range[1]);
+                }
+                range[0] = (range[0] === "0" ? range[0] : (parseInt(range[0], 10) - 1).toString());
+                currObj["range"] =  range[0] + "-" + range[1];
                 choicegroup.appendChild(createElementBar(currObj, createLabel, true));
                 flag = true;
             }
@@ -231,6 +232,10 @@ function createElementBar(data, genLabel, isChoice){
     }
     if ($(counter).prop("min") === "0") {
         label.className += " zero-instances";
+    }
+    if (isChoice){
+        $(counter).prop("disabled", true);
+        $(counter).css("opacity", 1);
     }
     $("button", minusBtn).prop("disabled", true);
     elementBar.appendChild(counter);
@@ -323,14 +328,30 @@ function createCounterInput(dataObj) {
 }
 /*
  * Create a wrapper div with a label for denoting a group of element choices.
+ * @param {string} min minimum total value for the choice group
+ * @param {string} max maximum total value for the choice group
  * @return {HTML Element}
  */
-function createChoiceGroup(){
+function createChoiceGroup(min, max){
     var cg = document.createElement("div");
     cg.className = "choice-field";
     var label = document.createElement("div");
     label.className = "choice-prompt";
-    label.innerHTML = "Choose between these options:";
+    max = (max === "*" ? "9999999999" : max);
+    if (min === max && min === "1"){
+        label.innerHTML = "You must keep <b>one</b> of these options:";
+    }
+    else if (min < max && min === "0"){
+        label.innerHTML = "You may <b>keep or remove</b> these options:";
+    }
+    else {
+        label.innerHTML = "You must keep <b>at least</b> one of these options:";
+    }
+
+    $(cg).attr("min", min);
+    $(cg).attr("max", max);
+    $(cg).attr("total", parseInt(min, 10)-1);
+
     cg.appendChild(label);
     return cg;
 }

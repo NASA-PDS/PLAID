@@ -76,6 +76,8 @@ function loadDescriptionFromFile(filepath, selector){
 
 /*
  * When the user clicks on a plus button, increment the corresponding counter.
+ * If it is a choice group (in other words, the user can choose between multiple elements),
+ * then ensure that the values are okay within the context of the group.
  */
 function increaseCounter(){
     var counter = $(this).parent().siblings(".element-bar-counter");
@@ -83,17 +85,41 @@ function increaseCounter(){
     var counterMin = minAndMax[0], counterMax = minAndMax[1];
     var currVal = parseInt(counter.val(), 10);
     var newVal = (currVal + 1);
+    var choiceGroup = $(this).parents(".choice-field");
+    var cgMin, currTotal, isCG = false;
+    if (choiceGroup.length > 0){
+        cgMin = parseInt($(choiceGroup).attr("min"), 10);
+        currTotal = parseInt($(choiceGroup).attr("total"), 10);
+        isCG = true;
+    }
     if (newVal >= counterMin && newVal <= counterMax){
-        counter.val(newVal);
+        counter.attr("value", newVal);
+        if (isCG){
+            currTotal += 1;
+            $(choiceGroup).attr("total", currTotal);
+            if (currTotal > cgMin){
+                $(".btn.element-bar-minus", choiceGroup).each(function(){
+                    var val = $(this).parent().siblings(".element-bar-counter").attr("value");
+                    if (val !== "0") { $(this).prop("disabled", false); }
+                });
+            }
+        }
         $(this).parent().siblings(".element-bar-label").removeClass("zero-instances");
         $(this).parent().siblings(".element-bar-button").children(".element-bar-minus").prop('disabled', false);
     }
     if (newVal === counterMax){
         $(this).prop('disabled', true);
+        if (isCG){
+            $(".btn.element-bar-plus", choiceGroup).each(function(){
+                $(this).prop("disabled", true);
+            });
+        }
     }
 }
 /*
  * When the user clicks on a minus button, decrement the corresponding counter.
+ * If it is a choice group (in other words, the user can choose between multiple elements),
+ * then ensure that the values are okay within the context of the group.
  */
 function decreaseCounter(){
     var counter = $(this).parent().siblings(".element-bar-counter");
@@ -101,12 +127,33 @@ function decreaseCounter(){
     var counterMin = minAndMax[0], counterMax = minAndMax[1];
     var currVal = parseInt(counter.val(), 10);
     var newVal = (currVal - 1);
+    var choiceGroup = $(this).parents(".choice-field");
+    var cgMin, currTotal, isCG = false;
+    if (choiceGroup.length > 0){
+        cgMin = parseInt($(choiceGroup).attr("min"), 10);
+        currTotal = parseInt($(choiceGroup).attr("total"), 10);
+        isCG = true;
+    }
     if (newVal >= counterMin && newVal <= counterMax){
-        counter.val(newVal);
+        counter.attr("value", newVal);
+        if (isCG){
+            currTotal -= 1;
+            $(choiceGroup).attr("total", currTotal);
+            if (currTotal <= cgMin){
+                $(".btn.element-bar-plus", choiceGroup).each(function(){
+                    $(this).prop("disabled", false);
+                });
+            }
+        }
         $(this).parent().siblings(".element-bar-button").children(".element-bar-plus").prop('disabled', false);
     }
     if (newVal === counterMin){
         $(this).prop('disabled', true);
+        if (isCG && cgMin !== 0 && currTotal <= cgMin){
+            $(".btn.element-bar-minus", choiceGroup).each(function(){
+                $(this).prop("disabled", true);
+            });
+        }
     }
     if (newVal === 0){
         $(this).parent().siblings(".element-bar-label").addClass("zero-instances");
