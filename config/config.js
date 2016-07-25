@@ -19,5 +19,6 @@ var jsonData = {
     nodes: []
 };
 var wizardData = {
-    currentStep: 0
+    currentStep: 0,
+    priorStep : 0
 };

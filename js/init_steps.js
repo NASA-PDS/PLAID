@@ -56,6 +56,8 @@ var settings = {
             number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
         }
         wizardData.currentStep = currentIndex;
+        wizardData.priorStep = priorIndex;
+        updateMissionSpecificsBuilder();
         $("#help").empty();
         previewDescription();
         $("#help").fadeIn(200);
