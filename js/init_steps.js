@@ -206,32 +206,23 @@ function generateContent(sectionTitle, dataObj){
 }
 /*
 * Create an element-bar populated with data from the specified object.
-* @param {list|object} data either a list of data objects or single data object
+* @param {object} dataObj object containing the information for the element-bar
 * @param {function} genLabel function to create the label portion of the element-bar
 * @return {HTML element} elementBar
  */
-function createElementBar(data, genLabel, isChoice){
-    var defaultObj, param;
-    if (Array.isArray(data)){
-        defaultObj = data[Object.keys(data)[0]];
-        param = data;
-    }
-    else {
-        defaultObj = data;
-        param = defaultObj["title"];
-    }
+function createElementBar(dataObj, genLabel, isChoice){
     var elementBar = document.createElement("div");
     elementBar.className = "input-group element-bar";
-    elementBar.id = defaultObj["path"];
+    elementBar.id = dataObj["path"];
 
-    var label = genLabel(param, isChoice);
+    var label = genLabel(dataObj["title"], isChoice);
     elementBar.appendChild(label);
 
     var minusBtn = createControlButton("minus");
     elementBar.appendChild(minusBtn);
     var plusBtn = createControlButton("plus");
 
-    var counter = createCounterInput(defaultObj);
+    var counter = createCounterInput(dataObj);
     if ($(counter).prop("value") === $(counter).prop("max")){
         $("button", plusBtn).prop("disabled", true);
     }
@@ -247,7 +238,7 @@ function createElementBar(data, genLabel, isChoice){
 
     elementBar.appendChild(plusBtn);
 
-    addPopover(elementBar, defaultObj, $(counter).prop("min"), $(counter).prop("max"));
+    addPopover(elementBar, dataObj, $(counter).prop("min"), $(counter).prop("max"));
 
     return elementBar;
 }
