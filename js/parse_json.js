@@ -73,14 +73,11 @@ function getElement(outerObj, type, dictName, elementName){
 function handleProductOrNode(overallObj, element){
     var assocList = element["associationList"];
     jsonData.refObj = {};
+    //get initial associations for creating main steps
     getAssociations(overallObj, assocList, jsonData.refObj);
-    for (var index in jsonData.refObj){
-        for (var key in jsonData.refObj[index]){
-            var currObj = jsonData.refObj[index][key];
-            getAssociations(overallObj, currObj["associationList"], currObj["next"]);
-            assignObjectPath(index, currObj, currObj["next"]);
-        }
-    }
+    //get next two levels of associations for creating element-bars and
+    //displaying subelement information in the popovers
+    getLevelOfAssociations(overallObj, jsonData.refObj, true);
     insertLevelOfSteps(wizardData.currentStep+1, jsonData.refObj);
 }
 /*
@@ -115,6 +112,27 @@ function getAssociations(object, associationList, currObj){
                 currObj[index][title] = Object.assign(classObj);
                 currObj[index][title]["next"] = {};
                 determineRequirements(child, currObj[index][title]);
+            }
+        }
+    }
+}
+/*
+ * Loop through a layer of associations to get their subsequent associations.
+ * This has the option of being recursive, but only for one execution. Due to the size
+ * and hierarchy of the JSONs this works with, it needs to be mostly iterative to maintain
+ * performance and not blow the call stack.
+ * @param {Object} searchObj object to search through for association objects
+ * @param {List} nextObjs list of objects to find associations for
+ * @param {Bool} exeTwice specifies whether to recurse once or not
+ */
+function getLevelOfAssociations(searchObj, nextObjs, exeTwice){
+    for (var index in nextObjs){
+        for (var key in nextObjs[index]){
+            var currObj = nextObjs[index][key];
+            getAssociations(searchObj, currObj["associationList"], currObj["next"]);
+            assignObjectPath(index, currObj, currObj["next"]);
+            if (exeTwice) {
+                getLevelOfAssociations(searchObj, currObj["next"], false);
             }
         }
     }

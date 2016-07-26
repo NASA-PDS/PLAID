@@ -110,7 +110,9 @@ function handleStepAddition(currentIndex, newIndex){
             var currObj = jsonData.refObj;
             for (var index in elementKeys){
                 currObj = currObj[elementKeys[index]];
-                if (index < elementKeys.length-1 && isNaN(elementKeys[index])) { currObj = currObj["next"]; }
+                if (index < elementKeys.length-1 && isNaN(elementKeys[index])) {
+                    currObj = currObj["next"];
+                }
             }
             var val = $(".element-bar-counter", this).val();
             //the following handles three checks:
@@ -196,8 +198,11 @@ function generateContent(sectionTitle, dataObj){
                 choicegroup.appendChild(createElementBar(currObj, createLabel, true));
                 flag = true;
             }
+            //get immediate associations for creating next steps/element-bars
             getAssociations(jsonData.searchObj, currObj["associationList"], currObj["next"]);
             assignObjectPath(null, currObj, currObj["next"]);
+            //need to get one more level of associations for displaying sub-elements in the popovers
+            getLevelOfAssociations(jsonData.searchObj, currObj["next"], false);
         }
         if (flag){ subsection.appendChild(choicegroup); }
     }
