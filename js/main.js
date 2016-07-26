@@ -175,3 +175,12 @@ function getMinMax(counter){
     }
     return Array(counterMin, counterMax);
 }
+
+function updateLabel(funcName, args) {
+    $.post("php/xml_mutator.php", {
+        Function: funcName,
+        Data: [args]
+    }).done(function(data){
+        console.log(data);
+    });
+}

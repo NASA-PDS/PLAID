@@ -131,6 +131,11 @@ function handleStepAddition(currentIndex, newIndex){
                     insertionIndex +=1;
                 }
                 $(this).addClass("stepAdded");
+                var quantity = val - $(".element-bar-counter", this).attr("min");
+                if (quantity !== 0)
+                    updateLabel("addNode", {path: id, quantity: quantity});
+                else
+                    updateLabel("removeNode", {path: id});
             }
         });
     }
