@@ -105,28 +105,33 @@ function handleStepAddition(currentIndex, newIndex){
     var currSection = $("#wizard-p-" + currentIndex.toString());
     if ($(".optional-section", currSection).length > 0){
         $(".element-bar:not(.stepAdded)", currSection).each(function(){
-            var id = $(this).attr("id");
-            var elementKeys = id.split("/");
-            var currObj = jsonData.refObj;
-            for (var index in elementKeys){
-                currObj = currObj[elementKeys[index]];
-                if (index < elementKeys.length-1 && isNaN(elementKeys[index])) {
-                    currObj = currObj["next"];
-                }
-            }
             var val = $(".element-bar-counter", this).val();
-            //the following handles three checks:
-            //- if the counter value (val) is not 0, then the user added an instance of the element
-            //- if the "allChildrenRequired" property is not undefined, then it is a class with children (not an attribute)
-            //- if the "allChildrenRequired" property is false, then there are optional children
-            // if all of these checks are true, then insert a step for the current object/element
-            if (val !== "0" &&
-                currObj["allChildrenRequired"] !== undefined &&
-                !currObj["allChildrenRequired"]){
-                insertStep($("#wizard"), insertionIndex, currObj);
-                insertionIndex +=1;
+            if (val !== "0"){
+                var id = $(this).attr("id");
+                var elementKeys = id.split("/");
+                var currObj = jsonData.refObj;
+                for (var index in elementKeys){
+                    try {
+                        currObj = currObj[elementKeys[index]];
+                    }
+                    catch(e){
+                        return;
+                    }
+                    if (index < elementKeys.length-1 && isNaN(elementKeys[index])) {
+                        currObj = currObj["next"];
+                    }
+                }
+                //the following handles two checks:
+                //- if the "allChildrenRequired" property is not undefined, then it is a class with children (not an attribute)
+                //- if the "allChildrenRequired" property is false, then there are optional children
+                // if all of these checks are true, then insert a step for the current object/element
+                if (currObj["allChildrenRequired"] !== undefined &&
+                    !currObj["allChildrenRequired"]){
+                    insertStep($("#wizard"), insertionIndex, currObj);
+                    insertionIndex +=1;
+                }
+                $(this).addClass("stepAdded");
             }
-            $(this).addClass("stepAdded");
         });
     }
 }
@@ -182,6 +187,11 @@ function generateContent(sectionTitle, dataObj){
         key = "";
         for (key in dataObj[index]){
             var currObj = dataObj[index][key];
+            //get immediate associations for creating next steps/element-bars
+            getAssociations(jsonData.searchObj, currObj["associationList"], currObj["next"]);
+            assignObjectPath(null, currObj, currObj["next"]);
+            //need to get one more level of associations for displaying sub-elements in the popovers
+            getLevelOfAssociations(jsonData.searchObj, currObj["next"], false);
             if (dataObj[index].length === 1){
                 if (currObj["title"] !== "Mission_Area" &&
                     currObj["title"] !== "Discipline_Area"){
@@ -198,11 +208,6 @@ function generateContent(sectionTitle, dataObj){
                 choicegroup.appendChild(createElementBar(currObj, createLabel, true));
                 flag = true;
             }
-            //get immediate associations for creating next steps/element-bars
-            getAssociations(jsonData.searchObj, currObj["associationList"], currObj["next"]);
-            assignObjectPath(null, currObj, currObj["next"]);
-            //need to get one more level of associations for displaying sub-elements in the popovers
-            getLevelOfAssociations(jsonData.searchObj, currObj["next"], false);
         }
         if (flag){ subsection.appendChild(choicegroup); }
     }
