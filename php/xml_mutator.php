@@ -5,11 +5,14 @@
  * Date: 7/26/16
  * Time: 1:50 PM
  */
-$DOC = readInXML("/tmp/sample_label.xml");
+$filepath = "/tmp/test.xml";
+$DOC = readInXML($filepath);
 if(isset($_POST['Function'])){
     call_user_func($_POST['Function'], $_POST['Data']);
 }
-//$DOC->save("/tmp/sample_label.xml", LIBXML_NOEMPTYTAG);
+//unlink($filepath);
+$DOC->save($filepath, LIBXML_NOEMPTYTAG);
+echo "Saved: ".$filepath;
 //echo $DOC->saveXML();
 /*
  * Load the specified file into a new DOMDocument.
@@ -38,14 +41,15 @@ function getNode($path){
  */
 function addNode($args){
     global $DOC;
-    $nodePath = $args[0]["path"];
-    $quantity = $args[0]["quantity"];
+    $nodePath = $args["path"];
+    $quantity = $args["quantity"];
     list($nodeName, $nodePath) = handlePath($nodePath);
     $nodes = getNode($nodePath);
     foreach($nodes as $node){
         for ($x = 0; $x < $quantity; $x++){
             $newNode = $DOC->createElement($nodeName);
             $node->appendChild($newNode);
+            echo "Created: ".$nodeName;
         }
     }
 }
@@ -54,12 +58,12 @@ function addNode($args){
  * @param {list} $args list of objects containing argument values
  */
 function removeNode($args){
-    global $DOC;
-    list($nodeName, $parentPath) = handlePath($args[0]["path"]);
+    list($nodeName, $parentPath) = handlePath($args["path"]);
     $nodes = getNode($parentPath . "/" . $nodeName);
     $parentNode = getNode($parentPath)->item(0);
     foreach($nodes as $node){
         $parentNode->removeChild($node);
+        echo "Removed: ".$nodeName;
     }
 }
 /*

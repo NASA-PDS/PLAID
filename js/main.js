@@ -13,6 +13,9 @@ $(document).ready(function(){
     });
     addMissionSpecificsActionBar();
     previewDescription();
+    $.post("php/file_out.php", function(data){
+        console.log(data);
+    });
 });
 /*
  * When the user selects an option in the wizard pane, add
@@ -177,9 +180,14 @@ function getMinMax(counter){
 }
 
 function updateLabel(funcName, args) {
-    $.post("php/xml_mutator.php", {
-        Function: funcName,
-        Data: [args]
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: "php/xml_mutator.php",
+        data: {
+            Function: funcName,
+            Data: args
+        }
     }).done(function(data){
         console.log(data);
     });

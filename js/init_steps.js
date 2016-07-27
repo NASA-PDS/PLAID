@@ -106,8 +106,8 @@ function handleStepAddition(currentIndex, newIndex){
     if ($(".optional-section", currSection).length > 0){
         $(".element-bar:not(.stepAdded)", currSection).each(function(){
             var val = $(".element-bar-counter", this).val();
+            var id = $(this).attr("id");
             if (val !== "0"){
-                var id = $(this).attr("id");
                 var elementKeys = id.split("/");
                 var currObj = jsonData.refObj;
                 for (var index in elementKeys){
@@ -134,8 +134,9 @@ function handleStepAddition(currentIndex, newIndex){
                 var quantity = val - $(".element-bar-counter", this).attr("min");
                 if (quantity !== 0)
                     updateLabel("addNode", {path: id, quantity: quantity});
-                else
-                    updateLabel("removeNode", {path: id});
+            }
+            else{
+                updateLabel("removeNode", {path: id});
             }
         });
     }
