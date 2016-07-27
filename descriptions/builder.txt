@@ -1,4 +1,0 @@
-<div>Time to build a Mission Specific Dictionary!</div><br>
-<div>Even after the discipline nodes, the PDS knows there will still be metadata specific to your mission.</div><br>
-<div>In this step, we add the final elements to your label. You will be building the label using the Label Design Tool MSD Builder.</div><br>
-<div>Remember, groups are collections of metadata around a common theme while attributes are pieces of metadata with only one value.</div><br>

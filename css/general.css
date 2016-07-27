@@ -96,6 +96,7 @@ td {
     background: #eeeeee;
     color: #aaaaaa;
     text-align: center;
+    overflow: auto;
 }
 .checkbox-item {
     position: relative;
