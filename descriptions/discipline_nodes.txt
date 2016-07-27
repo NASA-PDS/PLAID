@@ -1,6 +1,0 @@
-<div> <b> Now it's time to get specific! </b> </div><br>
-<div> The PDS has different requirements for different subject matters, and divides these into <b> disciplines </div> <br>
-<div> Hover over a discpline node to see it's description. </div><br>
-<div> <b> Tips from the label guru: </div> <br>
-<div> If your mission takes pictures, you need the imaging node </div> <br>
-<div>If your mission has a spacecraft or a rover, you need the geometry node </b></div>
