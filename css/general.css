@@ -22,8 +22,10 @@ td {
     padding-top: 0.5rem;
 }
 #sidebar {
+    height: auto;
     float: right;
     width: 25%;
+    padding: 1rem 1rem 0rem 0.4rem;
 }
 #sidebarIcon {
     font-size: 290%;
@@ -36,6 +38,8 @@ td {
     margin-bottom: 0.5rem;
 }
 #wizard {
+    height: inherit;
+    min-height: 40rem;
     float: left;
     width: 75% !important;
     padding-top: 1rem;
@@ -47,48 +51,52 @@ td {
     background: #eeeeee;
     height: 4rem;
 }
-
 #wizard .content {
     border-radius: 0rem;
     margin-bottom: 0rem;
 }
-
 #wizard > .actions > ul {
     margin-top: 0.6rem;
     margin-right: 0.5rem;
 }
-
+#wrapper {
+    /*min-width: 600px;*/
+    /*max-width: 1080px;*/
+    /*min-height: calc(690px * (90/150));*/
+    height: 90vh;
+    /*width: 150vh;*/
+}
+#wrapper #wizard .content.clearfix {
+    height: 90%;
+    min-height: 35rem;
+}
+#wrapper #wizard .steps.clearfix {
+    min-height: 40rem;
+}
 /* class */
 .active {
     background-color: #2184be !important;
     color: white;
 }
-
 .btn-group {
     padding: 0.3rem;
 }
-
 .btn-secondary {
     padding: 0.73rem 1.25rem;
 }
-
 .btn:disabled {
     opacity: 0.3;
 }
-
 .card {
     margin-bottom: inherit;
 }
-
-.cardContainer {
+.infoBar {
     height: inherit;
     padding: 1rem 1rem 0rem 1rem;
     background: #eeeeee;
-    margin: 1rem 1rem 0rem 0.4rem;
     color: #aaaaaa;
     text-align: center;
 }
-
 .checkbox-item {
     position: relative;
     display: block;
@@ -98,53 +106,44 @@ td {
     border: 1px solid #ddd;
     border-radius: .25rem;
 }
-
 .choice-field {
     border: solid thin gainsboro;
     border-radius: 0.2rem;
     padding: 0.2rem;
     margin: 0.3rem;
 }
-
 .choice-prompt {
     font-size: small;
     opacity: 0.7;
 }
-
 .data-section {
     height: inherit;
     overflow: auto;
 }
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
-
 .element-bar {
     padding: 0.3rem;
     width: 100%;
 }
-
 .element-bar .element-bar-button {
     width: 10%;
 }
-
 .element-bar .element-bar-counter {
     padding: 0.719rem 0rem;
     border-left: 0 !important;
     text-align: center;
 }
-
 .element-bar .element-bar-label {
     padding: 0.719rem 0rem 0.719rem 1.25rem;
-    /*width: 70%;*/
+    width: 70%;
     background-color: #ffffff;
     text-align: left;
 }
-
 .element-bar .element-bar-minus {
     padding: 0.719rem 0rem;
     -webkit-border-radius: 0rem;
@@ -152,45 +151,36 @@ input::-webkit-inner-spin-button {
     border-radius: 0rem;
     width: 100%;
 }
-
 .element-bar .element-bar-plus {
     padding: 0.719rem 0rem;
     width: 100%;
 }
-
 .form-control:disabled {
     background-color: #ffffff;
     opacity: 0.3;
 }
-
 .input-group-addon {
     width: 70%;
 }
-
 .no-border-radius {
     -webkit-border-radius: 0rem;
     -moz-border-radius: 0rem;
     border-radius: 0rem;
 }
-
 .optional-section {
     height: inherit;
 }
-
 .question {
     font-weight: bold;
     font-size: large;
 }
-
 .spacer {
-   margin-right: 0.2rem;
-   margin-left: 0.2rem;
+    margin-right: 0.2rem;
+    margin-left: 0.2rem;
 }
-
 div.steps {
     overflow: auto;
 }
-
 .zero-instances {
     opacity: 0.3;
 }

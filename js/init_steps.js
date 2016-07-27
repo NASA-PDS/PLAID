@@ -90,14 +90,19 @@ function init_steps_object(wizard) {
 /*
  * Since the wizard object is controlled by the jQuery-Steps, it is
  * set to a specific height based on its content. We want to match this
- * height for the sidebar on the right.
- * @param {object} wizard
+ * height for the sidebar on the right and for the steps bar on the left.
+ * @param {object} content portion of the wizard
+ * @param {object} action bar portion of the wizard
  * @param {object} sidebar
+ * @param {object} steps bar
  */
-function match_wizard_height(wizard, sidebar){
-    $(sidebar).css("height", $(wizard).height());
-    $("div.steps").css("height", $(wizard).height());
+function match_wizard_height(wizardContent, wizardActions, sidebar, stepsBar){
+    $(sidebar).css("height", $(wizardContent).height() + $(wizardActions).height());
+    $(stepsBar).css("height", $(wizardContent).height() + $(wizardActions).height());
 }
+
+
+
 /*
 * Handles the dynamic creation of new steps populated with data from the product
 * object created from the PDS4 JSON. This function looks up the corresponding object
