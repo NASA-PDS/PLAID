@@ -10,10 +10,7 @@ $DOC = readInXML($filepath);
 if(isset($_POST['Function'])){
     call_user_func($_POST['Function'], $_POST['Data']);
 }
-//unlink($filepath);
 $DOC->save($filepath, LIBXML_NOEMPTYTAG);
-echo "Saved: ".$filepath;
-//echo $DOC->saveXML();
 /*
  * Load the specified file into a new DOMDocument.
  * @param {string} $file path to the file
@@ -21,6 +18,8 @@ echo "Saved: ".$filepath;
  */
 function readInXML($file){
     $doc = new DOMDocument();
+    $doc->preserveWhiteSpace = false;
+    $doc->formatOutput = true;
     $doc->load($file);
     return $doc;
 }
@@ -37,7 +36,7 @@ function getNode($path){
 }
 /*
  * Add node(s) to the overall document.
- * @param {list} $args list of objects containing argument values
+ * @param {object} $args object containing argument values
  */
 function addNode($args){
     global $DOC;
@@ -55,7 +54,7 @@ function addNode($args){
 }
 /*
  * Remove node(s) from the overall document.
- * @param {list} $args list of objects containing argument values
+ * @param {object} $args object containing argument values
  */
 function removeNode($args){
     list($nodeName, $parentPath) = handlePath($args["path"]);
@@ -64,6 +63,22 @@ function removeNode($args){
     foreach($nodes as $node){
         $parentNode->removeChild($node);
         echo "Removed: ".$nodeName;
+    }
+}
+/*
+ * Clear out all child nodes of the target to prepare for adding in new children.
+ * @param {object} $args object containing argument values
+ */
+function removeAllChildNodes($args){
+    list($nodeName, $parentPath) = handlePath($args["path"]);
+    $nodes = getNode($parentPath."/".$nodeName);
+    foreach ($nodes as $node){
+        while ($node->hasChildNodes()){
+            $childNode = $node->childNodes->item(0);
+            $cnName = $childNode->nodeName;
+            echo "Removed: ".$cnName;
+            $node->removeChild($childNode);
+        }
     }
 }
 /*

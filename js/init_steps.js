@@ -54,6 +54,11 @@ var settings = {
             var priorStepHeading = $("#wizard-t-" + priorIndex.toString());
             var number = $(".number", priorStepHeading)[0];
             number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
+
+            var currStepHeading = $("#wizard-t-" + currentIndex.toString());
+            //parse the step title from the overall step element (in the left sidebar)
+            var currStepTitle = (/[A-Z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
+            prepXML(currStepTitle);
         }
         wizardData.currentStep = currentIndex;
         $("#help").empty();
@@ -131,12 +136,7 @@ function handleStepAddition(currentIndex, newIndex){
                     insertionIndex +=1;
                 }
                 $(this).addClass("stepAdded");
-                var quantity = val - $(".element-bar-counter", this).attr("min");
-                if (quantity !== 0)
-                    updateLabel("addNode", {path: id, quantity: quantity});
-            }
-            else{
-                updateLabel("removeNode", {path: id});
+                updateLabel("addNode", {path: id, quantity: val});
             }
         });
     }
@@ -149,8 +149,12 @@ function handleStepAddition(currentIndex, newIndex){
 function insertLevelOfSteps(currIndex, dataObj){
     for (var index in dataObj){
         for (var key in dataObj[index]){
+            wizardData.mainSteps.push(dataObj[index][key]["title"]);
             insertStep($("#wizard"), currIndex, dataObj[index][key]);
             currIndex +=1;
+            if (index === "0"){
+                prepXML(dataObj[index][key]["title"]);
+            }
         }
     }
 }
@@ -366,4 +370,16 @@ function createChoiceGroup(min, max){
 
     cg.appendChild(label);
     return cg;
+}
+/*
+ * If this is a main section (that was dynamically added), remove all of its
+ * child nodes from the XML file.
+ * @param {string} sectionHeading title of the section
+ * Note: since the main sections are always on the first level of the XML, the
+ * section's heading is also the section's path.
+ */
+function prepXML(sectionHeading){
+    if ($.inArray(sectionHeading, wizardData.mainSteps) !== -1){
+        updateLabel("removeAllChildNodes", {path: sectionHeading});
+    }
 }
