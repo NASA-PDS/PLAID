@@ -110,6 +110,12 @@ function handleStepAddition(currentIndex, newIndex){
     var insertionIndex = newIndex;
     var currSection = $("#wizard-p-" + currentIndex.toString());
     if ($(".optional-section", currSection).length > 0){
+        var origNextStep = $("#wizard-t-" + newIndex.toString()).parent();
+        //add disabled styling back onto the step that was originally going
+        //to be navigated to before this step addition
+        if (!$(origNextStep).hasClass("disabled")){
+            $(origNextStep).addClass("disabled");
+        }
         $(".element-bar:not(.stepAdded)", currSection).each(function(){
             var val = $(".element-bar-counter", this).val();
             if (val !== "0"){
