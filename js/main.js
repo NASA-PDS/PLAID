@@ -30,44 +30,14 @@ function clearActiveElements(){
 }
 /*
  * Parse out the title of the current step and use that to determine
- * which text file to pull the description from for the help pane.
+ * which attribute to access from the infoBarData object.
  */
 function previewDescription(){
-    var currentStep = $(".title.current")[0].innerHTML;
-    var filepath = formFilePath(currentStep, "descriptions/");
-    loadDescriptionFromFile(filepath, "#help");
-}
-/*
- * Format a generic string into the corresponding filename.
- * Replaces whitespace with _ and concatenates the extension and path.
- * @param {string} contentStr string of non-formatted text
- * @param {string} path relative path to the directory containing the file
- * @return {string} path to the file
- */
-function formFilePath(contentStr, path){
-    var filename = contentStr.trim()
-            .replace(/\b\s\b/, "_")
-        + ".txt";
-    filename = filename.toLowerCase();
-    return (path + filename);
-}
-/*
- * Use an ajax call to load the text from a specified file into
- * the object found by the specified selector.
- * @param {string} filepath path to the file to read
- * @param {string} selector jQuery style selection string
- */
-//TODO: load from JSON instead of text file
-function loadDescriptionFromFile(filepath, selector){
-    $.ajax({
-        async:false,
-        url: filepath,
-        dataType: 'text',
-        success: function(data)
-        {
-            $(selector).append(data);
-        }
-    });
+    var currentStep = $(".title.current")[0].innerHTML
+                        .trim()
+                        .replace(/\b\s\b/, "_")
+                        .toLowerCase();
+    $("#help").append(infoBarData[currentStep]);
 }
 
 /*

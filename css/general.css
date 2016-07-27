@@ -87,6 +87,7 @@ td {
     margin: 1rem 1rem 0rem 0.4rem;
     color: #aaaaaa;
     text-align: center;
+    overflow: auto;
 }
 
 .checkbox-item {
