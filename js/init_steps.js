@@ -31,12 +31,16 @@ var settings = {
     startIndex: 0,
 
     /* Transition Effects */
-    transitionEffect: $.fn.steps.transitionEffect.fade,
-    transitionEffectSpeed: 200,
+    transitionEffect: $.fn.steps.transitionEffect.none,
+    transitionEffectSpeed: 0,
 
     /* Events */
     onStepChanging: function (event, currentIndex, newIndex) {
-        $("#help").fadeOut(200);
+        if (updatePopup(currentIndex)) {
+            showPopup(currentIndex, newIndex);
+            return false;
+        }
+        $("#help").hide();
         if (currentIndex < newIndex){
             handleStepAddition(currentIndex, newIndex);
             handleMissionSpecificsStep(currentIndex, newIndex);
@@ -50,15 +54,17 @@ var settings = {
         return true;
     },
     onStepChanged: function (event, currentIndex, priorIndex) {
+        wizardData.currentStep = currentIndex;
         if (currentIndex > priorIndex){
             var priorStepHeading = $("#wizard-t-" + priorIndex.toString());
             var number = $(".number", priorStepHeading)[0];
             number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
         }
-        wizardData.currentStep = currentIndex;
+        handleBackwardsTraversalPopup(currentIndex);
+        updateMissionSpecificsBuilder(priorIndex);
         $("#help").empty();
         previewDescription();
-        $("#help").fadeIn(200);
+        $("#help").fadeIn(400);
     },
     onCanceled: function (event) { },
     onFinishing: function (event, currentIndex) { return true; },
@@ -332,22 +338,23 @@ function createCounterInput(dataObj) {
 
     return counter;
 }
+
 /*
  * Create a wrapper div with a label for denoting a group of element choices.
  * @param {string} min minimum total value for the choice group
  * @param {string} max maximum total value for the choice group
  * @return {HTML Element}
  */
-function createChoiceGroup(min, max){
+function createChoiceGroup(min, max) {
     var cg = document.createElement("div");
     cg.className = "choice-field";
     var label = document.createElement("div");
     label.className = "choice-prompt";
     max = (max === "*" ? "9999999999" : max);
-    if (min === max && min === "1"){
+    if (min === max && min === "1") {
         label.innerHTML = "You must keep <b>one</b> of these options:";
     }
-    else if (min < max && min === "0"){
+    else if (min < max && min === "0") {
         label.innerHTML = "You may <b>keep or remove</b> these options:";
     }
     else {
@@ -356,8 +363,26 @@ function createChoiceGroup(min, max){
 
     $(cg).attr("min", min);
     $(cg).attr("max", max);
-    $(cg).attr("total", parseInt(min, 10)-1);
+    $(cg).attr("total", parseInt(min, 10) - 1);
 
     cg.appendChild(label);
     return cg;
+}
+
+/**
+ * Show a pop-up warning the user traversing backwards and making a change will cause a loss of all progress
+ * NOTE: Pop-up should only show once whenever a user visits a previous step after making forward progress
+ * @param currentIndex - A number representing the current step of the wizard
+ */
+function handleBackwardsTraversalPopup(currentIndex) {
+    // If the current index is past the previously recorded max, update the max to match the current
+    if (currentIndex >= wizardData.maxStep) {
+        wizardData.maxStep = currentIndex;
+        wizardData.numWarnings = 0;
+    }
+    // If the current index is behind the max and there has yet to be a warning pop-up, show the pop-up
+    else if (currentIndex < wizardData.maxStep && wizardData.numWarnings === 0) {
+        showDeleteProgressPopup(currentIndex);
+        wizardData.numWarnings = 1;
+    }
 }

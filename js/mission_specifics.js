@@ -75,8 +75,8 @@ function updateActionBarHandlers(builderState, goBackSelector, saveSelector) {
             $("#wizard").steps("next");
         });
     } else if (builderState === "modify") {
-        $(goBackSelector).click(function() {mutatePage("home")});
-        $(saveSelector).click(function() {mutatePage("home")});
+        $(goBackSelector).click(function() {mutatePage("home", wizardData.currentStep.toString())});
+        $(saveSelector).click(function() {mutatePage("home", wizardData.currentStep.toString())});
     }
 }
 
@@ -92,12 +92,12 @@ function updateActionBar(newIndex) {
 
     var newSection = $("#wizard-p-" + newIndex.toString());
     if ($(".mission_specifics_builder", newSection).length > 0) {
-        $(actionBar).children("ul").fadeOut(200, function() {
-            $(actionBar).children("table").fadeIn(200)
+        $(actionBar).children("ul").fadeOut(0, function() {
+            $(actionBar).children("table").show();
         });
     } else {
-        $(actionBar).children("table").fadeOut(200, function() {
-            $(actionBar).children("ul").fadeIn(200);
+        $(actionBar).children("table").fadeOut(0, function() {
+            $(actionBar).children("ul").show();
         });
     }
 }
@@ -114,7 +114,9 @@ function handleMissionSpecificsStep(currentIndex, newIndex) {
     var insertionIndex = newIndex;
     var currSection = $("#wizard-p-" + currentIndex.toString());
     var isMissionSpecificsStep = $(currSection).find(".mission_specifics").length > 0;
-    if (isMissionSpecificsStep && $(".yesButton").hasClass("active")){
+    if (isMissionSpecificsStep && $(".yesButton.active:not(.stepAdded)").length > 0){
+        //$(".yesButton").hasClass("active") && !$(".yesButton").hasClass("stepAdded")){
+        $(".yesButton").addClass("stepAdded");
         var title = "Builder";
         $("#wizard").steps("insert", insertionIndex, {
             title: title,
@@ -128,6 +130,8 @@ function handleMissionSpecificsStep(currentIndex, newIndex) {
  * the user traverses to
  *
  * @param nextPage - A String variable representing what slide is being navigated to
+ * @param step - A String representing which step is being mutated,
+ *               derived from the wizardData obj in config.js
  *
  * CURRENTLY ACCEPTED VALUES FOR nextPage:
  *  - "home"       : The homepage for the builder
@@ -136,18 +140,18 @@ function handleMissionSpecificsStep(currentIndex, newIndex) {
  *
  *  TODO USE GLOBAL CURRENT INDEX VAR AFTER CODE MERGE
  */
-function mutatePage(nextPage) {
-    var currSection = $("#wizard-p-" + wizardData.currentStep.toString());
-    $(currSection).empty();
+function mutatePage(nextPage, step) {
+    var section = $("#wizard-p-" + step);
+    $(section).empty();
 
     if (nextPage === "home") {
-        $(currSection).append(generateHomepage("mission_specifics_builder"));
+        $(section).append(generateHomepage("mission_specifics_builder"));
         updateActionBarHandlers("home", ".list-group-item.goBack", ".list-group-item.save");
     } else if (nextPage === "addAttr") {
-        $(currSection).append(generateAddAttributePage("mission_specifics_builder"));
+        $(section).append(generateAddAttributePage("mission_specifics_builder"));
         updateActionBarHandlers("modify", ".list-group-item.goBack", ".list-group-item.save");
     } else if (nextPage === "addGroup") {
-        $(currSection).append(generateAddGroupPage("mission_specifics_builder"));
+        $(section).append(generateAddGroupPage("mission_specifics_builder"));
         updateActionBarHandlers("modify", ".list-group-item.goBack", ".list-group-item.save");
     }
 }
@@ -176,9 +180,9 @@ function generateHomepage(wrapperClass) {
     var table = document.createElement("table");
     table.setAttribute("class", "list-group");
     table.appendChild(generateButtonRow("singleAttribute", "fa-tag", "Add an attribute",
-        function() {mutatePage("addAttr")}));
+        function() {mutatePage("addAttr", wizardData.currentStep.toString())}));
     table.appendChild(generateButtonRow("groupAttribute", "fa-tags", "Add a grouping of attributes",
-        function() {mutatePage("addGroup")}));
+        function() {mutatePage("addGroup", wizardData.currentStep.toString())}));
     table.appendChild(generateButtonRow("remove", "fa-eraser", "Remove",
         function() {} ));
     dataSection.appendChild(table);
@@ -256,6 +260,7 @@ function generateButtonRow(buttonClass, iconClass, spanHTML, onClickHandler) {
 function generateAddAttributePage(wrapperClass) {
     var wrapper = document.createElement("div");
     wrapper.className = wrapperClass;
+    wrapper.setAttribute("pop-up-id", "addSingleAttribute");
 
     var question = document.createElement("p");
     question.className = "question";
@@ -285,6 +290,7 @@ function generateAddAttributePage(wrapperClass) {
 function generateAddGroupPage(wrapperClass) {
     var wrapper = document.createElement("div");
     wrapper.className = wrapperClass;
+    wrapper.setAttribute("pop-up-id", "addGroupAttribute");
 
     var question = document.createElement("p");
     question.className = "question";
@@ -297,6 +303,8 @@ function generateAddGroupPage(wrapperClass) {
     var form = document.createElement("form");
     form.appendChild(generateFieldset("title", "Title", "Ex. Photos"));
     form.appendChild(generateFieldset("description", "Description", "Ex. Group of photo attributes"));
+
+
 
     dataSection.appendChild(form);
 
@@ -329,4 +337,14 @@ function generateFieldset(fieldsetClass, labelHTML, placeholderText) {
     fieldset.appendChild(fieldsetInput);
 
     return fieldset;
+}
+
+/**
+ * Updates the builder to the homepage when step is changed
+ */
+function updateMissionSpecificsBuilder(priorIndex) {
+    var priorSection = $("#wizard-p-" + priorIndex.toString());
+    if ($(".mission_specifics_builder", priorSection).length > 0) {
+        mutatePage("home", priorIndex.toString());
+    }
 }

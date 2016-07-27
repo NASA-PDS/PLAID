@@ -20,5 +20,8 @@ var jsonData = {
     nodes: []
 };
 var wizardData = {
-    currentStep: 0
+    currentStep: 0,
+    newStep: 0,
+    maxStep: 0,
+    numWarnings: 0
 };
