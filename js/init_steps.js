@@ -55,14 +55,13 @@ var settings = {
     },
     onStepChanged: function (event, currentIndex, priorIndex) {
         wizardData.currentStep = currentIndex;
-        wizardData.priorStep = priorIndex;
         if (currentIndex > priorIndex){
             var priorStepHeading = $("#wizard-t-" + priorIndex.toString());
             var number = $(".number", priorStepHeading)[0];
             number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
         }
         handleBackwardsTraversalPopup(currentIndex);
-        updateMissionSpecificsBuilder();
+        updateMissionSpecificsBuilder(priorIndex);
         $("#help").empty();
         previewDescription();
         $("#help").fadeIn(400);

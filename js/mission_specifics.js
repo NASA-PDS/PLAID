@@ -341,9 +341,9 @@ function generateFieldset(fieldsetClass, labelHTML, placeholderText) {
 /**
  * Updates the builder to the homepage when step is changed
  */
-function updateMissionSpecificsBuilder() {
-    var priorSection = $("#wizard-p-" + wizardData.priorStep.toString());
+function updateMissionSpecificsBuilder(priorIndex) {
+    var priorSection = $("#wizard-p-" + priorIndex.toString());
     if ($(".mission_specifics_builder", priorSection).length > 0) {
-        mutatePage("home", wizardData.priorStep.toString());
+        mutatePage("home", priorIndex.toString());
     }
 }
