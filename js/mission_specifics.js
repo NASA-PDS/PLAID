@@ -92,12 +92,12 @@ function updateActionBar(newIndex) {
 
     var newSection = $("#wizard-p-" + newIndex.toString());
     if ($(".mission_specifics_builder", newSection).length > 0) {
-        $(actionBar).children("ul").fadeOut(200, function() {
-            $(actionBar).children("table").fadeIn(200)
+        $(actionBar).children("ul").fadeOut(0, function() {
+            $(actionBar).children("table").show();
         });
     } else {
-        $(actionBar).children("table").fadeOut(200, function() {
-            $(actionBar).children("ul").fadeIn(200);
+        $(actionBar).children("table").fadeOut(0, function() {
+            $(actionBar).children("ul").show();
         });
     }
 }
@@ -114,7 +114,8 @@ function handleMissionSpecificsStep(currentIndex, newIndex) {
     var insertionIndex = newIndex;
     var currSection = $("#wizard-p-" + currentIndex.toString());
     var isMissionSpecificsStep = $(currSection).find(".mission_specifics").length > 0;
-    if (isMissionSpecificsStep && $(".yesButton").hasClass("active")){
+    if (isMissionSpecificsStep && $(".yesButton").hasClass("active") && !$(".yesButton").hasClass("stepAdded")){
+        $(".yesButton").addClass("stepAdded");
         var title = "Builder";
         $("#wizard").steps("insert", insertionIndex, {
             title: title,
@@ -258,6 +259,7 @@ function generateButtonRow(buttonClass, iconClass, spanHTML, onClickHandler) {
 function generateAddAttributePage(wrapperClass) {
     var wrapper = document.createElement("div");
     wrapper.className = wrapperClass;
+    wrapper.setAttribute("pop-up-id", "addSingleAttribute");
 
     var question = document.createElement("p");
     question.className = "question";
@@ -287,6 +289,7 @@ function generateAddAttributePage(wrapperClass) {
 function generateAddGroupPage(wrapperClass) {
     var wrapper = document.createElement("div");
     wrapper.className = wrapperClass;
+    wrapper.setAttribute("pop-up-id", "addGroupAttribute");
 
     var question = document.createElement("p");
     question.className = "question";
@@ -299,6 +302,8 @@ function generateAddGroupPage(wrapperClass) {
     var form = document.createElement("form");
     form.appendChild(generateFieldset("title", "Title", "Ex. Photos"));
     form.appendChild(generateFieldset("description", "Description", "Ex. Group of photo attributes"));
+
+
 
     dataSection.appendChild(form);
 

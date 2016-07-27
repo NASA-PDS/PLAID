@@ -31,12 +31,16 @@ var settings = {
     startIndex: 0,
 
     /* Transition Effects */
-    transitionEffect: $.fn.steps.transitionEffect.fade,
-    transitionEffectSpeed: 200,
+    transitionEffect: $.fn.steps.transitionEffect.none,
+    transitionEffectSpeed: 0,
 
     /* Events */
     onStepChanging: function (event, currentIndex, newIndex) {
-        $("#help").fadeOut(200);
+        if (updatePopup(currentIndex)) {
+            showPopup(currentIndex, newIndex);
+            return false;
+        }
+        $("#help").hide();
         if (currentIndex < newIndex){
             handleStepAddition(currentIndex, newIndex);
             handleMissionSpecificsStep(currentIndex, newIndex);
@@ -50,17 +54,18 @@ var settings = {
         return true;
     },
     onStepChanged: function (event, currentIndex, priorIndex) {
+        wizardData.currentStep = currentIndex;
+        wizardData.priorStep = priorIndex;
         if (currentIndex > priorIndex){
             var priorStepHeading = $("#wizard-t-" + priorIndex.toString());
             var number = $(".number", priorStepHeading)[0];
             number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
         }
-        wizardData.currentStep = currentIndex;
-        wizardData.priorStep = priorIndex;
+        handleBackwardsTraversalPopup(currentIndex);
         updateMissionSpecificsBuilder();
         $("#help").empty();
         previewDescription();
-        $("#help").fadeIn(200);
+        $("#help").fadeIn(400);
     },
     onCanceled: function (event) { },
     onFinishing: function (event, currentIndex) { return true; },
@@ -282,4 +287,26 @@ function createCounterInput(dataObj) {
     $(counter).focusout(releaseValue);
 
     return counter;
+}
+
+/**
+ * Show a pop-up warning the user traversing backwards and making a change will cause a loss of all progress
+ * NOTE: Pop-up should only show once whenever a user visits a previous step after making forward progress
+ * @param currentIndex - A number representing the current step of the wizard
+ */
+function handleBackwardsTraversalPopup(currentIndex) {
+    // If the current index is past the previously recorded max, update the max to match the current
+    if (currentIndex > wizardData.maxStep) {
+        wizardData.maxStep = currentIndex;
+        wizardData.numWarnings = 0;//
+    }
+    // If the current index matches the previously recorded max, reset the pop-up counter
+    else if (currentIndex === wizardData.maxStep) {
+        wizardData.numWarnings = 0;
+    }
+    // If the current index is behind the max and there has yet to be a warning pop-up, show the pop-up
+    else if (currentIndex < wizardData.maxStep && wizardData.numWarnings === 0) {
+        showDeleteProgressPopup(currentIndex);
+        wizardData.numWarnings = 1;
+    }
 }
