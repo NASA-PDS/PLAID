@@ -295,12 +295,8 @@ function createCounterInput(dataObj) {
  */
 function handleBackwardsTraversalPopup(currentIndex) {
     // If the current index is past the previously recorded max, update the max to match the current
-    if (currentIndex > wizardData.maxStep) {
+    if (currentIndex >= wizardData.maxStep) {
         wizardData.maxStep = currentIndex;
-        wizardData.numWarnings = 0;//
-    }
-    // If the current index matches the previously recorded max, reset the pop-up counter
-    else if (currentIndex === wizardData.maxStep) {
         wizardData.numWarnings = 0;
     }
     // If the current index is behind the max and there has yet to be a warning pop-up, show the pop-up

@@ -135,7 +135,6 @@ function generatePopup(popUpId, title, content, noText, yesText, yesFunction) {
     modalFooterYesButton.className = "btn btn-primary";
     modalFooterYesButton.innerHTML = yesText;
 
-    //TODO Helper?
     $(modalFooterYesButton).click(yesFunction)
 
     modalFooter.appendChild(modalFooterYesButton);
