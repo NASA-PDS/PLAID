@@ -5,12 +5,6 @@ $(document).ready(function(){
     $(".list-group-item").each(function(){
         $(this).click(captureSelection);
     });
-    $(".element-bar-plus").each(function(){
-        $(this).click(increaseCounter);
-    });
-    $(".element-bar-minus").each(function(){
-        $(this).click(decreaseCounter);
-    });
     addMissionSpecificsActionBar();
     previewDescription();
 });
