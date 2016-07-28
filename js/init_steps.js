@@ -369,7 +369,7 @@ function createChoiceGroup(min, max) {
 
     $(cg).attr("min", min);
     $(cg).attr("max", max);
-    $(cg).attr("total", parseInt(min, 10) - 1);
+    $(cg).attr("total", (min === "0" ? parseInt(min) : parseInt(min, 10) - 1));
 
     cg.appendChild(label);
     return cg;
