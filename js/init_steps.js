@@ -203,10 +203,11 @@ function generateContent(sectionTitle, dataObj){
             //need to get one more level of associations for displaying sub-elements in the popovers
             getLevelOfAssociations(jsonData.searchObj, currObj["next"], false);
             if (dataObj[index].length === 1){
-                if (currObj["title"] !== "Mission_Area" &&
-                    currObj["title"] !== "Discipline_Area"){
-                    subsection.appendChild(createElementBar(currObj, createLabel, false));
+                if (currObj["title"] === "Mission_Area" ||
+                    currObj["title"] === "Discipline_Area"){
+                    currObj["range"] = "1-1";
                 }
+                subsection.appendChild(createElementBar(currObj, createLabel, false));
             }
             else {
                 var range = currObj["range"].split("-");
