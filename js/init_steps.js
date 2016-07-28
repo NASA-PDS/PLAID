@@ -167,12 +167,7 @@ function insertLevelOfSteps(currIndex, dataObj){
 * @param {Object} dataObj object containing the PDS data to generate content from
  */
 function insertStep(wizard, index, dataObj){
-    var origNextStep = $("#wizard-t-" + index.toString()).parent();
-    //add disabled styling back onto the step that was originally going
-    //to be navigated to before this step addition
-    if (!$(origNextStep).hasClass("disabled")){
-        $(origNextStep).addClass("disabled");
-    }
+    revertStepClass(index);
     var title = dataObj["title"].replace(/_/g, " ");
     wizard.steps("insert", index, {
         title: title,
@@ -395,5 +390,18 @@ function handleBackwardsTraversalPopup(currentIndex) {
     else if (currentIndex < wizardData.maxStep && wizardData.numWarnings === 0) {
         showDeleteProgressPopup(currentIndex);
         wizardData.numWarnings = 1;
+    }
+}
+/**
+ * When steps are added to the wizard, the step that was originally going to be
+ * navigated to next loses the disabled class. That class controls the styling
+ * and functionality of the step element. This function adds that class back in as
+ * necessary.
+ * @param {number} index of the original next step
+ */
+function revertStepClass(index){
+    var origNextStep = $("#wizard-t-" + index.toString()).parent();
+    if (!$(origNextStep).hasClass("disabled")){
+        $(origNextStep).addClass("disabled");
     }
 }
