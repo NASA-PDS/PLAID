@@ -1,7 +1,7 @@
 /**
  * Created by morse on 7/15/16.
  */
-/*
+/**
 * Capture the user's selections of discipline nodes through the checkbox interface.
 * @param {number} currentIndex indicates current step in the wizard
  */
@@ -22,7 +22,7 @@ function discNodesSelection(currentIndex){
         });
     }
 }
-/*
+/**
  * Return the file path to the JSON of data for the specified discipline node.
  * @param {string} nodeName parsed from the HTML element content
  * @return {string} path to the JSON file

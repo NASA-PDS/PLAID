@@ -1,7 +1,7 @@
 /**
  * Created by mikim on 7/7/16.
  */
-/*
+/**
  * When the user clicks INTO the counter, keep track of what number was in there initially by giving the element
  * an attribute to store it in
  * If the counter is empty, do not override the most recent, valid, previous value
@@ -12,7 +12,7 @@ function captureValue() {
     }
 }
 
-/*
+/**
  * When the user clicks OUT OF the counter, clear the temporary value storing previous counter values
  * If the counter had nothing inside, reset value to minimum value
  */
@@ -24,7 +24,7 @@ function releaseValue() {
     $(this).removeAttr('prevValue');
 }
 
-/*
+/**
  * When the user presses a key, check if it as a valid input (0-9, backspace, left/right keys)
  * If not, prevent the event from happening
  * Notes: Keycodes 8, 37, and 39 correspond to backspace, left, and right keys respectively
@@ -39,7 +39,7 @@ function preventInput(event) {
     }
 }
 
-/*
+/**
  * When the user presses a valid key, check if what the user entered is under the element's max number
  * If not, reset to the previous value saved in the element's attribute 'prevValue'
  * Otherwise, save the new value as this previous value and update the element label and buttons to match the new value
@@ -59,7 +59,7 @@ function validateInput() {
     }
 }
 
-/*
+/**
  * Loop through each counter element and determine whether
  * to show the corresponding label and counter as disabled or not.
  */
@@ -69,7 +69,7 @@ function setAllElementBarsStyle(){
     });
 }
 
-/*
+/**
  * Helper method to update the element label based on its allowed range and current counter value
  * Cases:
  *  - If the value in the counter is equal to zero and non-blank, update the label to display as disabled
@@ -106,7 +106,7 @@ function setOneElementBarStyle(counter) {
     }
 }
 
-/*
+/**
  * Flashes a red background on the given counter for invalid inputs
  * TODO: Include jQueryUI for this to work
  */

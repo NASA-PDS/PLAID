@@ -8,7 +8,7 @@ $(document).ready(function(){
     addMissionSpecificsActionBar();
     previewDescription();
 });
-/*
+/**
  * When the user selects an option in the wizard pane, add
  * the active class to that element and store the result.
  */
@@ -22,13 +22,13 @@ function captureSelection(){
     //auto-advance to the next step after capturing the user's product selection
     $("#wizard").steps("next");
 }
-/*
+/**
  * Helper function to remove the active class from all elements.
  */
 function clearActiveElements(){
     $(".active").removeClass("active");
 }
-/*
+/**
  * Parse out the title of the current step and use that to determine
  * which attribute to access from the infoBarData object.
  */
@@ -40,7 +40,7 @@ function previewDescription(){
     $("#help").append(infoBarData[currentStep]);
 }
 
-/*
+/**
  * When the user clicks on a plus button, increment the corresponding counter.
  * If it is a choice group (in other words, the user can choose between multiple elements),
  * then ensure that the values are okay within the context of the group.
@@ -82,7 +82,7 @@ function increaseCounter(){
         }
     }
 }
-/*
+/**
  * When the user clicks on a minus button, decrement the corresponding counter.
  * If it is a choice group (in other words, the user can choose between multiple elements),
  * then ensure that the values are okay within the context of the group.
@@ -125,7 +125,7 @@ function decreaseCounter(){
         $(this).parent().siblings(".element-bar-label").addClass("zero-instances");
     }
 }
-/*
+/**
  * Helper function to return min/max values from the element's attributes.
  */
 function getMinMax(counter){

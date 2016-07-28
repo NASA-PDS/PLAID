@@ -4,7 +4,7 @@
 $(document).ready(function(){
     jsonData.pds4Obj = getJSON(filePaths.PDS4_JSON);
 });
-/*
+/**
 * Read in the text from a file as a JSON.
 * Modified from: https://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript
 * @param {string} file path to the file for reading
@@ -23,7 +23,7 @@ function loadJSON(file, callback) {
     };
     xobj.send(null);
 }
-/*
+/**
 * Get the text contents from the specified JSON file and store them in
 * a JavaScript Object.
 * @param {string} file path to the JSON file
@@ -35,9 +35,9 @@ function getJSON(file){
     });
     return (obj.length === 1 ? obj[0] : obj);
 }
-/*
+/**
  * Search the specified object for an element of a specified type.
- * @param {Object} object object to search through
+ * @param {Object} outerObj object to search through
  * @param {string} type ["class" | "attribute" | "product" | nodeName]
  * @param {string} dictName name of the dictionary to search in
  * @param {string} elementName id/name of the element to search for
@@ -80,10 +80,10 @@ function handleProductOrNode(overallObj, element){
     getLevelOfAssociations(overallObj, jsonData.refObj, true);
     insertLevelOfSteps(wizardData.currentStep+1, jsonData.refObj);
 }
-/*
+/**
 * Search for and form associations in the new object from the overall object.
 * @param {Object} object JSON object to search through
-* @param {array} associationList list of association objects to search for
+* @param {Array} associationList list of association objects to search for
 * @param {Object} currObj object to store each child of the overall product type, maintaining relations
 */
 function getAssociations(object, associationList, currObj){
@@ -116,14 +116,14 @@ function getAssociations(object, associationList, currObj){
         }
     }
 }
-/*
+/**
  * Loop through a layer of associations to get their subsequent associations.
  * This has the option of being recursive, but only for one execution. Due to the size
  * and hierarchy of the JSONs this works with, it needs to be mostly iterative to maintain
  * performance and not blow the call stack.
  * @param {Object} searchObj object to search through for association objects
- * @param {List} nextObjs list of objects to find associations for
- * @param {Bool} exeTwice specifies whether to recurse once or not
+ * @param {Array} nextObjs list of objects to find associations for
+ * @param {bool} exeTwice specifies whether to recurse once or not
  */
 function getLevelOfAssociations(searchObj, nextObjs, exeTwice){
     for (var index in nextObjs){
@@ -137,14 +137,14 @@ function getLevelOfAssociations(searchObj, nextObjs, exeTwice){
         }
     }
 }
-/*
+/**
 * Loop through all of the children of an object and add their respective paths (formed
 * from the parent path).
 * Note: Since this function goes through all the children of an object, it also checks
 * to see if any of the children are optional and sets the "allChildrenRequired" attribute
 * accordingly.
 * @param {number} startingIndex index for the first level of children in the refObject
-* @param {Object} currentObject to get preceding path from
+* @param {Object} currObject to get preceding path from
 * @param {Object} children to add full path to
  */
 function assignObjectPath(startingIndex, currObject, children){
@@ -162,7 +162,7 @@ function assignObjectPath(startingIndex, currObject, children){
         }
     }
 }
-/*
+/**
 * Using the values stored in the association list objects (assocMention), determine
 * whether the association is required, set the range, and store the info in the
 * detailed object for that association (assocDetails).
