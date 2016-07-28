@@ -81,20 +81,20 @@ var settings = {
         loading: "Loading ..."
     }
 };
-/*
+/**
  * Initialize the wizard using jQuery-Steps built-in method
  */
 function init_steps_object(wizard) {
     wizard.steps(settings);
 }
-/*
+/**
  * Since the wizard object is controlled by the jQuery-Steps, it is
  * set to a specific height based on its content. We want to match this
  * height for the sidebar on the right and for the steps bar on the left.
- * @param {object} content portion of the wizard
- * @param {object} action bar portion of the wizard
+ * @param {object} wizardContent portion of the wizard
+ * @param {object} wizardActions bar portion of the wizard
  * @param {object} sidebar
- * @param {object} steps bar
+ * @param {object} stepsBar
  */
 function match_wizard_height(wizardContent, wizardActions, sidebar, stepsBar){
     $(sidebar).css("height", $(wizardContent).height() + $(wizardActions).height());
@@ -103,7 +103,7 @@ function match_wizard_height(wizardContent, wizardActions, sidebar, stepsBar){
 
 
 
-/*
+/**
 * Handles the dynamic creation of new steps populated with data from the product
 * object created from the PDS4 JSON. This function looks up the corresponding object
 * for each element bar in a step, checks if the user opted to add that object and that
@@ -146,9 +146,9 @@ function handleStepAddition(currentIndex, newIndex){
         });
     }
 }
-/*
+/**
 * Insert a batch of steps corresponding to the same level in the object hierarchy.
-* @param {Number} currentIndex zero-based index corresponding to step position in wizard
+* @param {Number} currIndex zero-based index corresponding to step position in wizard
 * @param {Object} dataObj object containing the PDS data to generate content from
  */
 function insertLevelOfSteps(currIndex, dataObj){
@@ -167,13 +167,14 @@ function insertLevelOfSteps(currIndex, dataObj){
 * @param {Object} dataObj object containing the PDS data to generate content from
  */
 function insertStep(wizard, index, dataObj){
+    revertStepClass(index);
     var title = dataObj["title"].replace(/_/g, " ");
     wizard.steps("insert", index, {
         title: title,
         content: generateContent(title, dataObj["next"])
     });
 }
-/*
+/**
 * Generate the content section for a new step in the wizard.
 * @param {string} sectionTitle title of the current section from object data
 * @param {Object} dataObj object containing the PDS data to generate content from
@@ -225,7 +226,7 @@ function generateContent(sectionTitle, dataObj){
     section.appendChild(subsection);
     return section;
 }
-/*
+/**
 * Create an element-bar populated with data from the specified object.
 * @param {object} dataObj object containing the information for the element-bar
 * @param {function} genLabel function to create the label portion of the element-bar
@@ -263,7 +264,7 @@ function createElementBar(dataObj, genLabel, isChoice){
 
     return elementBar;
 }
-/*
+/**
  * Create a span to act as a label with the specified text.
  * @param {string} text
  * @return {HTML Element} label
@@ -280,7 +281,7 @@ function createLabel(text, isChoice){
     }
     return label;
 }
-/*
+/**
 * Create a plus/minus button for controlling the form in an element-bar.
 * @param {string} type ["plus" | "minus"]
 * @return {HTML element} wrapper
@@ -314,7 +315,7 @@ function createControlButton(type){
 
     return wrapper;
 }
-/*
+/**
  * Create a counter input (populated with data from the specified object) for
  * tracking how many elements the user wants of a specific type.
  * @param {Object} dataObj object containing the PDS data to generate content from
@@ -344,7 +345,7 @@ function createCounterInput(dataObj) {
     return counter;
 }
 
-/*
+/**
  * Create a wrapper div with a label for denoting a group of element choices.
  * @param {string} min minimum total value for the choice group
  * @param {string} max maximum total value for the choice group
@@ -368,7 +369,7 @@ function createChoiceGroup(min, max) {
 
     $(cg).attr("min", min);
     $(cg).attr("max", max);
-    $(cg).attr("total", parseInt(min, 10) - 1);
+    $(cg).attr("total", (min === "0" ? parseInt(min) : parseInt(min, 10) - 1));
 
     cg.appendChild(label);
     return cg;
@@ -389,5 +390,18 @@ function handleBackwardsTraversalPopup(currentIndex) {
     else if (currentIndex < wizardData.maxStep && wizardData.numWarnings === 0) {
         showDeleteProgressPopup(currentIndex);
         wizardData.numWarnings = 1;
+    }
+}
+/**
+ * When steps are added to the wizard, the step that was originally going to be
+ * navigated to next loses the disabled class. That class controls the styling
+ * and functionality of the step element. This function adds that class back in as
+ * necessary.
+ * @param {number} index of the original next step
+ */
+function revertStepClass(index){
+    var origNextStep = $("#wizard-t-" + index.toString()).parent();
+    if (!$(origNextStep).hasClass("disabled")){
+        $(origNextStep).addClass("disabled");
     }
 }

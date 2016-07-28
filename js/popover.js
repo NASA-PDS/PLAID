@@ -18,7 +18,7 @@ var dict = {
     spectra: "Contains detail about presenting data in any kind of spectrum",
     wave: "Contains classes that describe the composition of multidimensional wave data consisting of Array (and Array subclass) data objects"
 };
-/*
+/**
 * For each element with the class name "label-item", initialize a popover.
 * The title for the popover is formed from the element's inner HTML, while
 * the content for the popover is parsed out of the dict object.
@@ -37,7 +37,7 @@ function initPopovers(){
         });
     });
 }
-/*
+/**
 * Called to dynamically add popovers as elements are added to the wizard.
 * Uses data from the corresponding objects.
 * @param {HTML element} element to add the popover to
@@ -75,7 +75,7 @@ function addPopover(element, data, min, max){
         trigger: "hover"
     });
 }
-/*
+/**
 * Sometimes popovers remain on the page after the user has stopped hovering
 * over the corresponding element. This will hide all remaining popovers.
  */

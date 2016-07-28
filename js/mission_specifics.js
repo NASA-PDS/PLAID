@@ -115,11 +115,10 @@ function handleMissionSpecificsStep(currentIndex, newIndex) {
     var currSection = $("#wizard-p-" + currentIndex.toString());
     var isMissionSpecificsStep = $(currSection).find(".mission_specifics").length > 0;
     if (isMissionSpecificsStep && $(".yesButton.active:not(.stepAdded)").length > 0){
-        //$(".yesButton").hasClass("active") && !$(".yesButton").hasClass("stepAdded")){
+        revertStepClass(insertionIndex);
         $(".yesButton").addClass("stepAdded");
-        var title = "Builder";
         $("#wizard").steps("insert", insertionIndex, {
-            title: title,
+            title: "Builder",
             content: generateHomepage("mission_specifics_builder")
         });
     }

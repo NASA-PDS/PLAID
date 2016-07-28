@@ -1,14 +1,14 @@
 /**
  * Created by morse on 7/15/16.
  */
-/*
+/**
 * Capture the user's selections of discipline nodes through the checkbox interface.
 * @param {number} currentIndex indicates current step in the wizard
  */
 function discNodesSelection(currentIndex){
     var currSection = $("#wizard-p-" + currentIndex.toString());
     if ($(".checkbox-group", currSection).length > 0){
-        $("input", currSection).each(function(){
+        $("input:not(.stepAdded)", currSection).each(function(){
             if ($(this).is(":checked")){
                 var span = $(this).siblings("span.discNode");
                 var nodeName = span.html();
@@ -17,11 +17,12 @@ function discNodesSelection(currentIndex){
                 jsonData.nodes[nodeName] = getJSON(getNodeJsonFilename(nodeName));
                 jsonData.searchObj = jsonData.nodes[nodeName];
                 getElement(jsonData.nodes[nodeName], nodeName, "classDictionary", nodeId);
+                $(this).addClass("stepAdded");
             }
         });
     }
 }
-/*
+/**
  * Return the file path to the JSON of data for the specified discipline node.
  * @param {string} nodeName parsed from the HTML element content
  * @return {string} path to the JSON file
