@@ -8,7 +8,7 @@
 function discNodesSelection(currentIndex){
     var currSection = $("#wizard-p-" + currentIndex.toString());
     if ($(".checkbox-group", currSection).length > 0){
-        $("input", currSection).each(function(){
+        $("input:not(.stepAdded)", currSection).each(function(){
             if ($(this).is(":checked")){
                 var span = $(this).siblings("span.discNode");
                 var nodeName = span.html();
@@ -17,6 +17,7 @@ function discNodesSelection(currentIndex){
                 jsonData.nodes[nodeName] = getJSON(getNodeJsonFilename(nodeName));
                 jsonData.searchObj = jsonData.nodes[nodeName];
                 getElement(jsonData.nodes[nodeName], nodeName, "classDictionary", nodeId);
+                $(this).addClass("stepAdded");
             }
         });
     }

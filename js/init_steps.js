@@ -115,12 +115,6 @@ function handleStepAddition(currentIndex, newIndex){
     var insertionIndex = newIndex;
     var currSection = $("#wizard-p-" + currentIndex.toString());
     if ($(".optional-section", currSection).length > 0){
-        var origNextStep = $("#wizard-t-" + newIndex.toString()).parent();
-        //add disabled styling back onto the step that was originally going
-        //to be navigated to before this step addition
-        if (!$(origNextStep).hasClass("disabled")){
-            $(origNextStep).addClass("disabled");
-        }
         $(".element-bar:not(.stepAdded)", currSection).each(function(){
             var val = $(".element-bar-counter", this).val();
             if (val !== "0"){
@@ -173,6 +167,12 @@ function insertLevelOfSteps(currIndex, dataObj){
 * @param {Object} dataObj object containing the PDS data to generate content from
  */
 function insertStep(wizard, index, dataObj){
+    var origNextStep = $("#wizard-t-" + index.toString()).parent();
+    //add disabled styling back onto the step that was originally going
+    //to be navigated to before this step addition
+    if (!$(origNextStep).hasClass("disabled")){
+        $(origNextStep).addClass("disabled");
+    }
     var title = dataObj["title"].replace(/_/g, " ");
     wizard.steps("insert", index, {
         title: title,
