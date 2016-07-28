@@ -59,6 +59,11 @@ var settings = {
             var priorStepHeading = $("#wizard-t-" + priorIndex.toString());
             var number = $(".number", priorStepHeading)[0];
             number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
+
+            var currStepHeading = $("#wizard-t-" + currentIndex.toString());
+            //parse the step title from the overall step element (in the left sidebar)
+            var currStepTitle = (/[A-Z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
+            prepXML(currStepTitle);
         }
         handleBackwardsTraversalPopup(currentIndex);
         updateMissionSpecificsBuilder(priorIndex);
@@ -100,9 +105,6 @@ function match_wizard_height(wizardContent, wizardActions, sidebar, stepsBar){
     $(sidebar).css("height", $(wizardContent).height() + $(wizardActions).height());
     $(stepsBar).css("height", $(wizardContent).height() + $(wizardActions).height());
 }
-
-
-
 /**
 * Handles the dynamic creation of new steps populated with data from the product
 * object created from the PDS4 JSON. This function looks up the corresponding object
@@ -117,8 +119,8 @@ function handleStepAddition(currentIndex, newIndex){
     if ($(".optional-section", currSection).length > 0){
         $(".element-bar:not(.stepAdded)", currSection).each(function(){
             var val = $(".element-bar-counter", this).val();
+            var id = $(this).attr("id");
             if (val !== "0"){
-                var id = $(this).attr("id");
                 var elementKeys = id.split("/");
                 var currObj = jsonData.refObj;
                 for (var index in elementKeys){
@@ -142,6 +144,7 @@ function handleStepAddition(currentIndex, newIndex){
                     insertionIndex +=1;
                 }
                 $(this).addClass("stepAdded");
+                updateLabel("addNode", {path: id, quantity: val});
             }
         });
     }
@@ -154,8 +157,12 @@ function handleStepAddition(currentIndex, newIndex){
 function insertLevelOfSteps(currIndex, dataObj){
     for (var index in dataObj){
         for (var key in dataObj[index]){
+            wizardData.mainSteps.push(dataObj[index][key]["title"]);
             insertStep($("#wizard"), currIndex, dataObj[index][key]);
             currIndex +=1;
+            if (index === "0"){
+                prepXML(dataObj[index][key]["title"]);
+            }
         }
     }
 }
@@ -205,10 +212,11 @@ function generateContent(sectionTitle, dataObj){
             //need to get one more level of associations for displaying sub-elements in the popovers
             getLevelOfAssociations(jsonData.searchObj, currObj["next"], false);
             if (dataObj[index].length === 1){
-                if (currObj["title"] !== "Mission_Area" &&
-                    currObj["title"] !== "Discipline_Area"){
-                    subsection.appendChild(createElementBar(currObj, createLabel, false));
+                if (currObj["title"] === "Mission_Area" ||
+                    currObj["title"] === "Discipline_Area"){
+                    currObj["range"] = "1-1";
                 }
+                subsection.appendChild(createElementBar(currObj, createLabel, false));
             }
             else {
                 var range = currObj["range"].split("-");
@@ -374,7 +382,6 @@ function createChoiceGroup(min, max) {
     cg.appendChild(label);
     return cg;
 }
-
 /**
  * Show a pop-up warning the user traversing backwards and making a change will cause a loss of all progress
  * NOTE: Pop-up should only show once whenever a user visits a previous step after making forward progress
@@ -399,9 +406,21 @@ function handleBackwardsTraversalPopup(currentIndex) {
  * necessary.
  * @param {number} index of the original next step
  */
-function revertStepClass(index){
+function revertStepClass(index) {
     var origNextStep = $("#wizard-t-" + index.toString()).parent();
-    if (!$(origNextStep).hasClass("disabled")){
+    if (!$(origNextStep).hasClass("disabled")) {
         $(origNextStep).addClass("disabled");
+    }
+}
+/*
+ * If this is a main section (that was dynamically added), remove all of its
+ * child nodes from the XML file.
+ * @param {string} sectionHeading title of the section
+ * Note: since the main sections are always on the first level of the XML, the
+ * section's heading is also the section's path.
+ */
+function prepXML(sectionHeading){
+    if ($.inArray(sectionHeading, wizardData.mainSteps) !== -1){
+        updateLabel("removeAllChildNodes", {path: sectionHeading});
     }
 }

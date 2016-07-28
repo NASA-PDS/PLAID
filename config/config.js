@@ -23,5 +23,6 @@ var wizardData = {
     currentStep: 0,
     newStep: 0,
     maxStep: 0,
-    numWarnings: 0
+    numWarnings: 0,
+    mainSteps: []
 };
