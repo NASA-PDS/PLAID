@@ -109,7 +109,7 @@ function getAssociations(object, associationList, currObj){
                 var classObj = getElement(object, "class", "classDictionary", identifiers[clIndex]);
                 //use Object.assign to make a copy of the object
                 //this prevents overwriting the original object in future modifications
-                currObj[index][title] = Object.assign(classObj);
+                currObj[index][title] = Object.assign({}, classObj);
                 currObj[index][title]["next"] = {};
                 determineRequirements(child, currObj[index][title]);
             }
