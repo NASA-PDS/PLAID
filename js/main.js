@@ -89,13 +89,13 @@ function increaseCounter(){
         isCG = true;
     }
     if (newVal >= counterMin && newVal <= counterMax){
-        counter.attr("value", newVal);
+        counter.prop("value", newVal);
         if (isCG){
             currTotal += 1;
             $(choiceGroup).attr("total", currTotal);
             if (currTotal > cgMin){
                 $(".btn.element-bar-minus", choiceGroup).each(function(){
-                    var val = $(this).parent().siblings(".element-bar-counter").attr("value");
+                    var val = $(this).parent().siblings(".element-bar-counter").prop("value");
                     if (val !== "0") { $(this).prop("disabled", false); }
                 });
             }
@@ -131,7 +131,7 @@ function decreaseCounter(){
         isCG = true;
     }
     if (newVal >= counterMin && newVal <= counterMax){
-        counter.attr("value", newVal);
+        counter.prop("value", newVal);
         if (isCG){
             currTotal -= 1;
             $(choiceGroup).attr("total", currTotal);

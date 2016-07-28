@@ -333,7 +333,7 @@ function createCounterInput(dataObj) {
 
     $(counter).attr("min", min);
     $(counter).attr("max", max);
-    $(counter).attr("value", min);
+    $(counter).prop("value", min);
     $(counter).attr("type", "number");
 
     $(counter).focus(captureValue);
