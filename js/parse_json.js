@@ -57,7 +57,8 @@ function getElement(outerObj, type, dictName, elementName){
                     }
                     else {
                         jsonData.currNS = innerObj["nameSpaceId"];
-                        handleProductOrNode(outerObj, innerObj);
+                        jsonData.currNode = type;
+                        handleProductOrNode(outerObj, innerObj, type);
                         return;
                     }
                 }
@@ -65,13 +66,14 @@ function getElement(outerObj, type, dictName, elementName){
         }
     }
 }
-/*
+/**
  * Once the product or discipline node object has been found in the overall JSON object, get the
  * associations and start creating corresponding steps in the wizard.
- * @param {Object} object JSON object to search
+ * @param {Object} overallObj JSON object to search
  * @param {Object} element object containing the overall info for the product or node
+ * @param {string} type
  */
-function handleProductOrNode(overallObj, element){
+function handleProductOrNode(overallObj, element, type){
     var assocList = element["associationList"];
     jsonData.refObj = {};
     //get initial associations for creating main steps
@@ -79,7 +81,13 @@ function handleProductOrNode(overallObj, element){
     //get next two levels of associations for creating element-bars and
     //displaying subelement information in the popovers
     getLevelOfAssociations(overallObj, jsonData.refObj, true);
-    insertLevelOfSteps(wizardData.currentStep+1, jsonData.refObj);
+    if (type === "product"){
+        insertLevelOfSteps(wizardData.currentStep+1, jsonData.refObj);
+    }
+    else {
+        insertStep($("#wizard"), wizardData.currentStep+1, jsonData.refObj);
+    }
+
 }
 /**
 * Search for and form associations in the new object from the overall object.

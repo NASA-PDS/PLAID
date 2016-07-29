@@ -18,7 +18,8 @@ var jsonData = {
     pds4Obj: {},
     searchObj: {},
     nodes: [],
-    currNS: ""
+    currNS: "",
+    currNode: ""
 };
 var wizardData = {
     currentStep: 0,
