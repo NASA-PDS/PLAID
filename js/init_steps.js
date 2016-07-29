@@ -144,7 +144,13 @@ function handleStepAddition(currentIndex, newIndex){
                     insertionIndex +=1;
                 }
                 $(this).addClass("stepAdded");
-                updateLabel("addNode", {path: id, quantity: val});
+                if (jsonData.currNS === "pds"){
+                    updateLabel("addNode", {path: id, quantity: val});
+                }
+                else {
+                    var path = "Observation_Area/Discipline_Area/" + id;
+                    updateLabel("addNode", {path: path, quantity: val/*, ns: jsonData.currNS*/});
+                }
             }
         });
     }
@@ -160,8 +166,12 @@ function insertLevelOfSteps(currIndex, dataObj){
             wizardData.mainSteps.push(dataObj[index][key]["title"]);
             insertStep($("#wizard"), currIndex, dataObj[index][key]);
             currIndex +=1;
-            if (index === "0"){
+            if (jsonData.currNS === "pds" && index === "0"){
                 prepXML(dataObj[index][key]["title"]);
+            }
+            else if (jsonData.currNS !== "pds"){
+                var path = "Observation_Area/Discipline_Area/" + dataObj[index][key]["path"];
+                updateLabel("addNode", {path: path, quantity: 1/*, ns: jsonData.currNS*/})
             }
         }
     }

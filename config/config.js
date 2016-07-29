@@ -17,7 +17,8 @@ var jsonData = {
     refObj: {},
     pds4Obj: {},
     searchObj: {},
-    nodes: []
+    nodes: [],
+    currNS: ""
 };
 var wizardData = {
     currentStep: 0,

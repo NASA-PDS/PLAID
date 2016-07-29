@@ -56,6 +56,7 @@ function getElement(outerObj, type, dictName, elementName){
                         return innerObj;
                     }
                     else {
+                        jsonData.currNS = innerObj["nameSpaceId"];
                         handleProductOrNode(outerObj, innerObj);
                         return;
                     }

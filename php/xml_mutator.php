@@ -46,10 +46,34 @@ function addNode($args){
     $nodes = getNode($nodePath);
     foreach($nodes as $node){
         for ($x = 0; $x < $quantity; $x++){
-            $newNode = $DOC->createElement($nodeName);
+            if ($args["ns"]){
+                $nsPath = "http://pds.nasa.gov/pds4/".$args["ns"];
+                $nodeName = $args["ns"].":".$nodeName;
+                $newNode = $DOC->createElementNS($nsPath, $nodeName);
+            }
+            else{
+                $newNode = $DOC->createElement($nodeName);
+            }
             $node->appendChild($newNode);
             echo "Created: ".$nodeName;
         }
+    }
+}
+
+/**
+ * Start of a function for adding an attribute to an XML node.
+ * @param $args
+ */
+function addAttribute($args){
+    global $DOC;
+    $nodePath = $args["path"];
+    $attr = $args["name"];
+    $val = $args["value"];
+    $nodes = getNode($nodePath);
+    foreach($nodes as $node){
+        $newAttr = $DOC->createAttribute($attr);
+        $newAttr->value = $val;
+        $node->appendChild($newAttr);
     }
 }
 /*
@@ -91,6 +115,9 @@ function handlePath($path){
     $arr = explode("/", $path);
     $arr = array_filter($arr, isNaN);
     $nodeName = array_pop($arr);
+    /*for ($i = 0; $i < count($arr); $i++){
+        $arr[$i] = "pds:".$arr[$i];
+    }*/
     return array($nodeName, implode("/", $arr));
 }
 function isNaN($val){
