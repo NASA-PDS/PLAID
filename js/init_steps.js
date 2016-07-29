@@ -168,10 +168,12 @@ function insertLevelOfSteps(currIndex, dataObj){
  */
 function insertStep(wizard, index, dataObj){
     revertStepClass(index);
-    var title = dataObj["title"].replace(/_/g, " ");
+    //TODO replace hardcoded node name with general reference
+    var title = (dataObj["title"] ? dataObj["title"].replace(/_/g, " ") : "Geometry");
+    var data = (dataObj["next"] ? dataObj["next"] : dataObj);
     wizard.steps("insert", index, {
         title: title,
-        content: generateContent(title, dataObj["next"])
+        content: generateContent(title, data)
     });
 }
 /**
@@ -201,7 +203,7 @@ function generateContent(sectionTitle, dataObj){
             var currObj = dataObj[index][key];
             //get immediate associations for creating next steps/element-bars
             getAssociations(jsonData.searchObj, currObj["associationList"], currObj["next"]);
-            assignObjectPath(null, currObj, currObj["next"]);
+            assignObjectPath(index, currObj, currObj["next"]);
             //need to get one more level of associations for displaying sub-elements in the popovers
             getLevelOfAssociations(jsonData.searchObj, currObj["next"], false);
             if (dataObj[index].length === 1){
