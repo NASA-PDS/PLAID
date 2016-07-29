@@ -123,3 +123,18 @@ function handlePath($path){
 function isNaN($val){
     return !(is_numeric($val));
 }
+
+/**
+ * Validator function for the generating XML
+ * Currently a work in progress
+ */
+function validateXML() {
+    echo "Test";
+    global $DOC;
+    if (!$DOC->schemaValidate("https://pds.nasa.gov/pds4/pds/v1/PDS4_PDS_1600.xsd")) {
+        // You have an error in the XML file
+        //echo "schema invalid";
+    } else {
+        //echo "schema validated successfully";
+    }
+}

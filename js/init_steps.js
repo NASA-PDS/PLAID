@@ -167,7 +167,7 @@ function insertLevelOfSteps(currIndex, dataObj){
             insertStep($("#wizard"), currIndex, dataObj[index][key]);
             currIndex +=1;
             if (jsonData.currNS === "pds" && index === "0"){
-                prepXML(dataObj[index][key]["title"]);
+                //prepXML(dataObj[index][key]["title"]);
             }
             else if (jsonData.currNS !== "pds"){
                 var path = "Observation_Area/Discipline_Area/" + dataObj[index][key]["path"];
@@ -433,6 +433,7 @@ function revertStepClass(index) {
  */
 function prepXML(sectionHeading){
     if ($.inArray(sectionHeading, wizardData.mainSteps) !== -1){
+        updateLabel("validateXML", {});
         updateLabel("removeAllChildNodes", {path: sectionHeading});
     }
 }
