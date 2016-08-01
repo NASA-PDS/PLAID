@@ -28,9 +28,11 @@ function readInXML($file){
  * @param {string} $path path to the node
  * @return {NodeList} list of query results
  */
-function getNode($path){
+function getNode($path, $ns){
     global $DOC;
     $xpath = new DOMXPath($DOC);
+    if (!empty($ns))
+        $xpath->registerNamespace($ns, "http://pds.nasa.gov/pds4/$ns/v1");
     $query = "//" . $path;
     return $xpath->query($query);
 }
@@ -42,38 +44,19 @@ function addNode($args){
     global $DOC;
     $nodePath = $args["path"];
     $quantity = $args["quantity"];
-    list($nodeName, $nodePath) = handlePath($nodePath);
-    $nodes = getNode($nodePath);
+    $ns = $args["ns"];
+    list($nodeName, $nodePath) = handlePath($nodePath, $ns);
+    if (!empty($ns)){ $nodeName = $ns.":".$nodeName; }
+    $nodes = getNode($nodePath, $ns);
     foreach($nodes as $node){
         for ($x = 0; $x < $quantity; $x++){
-            if ($args["ns"]){
-                $nsPath = "http://pds.nasa.gov/pds4/".$args["ns"];
-                $nodeName = $args["ns"].":".$nodeName;
-                $newNode = $DOC->createElementNS($nsPath, $nodeName);
-            }
-            else{
+            if (!empty($ns))
+                $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $nodeName);
+            else
                 $newNode = $DOC->createElement($nodeName);
-            }
             $node->appendChild($newNode);
             echo "Created: ".$nodeName;
         }
-    }
-}
-
-/**
- * Start of a function for adding an attribute to an XML node.
- * @param $args
- */
-function addAttribute($args){
-    global $DOC;
-    $nodePath = $args["path"];
-    $attr = $args["name"];
-    $val = $args["value"];
-    $nodes = getNode($nodePath);
-    foreach($nodes as $node){
-        $newAttr = $DOC->createAttribute($attr);
-        $newAttr->value = $val;
-        $node->appendChild($newAttr);
     }
 }
 /*
@@ -81,9 +64,10 @@ function addAttribute($args){
  * @param {object} $args object containing argument values
  */
 function removeNode($args){
-    list($nodeName, $parentPath) = handlePath($args["path"]);
-    $nodes = getNode($parentPath . "/" . $nodeName);
-    $parentNode = getNode($parentPath)->item(0);
+    $ns = $args["ns"];
+    list($nodeName, $parentPath) = handlePath($args["path"], $ns);
+    $nodes = getNode($parentPath . "/" . $nodeName, $ns);
+    $parentNode = getNode($parentPath, $ns)->item(0);
     foreach($nodes as $node){
         $parentNode->removeChild($node);
         echo "Removed: ".$nodeName;
@@ -94,31 +78,45 @@ function removeNode($args){
  * @param {object} $args object containing argument values
  */
 function removeAllChildNodes($args){
-    list($nodeName, $parentPath) = handlePath($args["path"]);
-    $nodes = getNode($parentPath."/".$nodeName);
+    $ns = $args["ns"];
+    list($nodeName, $parentPath) = handlePath($args["path"], $ns);
+    $nodes = getNode($parentPath."/".$nodeName, $ns);
     foreach ($nodes as $node){
         while ($node->hasChildNodes()){
             $childNode = $node->childNodes->item(0);
             $cnName = $childNode->nodeName;
-            echo "Removed: ".$cnName;
+            echo "Removed: ".$cnName."\n";
             $node->removeChild($childNode);
         }
     }
 }
-/*
+/**
  * Helper function to work on the path passed from the front-end and
  * put it in the format expected by the backend.
  * @param {string} $path path to the node (in front-end structure)
+ * @param {string} $ns namespace for the node (or empty if default namespace)
  * @return {array} name of the node and the path to its parent (in backend structure)
  */
-function handlePath($path){
+function handlePath($path, $ns){
     $arr = explode("/", $path);
-    $arr = array_filter($arr, isNaN);
-    $nodeName = array_pop($arr);
-    /*for ($i = 0; $i < count($arr); $i++){
-        $arr[$i] = "pds:".$arr[$i];
-    }*/
-    return array($nodeName, implode("/", $arr));
+    //have to call array_values to reset indices of the array after filtering
+    $filtArr = array_values(array_filter($arr, isNaN));
+    $nodeName = array_pop($filtArr);
+    if (!empty($ns) && $ns !== "pds"){
+        for ($i = 0; $i < count($filtArr); $i++){
+            if (!empty($filtArr[$i]))
+                $filtArr[$i] = $ns.":".$filtArr[$i];
+        }
+        $subpath = implode("/", $filtArr);
+        if (!empty($subpath))
+            $path = "Observation_Area/Discipline_Area/".$subpath;
+        else
+            $path = "Observation_Area/Discipline_Area";
+    }
+    else {
+        $path = implode("/", $filtArr);
+    }
+    return array($nodeName, $path);
 }
 function isNaN($val){
     return !(is_numeric($val));
