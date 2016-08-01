@@ -31,7 +31,7 @@ function readInXML($file){
 function getNode($path, $ns){
     global $DOC;
     $xpath = new DOMXPath($DOC);
-    if (!empty($ns) && $ns !== "pds")
+    if (isNonDefaultNamespace($ns))
         $xpath->registerNamespace($ns, "http://pds.nasa.gov/pds4/$ns/v1");
     $query = "//" . $path;
     return $xpath->query($query);
@@ -46,11 +46,11 @@ function addNode($args){
     $quantity = $args["quantity"];
     $ns = $args["ns"];
     list($nodeName, $nodePath) = handlePath($nodePath, $ns);
-    if (!empty($ns) && $ns !== "pds"){ $nodeName = $ns.":".$nodeName; }
+    if (isNonDefaultNamespace($ns)){ $nodeName = $ns.":".$nodeName; }
     $nodes = getNode($nodePath, $ns);
     foreach($nodes as $node){
         for ($x = 0; $x < $quantity; $x++){
-            if (!empty($ns) && $ns !== "pds")
+            if (isNonDefaultNamespace($ns))
                 $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $nodeName);
             else
                 $newNode = $DOC->createElement($nodeName);
@@ -102,7 +102,7 @@ function handlePath($path, $ns){
     //have to call array_values to reset indices of the array after filtering
     $filtArr = array_values(array_filter($arr, isNaN));
     $nodeName = array_pop($filtArr);
-    if (!empty($ns) && $ns !== "pds"){
+    if (isNonDefaultNamespace($ns)){
         for ($i = 0; $i < count($filtArr); $i++){
             if (!empty($filtArr[$i]))
                 $filtArr[$i] = $ns.":".$filtArr[$i];
@@ -120,4 +120,7 @@ function handlePath($path, $ns){
 }
 function isNaN($val){
     return !(is_numeric($val));
+}
+function isNonDefaultNamespace($ns){
+    return !empty($ns) && $ns !== "pds";
 }
