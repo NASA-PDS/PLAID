@@ -31,7 +31,7 @@ function readInXML($file){
 function getNode($path, $ns){
     global $DOC;
     $xpath = new DOMXPath($DOC);
-    if (!empty($ns))
+    if (!empty($ns) && $ns !== "pds")
         $xpath->registerNamespace($ns, "http://pds.nasa.gov/pds4/$ns/v1");
     $query = "//" . $path;
     return $xpath->query($query);
@@ -46,11 +46,11 @@ function addNode($args){
     $quantity = $args["quantity"];
     $ns = $args["ns"];
     list($nodeName, $nodePath) = handlePath($nodePath, $ns);
-    if (!empty($ns)){ $nodeName = $ns.":".$nodeName; }
+    if (!empty($ns) && $ns !== "pds"){ $nodeName = $ns.":".$nodeName; }
     $nodes = getNode($nodePath, $ns);
     foreach($nodes as $node){
         for ($x = 0; $x < $quantity; $x++){
-            if (!empty($ns))
+            if (!empty($ns) && $ns !== "pds")
                 $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $nodeName);
             else
                 $newNode = $DOC->createElement($nodeName);

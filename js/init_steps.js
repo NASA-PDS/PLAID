@@ -144,12 +144,7 @@ function handleStepAddition(currentIndex, newIndex){
                     insertionIndex +=1;
                 }
                 $(this).addClass("stepAdded");
-                if (jsonData.currNS === "pds"){
-                    updateLabel("addNode", {path: id, quantity: val});
-                }
-                else {
-                    updateLabel("addNode", {path: id, quantity: val, ns: jsonData.currNS});
-                }
+                updateLabel("addNode", {path: id, quantity: val, ns: jsonData.currNS});
             }
         });
     }
