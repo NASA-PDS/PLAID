@@ -63,7 +63,7 @@ var settings = {
             var currStepHeading = $("#wizard-t-" + currentIndex.toString());
             //parse the step title from the overall step element (in the left sidebar)
             var currStepTitle = (/[A-Z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
-            prepXML(currStepTitle);
+            prepXML(currStepTitle, true);
         }
         handleBackwardsTraversalPopup(currentIndex);
         updateMissionSpecificsBuilder(priorIndex);
@@ -167,7 +167,7 @@ function insertLevelOfSteps(currIndex, dataObj){
             insertStep($("#wizard"), currIndex, dataObj[index][key]);
             currIndex +=1;
             if (jsonData.currNS === "pds" && index === "0"){
-                //prepXML(dataObj[index][key]["title"]);
+                prepXML(dataObj[index][key]["title"], false);
             }
             else if (jsonData.currNS !== "pds"){
                 var path = "Observation_Area/Discipline_Area/" + dataObj[index][key]["path"];
@@ -430,13 +430,16 @@ function revertStepClass(index) {
  * Before it removes the nodes, check if the XML is valid and print the
  * errors in console if not.
  * @param {string} sectionHeading title of the section
+ * @param {bool} isValidating controls call of XML validator
  * Note: since the main sections are always on the first level of the XML, the
  * section's heading is also the section's path.
  */
-function prepXML(sectionHeading){
+function prepXML(sectionHeading, isValidating){
     if ($.inArray(sectionHeading, wizardData.mainSteps) !== -1){
-        validateLabel("validate", {});
-        validateLabel("printXML", {});
+        if (isValidating) {
+            validateLabel("validate", {});
+            validateLabel("printXML", {});
+        }
         updateLabel("removeAllChildNodes", {path: sectionHeading});
     }
 }
