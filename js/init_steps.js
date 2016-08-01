@@ -427,8 +427,10 @@ function revertStepClass(index) {
 function prepXML(sectionHeading, isValidating){
     if ($.inArray(sectionHeading, wizardData.mainSteps) !== -1){
         if (isValidating) {
+            updateLabel("addRootAttrs", {});
             validateLabel("validate", {});
             validateLabel("printXML", {});
+            updateLabel("removeRootAttrs", {});
         }
         updateLabel("removeAllChildNodes", {path: sectionHeading, ns: ""});
     }

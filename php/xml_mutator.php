@@ -118,10 +118,19 @@ function handlePath($path, $ns){
     }
     return array($nodeName, $path);
 }
+function addRootAttrs(){
+    global $DOC;
+    $root = $DOC->documentElement;
+    $root->setAttribute("xmlns", "http://pds.nasa.gov/pds4/pds/v1");
+}
+function removeRootAttrs(){
+    global $DOC;
+    $root = $DOC->documentElement;
+    $root->removeAttributeNS("http://pds.nasa.gov/pds4/pds/v1", "");
+}
 function isNaN($val){
     return !(is_numeric($val));
 }
-
 function isNonDefaultNamespace($ns){
     return !empty($ns) && $ns !== "pds";
 }
