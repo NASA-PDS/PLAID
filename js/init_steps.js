@@ -427,13 +427,16 @@ function revertStepClass(index) {
 /*
  * If this is a main section (that was dynamically added), remove all of its
  * child nodes from the XML file.
+ * Before it removes the nodes, check if the XML is valid and print the
+ * errors in console if not.
  * @param {string} sectionHeading title of the section
  * Note: since the main sections are always on the first level of the XML, the
  * section's heading is also the section's path.
  */
 function prepXML(sectionHeading){
     if ($.inArray(sectionHeading, wizardData.mainSteps) !== -1){
-        updateLabel("validateXML", {});
+        validateLabel("validate", {});
+        validateLabel("printXML", {});
         updateLabel("removeAllChildNodes", {path: sectionHeading});
     }
 }
