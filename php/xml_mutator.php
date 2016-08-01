@@ -121,6 +121,7 @@ function handlePath($path, $ns){
 function isNaN($val){
     return !(is_numeric($val));
 }
+
 function isNonDefaultNamespace($ns){
     return !empty($ns) && $ns !== "pds";
 }
