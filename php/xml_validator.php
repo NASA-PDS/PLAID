@@ -17,7 +17,6 @@ $schema = "https://pds.nasa.gov/pds4/pds/v1/PDS4_PDS_1600.xsd";
 if(isset($_POST['Function'])){
     call_user_func($_POST['Function'], $_POST['Data']);
 }
-$doc->save($filepath, LIBXML_NOEMPTYTAG);
 
 /**
  * Validator function for the generating XML, prints the errors of the XML against the XSD if invalid
