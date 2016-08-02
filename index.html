@@ -208,11 +208,15 @@
 
             <h3>Export</h3>
             <section id="export">
-                <p class="question">Please enter a filename:</p>
+                <div id="finalPreview"></div>
                 <form id="exportForm" onsubmit="return checkFilename();" action="php/export_template.php" method="post">
-                    <input name="filename" type="text" placeholder="label_template.xml">
-                    <span class="spacer"></span>
-                    <input id="exportButton" class="btn" type="submit" value="Export">
+                    <fieldset>
+                        <span class="spacer"></span>
+                        <p style="display: inline;">Filename:</p>
+                        <input id="exportInput" name="filename" type="text" placeholder="label_template.xml" style="display: inline;">
+                        <span class="spacer"></span>
+                        <input id="exportButton" class="btn" type="submit" value="Export">
+                    </fieldset>
                 </form>
             </section>
         </div>

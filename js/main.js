@@ -163,6 +163,52 @@ function checkFilename(){
         return false;
     }
 }
+/**
+ * Determine whether or not the user is transitioning to the final step in the wizard.
+ * If so, show a preview of the label template.
+ * @param newIndex of the step the user is transitioning to
+ */
+function handleExportStep(newIndex){
+    var nextSection = $("#wizard-p-" + newIndex.toString());
+    var isExportStep = $(nextSection).find("form#exportForm").length > 0;
+    if (isExportStep){
+        var preview = generateFinalPreview();
+        $("#finalPreview", nextSection).append(preview);
+    }
+}
+/**
+ * Generate a preview of the completed label template. This makes a call
+ * to the backend to read the contents of the label template file.
+ * @returns {Element}
+ */
+function generateFinalPreview() {
+    var previewContainer = document.createElement("div");
+    previewContainer.className = "finalPreview previewContainer";
+
+    var card = document.createElement("div");
+    card.className = "finalPreview card";
+
+    var cardHeader = document.createElement("div");
+    cardHeader.className = "finalPreview card-header";
+    cardHeader.innerHTML = "Label Template Preview";
+    card.appendChild(cardHeader);
+
+    var cardBlock = document.createElement("div");
+    cardBlock.className = "finalPreview card-block";
+    card.appendChild(cardBlock);
+
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: "php/preview_template.php"
+    }).done(function(data){
+        cardBlock.textContent = data;
+    });
+
+    previewContainer.appendChild(card);
+
+    return previewContainer;
+}
 
 function updateLabel(funcName, args) {
     $.ajax({

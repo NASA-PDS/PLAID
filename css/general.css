@@ -18,6 +18,15 @@ td {
 #exportButton {
     background-color: #72C342;
     color: white;
+    display: inline;
+    font-size: 0.8rem;
+}
+#exportInput {
+    display: inline;
+    font-size: 0.8rem;
+}
+#finalPreview {
+    height: 98%;
 }
 #help {
     /*padding: 1rem;*/
@@ -158,6 +167,19 @@ input::-webkit-inner-spin-button {
 .element-bar .element-bar-plus {
     padding: 0.719rem 0rem;
     width: 100%;
+}
+.finalPreview.card,
+.finalPreview.previewContainer{
+    height: 100% !important;
+}
+.finalPreview.card-header{
+    height: 7%;
+}
+.finalPreview.card-block{
+    padding-top: 0.5rem;
+    height: 93%;
+    white-space: pre;
+    overflow: auto;
 }
 .form-control:disabled {
     background-color: #ffffff;

@@ -44,6 +44,7 @@ var settings = {
         if (currentIndex < newIndex){
             handleStepAddition(currentIndex, newIndex);
             handleMissionSpecificsStep(currentIndex, newIndex);
+            handleExportStep(newIndex);
             discNodesSelection(currentIndex);
         }
         else if (newIndex === 0 && currentIndex > newIndex){
