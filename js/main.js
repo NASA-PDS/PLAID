@@ -40,7 +40,12 @@ function previewDescription(){
                         .trim()
                         .replace(/\b\s\b/, "_")
                         .toLowerCase();
-    $("#help").append(infoBarData[currentStep]);
+    var data;
+    if (infoBarData[currentStep])
+        data = infoBarData[currentStep];
+    else
+        data = infoBarData["optional_nodes"];
+    $("#help").append(data);
 }
 
 /**
