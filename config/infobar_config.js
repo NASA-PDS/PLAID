@@ -16,8 +16,9 @@ var infoBarData = {
                        "<div style='font-size: small;'>&#8226; If your mission has a spacecraft or a rover, you need the Geometry node.</div><br/>"+
                        "<div><em>Need Help?</em></div>" +
                        "<div style='font-size: small;'>Find your answers in <a href=LDT_Guide.pdf target=_blank>the full LDT guide.</a></div><br>"),
-    export: ("<div>Your label template is complete!</div><br/>"+
-             "<div>Please enter a valid* filename and then submit.<br/>"+
+    export: ("<div><b>Your label template is complete!</b></div><br/>" +
+             "<div>Before exporting your label, please review the preview to ensure your label template is accurate.</div><br/>"+
+             "<div>After that, please enter a valid* filename for your label template and then click 'Export'.<br/>"+
              "The file will be available in your Downloads folder.</div><br/><br/>"+
              "<div style='font-size: small'>*Filename may have characters, digits, underscores, and hyphens. It must start with a character and end with an .xml extension.</div>"),
     mission_specifics: ("<div><b>Do you need to include more information in your label?</b></div><br>"+
