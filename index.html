@@ -210,8 +210,12 @@
 
             <h3>Export</h3>
             <section id="export">
-                <p class="question">How would you like to store the label?</p>
-                <a href="php/export_template.php">Export...</a>
+                <p class="question">Please enter a filename:</p>
+                <form action="php/export_template.php" method="post">
+                    <input name="filename" type="text" placeholder="label_template.xml">
+                    <span class="spacer"></span>
+                    <input id="exportButton" class="btn" type="submit" value="Export">
+                </form>
             </section>
         </div>
         <div id="sidebar">

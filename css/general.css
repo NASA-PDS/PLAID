@@ -15,6 +15,11 @@ td {
     height: 50%;
     padding: 1rem;
 }
+#exportButton {
+    background-color: #72C342;
+    color: white;
+    display: none;
+}
 #help {
     /*padding: 1rem;*/
     margin-bottom: 0.8rem;

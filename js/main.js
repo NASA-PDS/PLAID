@@ -40,7 +40,12 @@ function previewDescription(){
                         .trim()
                         .replace(/\b\s\b/, "_")
                         .toLowerCase();
-    $("#help").append(infoBarData[currentStep]);
+    var data;
+    if (infoBarData[currentStep])
+        data = infoBarData[currentStep];
+    else
+        data = infoBarData["optional_nodes"];
+    $("#help").append(data);
 }
 
 /**
@@ -151,6 +156,24 @@ function updateLabel(funcName, args) {
         data: {
             Function: funcName,
             Data: args
+        }
+    }).done(function(data){
+        console.log(data);
+    });
+}
+
+/**
+ * Makes an AJAX call to the PHP file that validates the XML
+ * @param funcName - A String that chooses which PHP function to call by name
+ */
+function validateLabel(funcName) {
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: "php/xml_validator.php",
+        data: {
+            Function: funcName,
+            Data: {}
         }
     }).done(function(data){
         console.log(data);

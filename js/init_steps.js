@@ -63,7 +63,7 @@ var settings = {
             var currStepHeading = $("#wizard-t-" + currentIndex.toString());
             //parse the step title from the overall step element (in the left sidebar)
             var currStepTitle = (/[A-Z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
-            prepXML(currStepTitle);
+            prepXML(currStepTitle, true);
         }
         handleBackwardsTraversalPopup(currentIndex);
         updateMissionSpecificsBuilder(priorIndex);
@@ -72,8 +72,23 @@ var settings = {
         $("#help").fadeIn(400);
     },
     onCanceled: function (event) { },
-    onFinishing: function (event, currentIndex) { return true; },
-    onFinished: function (event, currentIndex) { },
+    onFinishing: function (event, currentIndex) {
+        var input = $("input[name='filename']");
+        if ($(input).val().match("[a-zA-Z][a-zA-Z0-9_-]+.xml"))
+            $("#exportButton").click();
+        else{
+            $(input).addClass("error");
+            return false;
+        }
+
+        return true;
+    },
+    onFinished: function (event, currentIndex) {
+        $("input[name='filename']").removeClass("error");
+        var lastStepHeading = $("#wizard-t-" + currentIndex.toString());
+        var number = $(".number", lastStepHeading)[0];
+        number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
+    },
 
     /* Labels */
     labels: {
@@ -161,7 +176,7 @@ function insertLevelOfSteps(currIndex, dataObj){
             insertStep($("#wizard"), currIndex, dataObj[index][key]);
             currIndex +=1;
             if (index === "0"){
-                prepXML(dataObj[index][key]["title"]);
+                prepXML(dataObj[index][key]["title"], true);
             }
         }
     }
@@ -417,12 +432,21 @@ function revertStepClass(index) {
 /*
  * If this is a main section (that was dynamically added), remove all of its
  * child nodes from the XML file.
+ * Before it removes the nodes, check if the XML is valid and print the
+ * errors in console if not.
  * @param {string} sectionHeading title of the section
+ * @param {bool} isValidating controls call of XML validator
  * Note: since the main sections are always on the first level of the XML, the
  * section's heading is also the section's path.
  */
-function prepXML(sectionHeading){
+function prepXML(sectionHeading, isValidating){
     if ($.inArray(sectionHeading, wizardData.mainSteps) !== -1){
+        if (isValidating) {
+            updateLabel("addRootAttrs", {});
+            validateLabel("validate", {});
+            validateLabel("printXML", {});
+            updateLabel("removeRootAttrs", {});
+        }
         updateLabel("removeAllChildNodes", {path: sectionHeading, ns: ""});
     }
 }
