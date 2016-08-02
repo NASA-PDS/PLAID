@@ -213,6 +213,31 @@ function generatePreview() {
 
     var cardBlock = document.createElement("div");
     cardBlock.className = "card-block";
+    cardBlock.id = "previewContent";
+    $(cardBlock).tree({
+        data: missionSpecifics
+        //TODO ALLOW DRAG AND DROP FUNCTIONALITY, IF DESIRED
+        /*,
+        dragAndDrop: true,
+        onCanMove: function(node) {
+            if (! node.parent.parent) {
+                // Example: Cannot move root node
+                return false;
+            }
+            else {
+                return true;
+            }
+        },
+        onCanMoveTo: function(moved_node, target_node, position) {
+            if (target_node.getLevel() === 2) {
+                // Example: can move inside menu, not before or after
+                return false;
+            }
+            else {
+                return true;
+            }
+        }*/
+    });
     card.appendChild(cardBlock);
 
     previewContainer.appendChild(card);
