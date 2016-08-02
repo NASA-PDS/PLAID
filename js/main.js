@@ -147,6 +147,22 @@ function getMinMax(counter){
     }
     return Array(counterMin, counterMax);
 }
+/**
+ * Before the user submits the filename form (on the Export step),
+ * ensure that the filename is valid. Show there is an error otherwise.
+ * @returns {boolean}
+ */
+function checkFilename(){
+    var input = $("input[name='filename']");
+    if ($(input).val().match("[a-zA-Z][a-zA-Z0-9_-]+.xml")){
+        $("input[name='filename']").removeClass("error");
+        $("#exportForm").submit();
+    }
+    else{
+        $(input).addClass("error");
+        return false;
+    }
+}
 
 function updateLabel(funcName, args) {
     $.ajax({

@@ -72,19 +72,8 @@ var settings = {
         $("#help").fadeIn(400);
     },
     onCanceled: function (event) { },
-    onFinishing: function (event, currentIndex) {
-        var input = $("input[name='filename']");
-        if ($(input).val().match("[a-zA-Z][a-zA-Z0-9_-]+.xml"))
-            $("#exportButton").click();
-        else{
-            $(input).addClass("error");
-            return false;
-        }
-
-        return true;
-    },
+    onFinishing: function (event, currentIndex) { return true; },
     onFinished: function (event, currentIndex) {
-        $("input[name='filename']").removeClass("error");
         var lastStepHeading = $("#wizard-t-" + currentIndex.toString());
         var number = $(".number", lastStepHeading)[0];
         number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
