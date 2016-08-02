@@ -171,7 +171,8 @@ function checkFilename(){
 function handleExportStep(newIndex){
     var nextSection = $("#wizard-p-" + newIndex.toString());
     var isExportStep = $(nextSection).find("form#exportForm").length > 0;
-    if (isExportStep){
+    var hasNoPreview = !$(nextSection).find(".finalPreview").length > 0;
+    if (isExportStep && hasNoPreview){
         var preview = generateFinalPreview();
         $("#finalPreview", nextSection).append(preview);
     }

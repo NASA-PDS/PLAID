@@ -180,6 +180,7 @@ input::-webkit-inner-spin-button {
     height: 93%;
     white-space: pre;
     overflow: auto;
+    font-size: 0.8rem;
 }
 .form-control:disabled {
     background-color: #ffffff;
