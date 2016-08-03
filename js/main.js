@@ -154,7 +154,7 @@ function getMinMax(counter){
  */
 function checkFilename(){
     var input = $("input[name='filename']");
-    if ($(input).val().match("[a-zA-Z][a-zA-Z0-9_-]+.xml")){
+    if ($(input).val().match("^[a-zA-Z][a-zA-Z0-9_-]+.xml$")){
         $("input[name='filename']").removeClass("error");
         $("#exportForm").submit();
     }
@@ -173,6 +173,7 @@ function handleExportStep(newIndex){
     var isExportStep = $(nextSection).find("form#exportForm").length > 0;
     var hasNoPreview = !$(nextSection).find(".finalPreview").length > 0;
     if (isExportStep && hasNoPreview){
+        updateLabel("addRootAttrs", {});
         var preview = generateFinalPreview();
         $("#finalPreview", nextSection).append(preview);
     }
