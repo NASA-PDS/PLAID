@@ -153,10 +153,16 @@ function getMinMax(counter){
  * @returns {boolean}
  */
 function checkFilename(){
-    var input = $("input[name='filename']");
-    if ($(input).val().match("^[a-zA-Z][a-zA-Z0-9_-]+.xml$")){
+    var input = $("#exportInput");
+    var regex = new RegExp("^[a-zA-Z][a-zA-Z0-9_-]+.xml$");
+    if ($(input).val().match(regex)){
         $(input).removeClass("error");
-        $("#exportForm").submit();
+        if (!$(input).hasClass("submitted")){
+            $(input).addClass("submitted");
+            $("#exportForm").submit();
+        }
+        else
+            return false;
     }
     else{
         $(input).addClass("error");
