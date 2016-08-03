@@ -71,6 +71,7 @@ function updateActionBarHandlers(builderState, goBackSelector, saveSelector) {
             $("#wizard").steps("previous");
         });
         $(saveSelector).click(function() {
+            updateLabel("addCustomNodes", {json: missionSpecifics});
             $("#wizard").steps("next");
         });
     } else if (builderState === "addAttr" || builderState === "addGroup" || builderState === "remove") {

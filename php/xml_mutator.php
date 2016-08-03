@@ -59,6 +59,40 @@ function addNode($args){
         }
     }
 }
+
+/**
+ * Add custom nodes from the mission specifics json passed in from the front-end.
+ * @param {object} $args object containing argument values
+ */
+function addCustomNodes($args){
+    $data = $args["json"];
+    $path = "Observation_Area/Mission_Area";
+    $parentNode = getNode($path, "")->item(0);
+    foreach ($data as $node){
+        addNodeWithComment($parentNode, $node["name"], $node["description"]);
+        if ($node["isGroup"]){
+            foreach ($node["children"] as $child){
+                $groupNode = getNode($path."/".$node["name"], "")->item(0);
+                addNodeWithComment($groupNode, $child["name"], $child["description"]);
+                echo "-> Added: ".$child["name"].": ".$child["description"];
+            }
+        }
+        echo "Added: ".$node["name"].": ".$node["description"];
+    }
+}
+/**
+ * Add nodes with associated comments to the specified parent element.
+ * @param {DOMNode} $parent node to add the new node to
+ * @param {string} $nodeName name of the new node
+ * @param {string} $comment comment describing the new node
+ */
+function addNodeWithComment($parent, $nodeName, $comment){
+    global $DOC;
+    $newNode = $DOC->createElement($nodeName);
+    $newComment = $DOC->createComment($comment);
+    $newNode->appendChild($newComment);
+    $parent->appendChild($newNode);
+}
 /*
  * Remove node(s) from the overall document.
  * @param {object} $args object containing argument values
