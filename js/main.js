@@ -155,7 +155,7 @@ function getMinMax(counter){
 function checkFilename(){
     var input = $("input[name='filename']");
     if ($(input).val().match("^[a-zA-Z][a-zA-Z0-9_-]+.xml$")){
-        $("input[name='filename']").removeClass("error");
+        $(input).removeClass("error");
         $("#exportForm").submit();
     }
     else{
