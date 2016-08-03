@@ -149,7 +149,10 @@ function handleStepAddition(currentIndex, newIndex){
                     insertionIndex +=1;
                 }
                 $(this).addClass("stepAdded");
-                updateLabel("addNode", {path: id, quantity: val, ns: jsonData.currNS});
+                backendCall("php/xml_mutator.php",
+                            "addNode",
+                            {path: id, quantity: val, ns: jsonData.currNS},
+                            function(data){ console.log(data); });
             }
         });
     }
@@ -432,11 +435,26 @@ function revertStepClass(index) {
 function prepXML(sectionHeading, isValidating){
     if ($.inArray(sectionHeading, wizardData.mainSteps) !== -1){
         if (isValidating) {
-            updateLabel("addRootAttrs", {});
-            validateLabel("validate", {});
-            validateLabel("printXML", {});
-            updateLabel("removeRootAttrs", {});
+            backendCall("php/xml_mutator.php",
+                "addRootAttrs",
+                {},
+                function(data){ console.log(data); });
+            backendCall("php/xml_validator.php",
+                        "validate",
+                        {},
+                        function(data){ console.log(data); });
+            backendCall("php/xml_validator.php",
+                "printXML",
+                {},
+                function(data){ console.log(data); });
+            backendCall("php/xml_mutator.php",
+                "removeRootAttrs",
+                {},
+                function(data){ console.log(data); });
         }
-        updateLabel("removeAllChildNodes", {path: sectionHeading, ns: ""});
+        backendCall("php/xml_mutator.php",
+            "removeAllChildNodes",
+            {path: sectionHeading, ns: ""},
+            function(data){ console.log(data); });
     }
 }

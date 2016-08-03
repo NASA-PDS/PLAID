@@ -74,7 +74,10 @@ function updateActionBarHandlers(builderState, goBackSelector, saveSelector) {
             $("#wizard").steps("previous");
         });
         $(saveSelector).click(function() {
-            updateLabel("addCustomNodes", {json: missionSpecifics});
+            backendCall("php/xml_mutator.php",
+                "addCustomNodes",
+                {json: missionSpecifics},
+                function(data){ console.log(data); });
             $("#wizard").steps("next");
         });
     } else if (builderState === "addAttr" || builderState === "addGroup" || builderState === "remove") {

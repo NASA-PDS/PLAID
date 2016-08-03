@@ -179,7 +179,10 @@ function handleExportStep(newIndex){
     var isExportStep = $(nextSection).find("form#exportForm").length > 0;
     var hasNoPreview = !$(nextSection).find(".finalPreview").length > 0;
     if (isExportStep && hasNoPreview){
-        updateLabel("addRootAttrs", {});
+        backendCall("php/xml_mutator.php",
+            "addRootAttrs",
+            {},
+            function(data){ console.log(data); });
         var preview = generateFinalPreview();
         $("#finalPreview", nextSection).append(preview);
     }
@@ -205,11 +208,7 @@ function generateFinalPreview() {
     cardBlock.className = "finalPreview card-block";
     card.appendChild(cardBlock);
 
-    $.ajax({
-        async: false,
-        type: "POST",
-        url: "php/preview_template.php"
-    }).done(function(data){
+    backendCall("php/preview_template.php", null, null, function(data){
         cardBlock.textContent = data;
     });
 
@@ -217,35 +216,22 @@ function generateFinalPreview() {
 
     return previewContainer;
 }
-
-function updateLabel(funcName, args) {
+/**
+ * Make a call to a function in the specified file on the backend.
+ * @param {string} file name of the PHP file
+ * @param {string} funcName name of the function to execute in the PHP
+ * @param {Object} args object containing any arguments for the function
+ * @param {Function} callback function to execute upon return
+ */
+function backendCall(file, funcName, args, callback){
     $.ajax({
         async: false,
         type: "POST",
-        url: "php/xml_mutator.php",
+        url: file,
         data: {
             Function: funcName,
             Data: args
-        }
-    }).done(function(data){
-        console.log(data);
-    });
-}
-
-/**
- * Makes an AJAX call to the PHP file that validates the XML
- * @param funcName - A String that chooses which PHP function to call by name
- */
-function validateLabel(funcName) {
-    $.ajax({
-        async: false,
-        type: "POST",
-        url: "php/xml_validator.php",
-        data: {
-            Function: funcName,
-            Data: {}
-        }
-    }).done(function(data){
-        console.log(data);
+        },
+        success: callback
     });
 }
