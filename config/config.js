@@ -28,23 +28,4 @@ var wizardData = {
     numWarnings: 0,
     mainSteps: []
 };
-var missionSpecifics = [
-    {
-    name: 'Group 1',
-    children: [
-        { name: 'Attribute 1', isGroup: false},
-        { name: 'Attribute 2', isGroup: false }
-        ],
-        isGroup: true
-    },
-    {
-        name: 'Group 2',
-        children: [
-            { name: 'Attribute 3', isGroup: false }
-        ],
-        isGroup: true
-    },
-    {
-        name: 'Attribute 4',
-        isGroup: false
-    }];
+var missionSpecifics = [];
