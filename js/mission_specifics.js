@@ -97,13 +97,17 @@ function updateActionBarHandlers(builderState, goBackSelector, saveSelector) {
  */
 function handleSaveButton(builderState) {
     var element = {};
+
+    var name = $("fieldset.title").find("input");
+    if(!isValidMSInput(name))
+        return false;
+    element.name = $(name).val();
+    element.description = $("fieldset.description").find("input").val();
+
     if (builderState === "addAttr") {
-        var groupSelect;
         // TODO XSS
-        element.name = $("fieldset.title").find("input").val();
-        element.description = $("fieldset.description").find("input").val();
         element.isGroup = false;
-        groupSelect = $(".form-group.groupSelect").find("select.form-control").val();
+        var groupSelect = $(".form-group.groupSelect").find("select.form-control").val();
         // Find the group to add the attr to
         if (groupSelect === "No Group") {
             missionSpecifics.push(element);
@@ -111,15 +115,13 @@ function handleSaveButton(builderState) {
             var node;
             for (var i = 0; i < missionSpecifics.length; i++) {
                 node = missionSpecifics[i];
-                if (node.name === groupSelect) {
+                if (node.isGroup && node.name === groupSelect) {
                     node.children.push(element);
                     break;
                 }
             }
         }
     } else if (builderState === "addGroup") {
-        element.name = $("fieldset.title").find("input").val();
-        element.description = $("fieldset.description").find("input").val();
         element.children = [];
         element.isGroup = true;
         missionSpecifics.push(element);
@@ -128,7 +130,21 @@ function handleSaveButton(builderState) {
     }
     mutatePage("home", wizardData.currentStep.toString());
 }
-
+/**
+ * Check if the field is empty or contains any spaces.
+ * @param field input to check
+ * @returns {boolean}
+ */
+function isValidMSInput(field){
+    if ($(field).val().search(/\s/g) !== -1 || $(field).val() === ""){
+        $(field).addClass("error");
+        return false;
+    }
+    else {
+        $(field).removeClass("error");
+        return true;
+    }
+}
 /**
  * Called during the onStepChanging event for jQuery Steps, this function toggles
  * the display between the Previous/Next buttons and Go Back/Save buttons used
