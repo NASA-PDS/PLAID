@@ -109,6 +109,7 @@ function handleSaveButton(builderState) {
                 node = missionSpecifics[i];
                 if (node.name === groupSelect) {
                     node.children.push(element);
+                    break;
                 }
             }
         }
@@ -260,7 +261,6 @@ function generatePreview() {
     cardBlock.id = "previewContent";
     $(cardBlock).tree({
         data: missionSpecifics
-        //TODO ALLOW DRAG AND DROP FUNCTIONALITY, IF DESIRED
         ,
         dragAndDrop: true,
         onCanMove: function(node) {
@@ -425,6 +425,7 @@ function generateDropdownSelect() {
     var wrapper = document.createElement("select");
     wrapper.className = "form-control";
 
+    //TODO ABSTRACT OPTION ELEMENT CREATE
     var option = document.createElement("option");
     option.innerHTML = "No Group";
     wrapper.appendChild(option);
