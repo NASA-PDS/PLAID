@@ -59,12 +59,9 @@ function generateButtonColumn(buttonClass, iconClass, spanHTML) {
  *
  * CURRENTLY ACCEPTED VALUES FOR builderState:
  *  - "home"     : The indicator for giving action bar buttons the Previous and Next functionality
- *  - "addAttr"  : The indicator for having action bar buttons not leave the jQuery step, but
- *                 and instead navigate back to the homepage and updating the Mission Specific
- *                 Dictionary JSON accordingly
- *  - "addGroup" : TODO
- *  - "remove"   : TODO
- *  TODO MAKE HANDLER METHODS UPDATE THE PREVIEW JSON
+ *  - "addAttr"  : The indicator for adding a single attribute and having buttons navigate to home
+ *  - "addGroup" : The indicator for adding an empty group of attributes and having buttons navigate to home
+ *  - "remove"   : The indicator for removing attributes and groups and having buttons navigate to home
  */
 function updateActionBarHandlers(builderState, goBackSelector, saveSelector) {
     $(goBackSelector).off("click");
@@ -86,43 +83,65 @@ function updateActionBarHandlers(builderState, goBackSelector, saveSelector) {
  * Adjusts the missionSpecifics preview array in the config based on which state of the builder is being
  * completed and what is being inputted into the forms
  *
- * @param builderState - A String representing the state of the builder out of the following accepted values:
- * - "addAttr" :
- * - "addGroup" :
- * - "remove" :
+ * @param builderState - A String representing the state of the builder out of the following
+ *                       accepted values:
+ * - "addAttr"  : Make the save button add a single attribute to the array
+ * - "addGroup" : Make the save button add a group of attributes to the array
+ * - "remove"   : Make the save button remove attributes and groups from the array
  */
 function handleSaveButton(builderState) {
-    var element = {};
     if (builderState === "addAttr") {
-        var groupSelect;
-        // TODO XSS
-        element.name = $("fieldset.title").find("input").val();
-        element.description = $("fieldset.description").find("input").val();
-        element.isGroup = false;
-        groupSelect = $(".form-group.groupSelect").find("select.form-control").val();
-        // Find the group to add the attr to
-        if (groupSelect === "No Group") {
-            missionSpecifics.push(element);
-        } else {
-            var node;
-            for (var i = 0; i < missionSpecifics.length; i++) {
-                node = missionSpecifics[i];
-                if (node.name === groupSelect) {
-                    node.children.push(element);
-                    break;
-                }
-            }
-        }
+        createAttribute();
     } else if (builderState === "addGroup") {
-        element.name = $("fieldset.title").find("input").val();
-        element.description = $("fieldset.description").find("input").val();
-        element.children = [];
-        element.isGroup = true;
-        missionSpecifics.push(element);
+        createAttributeGroup();
     } else if (builderState === "remove") {
-
+        removeFromMissionSpecifics();
     }
     mutatePage("home", wizardData.currentStep.toString());
+}
+
+/**
+ * Adds a single attribute to the missionSpecific data array
+ */
+function createAttribute() {
+    var element = {};
+    var groupSelect;
+    // TODO XSS
+    element.name = $("fieldset.title").find("input").val();
+    element.description = $("fieldset.description").find("input").val();
+    element.isGroup = false;
+    groupSelect = $(".form-group.groupSelect").find("select.form-control").val();
+    if (groupSelect === "No Group") {
+        missionSpecifics.push(element);
+    } else {
+        var node;
+        for (var i = 0; i < missionSpecifics.length; i++) {
+            node = missionSpecifics[i];
+            if (node.name === groupSelect) {
+                node.children.push(element);
+                break;
+            }
+        }
+    }
+}
+
+/**
+ * Adds an attribute group to the missionSpecific data array
+ */
+function createAttributeGroup() {
+    var element = {};
+    element.name = $("fieldset.title").find("input").val();
+    element.description = $("fieldset.description").find("input").val();
+    element.children = [];
+    element.isGroup = true;
+    missionSpecifics.push(element);
+}
+
+/**
+ * Remove attributes/groups from the missionSpeicifc data array
+ */
+function removeFromMissionSpecifics() {
+    //TODO METHOD STUB
 }
 
 /**
@@ -181,8 +200,6 @@ function handleMissionSpecificsStep(currentIndex, newIndex) {
  *  - "home"       : The homepage for the builder
  *  - "addAttr"    : The page for adding a single attribute
  *  - "addGroup"   : The page for adding a group of attributes
- *
- *  TODO USE GLOBAL CURRENT INDEX VAR AFTER CODE MERGE
  */
 function mutatePage(nextPage, step) {
     var section = $("#wizard-p-" + step);
@@ -197,6 +214,9 @@ function mutatePage(nextPage, step) {
     } else if (nextPage === "addGroup") {
         $(section).append(generateAddGroupPage("mission_specifics_builder"));
         updateActionBarHandlers("addGroup", ".list-group-item.goBack", ".list-group-item.save");
+    } else if (nextPage === "remove") {
+        $(section).append(generateRemovePage("mission_specifics_builder"));
+        updateActionBarHandlers();
     }
 }
 
@@ -228,7 +248,7 @@ function generateHomepage(wrapperClass) {
     table.appendChild(generateButtonRow("groupAttribute", "fa-tags", "Add a grouping of attributes",
         function() {mutatePage("addGroup", wizardData.currentStep.toString())}));
     table.appendChild(generateButtonRow("remove", "fa-eraser", "Remove",
-        function() {} ));
+        function() {mutatePage("remove", wizardData.currentStep.toString())}));
     dataSection.appendChild(table);
 
     dataSection.appendChild(generatePreview());
@@ -361,13 +381,22 @@ function generateAddGroupPage(wrapperClass) {
     form.appendChild(generateFieldset("title", "Title", "Ex. Photos"));
     form.appendChild(generateFieldset("description", "Description", "Ex. Group of photo attributes"));
 
-
-
     dataSection.appendChild(form);
 
     wrapper.appendChild(dataSection);
 
     return wrapper;
+}
+
+/**
+ * Dynamically generates inside a wrapper div the Remove Attributes/Groups page for the Mission Specific
+ * Dictionary Builder step
+ *
+ * @param wrapperClass - The class name for the wrapper div
+ * @return The generated HTML element representing the remove page
+ */
+function generateRemovePage(wrapperClass) {
+    //TODO METHOD STUB
 }
 
 /**
@@ -425,16 +454,11 @@ function generateDropdownSelect() {
     var wrapper = document.createElement("select");
     wrapper.className = "form-control";
 
-    //TODO ABSTRACT OPTION ELEMENT CREATE
-    var option = document.createElement("option");
-    option.innerHTML = "No Group";
-    wrapper.appendChild(option);
+    wrapper.appendChild(generateOption("No Group"));
     for (var i = 0; i < missionSpecifics.length; i++) {
         var node = missionSpecifics[i];
         if (node.isGroup) {
-            var option = document.createElement("option");
-            option.innerHTML = node.name;
-            wrapper.appendChild(option);
+            wrapper.appendChild(generateOption(node.name));
         }
     }
 
@@ -442,9 +466,21 @@ function generateDropdownSelect() {
 }
 
 /**
- * Updates the builder to the homepage when step is changed
+ * Generate an option for the dropdown select in the addSingleAttribute page
+ *
+ * @param optionName -  A String representing the name of the option
+ * @returns {Element} - The dropdown option
  */
-function updateMissionSpecificsBuilder(priorIndex) {
+function generateOption(optionName) {
+    var option = document.createElement("option");
+    option.innerHTML = optionName;
+    return option;
+}
+
+/**
+ * Resets the builder to the homepage when step is changed
+ */
+function resetMissionSpecificsBuilder(priorIndex) {
     var priorSection = $("#wizard-p-" + priorIndex.toString());
     if ($(".mission_specifics_builder", priorSection).length > 0) {
         mutatePage("home", priorIndex.toString());

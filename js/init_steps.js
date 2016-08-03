@@ -67,7 +67,7 @@ var settings = {
             prepXML(currStepTitle, true);
         }
         handleBackwardsTraversalPopup(currentIndex);
-        updateMissionSpecificsBuilder(priorIndex);
+        resetMissionSpecificsBuilder(priorIndex);
         $("#help").empty();
         previewDescription();
         $("#help").fadeIn(400);
