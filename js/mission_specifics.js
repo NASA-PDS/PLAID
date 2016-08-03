@@ -58,10 +58,12 @@ function generateButtonColumn(buttonClass, iconClass, spanHTML) {
  * @param saveSelector - The jQuery selector corresponding to the Save button
  *
  * CURRENTLY ACCEPTED VALUES FOR builderState:
- *  - "home"   : The indicator for giving action bar buttons the Previous and Next functionality
- *  - "modify" : The indicator for having action bar buttons not leave the jQuery step, but
- *               and instead navigate back to the homepage and updating the Mission Specific
- *               Dictionary JSON accordingly
+ *  - "home"     : The indicator for giving action bar buttons the Previous and Next functionality
+ *  - "addAttr"  : The indicator for having action bar buttons not leave the jQuery step, but
+ *                 and instead navigate back to the homepage and updating the Mission Specific
+ *                 Dictionary JSON accordingly
+ *  - "addGroup" : TODO
+ *  - "remove"   : TODO
  *  TODO MAKE HANDLER METHODS UPDATE THE PREVIEW JSON
  */
 function updateActionBarHandlers(builderState, goBackSelector, saveSelector) {
@@ -74,10 +76,53 @@ function updateActionBarHandlers(builderState, goBackSelector, saveSelector) {
         $(saveSelector).click(function() {
             $("#wizard").steps("next");
         });
-    } else if (builderState === "modify") {
+    } else if (builderState === "addAttr" || builderState === "addGroup" || builderState === "remove") {
         $(goBackSelector).click(function() {mutatePage("home", wizardData.currentStep.toString())});
-        $(saveSelector).click(function() {mutatePage("home", wizardData.currentStep.toString())});
+        $(saveSelector).click(function() {handleSaveButton(builderState)});
     }
+}
+
+/**
+ * Adjusts the missionSpecifics preview array in the config based on which state of the builder is being
+ * completed and what is being inputted into the forms
+ *
+ * @param builderState - A String representing the state of the builder out of the following accepted values:
+ * - "addAttr" :
+ * - "addGroup" :
+ * - "remove" :
+ */
+function handleSaveButton(builderState) {
+    var element = {};
+    if (builderState === "addAttr") {
+        var groupSelect;
+        // TODO XSS
+        element.name = $("fieldset.title").find("input").val();
+        element.description = $("fieldset.description").find("input").val();
+        element.isGroup = false;
+        groupSelect = $(".form-group.groupSelect").find("select.form-control").val();
+        // Find the group to add the attr to
+        if (groupSelect === "No Group") {
+            missionSpecifics.push(element);
+        } else {
+            var node;
+            for (var i = 0; i < missionSpecifics.length; i++) {
+                node = missionSpecifics[i];
+                if (node.name === groupSelect) {
+                    node.children.push(element);
+                    break;
+                }
+            }
+        }
+    } else if (builderState === "addGroup") {
+        element.name = $("fieldset.title").find("input").val();
+        element.description = $("fieldset.description").find("input").val();
+        element.children = [];
+        element.isGroup = true;
+        missionSpecifics.push(element);
+    } else if (builderState === "remove") {
+
+    }
+    mutatePage("home", wizardData.currentStep.toString());
 }
 
 /**
@@ -148,10 +193,10 @@ function mutatePage(nextPage, step) {
         updateActionBarHandlers("home", ".list-group-item.goBack", ".list-group-item.save");
     } else if (nextPage === "addAttr") {
         $(section).append(generateAddAttributePage("mission_specifics_builder"));
-        updateActionBarHandlers("modify", ".list-group-item.goBack", ".list-group-item.save");
+        updateActionBarHandlers("addAttr", ".list-group-item.goBack", ".list-group-item.save");
     } else if (nextPage === "addGroup") {
         $(section).append(generateAddGroupPage("mission_specifics_builder"));
-        updateActionBarHandlers("modify", ".list-group-item.goBack", ".list-group-item.save");
+        updateActionBarHandlers("addGroup", ".list-group-item.goBack", ".list-group-item.save");
     }
 }
 
@@ -213,6 +258,18 @@ function generatePreview() {
 
     var cardBlock = document.createElement("div");
     cardBlock.className = "card-block";
+    cardBlock.id = "previewContent";
+    $(cardBlock).tree({
+        data: missionSpecifics
+        ,
+        dragAndDrop: true,
+        onCanMove: function(node) {
+            return !node.isGroup;
+        },
+        onCanMoveTo: function(moved_node, target_node, position) {
+            return target_node.getLevel() !== 2 && target_node.isGroup;
+        }
+    });
     card.appendChild(cardBlock);
 
     previewContainer.appendChild(card);
@@ -272,6 +329,7 @@ function generateAddAttributePage(wrapperClass) {
     var form = document.createElement("form");
     form.appendChild(generateFieldset("title", "Title", "Ex. photo_id"));
     form.appendChild(generateFieldset("description", "Description", "Ex. Id of a photograph taken on Mars"));
+    form.appendChild(generateDropdown("groupSelect", "Select a group to add this attribute to:"));
     dataSection.appendChild(form);
 
     wrapper.appendChild(dataSection);
@@ -336,6 +394,51 @@ function generateFieldset(fieldsetClass, labelHTML, placeholderText) {
     fieldset.appendChild(fieldsetInput);
 
     return fieldset;
+}
+
+/**
+ * Dynamically generate the dropdown bar and label for selecting which group to add a single attribute to
+ *
+ * @param wrapperClass - The name for the element encasing the label and dropdown
+ * @param labelHTML - The text of the label preceding the dropdown
+ * @returns {Element} - The dropdown bar filled with group elements from the config
+ */
+function generateDropdown(wrapperClass, labelHTML) {
+    var wrapper = document.createElement("div");
+    wrapper.className = "form-group " + wrapperClass;
+
+    var label = document.createElement("label");
+    label.innerHTML = labelHTML;
+    wrapper.appendChild(label);
+    wrapper.appendChild(generateDropdownSelect());
+
+    return wrapper;
+}
+
+/**
+ * Generates the dropdown bar and the options associated with it, in this case it is used to
+ * load the attribute groups into the dropdown select
+ *
+ * @returns {Element} - Dropdown bar with all attribute groups found in missionSpecifics in config.js
+ */
+function generateDropdownSelect() {
+    var wrapper = document.createElement("select");
+    wrapper.className = "form-control";
+
+    //TODO ABSTRACT OPTION ELEMENT CREATE
+    var option = document.createElement("option");
+    option.innerHTML = "No Group";
+    wrapper.appendChild(option);
+    for (var i = 0; i < missionSpecifics.length; i++) {
+        var node = missionSpecifics[i];
+        if (node.isGroup) {
+            var option = document.createElement("option");
+            option.innerHTML = node.name;
+            wrapper.appendChild(option);
+        }
+    }
+
+    return wrapper;
 }
 
 /**

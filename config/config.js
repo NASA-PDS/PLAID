@@ -28,3 +28,4 @@ var wizardData = {
     numWarnings: 0,
     mainSteps: []
 };
+var missionSpecifics = [];

@@ -14,6 +14,11 @@
 }
 */
 
+#previewContent {
+    max-height: 19rem;
+    overflow: auto;
+}
+
 #saveButton {
     margin-left: 1em;
 }
