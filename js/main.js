@@ -181,7 +181,11 @@ function handleExportStep(newIndex){
     if (isExportStep && hasNoPreview){
         backendCall("php/xml_mutator.php",
             "addRootAttrs",
-            {},
+            {namespaces: jsonData.namespaces},
+            function(data){ console.log(data); });
+        backendCall("php/xml_mutator.php",
+            "formatDoc",
+            {namespaces: jsonData.namespaces},
             function(data){ console.log(data); });
         var preview = generateFinalPreview();
         $("#finalPreview", nextSection).append(preview);

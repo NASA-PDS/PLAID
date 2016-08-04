@@ -437,7 +437,7 @@ function prepXML(sectionHeading, isValidating){
         if (isValidating) {
             backendCall("php/xml_mutator.php",
                 "addRootAttrs",
-                {},
+                {namespaces: jsonData.namespaces},
                 function(data){ console.log(data); });
             backendCall("php/xml_validator.php",
                         "validate",
@@ -449,7 +449,7 @@ function prepXML(sectionHeading, isValidating){
                 function(data){ console.log(data); });
             backendCall("php/xml_mutator.php",
                 "removeRootAttrs",
-                {},
+                {namespaces: jsonData.namespaces},
                 function(data){ console.log(data); });
         }
         backendCall("php/xml_mutator.php",

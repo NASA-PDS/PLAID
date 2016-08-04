@@ -152,15 +152,35 @@ function handlePath($path, $ns){
     }
     return array($nodeName, $path);
 }
-function addRootAttrs(){
+function addRootAttrs($args){
+    $namespaces = $args["namespaces"];
     global $DOC;
     $root = $DOC->documentElement;
-    $root->setAttribute("xmlns", "http://pds.nasa.gov/pds4/pds/v1");
+    foreach ($namespaces as $ns){
+        if ($ns === "pds")
+            $root->setAttribute("xmlns", "http://pds.nasa.gov/pds4/$ns/v1");
+        else
+            $root->setAttribute("xmlns:$ns", "http://pds.nasa.gov/pds4/$ns/v1");
+    }
 }
-function removeRootAttrs(){
+function removeRootAttrs($args){
+    $namespaces = $args["namespaces"];
     global $DOC;
     $root = $DOC->documentElement;
-    $root->removeAttributeNS("http://pds.nasa.gov/pds4/pds/v1", "");
+    foreach ($namespaces as $ns){
+        if ($ns === "pds")
+            $root->removeAttributeNS("http://pds.nasa.gov/pds4/$ns/v1", "");
+        /*else
+            $root->removeAttributeNS("http://pds.nasa.gov/pds4/$ns/v1", $ns);*/
+    }
+}
+function formatDoc($args){
+    global $DOC;
+    $discAreaDom = getNode("Observation_Area/Discipline_Area", "")->item(0);
+    $discAreaStr = $DOC->saveXML($discAreaDom);
+    echo $discAreaStr;
+    $discAreaStr = preg_replace("xmlns:[a-z]{4}=\"http:\/\/pds.nasa.gov\/pds4\/[a-z]{4}\/v1\"", "", $discAreaStr);
+    echo $discAreaStr;
 }
 function isNaN($val){
     return !(is_numeric($val));

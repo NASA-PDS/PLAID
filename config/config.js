@@ -19,6 +19,7 @@ var jsonData = {
     searchObj: {},
     nodes: [],
     currNS: "",
+    namespaces: [],
     currNode: ""
 };
 var wizardData = {
