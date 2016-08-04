@@ -178,9 +178,8 @@ function formatDoc($args){
     global $DOC;
     $discAreaDom = getNode("Observation_Area/Discipline_Area", "")->item(0);
     $discAreaStr = $DOC->saveXML($discAreaDom);
-    echo $discAreaStr;
-    $discAreaStr = preg_replace("xmlns:[a-z]{4}=\"http:\/\/pds.nasa.gov\/pds4\/[a-z]{4}\/v1\"", "", $discAreaStr);
-    echo $discAreaStr;
+    $discAreaStr = preg_replace("/\sxmlns:[a-z]{4}=\"http:\/\/pds.nasa.gov\/pds4\/[a-z]{4}\/v1\"/", "", $discAreaStr);
+    //TODO figure out how to load this string back into the dom for the discipline area
 }
 function isNaN($val){
     return !(is_numeric($val));
