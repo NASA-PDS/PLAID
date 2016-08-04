@@ -23,6 +23,14 @@
     margin-left: 1em;
 }
 
+.check-span {
+    margin-left: 0.3rem;
+}
+
+.form-check.nested .form-check-label {
+    margin-left: 1rem;
+}
+
 .goBack {
 
 }
@@ -55,4 +63,3 @@
     height: 30%;
     padding: 0.3em;
 }
-
