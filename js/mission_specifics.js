@@ -139,10 +139,31 @@ function createAttributeGroup() {
 }
 
 /**
- * Remove attributes/groups from the missionSpeicifc data array
+ * Remove attributes/groups from the missionSpecific data array
  */
 function removeFromMissionSpecifics() {
     //TODO METHOD STUB
+    $('input.form-check-input').each(function() {
+        alert($(this).is(':checked'));
+        if ($(this).is(':checked')) {
+            alert($(this).siblings('span.check-span').text());
+            var node = $('#previewContent').tree(
+                'getNodeByCallback',
+                function(node) {
+                    var bool;
+                    if (node.name === $(this).siblings('span.check-span').text()) {
+                        alert("found node");
+                        bool = true;
+                    }
+                    return bool;
+                    //return node.name === $(this).siblings('span.check-span').text();
+                }
+            );
+            //$('#previewContent').tree('removeNode', node);
+            //missionSpecifics = $('#previewContent').tree('getTree').children;
+        }
+    });
+    mutatePage("home", wizardData.currentStep.toString());
 }
 
 /**
@@ -217,7 +238,7 @@ function mutatePage(nextPage, step) {
         updateActionBarHandlers("addGroup", ".list-group-item.goBack", ".list-group-item.save");
     } else if (nextPage === "remove") {
         $(section).append(generateRemovePage("mission_specifics_builder"));
-        updateActionBarHandlers();
+        updateActionBarHandlers("remove", ".list-group-item.goBack", ".list-group-item.save");
     }
 }
 
@@ -291,6 +312,14 @@ function generatePreview() {
             return target_node.getLevel() !== 2 && target_node.isGroup;
         }
     });
+    // Handles any drag-and-drop action, saving any changes made into the missionSpecifics data in config.js
+    $(cardBlock).bind(
+        'tree.move',
+        function(event) {
+            event.move_info.do_move();
+            missionSpecifics = $(cardBlock).tree('getTree').children;
+        }
+    );
     card.appendChild(cardBlock);
 
     previewContainer.appendChild(card);
@@ -337,7 +366,7 @@ function generateButtonRow(buttonClass, iconClass, spanHTML, onClickHandler) {
 function generateAddAttributePage(wrapperClass) {
     var wrapper = document.createElement("div");
     wrapper.className = wrapperClass;
-    wrapper.setAttribute("pop-up-id", "addSingleAttribute");
+    wrapper.setAttribute("pop-up-id", "addAttr");
 
     var question = document.createElement("p");
     question.className = "question";
@@ -368,7 +397,7 @@ function generateAddAttributePage(wrapperClass) {
 function generateAddGroupPage(wrapperClass) {
     var wrapper = document.createElement("div");
     wrapper.className = wrapperClass;
-    wrapper.setAttribute("pop-up-id", "addGroupAttribute");
+    wrapper.setAttribute("pop-up-id", "addGroup");
 
     var question = document.createElement("p");
     question.className = "question";
@@ -397,9 +426,57 @@ function generateAddGroupPage(wrapperClass) {
  * @return The generated HTML element representing the remove page
  */
 function generateRemovePage(wrapperClass) {
-    //TODO METHOD STUB
+    var wrapper = document.createElement("div");
+    wrapper.className = wrapperClass;
+    //TODO wrapper.setAttribute("pop-up-id", "remove");
+
+    var question = document.createElement("p");
+    question.className = "question";
+    question.innerHTML = "Please select which group(s) or attribute(s) you would like to remove.";
+    wrapper.appendChild(question);
+
+    for (var i = 0; i < missionSpecifics.length; i++) {
+        var node = missionSpecifics[i];
+
+        var checkWrapper = document.createElement("div");
+        checkWrapper.className = "form-check";
+        checkWrapper.appendChild(generateCheckbox(node));
+
+        if (node.isGroup) {
+            var children = document.createElement("div");
+            children.className = "node-children";
+            for (var j = 0; j < node.children.length; j++) {
+                var child = node.children[j];
+                var childCheckWrapper = document.createElement("div");
+                childCheckWrapper.className = "form-check nested";
+                childCheckWrapper.appendChild(generateCheckbox(child));
+                children.appendChild(childCheckWrapper);
+            }
+            checkWrapper.appendChild(children);
+        }
+        wrapper.appendChild(checkWrapper);
+    }
+
+    return wrapper;
 }
 
+function generateCheckbox(node) {
+    var checkLabel = document.createElement("label");
+    checkLabel.className = "form-check-label";
+
+    var checkInput = document.createElement("input");
+    checkInput.className = "form-check-input";
+    checkInput.setAttribute("type", "checkbox");
+    checkInput.setAttribute("value", "");
+    checkLabel.appendChild(checkInput);
+
+    var labelSpan = document.createElement("span");
+    labelSpan.className = "check-span";
+    labelSpan.innerHTML = node.name;
+    checkLabel.appendChild(labelSpan);
+
+    return checkLabel;
+}
 /**
  * Generates a fieldset to be placed into a form
  *

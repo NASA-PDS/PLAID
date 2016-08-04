@@ -4,14 +4,14 @@
 var popUpData = {
     currentStep : 0,
     newStep : 0,
-    addSingleAttribute : {
+    addAttr : {
         title : "Warning",
         content : "<div>Leaving at this step will delete any unsaved progress for this single attribute.</div><br>" +
                   "<div>Click 'Continue' to leave anyway.</div>",
         noText : "Cancel",
         yesText : "Continue",
         yesFunction : function() {
-            $('#addSingleAttribute').modal('hide');
+            $('#addAttr').modal('hide');
             var section = $("#wizard-p-" + popUpData.currentStep.toString());
             $(section).find("[pop-up]").each(function() {
                 $(this).addClass(" leaving");
@@ -23,14 +23,14 @@ var popUpData = {
             $(newStep).click();
         }
     },
-    addGroupAttribute : {
+    addGroup : {
         title : "Warning",
         content : "<div>Leaving at this step will delete any unsaved progress for this attribute group.</div><br>" +
         "<div>Click 'Continue' to leave anyway.</div>",
         noText : "Cancel",
         yesText : "Continue",
         yesFunction : function() {
-            $('#addGroupAttribute').modal('hide');
+            $('#addGroup').modal('hide');
             var section = $("#wizard-p-" + popUpData.currentStep.toString());
             $(section).find("[pop-up]").each(function() {
                 $(this).addClass(" leaving");
