@@ -145,20 +145,18 @@ function createAttributeGroup() {
  * Remove attributes/groups from the missionSpecific data array
  */
 function removeFromMissionSpecifics() {
-    $('input.form-check-input').each(function() {
-        if ($(this).is(':checked')) {
-            var checkedText = $(this).parent().find(".check-span").text();
-            var node = $('#removeTree').tree(
-                'getNodeByCallback',
-                function(node) {
-                    return node.name === checkedText;
-                }
-            );
-            if (node) {
-                $('#removeTree').tree('removeNode', node);
-                missionSpecifics = JSON.parse($('#removeTree').tree('toJson'));
-                refreshGroupChildren();
+    $('input.form-check-input:checked').each(function() {
+        var checkedText = $(this).parent().find(".check-span").text();
+        var node = $('#removeTree').tree(
+            'getNodeByCallback',
+            function(node) {
+                return node.name === checkedText;
             }
+        );
+        if (node) {
+            $('#removeTree').tree('removeNode', node);
+            missionSpecifics = JSON.parse($('#removeTree').tree('toJson'));
+            refreshGroupChildren();
         }
     });
     mutatePage("home", wizardData.currentStep.toString());
@@ -530,6 +528,8 @@ function generateCheckbox(labelName, isChild) {
  *
  * @param checkInput - The checkbox input element
  * @param isChild - Boolean stating if checkbox is a child
+ *
+ * TODO optimize jquery selectors
  */
 function handleCheckbox(checkInput, isChild) {
     $(checkInput).click(function() {
