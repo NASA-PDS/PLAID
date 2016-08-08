@@ -54,7 +54,7 @@ var popUpData = {
     // When a user navigates backwards, this pop-up gives a warning that progress will be lost upon changes
     deleteProgress : {
         title : "Warning",
-        content : "<div>Making a change to a previous step will delete <b>all</b> Mission Specific Dictionary progress beyond that point.</div><br>" +
+        content : "<div>Making a change to a previous step will delete <b>all</b> progress beyond that point.</div><br>" +
         "<div>You are safe to navigate through the different steps without making any changes, however.</div>",
         noText : "",
         yesText : "Ok",

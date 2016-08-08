@@ -60,7 +60,7 @@ function addPopover(element, data, min, max){
         description = min + max + data["description"];
     }
     if(data["next"] && !$.isEmptyObject(data["next"])){
-        description += "<br/><b>Sub-elements: </b><br/>";
+        description += "<br/><b>Sub-attributes: </b><br/>";
     }
     for (var index in data["next"]){
         for (var key in data["next"][index]){
