@@ -145,28 +145,35 @@ function createAttributeGroup() {
  * Remove attributes/groups from the missionSpecific data array
  */
 function removeFromMissionSpecifics() {
-    //TODO METHOD STUB
     $('input.form-check-input').each(function() {
-        alert($(this).is(':checked'));
         if ($(this).is(':checked')) {
-            alert($(this).siblings('span.check-span').text());
-            var node = $('#previewContent').tree(
+            var checkedText = $(this).parent().find(".check-span").text();
+            var node = $('#removeTree').tree(
                 'getNodeByCallback',
                 function(node) {
-                    var bool;
-                    if (node.name === $(this).siblings('span.check-span').text()) {
-                        alert("found node");
-                        bool = true;
-                    }
-                    return bool;
-                    //return node.name === $(this).siblings('span.check-span').text();
+                    return node.name === checkedText;
                 }
             );
-            //$('#previewContent').tree('removeNode', node);
-            //missionSpecifics = $('#previewContent').tree('getTree').children;
+            if (node) {
+                $('#removeTree').tree('removeNode', node);
+                missionSpecifics = JSON.parse($('#removeTree').tree('toJson'));
+                refreshGroupChildren();
+            }
         }
     });
     mutatePage("home", wizardData.currentStep.toString());
+}
+
+/**
+ * For all groups in the mission specifics array, make sure that they have a children array field
+ */
+function refreshGroupChildren() {
+    for (var i = 0; i < missionSpecifics.length; i++) {
+        var node = missionSpecifics[i];
+        if (node.isGroup && !node.children) {
+            node.children = [];
+        }
+    }
 }
 
 /**
@@ -251,8 +258,6 @@ function mutatePage(nextPage, step) {
  *
  * @param wrapperClass - The class name assigned to the div that will wrap this HTML
  * @return The generated HTML representing the homepage
- *
- * TODO MAKE A GENERATE-FUNCTION FOR THE "REMOVE BUTTON" CLICK
  */
 function generateHomepage(wrapperClass) {
     var wrapper = document.createElement("div");
@@ -304,6 +309,23 @@ function generatePreview() {
     var cardBlock = document.createElement("div");
     cardBlock.className = "card-block";
     cardBlock.id = "previewContent";
+
+    generateTree(cardBlock);
+
+    card.appendChild(cardBlock);
+
+    previewContainer.appendChild(card);
+
+    return previewContainer;
+}
+
+/**
+ * Helper method for generatePreview to populate the preview with the jqTree
+ *
+ * @param cardBlock - An Element to add the jqTree into
+ */
+
+function generateTree(cardBlock) {
     $(cardBlock).tree({
         data: missionSpecifics
         ,
@@ -321,13 +343,9 @@ function generatePreview() {
         function(event) {
             event.move_info.do_move();
             missionSpecifics = JSON.parse($(cardBlock).tree('toJson'));
+            refreshGroupChildren();
         }
     );
-    card.appendChild(cardBlock);
-
-    previewContainer.appendChild(card);
-
-    return previewContainer;
 }
 
 /**
@@ -431,19 +449,37 @@ function generateAddGroupPage(wrapperClass) {
 function generateRemovePage(wrapperClass) {
     var wrapper = document.createElement("div");
     wrapper.className = wrapperClass;
-    //TODO wrapper.setAttribute("pop-up-id", "remove");
 
     var question = document.createElement("p");
     question.className = "question";
     question.innerHTML = "Please select which group(s) or attribute(s) you would like to remove.";
     wrapper.appendChild(question);
 
+    generateCheckboxForm(wrapper);
+
+    var tree = document.createElement("div");
+    tree.id = "removeTree";
+    $(tree).tree({
+        data: missionSpecifics
+    });
+    tree.style.display = "none";
+    wrapper.appendChild(tree);
+
+    return wrapper;
+}
+
+/**
+ * Generates and appends each of the checkbox and label pairs into the given wrapper
+ *
+ * @param wrapper - The Element to add the checkbox inputs and labels into
+ */
+function generateCheckboxForm(wrapper) {
     for (var i = 0; i < missionSpecifics.length; i++) {
         var node = missionSpecifics[i];
 
         var checkWrapper = document.createElement("div");
         checkWrapper.className = "form-check";
-        checkWrapper.appendChild(generateCheckbox(node));
+        checkWrapper.appendChild(generateCheckbox(node.name, false));
 
         if (node.isGroup) {
             var children = document.createElement("div");
@@ -452,18 +488,22 @@ function generateRemovePage(wrapperClass) {
                 var child = node.children[j];
                 var childCheckWrapper = document.createElement("div");
                 childCheckWrapper.className = "form-check nested";
-                childCheckWrapper.appendChild(generateCheckbox(child));
+                childCheckWrapper.appendChild(generateCheckbox(child.name, true));
                 children.appendChild(childCheckWrapper);
             }
             checkWrapper.appendChild(children);
         }
         wrapper.appendChild(checkWrapper);
     }
-
-    return wrapper;
 }
 
-function generateCheckbox(node) {
+/**
+ * Generate a checkbox and label input
+ *
+ * @param node - A String for the name of the checkbox input
+ * @returns {Element} - The label and checkbox input
+ */
+function generateCheckbox(labelName, isChild) {
     var checkLabel = document.createElement("label");
     checkLabel.className = "form-check-label";
 
@@ -473,13 +513,37 @@ function generateCheckbox(node) {
     checkInput.setAttribute("value", "");
     checkLabel.appendChild(checkInput);
 
+    handleCheckbox(checkInput, isChild);
+
     var labelSpan = document.createElement("span");
     labelSpan.className = "check-span";
-    labelSpan.innerHTML = node.name;
+    labelSpan.innerHTML = labelName;
     checkLabel.appendChild(labelSpan);
 
     return checkLabel;
 }
+
+/**
+ * Give checkboxes the following two behaviors:
+ * 1. If checkbox selected is a group, select all children checkboxes
+ * 2. If checkbox deselected is a child, deselect its parent checkbox if checked
+ *
+ * @param checkInput - The checkbox input element
+ * @param isChild - Boolean stating if checkbox is a child
+ */
+function handleCheckbox(checkInput, isChild) {
+    $(checkInput).click(function() {
+        if (isChild && !$(checkInput).is(':checked')) {
+            $(this).parents(".node-children").siblings(".form-check-label").find(".form-check-input").prop("checked", false);
+        } else if ($(checkInput).is(':checked')) {
+            $(this).parents(".form-check-label").siblings(".node-children").find(".form-check.nested").each(function() {
+                $(this).find(".form-check-input").prop("checked", true);
+            });
+        }
+    });
+}
+
+
 /**
  * Generates a fieldset to be placed into a form
  *
