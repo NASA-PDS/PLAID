@@ -5,7 +5,7 @@
  * Date: 7/26/16
  * Time: 1:50 PM
  */
-$filepath = "/tmp/test.xml";
+$filepath = "/tmp/morse_tests/output.xml";
 $DOC = readInXML($filepath);
 if(isset($_POST['Function'])){
     call_user_func($_POST['Function'], $_POST['Data']);
@@ -170,16 +170,24 @@ function removeRootAttrs($args){
     foreach ($namespaces as $ns){
         if ($ns === "pds")
             $root->removeAttributeNS("http://pds.nasa.gov/pds4/$ns/v1", "");
-        /*else
-            $root->removeAttributeNS("http://pds.nasa.gov/pds4/$ns/v1", $ns);*/
+        else
+            $root->removeAttributeNS("http://pds.nasa.gov/pds4/$ns/v1", $ns);
     }
 }
-function formatDoc($args){
+
+/**
+ * Remove namespace attributes from within the Discipline_Area element.
+ * Note: all namespaces are defined in the root tag.
+ */
+function formatDoc(){
     global $DOC;
+    global $filepath;
     $discAreaDom = getNode("Observation_Area/Discipline_Area", "")->item(0);
     $discAreaStr = $DOC->saveXML($discAreaDom);
     $discAreaStr = preg_replace("/\sxmlns:[a-z]{4}=\"http:\/\/pds.nasa.gov\/pds4\/[a-z]{4}\/v1\"/", "", $discAreaStr);
-    //TODO figure out how to load this string back into the dom for the discipline area
+    $fileContents = file_get_contents($filepath);
+    $modFile = preg_replace("/<Discipline_Area>.*<\/Discipline_Area>/s", $discAreaStr, $fileContents);
+    file_put_contents($filepath, $modFile);
 }
 function isNaN($val){
     return !(is_numeric($val));
