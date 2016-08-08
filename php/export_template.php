@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $filename = handleData($_POST["filename"]);
     header('Content-Type: text/xml');
     header("Content-Disposition: attachment; filename=\"$filename\"");
-    readfile('/tmp/test.xml');
+    readfile($_POST["outputFile"]);
 }
 
 function handleData($data) {

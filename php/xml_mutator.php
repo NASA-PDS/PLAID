@@ -5,12 +5,12 @@
  * Date: 7/26/16
  * Time: 1:50 PM
  */
-$filepath = "/tmp/morse_tests/output.xml";
-$DOC = readInXML($filepath);
 if(isset($_POST['Function'])){
+    $filepath = $_POST['Data']["outputFile"];
+    $DOC = readInXML($filepath);
     call_user_func($_POST['Function'], $_POST['Data']);
+    $DOC->save($filepath, LIBXML_NOEMPTYTAG);
 }
-$DOC->save($filepath, LIBXML_NOEMPTYTAG);
 /*
  * Load the specified file into a new DOMDocument.
  * @param {string} $file path to the file

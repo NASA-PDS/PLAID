@@ -11,7 +11,8 @@ var filePaths = {
     RMS_JSON: "",
     BOD_JSON: "",
     SPECT_JSON: "",
-    WAV_JSON: ""
+    WAV_JSON: "",
+    OUTPUT: ""
 };
 var jsonData = {
     refObj: {},

@@ -6,15 +6,16 @@
  * Time: 9:48 AM
  */
 
-// Load the XML from the /tmp/ directory in the server
-$filepath = '/tmp/test.xml';
-$doc = new DOMDocument();
-$doc->load($filepath);
+
 
 // Load the XSD schema from the PSA NASA site
 $schema = "https://pds.nasa.gov/pds4/pds/v1/PDS4_PDS_1600.xsd";
 
 if(isset($_POST['Function'])){
+    // Load the XML from the /tmp/ directory in the server
+    $filepath = $_POST['Data']["outputFile"];
+    $doc = new DOMDocument();
+    $doc->load($filepath);
     call_user_func($_POST['Function'], $_POST['Data']);
 }
 

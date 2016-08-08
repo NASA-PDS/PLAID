@@ -7,7 +7,8 @@ $(document).ready(function(){
     });
     addMissionSpecificsActionBar();
     previewDescription();
-    $.post("php/file_out.php", function(data){
+    $.post("php/init.php", function(data){
+        filePaths.OUTPUT = data;
         console.log(data);
     });
 });
@@ -159,6 +160,7 @@ function checkFilename(){
         $(input).removeClass("error");
         if (!$(input).hasClass("submitted")){
             $(input).addClass("submitted");
+            addOutputFileData();
             $("#exportForm").submit();
         }
         else
@@ -168,6 +170,16 @@ function checkFilename(){
         $(input).addClass("error");
         return false;
     }
+}
+/**
+ * The output filename is not accessible from the backend so it must
+ * be added as a hidden input field to be submitted with the POST.
+ */
+function addOutputFileData(){
+    var input = $("<input>")
+        .attr("type", "hidden")
+        .attr("name", "outputFile").val(filePaths.OUTPUT);
+    $('#exportForm').append($(input));
 }
 /**
  * Determine whether or not the user is transitioning to the final step in the wizard.
@@ -185,7 +197,7 @@ function handleExportStep(newIndex){
             function(data){ console.log(data); });
         backendCall("php/xml_mutator.php",
             "formatDoc",
-            {namespaces: jsonData.namespaces},
+            {},
             function(data){ console.log(data); });
         var preview = generateFinalPreview();
         $("#finalPreview", nextSection).append(preview);
@@ -212,7 +224,7 @@ function generateFinalPreview() {
     cardBlock.className = "finalPreview card-block";
     card.appendChild(cardBlock);
 
-    backendCall("php/preview_template.php", null, null, function(data){
+    backendCall("php/preview_template.php", null, {}, function(data){
         cardBlock.textContent = data;
     });
 
@@ -228,6 +240,7 @@ function generateFinalPreview() {
  * @param {Function} callback function to execute upon return
  */
 function backendCall(file, funcName, args, callback){
+    args.outputFile = filePaths.OUTPUT;
     $.ajax({
         async: false,
         type: "POST",

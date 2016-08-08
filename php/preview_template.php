@@ -7,5 +7,5 @@
  */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Content-Type: text/plain');
-    readfile('/tmp/test.xml');
+    readfile($_POST['Data']["outputFile"]);
 }
