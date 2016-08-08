@@ -270,5 +270,4 @@ if (!file_exists($path.$storageDir)){
 }
 $file = tempnam($path.$storageDir, "label_template_");
 file_put_contents($file, $data);
-chmod($file, 0750);
 echo $file;
