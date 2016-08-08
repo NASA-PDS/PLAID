@@ -153,6 +153,19 @@ function handleStepAddition(currentIndex, newIndex){
                             "addNode",
                             {path: id, quantity: val, ns: jsonData.currNS},
                             function(data){ console.log(data); });
+                //add in the xml for the required elements that will not be displayed in a visible step
+                if (currObj["allChildrenRequired"]){
+                    for (var index in currObj["next"]){
+                        for (var key in currObj["next"][index]){
+                            var child = currObj["next"][index][key];
+                            var num = child["range"].split("-")[0];
+                            backendCall("php/xml_mutator.php",
+                                "addNode",
+                                {path: child["path"], quantity: num, ns: jsonData.currNS},
+                                function(data){ console.log(data); });
+                        }
+                    }
+                }
             }
         });
     }
