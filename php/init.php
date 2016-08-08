@@ -2,10 +2,9 @@
 /**
  * Created by PhpStorm.
  * User: morse
- * Date: 7/27/16
- * Time: 8:34 AM
+ * Date: 8/8/16
+ * Time: 11:00 AM
  */
-
 $data = '<Product_Observational>
     <Identification_Area>
         <logical_identifier></logical_identifier>
@@ -264,5 +263,12 @@ $data = '<Product_Observational>
         </Array_1D>
     </File_Area_Observational_Supplemental>
 </Product_Observational>';
-file_put_contents("/tmp/test.xml", $data);
-echo "Created: /tmp/test.xml";
+$path = "/tmp/";
+$storageDir = "ldt_labels";
+if (!file_exists($path.$storageDir)){
+    mkdir($path.$storageDir);
+}
+$file = tempnam($path.$storageDir, "label_template_");
+file_put_contents($file, $data);
+chmod($file, 0750);
+echo $file;
