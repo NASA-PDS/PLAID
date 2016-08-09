@@ -43,7 +43,7 @@ function insertUser($args){
         }
     }
     $handle->execute();
-    header("Location: ../index.html");
+    header("Location: ../wizard.php");
 }
 /**
  * Verify that the user exists in the database and entered the correct password.
@@ -58,9 +58,15 @@ function verifyUser($args){
     $handle->execute();
     $result = $handle->fetchAll(\PDO::FETCH_OBJ);
 
+    session_start();
     if (count($result) === 1 &&
-        $HASHER->CheckPassword($args['password'], $result[0]->password))
-        header("Location: ../index.html");
-    else
-        header("Location: ../log_in.html");
+        $HASHER->CheckPassword($args['password'], $result[0]->password)){
+        header("Location: ../wizard.php");
+        $_SESSION['login'] = true;
+    }
+    else{
+        header("Location: ../login.html");
+        $_SESSION['login'] = true;
+    }
+
 }
