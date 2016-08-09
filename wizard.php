@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION['login']) && !$_SESSION['login'])
+    header("Location: login.html");
+$_SESSION['login'] = false;
+?>
 <!DOCTYPE html>
 <html>
 <head>
