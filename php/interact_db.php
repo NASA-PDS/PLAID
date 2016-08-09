@@ -5,7 +5,8 @@
  * Date: 8/9/16
  * Time: 11:07 AM
  */
-
+require_once('../thirdparty/php/PasswordHash.php');
+$HASHER = new PasswordHash(8, false);
 try{
     $LINK = new \PDO('mysql:host=miplapps2.jpl.nasa.gov;dbname=apps;charset=utf8mb4;port=4306',
         'dev',
@@ -16,8 +17,8 @@ try{
         )
     );
 
-    if(isset($_POST['Function'])){
-        call_user_func($_POST['Function'], $_POST['Data']);
+    if(isset($_POST['function'])){
+        call_user_func($_POST['function'], $_POST);
     }
 }
 catch(\PDOException $ex){
@@ -29,28 +30,37 @@ catch(\PDOException $ex){
  */
 function insertUser($args){
     global $LINK;
+    global $HASHER;
     $handle = $LINK->prepare('INSERT INTO user SET email=?,password=?,full_name=?,organization=?');
     $index = 1;
     foreach($args as $key=>$value){
-        if ($key === "password")
-            $handle->bindValue($index++, password_hash($value, PASSWORD_DEFAULT));
-        else
-            $handle->bindValue($index++, $value);
+        if ($key === "password"){
+            $handle->bindValue($index++, $HASHER->HashPassword($value));
+        }
+        else {
+            if ($key !== "function")
+                $handle->bindValue($index++, $value);
+        }
     }
     $handle->execute();
+    header("Location: ../index.html");
 }
 /**
  * Verify that the user exists in the database and entered the correct password.
  * @param {Object} $args
- * @return bool
  */
 function verifyUser($args){
     global $LINK;
-    $handle = $LINK->prepare('select email,password from user where email=?');
+    global $HASHER;
+    $handle = $LINK->prepare('select password from user where email=?');
     $handle->bindValue(1, $args['email']);
 
     $handle->execute();
     $result = $handle->fetchAll(\PDO::FETCH_OBJ);
 
-    return password_verify($args["password"], $result["password"]);
+    if (count($result) === 1 &&
+        $HASHER->CheckPassword($args['password'], $result[0]->password))
+        header("Location: ../index.html");
+    else
+        header("Location: ../log_in.html");
 }
