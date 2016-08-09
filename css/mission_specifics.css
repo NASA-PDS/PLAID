@@ -27,6 +27,12 @@
     margin-left: 0.3rem;
 }
 
+.checkbox-section {
+    height: 90%;
+    min-height: 30rem;
+    overflow-y: auto;
+}
+
 .form-check.nested .form-check-label {
     margin-left: 1rem;
 }
@@ -53,6 +59,10 @@
 .list-group-item.save:hover {
     background-color: #72C342;
     color: white;
+}
+
+.mission_specifics_builder {
+    height: inherit;
 }
 
 .mission_specifics_form {

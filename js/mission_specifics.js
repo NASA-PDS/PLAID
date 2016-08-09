@@ -472,7 +472,7 @@ function generateRemovePage(wrapperClass) {
     question.innerHTML = "Please select which group(s) or attribute(s) you would like to remove.";
     wrapper.appendChild(question);
 
-    generateCheckboxForm(wrapper);
+    wrapper.appendChild(generateCheckboxForm());
 
     var tree = document.createElement("div");
     tree.id = "removeTree";
@@ -490,7 +490,10 @@ function generateRemovePage(wrapperClass) {
  *
  * @param wrapper - The Element to add the checkbox inputs and labels into
  */
-function generateCheckboxForm(wrapper) {
+function generateCheckboxForm() {
+    var wrapper = document.createElement("div");
+    wrapper.className = "checkbox-section";
+
     for (var i = 0; i < missionSpecifics.length; i++) {
         var node = missionSpecifics[i];
 
@@ -512,6 +515,8 @@ function generateCheckboxForm(wrapper) {
         }
         wrapper.appendChild(checkWrapper);
     }
+
+    return wrapper;
 }
 
 /**
