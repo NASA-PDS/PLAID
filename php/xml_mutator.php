@@ -67,7 +67,6 @@ function addNode($args){
  */
 function addCustomNodes($args){
     global $DOC;
-    global $filepath;
     $data = $args["json"];
     $path = "Observation_Area/Mission_Area";
     $parentNode = getNode($path, "")->item(0);
@@ -163,7 +162,6 @@ function handlePath($path, $ns){
 function addRootAttrs($args){
     $namespaces = $args["namespaces"];
     global $DOC;
-    global $filepath;
     $root = $DOC->documentElement;
     foreach ($namespaces as $ns){
         if ($ns === "pds")
