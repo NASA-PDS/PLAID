@@ -8,6 +8,7 @@ var infoBarData = {
               "<div>When you have finished creating all of your groups and attributes, select 'Save' to complete your label template.</div><br/>"+
               "<div><em>Need Help?</em></div>" +
               "<div style='font-size: small;'>Take a look at this example <a href=ms_example.xml target=_blank>Mission Specifics section.</a></div><br>"),
+    dashboard: ("<div><b>Create a new label or select an existing one to work on.</b></div>"),
     discipline_nodes: ("<div><b>Please select the discipline nodes that you would like to include in your product's label.</b></div><br>"+
                        "<div>The PDS has varying requirements for different subject matters and divides these into disciplines.</div><br>"+
                        "<div>To decide which ones you should add, hover over each discipline node to see its description. </div><br>"+

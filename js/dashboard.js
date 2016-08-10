@@ -16,7 +16,9 @@ $(document).ready(function(){
            });
        }
     });
-    //$("#createNewLabel").attr("href", "wizard.php");
+
+    $("#help").append(infoBarData['dashboard']);
+
     $("#createNewLabelButton").click(function() {
         generatePopup("createNewLabel", popUpData["createNewLabel"]["title"], popUpData["createNewLabel"]["content"],
             popUpData["createNewLabel"]["noText"], popUpData["createNewLabel"]["yesText"], popUpData["createNewLabel"]["yesFunction"]);
