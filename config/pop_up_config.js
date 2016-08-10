@@ -67,5 +67,15 @@ var popUpData = {
                 $("body .modal-backdrop.fade.in").remove();
             })
         }
+    },
+    createNewLabel : {
+        title : "Create New Label",
+        content : "<div>Please enter a name for your new label:</div>" +
+        "<input id='labelNameInput' class='form-control' type='text' placeholder='Ex. Mars 2020 Label' id='example-text-input'>",
+        noText: "Cancel",
+        yesText: "Submit",
+        yesFunction : function() {
+            $('#createNewLabel').modal('hide');
+        }
     }
 };

@@ -32,7 +32,7 @@ $_SESSION['login'] = false;
         <div id="dashboard" class="card">
             <div class="card-header">
                 <span id="dashboardTitle">Label Dashboard</span>
-                <a id="createNewLabel" href="#" class="btn btn-primary">Create new</a>
+                <a id="createNewLabelButton" href="#" class="btn btn-primary">Create new</a>
             </div>
             <div class="card-block" id="dashboardContent">
 

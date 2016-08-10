@@ -16,7 +16,11 @@ $(document).ready(function(){
            });
        }
     });
-    $("#createNewLabel").attr("href", "wizard.php");
+    //$("#createNewLabel").attr("href", "wizard.php");
+    $("#createNewLabelButton").click(function() {
+        generatePopup("createNewLabel", popUpData["createNewLabel"]["title"], popUpData["createNewLabel"]["content"],
+            popUpData["createNewLabel"]["noText"], popUpData["createNewLabel"]["yesText"], popUpData["createNewLabel"]["yesFunction"]);
+    });
 });
 /**
  * Create a card to display a label entry using data from the database.
