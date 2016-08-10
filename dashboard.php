@@ -13,6 +13,7 @@ $_SESSION['login'] = false;
     <script src="config/pop_up_config.js"></script>
     <script src="config/infobar_config.js"></script>
     <script src="js/pop_up.js"></script>
+    <script src="js/dashboard.js"></script>
     <link href="thirdparty/css/bootstrap.css" rel="stylesheet">
     <link href="css/general.css" rel="stylesheet">
     <link href="css/dashboard.css" rel="stylesheet">
@@ -34,44 +35,6 @@ $_SESSION['login'] = false;
                 <a id="createNewLabel" href="#" class="btn btn-primary">Create new</a>
             </div>
             <div class="card-block" id="dashboardContent">
-
-                <div class="card card-block labelCard" id="">
-                    <h4 class="card-title">Test_Label_1</h4>
-                    <div class="labelText">
-                        <div><b>Author: </b><span class="author">Michael Kim</span></div>
-                        <div><b>Creation Time: </b><span class="creation">8/10/16 11:55</span></div>
-                        <div><b>Last Updated: </b><span class="updated">8/11/16 12:05</span></div>
-                    </div>
-                    <div class="btn-group labelButtonGroup" role="group">
-                        <button type="button" class="btn btn-secondary labelButton">Edit</button>
-                        <button type="button" class="btn btn-secondary labelButton">Delete</button>
-                    </div>
-                </div>
-                <div class="card card-block labelCard" id="">
-                    <h4 class="card-title">Test_Label_1</h4>
-                    <div class="labelText">
-                        <div><b>Author: </b><span class="author">Michael Kim</span></div>
-                        <div><b>Creation Time: </b><span class="creation">8/10/16 11:55</span></div>
-                        <div><b>Last Updated: </b><span class="updated">8/11/16 12:05</span></div>
-                    </div>
-                    <div class="btn-group labelButtonGroup" role="group">
-                        <button type="button" class="btn btn-secondary labelButton">Edit</button>
-                        <button type="button" class="btn btn-secondary labelButton">Delete</button>
-                    </div>
-                </div>
-                <div class="card card-block labelCard" id="">
-                    <h4 class="card-title">Test_Label_1</h4>
-                    <div class="labelText">
-                        <div><b>Author: </b><span class="author">Michael Kim</span></div>
-                        <div><b>Creation Time: </b><span class="creation">8/10/16 11:55</span></div>
-                        <div><b>Last Updated: </b><span class="updated">8/11/16 12:05</span></div>
-                    </div>
-                    <div class="btn-group labelButtonGroup" role="group">
-                        <button type="button" class="btn btn-secondary labelButton">Edit</button>
-                        <button type="button" class="btn btn-secondary labelButton">Delete</button>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>

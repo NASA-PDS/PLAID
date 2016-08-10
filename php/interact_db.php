@@ -42,7 +42,7 @@ function insertUser($args){
         }
     }
     $handle->execute();
-    header("Location: ../wizard.php");
+    header("Location: ../dashboard.php");
 }
 /**
  * Verify that the user exists in the database and entered the correct password.
@@ -60,7 +60,7 @@ function verifyUser($args){
     session_start();
     if (count($result) === 1 &&
         $HASHER->CheckPassword($args['password'], $result[0]->password)){
-        header("Location: ../wizard.php");
+        header("Location: ../dashboard.php");
         $_SESSION['login'] = true;
         $_SESSION['user_id'] = $result[0]->id;
     }
