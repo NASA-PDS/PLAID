@@ -76,6 +76,15 @@ var popUpData = {
         yesText: "Submit",
         yesFunction : function() {
             $('#createNewLabel').modal('hide');
+            $.ajax({
+                type: "post",
+                url: "php/interact_db.php",
+                data: {
+                    function: "storeNewLabel",
+                    labelName: $("#labelNameInput").val()
+                }
+            });
+            window.location = "wizard.php";
         }
     }
 };
