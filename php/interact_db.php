@@ -410,3 +410,23 @@ function updateLabelXML($args){
     $handle->bindValue(2, $_SESSION['label_id']);
     $handle->execute();
 }
+
+/**
+ * Remove the link and label entries for the specifed label id.
+ * Note: the link entry must be removed before the label entry because it is
+ * a foreign key to the label entry.
+ * @param {Object} $args
+ */
+function deleteLabel($args){
+    global $LINK;
+    echo $args['label_id'];
+    session_start();
+    $handle = $LINK->prepare('delete from link where user_id=? and label_id=?');
+    $handle->bindValue(1, $_SESSION['user_id']);
+    $handle->bindValue(2, $args['label_id']);
+    $handle->execute();
+
+    $handle = $LINK->prepare('delete from label where id=?');
+    $handle->bindValue(1, $args['label_id']);
+    $handle->execute();
+}
