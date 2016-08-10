@@ -87,7 +87,7 @@ function getLabelInfo(){
         $return = array();
         foreach ($result as $row){
             $labelId = $row->label_id;
-            $handle = $LINK->prepare('select creation,last_modified,name from label where id=?');
+            $handle = $LINK->prepare('select id,creation,last_modified,name from label where id=?');
             $handle->bindValue(1, $labelId, PDO::PARAM_INT);
 
             $handle->execute();
