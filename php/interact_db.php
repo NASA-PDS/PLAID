@@ -98,3 +98,26 @@ function getLabelInfo(){
         echo json_encode($return);
     }
 }
+
+/**
+ * When a user creates a new label, create an entry for it in the label table and link
+ * it to the user in the link table.
+ * @param {Object} $args
+ */
+function storeNewLabel($args){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('INSERT INTO label SET creation=now(),last_modified=now(),name=?');
+    $handle->bindValue(1, $args['labelName']);
+    $handle->execute();
+
+    $handle = $LINK->prepare('select id from label where name=?');
+    $handle->bindValue(1, $args['labelName']);
+    $handle->execute();
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+
+    $handle = $LINK->prepare('INSERT INTO link SET user_id=?,label_id=?');
+    $handle->bindValue(1, $_SESSION['user_id']);
+    $handle->bindValue(2, $result->id);
+    $handle->execute();
+}
