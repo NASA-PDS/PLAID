@@ -16,7 +16,19 @@ $(document).ready(function(){
            });
        }
     });
-    $("#createNewLabel").attr("href", "wizard.php");
+    var createLink = $("#createNewLabel");
+    createLink.attr("href", "wizard.php");
+    createLink.click(function(){
+        $.ajax({
+            type: "post",
+            url: "php/interact_db.php",
+            data: {
+                function: "storeNewLabel",
+                labelName: "New Label " + (Math.round(Math.random()*100)).toString()
+            }
+        });
+    });
+    $("#help").append(infoBarData['dashboard']);
 });
 /**
  * Create a card to display a label entry using data from the database.
