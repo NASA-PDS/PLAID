@@ -91,7 +91,7 @@ function createLabelEntry(labelData){
  * @returns {boolean}
  */
 function isValidLabelNameInput(field){
-    if ($(field).val().search(/\s/g) !== -1 || $(field).val() === ""){
+    if ($(field).val() === ""){
         $(field).addClass("error");
         return false;
     }
