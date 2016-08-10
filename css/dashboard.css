@@ -1,11 +1,26 @@
 #createNewLabel {
     float: right;
+    margin-right: 1rem;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#dashboard {
+    height: inherit;
 }
 
 #dashboardContent {
-    max-height: inherit;
+    height: 92%;
     overflow: auto;
     padding-bottom: 0;
+}
+
+#dashboardTitle {
+    position: relative;
+    margin-left: 1rem;
+    top: 25%;
+    transform: translateY(-50%);
 }
 
 #labelManagerWrapper {
@@ -15,12 +30,10 @@
     padding: 1rem 0.4rem 0rem 1rem;
 }
 
-#labelManagerWrapper .card {
-    height: inherit;
-}
-
 #labelManagerWrapper .card .card-header {
     overflow: hidden;
+    height: 55px;
+    padding: 0;
 }
 
 #sidebar {
