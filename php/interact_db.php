@@ -405,7 +405,7 @@ function getLabelXML(){
 function updateLabelXML($args){
     global $LINK;
     session_start();
-    $handle = $LINK->prepare('update label set label_xml=? where id=?');
+    $handle = $LINK->prepare('update label set last_modified=now(),label_xml=? where id=?');
     $handle->bindValue(1, $args['xml']);
     $handle->bindValue(2, $_SESSION['label_id']);
     $handle->execute();
