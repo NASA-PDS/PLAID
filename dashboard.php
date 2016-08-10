@@ -28,49 +28,14 @@ $_SESSION['login'] = false;
 </nav>
 <div id="wrapper">
     <div id="labelManagerWrapper">
-        <div class="card">
+        <div id="dashboard" class="card">
             <div class="card-header">
-                <div class="dashboardTitle">Dashboard</div>
+                <span id="dashboardTitle">Label Dashboard</span>
                 <a id="createNewLabel" href="#" class="btn btn-primary">Create new</a>
             </div>
             <div class="card-block" id="dashboardContent">
 
-                <div class="card card-block labelCard" id="">
-                    <h4 class="card-title">Test_Label_1</h4>
-                    <div class="labelText">
-                        <div><b>Author: </b><span class="author">Michael Kim</span></div>
-                        <div><b>Creation Time: </b><span class="creation">8/10/16 11:55</span></div>
-                        <div><b>Last Updated: </b><span class="updated">8/11/16 12:05</span></div>
-                    </div>
-                    <div class="btn-group labelButtonGroup" role="group">
-                        <button type="button" class="btn btn-secondary labelButton">Edit</button>
-                        <button type="button" class="btn btn-secondary labelButton">Delete</button>
-                    </div>
-                </div>
-                <div class="card card-block labelCard" id="">
-                    <h4 class="card-title">Test_Label_1</h4>
-                    <div class="labelText">
-                        <div><b>Author: </b><span class="author">Michael Kim</span></div>
-                        <div><b>Creation Time: </b><span class="creation">8/10/16 11:55</span></div>
-                        <div><b>Last Updated: </b><span class="updated">8/11/16 12:05</span></div>
-                    </div>
-                    <div class="btn-group labelButtonGroup" role="group">
-                        <button type="button" class="btn btn-secondary labelButton">Edit</button>
-                        <button type="button" class="btn btn-secondary labelButton">Delete</button>
-                    </div>
-                </div>
-                <div class="card card-block labelCard" id="">
-                    <h4 class="card-title">Test_Label_1</h4>
-                    <div class="labelText">
-                        <div><b>Author: </b><span class="author">Michael Kim</span></div>
-                        <div><b>Creation Time: </b><span class="creation">8/10/16 11:55</span></div>
-                        <div><b>Last Updated: </b><span class="updated">8/11/16 12:05</span></div>
-                    </div>
-                    <div class="btn-group labelButtonGroup" role="group">
-                        <button type="button" class="btn btn-secondary labelButton">Edit</button>
-                        <button type="button" class="btn btn-secondary labelButton">Delete</button>
-                    </div>
-                </div>
+                
 
             </div>
         </div>
