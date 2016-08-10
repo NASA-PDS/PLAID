@@ -20,6 +20,7 @@ $(document).ready(function(){
     $("#help").append(infoBarData['dashboard']);
 
     $("#createNewLabelButton").click(function() {
+        $('#labelNameInput').removeClass('error');
         generatePopup("createNewLabel", popUpData["createNewLabel"]["title"], popUpData["createNewLabel"]["content"],
             popUpData["createNewLabel"]["noText"], popUpData["createNewLabel"]["yesText"], popUpData["createNewLabel"]["yesFunction"]);
     });
@@ -83,4 +84,19 @@ function createLabelEntry(labelData){
     labelCard.appendChild(btnGrp);
 
     return labelCard;
+}
+/**
+ * Check if the field is empty.
+ * @param field input to check
+ * @returns {boolean}
+ */
+function isValidLabelNameInput(field){
+    if ($(field).val() === ""){
+        $(field).addClass("error");
+        return false;
+    }
+    else {
+        $(field).removeClass("error");
+        return true;
+    }
 }
