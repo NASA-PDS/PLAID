@@ -37,9 +37,8 @@ function insertUser($args){
         if ($key === "password"){
             $handle->bindValue($index++, $HASHER->HashPassword($value));
         }
-        else {
-            if ($key !== "function")
-                $handle->bindValue($index++, $value);
+        else if ($key !== "function"){
+            $handle->bindValue($index++, $value);
         }
     }
     $handle->execute();
@@ -52,7 +51,7 @@ function insertUser($args){
 function verifyUser($args){
     global $LINK;
     global $HASHER;
-    $handle = $LINK->prepare('select password from user where email=?');
+    $handle = $LINK->prepare('select id,password from user where email=?');
     $handle->bindValue(1, $args['email']);
 
     $handle->execute();
@@ -63,10 +62,39 @@ function verifyUser($args){
         $HASHER->CheckPassword($args['password'], $result[0]->password)){
         header("Location: ../wizard.php");
         $_SESSION['login'] = true;
+        $_SESSION['user_id'] = $result[0]->id;
     }
     else{
         header("Location: ../login.html");
         $_SESSION['login'] = true;
     }
 
+}
+
+/**
+ * Use the user_id stored in a session variable to look up the info for all labels
+ * associated with that user.
+ */
+function getLabelInfo(){
+    global $LINK;
+    session_start();
+    if(isset($_SESSION['user_id'])){
+        $handle = $LINK->prepare('select label_id from link where user_id=?');
+        $handle->bindValue(1, $_SESSION['user_id'], PDO::PARAM_INT);
+
+        $handle->execute();
+        $result = $handle->fetchAll(\PDO::FETCH_OBJ);
+        $return = array();
+        foreach ($result as $row){
+            $labelId = $row->label_id;
+            $handle = $LINK->prepare('select creation,last_modified,name from label where id=?');
+            $handle->bindValue(1, $labelId, PDO::PARAM_INT);
+
+            $handle->execute();
+            $result = $handle->fetch(\PDO::FETCH_OBJ);
+            array_push($return, $result);
+        }
+        header('Content-type: application/json');
+        echo json_encode($return);
+    }
 }
