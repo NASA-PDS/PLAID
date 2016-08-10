@@ -57,7 +57,7 @@ function addNode($args){
             echo "Created: ".$nodeName;
         }
     }
-    $args = array("xml"=>$DOC->saveXML());
+    $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
 }
 
@@ -82,7 +82,7 @@ function addCustomNodes($args){
         }
         echo "Added: ".$node["name"].": ".$node["description"];
     }
-    $args = array("xml"=>$DOC->saveXML());
+    $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
 }
 /**
@@ -129,7 +129,7 @@ function removeAllChildNodes($args){
             $node->removeChild($childNode);
         }
     }
-    $args = array("xml"=>$DOC->saveXML());
+    $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
 }
 /**
@@ -171,7 +171,7 @@ function addRootAttrs($args){
         else
             $root->setAttribute("xmlns:$ns", "http://pds.nasa.gov/pds4/$ns/v1");
     }
-    $args = array("xml"=>$DOC->saveXML());
+    $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
 }
 function removeRootAttrs($args){
@@ -184,7 +184,7 @@ function removeRootAttrs($args){
         else
             $root->removeAttributeNS("http://pds.nasa.gov/pds4/$ns/v1", $ns);
     }
-    $args = array("xml"=>$DOC->saveXML());
+    $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
 }
 
