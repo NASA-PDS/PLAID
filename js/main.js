@@ -7,10 +7,6 @@ $(document).ready(function(){
     });
     addMissionSpecificsActionBar();
     previewDescription();
-    $.post("php/init.php", function(data){
-        filePaths.OUTPUT = data;
-        console.log(data);
-    });
 });
 /**
  * When the user selects an option in the wizard pane, add
