@@ -78,12 +78,31 @@ function createLabelEntry(labelData){
     delButton.type = "button";
     delButton.className = "btn btn-secondary labelButton delete";
     delButton.textContent = "Delete";
+    delButton.onclick = deleteLabel;
 
     btnGrp.appendChild(editButton);
     btnGrp.appendChild(delButton);
     labelCard.appendChild(btnGrp);
 
     return labelCard;
+}
+/**
+ * Make a backend call to remove the label and link entry from the database
+ * and remove the label card from the page.
+ */
+function deleteLabel(){
+    var labelCard = $(this).parents(".labelCard");
+    var labelID = labelCard.attr("id").split("-")[1];
+    $.ajax({
+        type: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "deleteLabel",
+            label_id: labelID
+        },
+        success: function(data){console.log(data);}
+    });
+    $(labelCard).remove();
 }
 /**
  * Check if the field is empty.
