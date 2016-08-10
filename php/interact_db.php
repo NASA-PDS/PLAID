@@ -37,9 +37,8 @@ function insertUser($args){
         if ($key === "password"){
             $handle->bindValue($index++, $HASHER->HashPassword($value));
         }
-        else {
-            if ($key !== "function")
-                $handle->bindValue($index++, $value);
+        else if ($key !== "function"){
+            $handle->bindValue($index++, $value);
         }
     }
     $handle->execute();
@@ -85,16 +84,17 @@ function getLabelInfo(){
 
         $handle->execute();
         $result = $handle->fetchAll(\PDO::FETCH_OBJ);
+        $return = array();
         foreach ($result as $row){
             $labelId = $row->label_id;
             $handle = $LINK->prepare('select creation,last_modified,name from label where id=?');
             $handle->bindValue(1, $labelId, PDO::PARAM_INT);
 
             $handle->execute();
-            $result = $handle->fetchAll(\PDO::FETCH_OBJ);
-            foreach ($result[0] as $key=>$value){
-                echo "$key: $value\n";
-            }
+            $result = $handle->fetch(\PDO::FETCH_OBJ);
+            array_push($return, $result);
         }
+        header('Content-type: application/json');
+        echo json_encode($return);
     }
 }
