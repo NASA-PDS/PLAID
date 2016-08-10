@@ -25,6 +25,9 @@ $_SESSION['login'] = false;
 <nav class="navbar navbar-dark no-border-radius" style="background-color: #2184be;">
     <div class="nav navbar-nav">
         <a class="navbar-brand">Label Design Tool</a>
+        <li class="nav-item pull-xs-right">
+            <a class="nav-link" href="#">Logout</a>
+        </li>
     </div>
 </nav>
 <div id="wrapper">
