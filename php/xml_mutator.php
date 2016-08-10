@@ -5,21 +5,21 @@
  * Date: 7/26/16
  * Time: 1:50 PM
  */
+require_once("interact_db.php");
 if(isset($_POST['Function'])){
-    $filepath = $_POST['Data']["outputFile"];
-    $DOC = readInXML($filepath);
+    $DOC = readInXML(getLabelXML());
     call_user_func($_POST['Function'], $_POST['Data']);
 }
 /*
  * Load the specified file into a new DOMDocument.
- * @param {string} $file path to the file
+ * @param {string} $xml string containing XML document
  * @return {DOMDocument}
  */
-function readInXML($file){
+function readInXML($xml){
     $doc = new DOMDocument();
     $doc->preserveWhiteSpace = false;
     $doc->formatOutput = true;
-    $doc->load($file);
+    $doc->loadXML($xml);
     return $doc;
 }
 /*
@@ -41,7 +41,6 @@ function getNode($path, $ns){
  */
 function addNode($args){
     global $DOC;
-    global $filepath;
     $nodePath = $args["path"];
     $quantity = $args["quantity"];
     $ns = $args["ns"];
@@ -58,7 +57,8 @@ function addNode($args){
             echo "Created: ".$nodeName;
         }
     }
-    $DOC->save($filepath, LIBXML_NOEMPTYTAG);
+    $args = array("xml"=>$DOC->saveXML());
+    updateLabelXML($args);
 }
 
 /**
@@ -82,7 +82,8 @@ function addCustomNodes($args){
         }
         echo "Added: ".$node["name"].": ".$node["description"];
     }
-    $DOC->save($filepath, LIBXML_NOEMPTYTAG);
+    $args = array("xml"=>$DOC->saveXML());
+    updateLabelXML($args);
 }
 /**
  * Add nodes with associated comments to the specified parent element.
@@ -117,7 +118,6 @@ function removeNode($args){
  */
 function removeAllChildNodes($args){
     global $DOC;
-    global $filepath;
     $ns = $args["ns"];
     list($nodeName, $parentPath) = handlePath($args["path"], $ns);
     $nodes = getNode($parentPath."/".$nodeName, $ns);
@@ -129,7 +129,8 @@ function removeAllChildNodes($args){
             $node->removeChild($childNode);
         }
     }
-    $DOC->save($filepath, LIBXML_NOEMPTYTAG);
+    $args = array("xml"=>$DOC->saveXML());
+    updateLabelXML($args);
 }
 /**
  * Helper function to work on the path passed from the front-end and
@@ -170,12 +171,12 @@ function addRootAttrs($args){
         else
             $root->setAttribute("xmlns:$ns", "http://pds.nasa.gov/pds4/$ns/v1");
     }
-    $DOC->save($filepath, LIBXML_NOEMPTYTAG);
+    $args = array("xml"=>$DOC->saveXML());
+    updateLabelXML($args);
 }
 function removeRootAttrs($args){
     $namespaces = $args["namespaces"];
     global $DOC;
-    global $filepath;
     $root = $DOC->documentElement;
     foreach ($namespaces as $ns){
         if ($ns === "pds")
@@ -183,7 +184,8 @@ function removeRootAttrs($args){
         else
             $root->removeAttributeNS("http://pds.nasa.gov/pds4/$ns/v1", $ns);
     }
-    $DOC->save($filepath, LIBXML_NOEMPTYTAG);
+    $args = array("xml"=>$DOC->saveXML());
+    updateLabelXML($args);
 }
 
 /**
@@ -192,15 +194,15 @@ function removeRootAttrs($args){
  */
 function formatDoc(){
     global $DOC;
-    global $filepath;
     $root = $DOC->documentElement;
     $root->removeAttributeNS("http://pds.nasa.gov/pds4/pds/v1", "");
     $discAreaDom = getNode("Observation_Area/Discipline_Area", "")->item(0);
     $discAreaStr = $DOC->saveXML($discAreaDom);
     $discAreaStr = preg_replace("/\sxmlns:[a-z]{4}=\"http:\/\/pds.nasa.gov\/pds4\/[a-z]{4}\/v1\"/", "", $discAreaStr);
-    $fileContents = file_get_contents($filepath);
+    $fileContents = getLabelXML();
     $modFile = preg_replace("/<Discipline_Area>.*<\/Discipline_Area>/s", $discAreaStr, $fileContents);
-    file_put_contents($filepath, $modFile);
+    $args = array("xml"=>$modFile);
+    updateLabelXML($args);
 }
 function isNaN($val){
     return !(is_numeric($val));

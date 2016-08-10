@@ -5,7 +5,8 @@
  * Date: 8/2/16
  * Time: 10:53 AM
  */
+require_once("interact_db.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Content-Type: text/plain');
-    readfile($_POST['Data']["outputFile"]);
+    echo getLabelXML();
 }

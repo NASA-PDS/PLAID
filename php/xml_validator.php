@@ -7,15 +7,13 @@
  */
 
 
-
+require_once("interact_db.php");
 // Load the XSD schema from the PSA NASA site
 $schema = "https://pds.nasa.gov/pds4/pds/v1/PDS4_PDS_1600.xsd";
 
 if(isset($_POST['Function'])){
-    // Load the XML from the /tmp/ directory in the server
-    $filepath = $_POST['Data']["outputFile"];
     $doc = new DOMDocument();
-    $doc->load($filepath);
+    $doc->loadXML(getLabelXML());
     call_user_func($_POST['Function'], $_POST['Data']);
 }
 
@@ -25,12 +23,11 @@ if(isset($_POST['Function'])){
 function validate() {
     global $doc;
     global $schema;
-    global $filepath;
     libxml_use_internal_errors(true);
     if ($doc->schemaValidate($schema)) {
-        print "$filepath is valid.\n";
+        print "Label is valid.\n";
     } else {
-        print "$filepath is invalid.\n";
+        print "Label is invalid.\n";
         $errors = libxml_get_errors();
         foreach ($errors as $error) {
             printf('XML error "%s" [%d] (Code %d) in %s on line %d column %d' . "\n",
