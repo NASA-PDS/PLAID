@@ -26,7 +26,7 @@ $(document).ready(function(){
 function createLabelEntry(labelData){
     var labelCard = document.createElement("div");
     labelCard.className = "card card-block labelCard";
-    labelCard.id = labelData["id"];
+    labelCard.id = "label-" + labelData["id"];
 
     var title = document.createElement("h4");
     title.className = "card-title";
