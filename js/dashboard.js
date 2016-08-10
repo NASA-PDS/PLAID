@@ -16,6 +16,7 @@ $(document).ready(function(){
            });
        }
     });
+
     var createLink = $("#createNewLabel");
     createLink.attr("href", "wizard.php");
     createLink.click(function(){
@@ -29,6 +30,11 @@ $(document).ready(function(){
         });
     });
     $("#help").append(infoBarData['dashboard']);
+
+    $("#createNewLabelButton").click(function() {
+        generatePopup("createNewLabel", popUpData["createNewLabel"]["title"], popUpData["createNewLabel"]["content"],
+            popUpData["createNewLabel"]["noText"], popUpData["createNewLabel"]["yesText"], popUpData["createNewLabel"]["yesFunction"]);
+    });
 });
 /**
  * Create a card to display a label entry using data from the database.
