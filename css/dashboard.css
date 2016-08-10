@@ -1,0 +1,51 @@
+#createNewLabel {
+    float: right;
+}
+
+#dashboardContent {
+    max-height: inherit;
+    overflow: auto;
+    padding-bottom: 0;
+}
+
+#labelManagerWrapper {
+    height: inherit;
+    width: 75%;
+    float: left;
+    padding: 1rem 0.4rem 0rem 1rem;
+}
+
+#labelManagerWrapper .card {
+    height: inherit;
+}
+
+#labelManagerWrapper .card .card-header {
+    overflow: hidden;
+}
+
+#sidebar {
+    height: inherit;
+}
+
+.dashboardTitle {
+    float: left;
+}
+
+.labelButton {
+    padding: .375rem 1rem;
+}
+
+.labelButtonGroup {
+    float: right;
+}
+
+.labelCard {
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 6px -6px #ddd;
+    overflow: hidden;
+}
+
+.labelText {
+    float: left;
+}
+/*box-shadow: 0 8px 6px -6px #ddd;*/
