@@ -419,7 +419,6 @@ function updateLabelXML($args){
  */
 function deleteLabel($args){
     global $LINK;
-    echo $args['label_id'];
     session_start();
     $handle = $LINK->prepare('delete from link where user_id=? and label_id=?');
     $handle->bindValue(1, $_SESSION['user_id']);

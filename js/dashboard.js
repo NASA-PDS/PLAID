@@ -99,8 +99,7 @@ function deleteLabel(){
         data: {
             function: "deleteLabel",
             label_id: labelID
-        },
-        success: function(data){console.log(data);}
+        }
     });
     $(labelCard).remove();
 }
