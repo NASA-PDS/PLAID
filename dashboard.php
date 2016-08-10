@@ -29,12 +29,13 @@ $_SESSION['login'] = false;
 </nav>
 <div id="wrapper">
     <div id="labelManagerWrapper">
-        <div class="card">
+        <div id="dashboard" class="card">
             <div class="card-header">
-                <div class="dashboardTitle">Dashboard</div>
+                <span id="dashboardTitle">Label Dashboard</span>
                 <a id="createNewLabel" href="#" class="btn btn-primary">Create new</a>
             </div>
             <div class="card-block" id="dashboardContent">
+
             </div>
         </div>
     </div>
