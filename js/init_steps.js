@@ -67,7 +67,11 @@ var settings = {
             var currStepTitle = (/[A-Z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
             prepXML(currStepTitle, true);
 
-            storeProgress(priorIndex, priorStepTitle);
+            if (progressData === null)
+                progressData = [];
+            if((typeof progressData != "undefined" || progressData != null) &&
+                priorIndex+1 > progressData.length)
+                storeProgress(priorIndex, priorStepTitle);
         }
         handleBackwardsTraversalPopup(currentIndex);
         resetMissionSpecificsBuilder(priorIndex);
