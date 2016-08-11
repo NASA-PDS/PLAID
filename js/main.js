@@ -7,6 +7,17 @@ $(document).ready(function() {
         method: "post",
         url: "php/interact_db.php",
         data: {
+            function: "getMissionSpecificsData"
+        },
+        datatype: "text",
+        success: function (data) {
+            missionSpecifics = ($.parseJSON(data) === null ? [] : $.parseJSON(data));
+        }
+    });
+    $.ajax({
+        method: "post",
+        url: "php/interact_db.php",
+        data: {
             function: "getProgressData"
         },
         datatype: "text",

@@ -429,6 +429,7 @@ function deleteLabel($args){
     $handle->bindValue(1, $args['label_id']);
     $handle->execute();
 }
+
 /**
  * Store the JSON with the user's progress in the database.
  * @param {Object} $args
@@ -456,4 +457,33 @@ function getProgressData(){
     $result = $handle->fetch(\PDO::FETCH_OBJ);
     header('Content-type: application/json');
     echo json_encode($result->progress_data);
+}
+
+/**
+ * Store the JSON with the user's progress in the database.
+ * @param {Object} $args
+ */
+function storeMissionSpecificsData($args){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('update label set mission_specifics=? where id=?');
+    $handle->bindValue(1, $args['missionSpecificsJson']);
+    $handle->bindValue(2, $_SESSION['label_id']);
+    $handle->execute();
+}
+
+/**
+ * Get the progress data for the active label and send it to the front-end
+ * as a JSON.
+ */
+function getMissionSpecificsData(){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('select mission_specifics from label where id=?');
+    $handle->bindValue(1, $_SESSION['label_id']);
+    $handle->execute();
+
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+    header('Content-type: application/json');
+    echo json_encode($result->mission_specifics);
 }
