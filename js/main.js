@@ -187,7 +187,6 @@ function checkFilename(){
         $(input).removeClass("error");
         if (!$(input).hasClass("submitted")){
             $(input).addClass("submitted");
-            addOutputFileData();
             $("#exportForm").submit();
         }
         else
@@ -197,16 +196,6 @@ function checkFilename(){
         $(input).addClass("error");
         return false;
     }
-}
-/**
- * The output filename is not accessible from the backend so it must
- * be added as a hidden input field to be submitted with the POST.
- */
-function addOutputFileData(){
-    var input = $("<input>")
-        .attr("type", "hidden")
-        .attr("name", "outputFile").val(filePaths.OUTPUT);
-    $('#exportForm').append($(input));
 }
 /**
  * Determine whether or not the user is transitioning to the final step in the wizard.
