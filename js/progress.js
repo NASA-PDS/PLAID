@@ -116,6 +116,7 @@ function loadProgress(){
                loadProductType(stepObj);
                break;
            case 'discipline_nodes':
+               loadDisciplineNodes(stepObj);
                break;
            case 'optional_nodes':
                loadOptionalNode(stepObj);
@@ -167,4 +168,17 @@ function loadOptionalNode(dataObj){
  */
 function jq( myid ) {
     return "#" + myid.replace( /(:|\.|\[|\]|,|\/)/g, "\\$1" );
+}
+/**
+ * Using the data stored in the progress object, check the boxes that the user
+ * selected on the Discipline Nodes step.
+ * @param dataObj
+ */
+function loadDisciplineNodes(dataObj){
+    var stepContent = $("section.current");
+    dataObj['selection'].map(function(element){
+       var node = $("span.discNode[data-id='" + element + "']", stepContent);
+       $(node).siblings("input").prop('checked', true);
+    });
+    $("#wizard").steps("next");
 }
