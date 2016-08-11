@@ -14,8 +14,10 @@ function storeProgress(priorIndex, stepType){
             storeDisciplineNodes(priorIndex, currObj);
             break;
         case "Mission_Specifics":
+            storeMissionSpecifics(priorIndex, currObj);
             break;
         case "Builder":
+            storeBuilder(currObj);
             break;
         default:
             storeOptionalNodes(priorIndex, currObj);
@@ -46,8 +48,21 @@ function storeProductType(priorIndex, progressObj){
     progressObj['selection'] = $("#wizard-p-" + priorIndex + " button.active span").attr("data-id");
 }
 
+/**
+ *
+ * @param priorIndex
+ * @param progressObj
+ */
 function storeDisciplineNodes(priorIndex, progressObj){
     progressObj['step'] = "discipline_nodes";
+    progressObj['type'] = "checkbox";
+    progressObj['selection'] = [];
+
+    var stepContent = $("#wizard-p-" + priorIndex);
+    $("input:checked", stepContent).each(function(){
+        var dataId = $(this).siblings("span.discNode").attr("data-id");
+        progressObj['selection'].push(dataId);
+    });
 }
 /**
  * After the user completes an optional node step, store the data necessary for recreating
@@ -69,9 +84,19 @@ function storeOptionalNodes(priorIndex, progressObj){
 }
 
 function storeMissionSpecifics(priorIndex, progressObj){
+    progressObj['step'] = "mission_specifics";
+    progressObj['type'] = "button";
 
+    var activeButton = $("#wizard-p-" + priorIndex + " button.active");
+    if ($(activeButton).hasClass("yesButton")) {
+        progressObj['selection'] = "yesButton";
+    } else {
+        progressObj['selection'] = "noButton";
+    }
 }
 
-function storeBuilder(priorIndex, progressObj){
-
+function storeBuilder(progressObj){
+    progressObj['step'] = "builder";
+    progressObj['type'] = "builder";
+    progressObj['completed'] = true;
 }

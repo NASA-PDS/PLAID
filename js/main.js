@@ -2,6 +2,12 @@
  * Created by morse on 6/17/16.
  */
 $(document).ready(function(){
+    /*
+    - Check for progressData in database
+    - If the progressData IS set AND IS NOT empty
+        - Call load
+            - Traverse the array of progress data, switch on the step type, mimic the user actions
+     */
     $(".list-group-item").each(function(){
         $(this).click(captureSelection);
     });
