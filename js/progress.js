@@ -105,6 +105,15 @@ function storeBuilder(progressObj){
     progressObj['step'] = "builder";
     progressObj['type'] = "builder";
     progressObj['completed'] = true;
+
+    $.ajax({
+        type: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "storeMissionSpecificsData",
+            missionSpecificsJson: JSON.stringify(missionSpecifics)
+        }
+    });
 }
 /**
  * Traverse the progress data array and load the data for each step accordingly.
@@ -122,8 +131,10 @@ function loadProgress(){
                loadOptionalNode(stepObj);
                break;
            case 'mission_specifics':
+               loadMissionSpecifics(stepObj);
                break;
            case 'builder':
+               loadBuilder();
                break;
        }
     });
@@ -181,4 +192,20 @@ function loadDisciplineNodes(dataObj){
        $(node).siblings("input").prop('checked', true);
     });
     $("#wizard").steps("next");
+}
+
+/**
+ *
+ * @param dataObj
+ */
+function loadMissionSpecifics(dataObj) {
+    var stepContent = $("section.current");
+    $("." + dataObj["selection"], stepContent).click();
+}
+
+/**
+ *
+ */
+function loadBuilder() {
+    $("table.missionSpecificsActionBar button.save").click();
 }

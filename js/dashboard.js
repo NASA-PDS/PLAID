@@ -73,6 +73,7 @@ function createLabelEntry(labelData){
     editButton.type = "button";
     editButton.className = "btn btn-secondary labelButton edit";
     editButton.textContent = "Edit";
+    editButton.onclick = editLabel;
 
     var delButton = document.createElement("button");
     delButton.type = "button";
@@ -103,6 +104,28 @@ function deleteLabel(){
     });
     $(labelCard).remove();
 }
+
+/**
+ * Make a backend call to remove the label and link entry from the database
+ * and remove the label card from the page.
+ */
+function editLabel(){
+    var labelCard = $(this).parents(".labelCard");
+    var labelID = labelCard.attr("id").split("-")[1];
+    $.ajax({
+        type: "post",
+        url: "php/navigate.php",
+        data: {
+            /*function: "editLabel",*/
+            label_id: labelID
+        },
+        success: function(data) {
+            console.log(data);
+            window.location = "wizard.php";
+        }
+    });
+}
+
 /**
  * Check if the field is empty.
  * @param field input to check
