@@ -58,6 +58,7 @@ var settings = {
         wizardData.currentStep = currentIndex;
         if (currentIndex > priorIndex){
             var priorStepHeading = $("#wizard-t-" + priorIndex.toString());
+            var priorStepTitle = (/[A-Z].+/.exec(priorStepHeading.text())[0].replace(/ /g, "_"));
             var number = $(".number", priorStepHeading)[0];
             number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
 
@@ -65,6 +66,8 @@ var settings = {
             //parse the step title from the overall step element (in the left sidebar)
             var currStepTitle = (/[A-Z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
             prepXML(currStepTitle, true);
+
+            storeProgress(priorIndex, priorStepTitle);
         }
         handleBackwardsTraversalPopup(currentIndex);
         resetMissionSpecificsBuilder(priorIndex);

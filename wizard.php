@@ -23,6 +23,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <script src="js/mission_specifics.js"></script>
     <script src="js/discipline_nodes.js"></script>
     <script src="js/pop_up.js"></script>
+    <script src="js/progress.js"></script>
     <link href="thirdparty/css/jquery.steps.css" rel="stylesheet">
     <link href="thirdparty/css/jqtree.css" rel="stylesheet">
     <link href="thirdparty/css/bootstrap.css" rel="stylesheet">
