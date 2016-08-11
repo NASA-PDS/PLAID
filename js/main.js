@@ -1,13 +1,27 @@
 /**
  * Created by morse on 6/17/16.
  */
-$(document).ready(function(){
-    /*
-    - Check for progressData in database
-    - If the progressData IS set AND IS NOT empty
-        - Call load
-            - Traverse the array of progress data, switch on the step type, mimic the user actions
-     */
+$(document).ready(function() {
+    //- Check for progressData in database
+    $.ajax({
+        method: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "getProgressData"
+        },
+        datatype: "text",
+        success: function (data) {
+            progressData = $.parseJSON(data);
+            //- If the progressData IS set AND IS NOT empty
+            if (typeof progressData != "undefined" &&
+                progressData != null &&
+                progressData.length > 0) {
+                //    - Call load
+                loadProgress();
+                //        - Traverse the array of progress data, switch on the step type, mimic the user actions
+            }
+        }
+    });
     $(".list-group-item").each(function(){
         $(this).click(captureSelection);
     });
