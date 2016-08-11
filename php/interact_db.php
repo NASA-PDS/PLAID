@@ -429,3 +429,16 @@ function deleteLabel($args){
     $handle->bindValue(1, $args['label_id']);
     $handle->execute();
 }
+
+/**
+ * Store the JSON with the user's progress in the database.
+ * @param {Object} $args
+ */
+function storeProgressData($args){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('update label set progress_data=? where id=?');
+    $handle->bindValue(1, $args['progressJson']);
+    $handle->bindValue(2, $_SESSION['label_id']);
+    $handle->execute();
+}
