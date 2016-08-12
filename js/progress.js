@@ -286,6 +286,11 @@ function areDifferentOptionalNodes(dataObj){
  */
 function areDifferentMissionSpecifics(dataObj){
     var stepContent = $("section.current");
-    console.log(dataObj);
+    var selection = $("button.active", stepContent);
+    if (!$(selection).hasClass(dataObj['selection'])){
+        missionSpecifics = [];
+        storeBuilder({});
+        return true;
+    }
     return false;
 }

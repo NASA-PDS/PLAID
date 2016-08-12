@@ -34,8 +34,13 @@ $(document).ready(function() {
             }
         }
     });
-    $(".list-group-item").each(function(){
+    $(".list-group-item:not(.yesButton):not(.noButton)").each(function(){
         $(this).click(captureSelection);
+    });
+    $(".yesButton, .noButton").click(function(){
+        clearActiveElements();
+        $(this).addClass("active");
+        $("#wizard").steps("next");
     });
     addMissionSpecificsActionBar();
     previewDescription();
