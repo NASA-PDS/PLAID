@@ -53,7 +53,7 @@ function storeProductType(priorIndex, progressObj){
     progressObj['selection'] = $("#wizard-p-" + priorIndex + " button.active span").attr("data-id");
 }
 /**
- *
+ * Store the user's selection of Discipline Nodes.
  * @param priorIndex
  * @param progressObj
  */
@@ -88,7 +88,11 @@ function storeOptionalNodes(priorIndex, progressObj){
         progressObj['selection'][id] = value;
     });
 }
-
+/**
+ * Store whether the user chose to add or remove the Mission Specifics.
+ * @param priorIndex
+ * @param progressObj
+ */
 function storeMissionSpecifics(priorIndex, progressObj){
     progressObj['step'] = "mission_specifics";
     progressObj['type'] = "button";
@@ -100,7 +104,10 @@ function storeMissionSpecifics(priorIndex, progressObj){
         progressObj['selection'] = "noButton";
     }
 }
-
+/**
+ * Store the user's new groups/attributes created in the Builder.
+ * @param progressObj
+ */
 function storeBuilder(progressObj){
     progressObj['step'] = "builder";
     progressObj['type'] = "builder";
@@ -196,7 +203,8 @@ function loadDisciplineNodes(dataObj){
 }
 
 /**
- *
+ * Make the same decision stored from the user's progress on the Mission Specifics
+ * step.
  * @param dataObj
  */
 function loadMissionSpecifics(dataObj) {
@@ -205,7 +213,7 @@ function loadMissionSpecifics(dataObj) {
 }
 
 /**
- *
+ * Mimic the user's progression through the Builder step.
  */
 function loadBuilder() {
     $("table.missionSpecificsActionBar button.save").click();
@@ -280,7 +288,8 @@ function areDifferentOptionalNodes(dataObj){
     return false;
 }
 /**
- *
+ * Check if the user made the same decision for adding/removing Mission Specifics.
+ * If not, reset the Mission Specifics JSON, store it to the db, and return true.
  * @param {object} dataObj - The progressData at the current step
  * @returns {boolean}
  */
