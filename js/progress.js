@@ -243,8 +243,7 @@ function handleBackwardsProgress(currIndex){
                 var type = progressData[currIndex]['step'];
                 progressData = progressData.slice(0, currIndex);
                 storeProgress(currIndex, type);
-                window.location = "wizard.php";
-                loadProgress();
+                location.reload(true);
             });
         return false;
     }
