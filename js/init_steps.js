@@ -428,7 +428,7 @@ function handleBackwardsTraversalPopup(currentIndex) {
     }
     // If the current index is behind the max and there has yet to be a warning pop-up, show the pop-up
     else if (currentIndex < wizardData.maxStep && wizardData.numWarnings === 0) {
-        showDeleteProgressPopup(currentIndex);
+        showBackwardsTraversalPopup(currentIndex);
         wizardData.numWarnings = 1;
     }
 }
