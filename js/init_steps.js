@@ -458,7 +458,7 @@ function revertStepClass(index) {
 function prepXML(sectionHeading, isValidating){
     if ($.inArray(sectionHeading, wizardData.mainSteps) !== -1){
         if (isValidating) {
-            /*backendCall("php/xml_mutator.php",
+            backendCall("php/xml_mutator.php",
                 "addRootAttrs",
                 {namespaces: jsonData.namespaces},
                 function(data){ console.log(data); });
@@ -466,14 +466,14 @@ function prepXML(sectionHeading, isValidating){
                         "validate",
                         {},
                         function(data){ console.log(data); });
-            backendCall("php/xml_validator.php",
+            /*backendCall("php/xml_validator.php",
                 "printXML",
                 {},
-                function(data){ console.log(data); });
+                function(data){ console.log(data); });*/
             backendCall("php/xml_mutator.php",
                 "removeRootAttrs",
                 {namespaces: jsonData.namespaces},
-                function(data){ console.log(data); });*/
+                function(data){ console.log(data); });
         }
         backendCall("php/xml_mutator.php",
             "removeAllChildNodes",
