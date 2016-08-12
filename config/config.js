@@ -31,3 +31,4 @@ var wizardData = {
 };
 var missionSpecifics = [];
 var progressData = [];
+var isLoading = false;

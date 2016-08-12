@@ -58,17 +58,6 @@ function validateInput() {
         setOneElementBarStyle(this);
     }
 }
-
-/**
- * Loop through each counter element and determine whether
- * to show the corresponding label and counter as disabled or not.
- */
-function setAllElementBarsStyle(){
-    $(".element-bar-counter").each(function(){
-        setOneElementBarStyle(this);
-    });
-}
-
 /**
  * Helper method to update the element label based on its allowed range and current counter value
  * Cases:
@@ -105,15 +94,3 @@ function setOneElementBarStyle(counter) {
         $(counter).siblings(".element-bar-button").children(".element-bar-plus").prop('disabled', false);
     }
 }
-
-/**
- * Flashes a red background on the given counter for invalid inputs
- * TODO: Include jQueryUI for this to work
- */
-/*
- function warningFlash(counter) {
- var currColor = $(counter).css('background-color');
- $(this).animate({backgroundColor: '#F2DEDF'}, 'slow');
- $(this).animate({backgroundColor: currColor}, 'slow');
- }
- */

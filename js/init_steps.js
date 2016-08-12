@@ -40,6 +40,11 @@ var settings = {
             showPopup(currentIndex, newIndex);
             return false;
         }
+        if (progressData === null)
+            progressData = [];
+        if (!isLoading && currentIndex < progressData.length){
+            return handleBackwardsProgress(currentIndex);
+        }
         $("#help").hide();
         if (currentIndex < newIndex){
             handleStepAddition(currentIndex, newIndex);
@@ -67,8 +72,6 @@ var settings = {
             var currStepTitle = (/[A-Z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
             prepXML(currStepTitle, true);
 
-            if (progressData === null)
-                progressData = [];
             if((typeof progressData != "undefined" || progressData != null) &&
                 priorIndex+1 > progressData.length)
                 storeProgress(priorIndex, priorStepTitle);
@@ -455,7 +458,7 @@ function revertStepClass(index) {
 function prepXML(sectionHeading, isValidating){
     if ($.inArray(sectionHeading, wizardData.mainSteps) !== -1){
         if (isValidating) {
-            backendCall("php/xml_mutator.php",
+            /*backendCall("php/xml_mutator.php",
                 "addRootAttrs",
                 {namespaces: jsonData.namespaces},
                 function(data){ console.log(data); });
@@ -470,7 +473,7 @@ function prepXML(sectionHeading, isValidating){
             backendCall("php/xml_mutator.php",
                 "removeRootAttrs",
                 {namespaces: jsonData.namespaces},
-                function(data){ console.log(data); });
+                function(data){ console.log(data); });*/
         }
         backendCall("php/xml_mutator.php",
             "removeAllChildNodes",
