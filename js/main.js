@@ -27,9 +27,10 @@ $(document).ready(function() {
             if (typeof progressData != "undefined" &&
                 progressData != null &&
                 progressData.length > 0) {
+                isLoading = true;
                 //    - Call load
                 loadProgress();
-                //        - Traverse the array of progress data, switch on the step type, mimic the user actions
+                isLoading = false;
             }
         }
     });

@@ -11,17 +11,17 @@ function storeProgress(priorIndex, stepType){
     priorIndex = priorIndex.toString();
     var currObj = {};
     //form an object with data for the step that was just completed
-    switch (stepType){
-        case "Product_Type":
+    switch (stepType.toLowerCase()){
+        case "product_type":
             storeProductType(priorIndex, currObj);
             break;
-        case "Discipline_Nodes":
+        case "discipline_nodes":
             storeDisciplineNodes(priorIndex, currObj);
             break;
-        case "Mission_Specifics":
+        case "mission_specifics":
             storeMissionSpecifics(priorIndex, currObj);
             break;
-        case "Builder":
+        case "builder":
             storeBuilder(currObj);
             break;
         default:
@@ -169,6 +169,7 @@ function loadOptionalNode(dataObj){
         //if there is no choice-field though, go ahead and insert the value
         else
             $(".element-bar-counter", elementBar).val(value);
+        setOneElementBarStyle($(".element-bar-counter", elementBar));
     }
     $("#wizard").steps("next");
 }
@@ -208,4 +209,79 @@ function loadMissionSpecifics(dataObj) {
  */
 function loadBuilder() {
     $("table.missionSpecificsActionBar button.save").click();
+}
+/**
+ * Check to see if the user has made a change. If so, display a popup and react accordingly
+ * to the user's selection. If they choose to keep the changes, the progress after that point will
+ * be cleared and the page will be reloaded.
+ * @param currIndex
+ * @returns {boolean}
+ */
+function handleBackwardsProgress(currIndex){
+    var isChanged = false;
+    //compare against the progress data for the current index
+    switch (progressData[currIndex]['step']){
+        case 'discipline_nodes':
+            isChanged = areDifferentDisciplineNodes(progressData[currIndex]);
+            break;
+        case 'optional_nodes':
+            isChanged = areDifferentOptionalNodes(progressData[currIndex]);
+            break;
+        case 'mission_specifics':
+            isChanged = areDifferentMissionSpecifics(progressData[currIndex]);
+            break;
+    }
+    //if there is a difference in selections between what is stored in the progress data and what
+    //is currently in the content of the step
+    if (isChanged) {
+        generatePopup("userChange",
+            "Warning",
+            "You have made a change. If you continue, all progress will be lost after this point. Do you want to continue?",
+            "No",
+            "Yes",
+            function(){
+                var type = progressData[currIndex]['step'];
+                progressData = progressData.slice(0, currIndex);
+                storeProgress(currIndex, type);
+                window.location = "wizard.php";
+                loadProgress();
+            });
+        return false;
+    }
+    else
+        return true;
+}
+/**
+ *
+ * @param dataObj
+ * @returns {boolean}
+ */
+function areDifferentDisciplineNodes(dataObj){
+    console.log(dataObj);
+    return false;
+}
+/**
+ * Loop through the element-bar values and check for differences.
+ * @param dataObj
+ * @returns {boolean}
+ */
+function areDifferentOptionalNodes(dataObj){
+    var stepContent = $("section.current");
+    for (var key in dataObj['selection']){
+        var currValue = $(jq(key) + " .element-bar-counter", stepContent).val();
+        var initValue = dataObj['selection'][key];
+        if (currValue !== initValue)
+            return true;
+    }
+    return false;
+}
+/**
+ *
+ * @param dataObj
+ * @returns {boolean}
+ */
+function areDifferentMissionSpecifics(dataObj){
+    var stepContent = $("section.current");
+    console.log(dataObj);
+    return false;
 }
