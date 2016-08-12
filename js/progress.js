@@ -234,17 +234,8 @@ function handleBackwardsProgress(currIndex){
     //if there is a difference in selections between what is stored in the progress data and what
     //is currently in the content of the step
     if (isChanged) {
-        generatePopup("userChange",
-            "Warning",
-            "You have made a change. If you continue, all progress will be lost after this point. Do you want to continue?",
-            "No",
-            "Yes",
-            function(){
-                var type = progressData[currIndex]['step'];
-                progressData = progressData.slice(0, currIndex);
-                storeProgress(currIndex, type);
-                location.reload(true);
-            });
+        generatePopup("deleteProgress", popUpData["deleteProgress"]["title"], popUpData["deleteProgress"]["content"],
+            popUpData["deleteProgress"]["noText"], popUpData["deleteProgress"]["yesText"], popUpData["deleteProgress"]["yesFunction"]);
         return false;
     }
     else
