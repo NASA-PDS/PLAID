@@ -79,7 +79,10 @@ function updateActionBarHandlers(builderState, goBackSelector, saveSelector) {
         });
     } else if (builderState === "addAttr" || builderState === "addGroup" || builderState === "remove") {
         $(goBackSelector).click(function() {mutatePage("home", wizardData.currentStep.toString())});
-        $(saveSelector).click(function() {handleSaveButton(builderState)});
+        $(saveSelector).click(function() {
+            handleSaveButton(builderState);
+            storeBuilder({});
+        });
     }
 }
 
@@ -361,6 +364,7 @@ function generateTree(cardBlock) {
             event.move_info.do_move();
             missionSpecifics = JSON.parse($(cardBlock).tree('toJson'));
             refreshGroupChildren();
+            storeBuilder({});
         }
     );
 }
