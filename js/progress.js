@@ -242,17 +242,31 @@ function handleBackwardsProgress(currIndex){
         return true;
 }
 /**
- *
- * @param dataObj
+ * Loop through the checkboxes to check if:
+ * - There is a different number of ones checked than before
+ * - There are different selections than before
+ * @param {object} dataObj - The progressData at the current step
  * @returns {boolean}
  */
 function areDifferentDisciplineNodes(dataObj){
-    console.log(dataObj);
-    return false;
+    var stepContent = $("section.current");
+    var areDifferent = false;
+    if ($('input:checked', stepContent).length !== dataObj['selection'].length) {
+        areDifferent = true;
+    } else {
+        dataObj['selection'].map(function(element) {
+            var node = $("span.discNode[data-id='" + element + "']", stepContent);
+            if (!$(node).siblings("input").prop('checked')) {
+                areDifferent = true;
+            }
+
+        });
+    }
+    return areDifferent;
 }
 /**
  * Loop through the element-bar values and check for differences.
- * @param dataObj
+ * @param {object} dataObj - The progressData at the current step
  * @returns {boolean}
  */
 function areDifferentOptionalNodes(dataObj){
@@ -267,7 +281,7 @@ function areDifferentOptionalNodes(dataObj){
 }
 /**
  *
- * @param dataObj
+ * @param {object} dataObj - The progressData at the current step
  * @returns {boolean}
  */
 function areDifferentMissionSpecifics(dataObj){
