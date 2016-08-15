@@ -40,6 +40,11 @@ var settings = {
             showPopup(currentIndex, newIndex);
             return false;
         }
+        if (progressData === null)
+            progressData = [];
+        if (!isLoading && currentIndex < progressData.length){
+            return handleBackwardsProgress(currentIndex);
+        }
         $("#help").hide();
         if (currentIndex < newIndex){
             handleStepAddition(currentIndex, newIndex);
@@ -58,6 +63,7 @@ var settings = {
         wizardData.currentStep = currentIndex;
         if (currentIndex > priorIndex){
             var priorStepHeading = $("#wizard-t-" + priorIndex.toString());
+            var priorStepTitle = (/[A-Z].+/.exec(priorStepHeading.text())[0].replace(/ /g, "_"));
             var number = $(".number", priorStepHeading)[0];
             number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
 
@@ -65,6 +71,10 @@ var settings = {
             //parse the step title from the overall step element (in the left sidebar)
             var currStepTitle = (/[A-Z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
             prepXML(currStepTitle, true);
+
+            if((typeof progressData != "undefined" || progressData != null) &&
+                priorIndex+1 > progressData.length)
+                storeProgress(priorIndex, priorStepTitle);
         }
         handleBackwardsTraversalPopup(currentIndex);
         resetMissionSpecificsBuilder(priorIndex);
@@ -418,7 +428,7 @@ function handleBackwardsTraversalPopup(currentIndex) {
     }
     // If the current index is behind the max and there has yet to be a warning pop-up, show the pop-up
     else if (currentIndex < wizardData.maxStep && wizardData.numWarnings === 0) {
-        showDeleteProgressPopup(currentIndex);
+        showBackwardsTraversalPopup(currentIndex);
         wizardData.numWarnings = 1;
     }
 }
@@ -456,10 +466,10 @@ function prepXML(sectionHeading, isValidating){
                         "validate",
                         {},
                         function(data){ console.log(data); });
-            backendCall("php/xml_validator.php",
+            /*backendCall("php/xml_validator.php",
                 "printXML",
                 {},
-                function(data){ console.log(data); });
+                function(data){ console.log(data); });*/
             backendCall("php/xml_mutator.php",
                 "removeRootAttrs",
                 {namespaces: jsonData.namespaces},

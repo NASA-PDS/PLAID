@@ -73,7 +73,8 @@ function verifyUser($args){
 
 /**
  * Use the user_id stored in a session variable to look up the info for all labels
- * associated with that user.
+ * associated with that user. Do not return labels whose is_deleted flag is set
+ * and order them by last_modified time.
  */
 function getLabelInfo(){
     global $LINK;
@@ -84,18 +85,18 @@ function getLabelInfo(){
 
         $handle->execute();
         $result = $handle->fetchAll(\PDO::FETCH_OBJ);
-        $return = array();
+        $query = "select id,creation,last_modified,name from label where id in (";
         foreach ($result as $row){
-            $labelId = $row->label_id;
-            $handle = $LINK->prepare('select id,creation,last_modified,name from label where id=?');
-            $handle->bindValue(1, $labelId, PDO::PARAM_INT);
-
-            $handle->execute();
-            $result = $handle->fetch(\PDO::FETCH_OBJ);
-            array_push($return, $result);
+            $query = $query.strval($row->label_id).",";
         }
+        $query = preg_replace("/,$/", "", $query);
+        $query = $query.") and is_deleted=0 order by last_modified desc";
+        $handle = $LINK->prepare($query);
+        $handle->execute();
+
+        $result = $handle->fetchAll(\PDO::FETCH_OBJ);
         header('Content-type: application/json');
-        echo json_encode($return);
+        echo json_encode($result);
     }
 }
 
@@ -420,12 +421,67 @@ function updateLabelXML($args){
 function deleteLabel($args){
     global $LINK;
     session_start();
-    $handle = $LINK->prepare('delete from link where user_id=? and label_id=?');
-    $handle->bindValue(1, $_SESSION['user_id']);
-    $handle->bindValue(2, $args['label_id']);
+
+    $handle = $LINK->prepare('update label set is_deleted=? where id=?');
+    $handle->bindValue(1, 1, PDO::PARAM_INT);
+    $handle->bindValue(2, $args['label_id'], PDO::PARAM_INT);
+    $handle->execute();
+}
+
+/**
+ * Store the JSON with the user's progress in the database.
+ * @param {Object} $args
+ */
+function storeProgressData($args){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('update label set progress_data=? where id=?');
+    $handle->bindValue(1, $args['progressJson']);
+    $handle->bindValue(2, $_SESSION['label_id']);
+    $handle->execute();
+}
+
+/**
+ * Get the progress data for the active label and send it to the front-end
+ * as a JSON.
+ */
+function getProgressData(){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('select progress_data from label where id=?');
+    $handle->bindValue(1, $_SESSION['label_id']);
     $handle->execute();
 
-    $handle = $LINK->prepare('delete from label where id=?');
-    $handle->bindValue(1, $args['label_id']);
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+    header('Content-type: application/json');
+    echo json_encode($result->progress_data);
+}
+
+/**
+ * Store the JSON with the user's progress in the database.
+ * @param {Object} $args
+ */
+function storeMissionSpecificsData($args){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('update label set mission_specifics=? where id=?');
+    $handle->bindValue(1, $args['missionSpecificsJson']);
+    $handle->bindValue(2, $_SESSION['label_id']);
     $handle->execute();
+}
+
+/**
+ * Get the progress data for the active label and send it to the front-end
+ * as a JSON.
+ */
+function getMissionSpecificsData(){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('select mission_specifics from label where id=?');
+    $handle->bindValue(1, $_SESSION['label_id']);
+    $handle->execute();
+
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+    header('Content-type: application/json');
+    echo json_encode($result->mission_specifics);
 }

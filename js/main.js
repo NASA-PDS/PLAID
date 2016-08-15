@@ -1,9 +1,46 @@
 /**
  * Created by morse on 6/17/16.
  */
-$(document).ready(function(){
-    $(".list-group-item").each(function(){
+$(document).ready(function() {
+    //- Check for progressData in database
+    $.ajax({
+        method: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "getMissionSpecificsData"
+        },
+        datatype: "text",
+        success: function (data) {
+            missionSpecifics = ($.parseJSON(data) === null ? [] : $.parseJSON(data));
+        }
+    });
+    $.ajax({
+        method: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "getProgressData"
+        },
+        datatype: "text",
+        success: function (data) {
+            progressData = $.parseJSON(data);
+            //- If the progressData IS set AND IS NOT empty
+            if (typeof progressData != "undefined" &&
+                progressData != null &&
+                progressData.length > 0) {
+                isLoading = true;
+                //    - Call load
+                loadProgress();
+                isLoading = false;
+            }
+        }
+    });
+    $(".list-group-item:not(.yesButton):not(.noButton)").each(function(){
         $(this).click(captureSelection);
+    });
+    $(".yesButton, .noButton").click(function(){
+        clearActiveElements();
+        $(this).addClass("active");
+        $("#wizard").steps("next");
     });
     addMissionSpecificsActionBar();
     previewDescription();
@@ -156,7 +193,6 @@ function checkFilename(){
         $(input).removeClass("error");
         if (!$(input).hasClass("submitted")){
             $(input).addClass("submitted");
-            addOutputFileData();
             $("#exportForm").submit();
         }
         else
@@ -166,16 +202,6 @@ function checkFilename(){
         $(input).addClass("error");
         return false;
     }
-}
-/**
- * The output filename is not accessible from the backend so it must
- * be added as a hidden input field to be submitted with the POST.
- */
-function addOutputFileData(){
-    var input = $("<input>")
-        .attr("type", "hidden")
-        .attr("name", "outputFile").val(filePaths.OUTPUT);
-    $('#exportForm').append($(input));
 }
 /**
  * Determine whether or not the user is transitioning to the final step in the wizard.

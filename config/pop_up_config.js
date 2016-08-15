@@ -52,7 +52,7 @@ var popUpData = {
         }
     },
     // When a user navigates backwards, this pop-up gives a warning that progress will be lost upon changes
-    deleteProgress : {
+    backwardsTraversal : {
         title : "Warning",
         content : "<div>Making a change to a previous step will delete <b>all</b> progress beyond that point.</div><br>" +
         "<div>You are safe to navigate through the different steps without making any changes, however.</div>",
@@ -61,8 +61,8 @@ var popUpData = {
         yesFunction : function() {
             var wrapper = $("#wizard-p-" + popUpData.currentStep.toString());
             $(wrapper).removeAttr("pop-up");
-            $('#deleteProgress').modal('hide');
-            $('#deleteProgress').on('hidden.bs.modal', function () {
+            $('#backwardsTraversal').modal('hide');
+            $('#backwardsTraversal').on('hidden.bs.modal', function () {
                 $("body .modal.fade.hide").remove();
                 $("body .modal-backdrop.fade.in").remove();
             })
@@ -87,6 +87,18 @@ var popUpData = {
                 });
                 window.location = "wizard.php";
             }
+        }
+    },
+    deleteProgress : {
+        title : "Warning",
+        content : "You have made a change. If you continue, all progress will be lost after this point. Do you want to continue?",
+        noText : "No",
+        yesText : "Yes",
+        yesFunction : function(){
+            var type = progressData[wizardData.currentStep]['step'];
+            progressData = progressData.slice(0, wizardData.currentStep);
+            storeProgress(wizardData.currentStep, type);
+            location.reload(true);
         }
     }
 };
