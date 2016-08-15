@@ -125,26 +125,31 @@ function storeBuilder(progressObj){
 /**
  * Traverse the progress data array and load the data for each step accordingly.
  */
-function loadProgress(){
-    progressData.map(function(stepObj){
-       switch(stepObj['step']){
-           case 'product_type':
-               loadProductType(stepObj);
-               break;
-           case 'discipline_nodes':
-               loadDisciplineNodes(stepObj);
-               break;
-           case 'optional_nodes':
-               loadOptionalNode(stepObj);
-               break;
-           case 'mission_specifics':
-               loadMissionSpecifics(stepObj);
-               break;
-           case 'builder':
-               loadBuilder();
-               break;
-       }
-    });
+function loadAllProgress(){
+    progressData.map(loadProgress);
+}
+/**
+ * Load the progress for the current step using the specified object data.
+ * @param {Object} stepObj
+ */
+function loadProgress(stepObj){
+    switch(stepObj['step']){
+        case 'product_type':
+            loadProductType(stepObj);
+            break;
+        case 'discipline_nodes':
+            loadDisciplineNodes(stepObj);
+            break;
+        case 'optional_nodes':
+            loadOptionalNode(stepObj);
+            break;
+        case 'mission_specifics':
+            loadMissionSpecifics(stepObj);
+            break;
+        case 'builder':
+            loadBuilder();
+            break;
+    }
 }
 /**
  * Using the data stored in the progress object, load the user's prior selection
