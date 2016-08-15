@@ -19,7 +19,7 @@ var infoBarData = {
                        "<div style='font-size: small;'>&#8226; If your mission takes pictures, you need the Imaging node.</div>"+
                        "<div style='font-size: small;'>&#8226; If your mission has a spacecraft or a rover, you need the Geometry node.</div><br/>"+
                        "<div><em>Need Help?</em></div>" +
-                       "<div style='font-size: small;'>Find your answers in <a href=LDT_Guide.pdf target=_blank>the full LDT guide.</a></div><br>"),
+                       "<div style='font-size: small;'>Find your answers in <a href=resources/ldt_guide.pdf target=_blank>the full LDT guide.</a></div><br>"),
     export: ("<div><b>Your label template is complete!</b></div><br/>" +
              "<div>Before exporting your label, please review the preview to ensure your label template is accurate.</div><br/>"+
              "<div>After that, please enter a valid* filename for your label template and then click 'Export'.<br/>"+
@@ -29,13 +29,13 @@ var infoBarData = {
                         "<div>If so, please select 'Yes' to start adding to the Mission Specifics section. This will take you into the builder interface where you will be able to add groups and attributes.</div><br>"+
                         "<div>If not, please select 'No' to skip this step and complete your label template.</div><br>"+
                         "<div><em>Need Help?</em></div>" +
-                        "<div style='font-size: small;'>Find your answers in <a href=LDT_Guide.pdf target=_blank> the full LDT guide.</a></div><br>"),
+                        "<div style='font-size: small;'>Find your answers in <a href=resources/ldt_guide.pdf target=_blank> the full LDT guide.</a></div><br>"),
     optional_nodes: ("<div><b>Please choose the applicable elements for your product.</b></div><br/>" +
                      "<div>Feel free to add or remove elements as you like. The quantity of each element is bounded by the PDS4 Standard so you won't create an invalid label template.</div><br/>" +
                      "<div>Hover over any of the elements to view helpful descriptions to guide your decisions. These descriptions include whether the element is required or optional, how many times it can occur, and what it is.<br/><br/>" +
                      "If the element has sub-elements, these will also be listed in the description. These sub-elements may be required or optional depending on if you include the parent element.</div><br/>"+
                      "<div><em>Need Help?</em></div>" +
-                     "<div style='font-size: small;'>Find your answers in <a href=LDT_Guide.pdf target=_blank> the full LDT guide.</a></div><br>"),
+                     "<div style='font-size: small;'>Find your answers in <a href=resources/ldt_guide.pdf target=_blank> the full LDT guide.</a></div><br>"),
     product_type: ("<div><b>Please select your product type to get started.</b></div><br>" +
                    "<div>The product type defines the general structure for your label based on the Planetary Data System’s most recent archiving standards.</div><br>" +
                    "<div>If you are wondering which product type to choose, hover over the buttons for descriptions. Most users create labels for the Observational product type.</div><br/>" +
@@ -43,5 +43,5 @@ var infoBarData = {
                    "<div style='font-size: small'>&#8226; Have a list of the items you want on your label!</div>" +
                    "<div style='font-size: small;'>&#8226; Check out a <a href=https://starbase.jpl.nasa.gov/pds4/1600/dph_example_products/product_array_2d_image/Product_Array_2D_Image.xml target=_blank>sample label</a> from another mission!</div><br/>" +
                    "<div><em>Need Help?</em></div>" +
-                   "<div style='font-size: small;'>Find your answers in the full<a href=LDT_Guide.pdf target=_blank> LDT guide.</a></div><br>")
+                   "<div style='font-size: small;'>Find your answers in the full<a href=resources/ldt_guide.pdf target=_blank> LDT guide.</a></div><br>")
 };
