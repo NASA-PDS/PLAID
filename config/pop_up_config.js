@@ -98,6 +98,10 @@ var popUpData = {
             var type = progressData[wizardData.currentStep]['step'];
             progressData = progressData.slice(0, wizardData.currentStep);
             storeProgress(wizardData.currentStep, type);
+            backendCall("php/xml_mutator.php",
+                "removeRootAttrs",
+                {namespaces: jsonData.namespaces},
+                function(data){});
             location.reload(true);
         }
     }
