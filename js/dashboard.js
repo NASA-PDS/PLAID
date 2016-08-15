@@ -21,7 +21,7 @@ $(document).ready(function(){
 
     $("#createNewLabelButton").click(function() {
         $('#labelNameInput').removeClass('error');
-        generatePopup("createNewLabel");
+        generatePopup(popUpData['createNewLabel']);
     });
 });
 /**
@@ -87,21 +87,16 @@ function createLabelEntry(labelData){
     return labelCard;
 }
 /**
+ * Calls a pop-up that verifies the user wants to delete the selected label
  * Make a backend call to remove the label and link entry from the database
  * and remove the label card from the page.
  */
 function deleteLabel(){
     var labelCard = $(this).parents(".labelCard");
-    var labelID = labelCard.attr("id").split("-")[1];
-    $.ajax({
-        type: "post",
-        url: "php/interact_db.php",
-        data: {
-            function: "deleteLabel",
-            label_id: labelID
-        }
-    });
-    $(labelCard).remove();
+    popUpData['labelCard'] = labelCard;
+    popUpData['deleteLabel']['content'] = "You are attempting to remove the label: <b>"+$(labelCard).find('h4.card-title').text()+"</b>. Do you want to continue?";
+    var deleteLabelPopUp = {};
+    generatePopup(deleteLabelPopUp);
 }
 
 /**
