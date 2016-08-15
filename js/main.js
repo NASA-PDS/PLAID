@@ -53,6 +53,15 @@ $(document).ready(function() {
         $(this).addClass("active");
         $("#wizard").steps("next");
     });
+    $(".labelPreviewButton").click(function(){
+        backendCall("php/preview_template.php", null, {}, function(data){
+            var wrapperDiv = document.createElement("div");
+            wrapperDiv.className = "finalPreview card-block";
+            wrapperDiv.textContent = data;
+            popUpData['preview']['content'] = wrapperDiv;
+        });
+        generatePopup(popUpData['preview']);
+    });
     addMissionSpecificsActionBar();
     previewDescription();
 });

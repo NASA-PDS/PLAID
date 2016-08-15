@@ -13,9 +13,9 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <script src="thirdparty/js/jquery.steps.min.js"></script>
     <script src="thirdparty/js/tree.jquery.js"></script>
     <script src="config/config.js"></script>
-    <script src="config/pop_up_config.js"></script>
     <script src="config/infobar_config.js"></script>
     <script src="js/main.js"></script>
+    <script src="config/pop_up_config.js"></script>
     <script src="js/element_bar.js"></script>
     <script src="js/init_steps.js"></script>
     <script src="js/popover.js"></script>
@@ -41,7 +41,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                 <a class="wizardExitButton nav-link" href="dashboard.php">Exit</a>
             </li>
             <li class="nav-item pull-xs-right">
-                <a class="labelPreviewButton nav-link" href="dashboard.php">Preview</a>
+                <a class="labelPreviewButton nav-link" href="#">Preview</a>
             </li>
             <li class="nav-item pull-xs-right">
                 <p class="labelNameNav navbar-brand m-b-0">Label Name</p>
