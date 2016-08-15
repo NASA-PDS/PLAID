@@ -95,7 +95,10 @@ function generatePopup(popUpObj) {
     modalBody.className = "modal-body";
 
     var modalBodyContent = document.createElement("p");
-    modalBodyContent.innerHTML = popUpObj['content'];
+    if(typeof popUpObj['content'] === "object")
+        modalBodyContent.appendChild(popUpObj['content'])
+    else
+        modalBodyContent.innerHTML = popUpObj['content'];
     modalBody.appendChild(modalBodyContent);
     modalContent.appendChild(modalBody);
 

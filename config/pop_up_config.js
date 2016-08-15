@@ -115,5 +115,15 @@ var popUpData = {
         noFunction : function(){
             loadProgress(progressData[wizardData.currentStep]);
         }
+    },
+    preview: {
+        id : "preview",
+        title : "Label Template Preview",
+        content : "",
+        noText : "",
+        yesText : "Dismiss",
+        yesFunction : function(){
+            $('#preview').modal('hide');
+        }
     }
 };
