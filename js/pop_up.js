@@ -58,9 +58,9 @@ function showPopup(currentStep, newStep) {
  *
  * @param currentStep - A number representing the index of the wizard
  */
-function showDeleteProgressPopup(currentStep) {
+function showBackwardsTraversalPopup(currentStep) {
     var wrapper = $("#wizard-p-" + currentStep.toString());
-    $(wrapper).attr("pop-up", "deleteProgress");
+    $(wrapper).attr("pop-up", "backwardsTraversal");
     showPopup(currentStep, popUpData.newStep);
 }
 
