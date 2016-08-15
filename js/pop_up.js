@@ -47,12 +47,10 @@ function updatePopup(currentStep) {
  */
 function showPopup(currentStep, newStep) {
     var wrapper = $("#wizard-p-" + currentStep.toString());
-    var popUpId = $(wrapper).attr("pop-up");
     popUpData.currentStep = currentStep;
     popUpData.newStep = newStep;
 
-    generatePopup($(wrapper).attr("pop-up"), popUpData[popUpId]["title"], popUpData[popUpId]["content"],
-        popUpData[popUpId]["noText"], popUpData[popUpId]["yesText"], popUpData[popUpId]["yesFunction"]);
+    generatePopup($(wrapper).attr("pop-up"));
 }
 
 /**
@@ -71,13 +69,15 @@ function showDeleteProgressPopup(currentStep) {
  * Additionally, give the Yes button a handler to call the function stored in the JSON
  *
  * @param popUpId - A String that corresponds to an object in pop_up_config.js
- * @param title - A String that goes into the header of the modal
- * @param content - A String that goes into the content of the modal
- * @param noText - A String that goes into the left button in the modal
- * @param yesText - A String that goes into the right button in the modal
- * @param yesFunction - A Function that is called when the right button is clicked
  */
-function generatePopup(popUpId, title, content, noText, yesText, yesFunction) {
+function generatePopup(popUpId) {
+    var popUpObj = popUpData[popUpId];
+    var title = popUpObj['title'];
+    var content = popUpObj['content'];
+    var noText = popUpObj['noText'];
+    var yesText = popUpObj['yesText'];
+    var yesFunction = popUpObj['yesFunction'];
+
     var modal = document.createElement("div");
     modal.id = popUpId;
     modal.className = "modal fade hide";

@@ -21,8 +21,7 @@ $(document).ready(function(){
 
     $("#createNewLabelButton").click(function() {
         $('#labelNameInput').removeClass('error');
-        generatePopup("createNewLabel", popUpData["createNewLabel"]["title"], popUpData["createNewLabel"]["content"],
-            popUpData["createNewLabel"]["noText"], popUpData["createNewLabel"]["yesText"], popUpData["createNewLabel"]["yesFunction"]);
+        generatePopup("createNewLabel");
     });
 });
 /**
