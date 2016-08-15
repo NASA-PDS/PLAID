@@ -88,14 +88,34 @@ function createLabelEntry(labelData){
 }
 /**
  * Calls a pop-up that verifies the user wants to delete the selected label
- * Make a backend call to remove the label and link entry from the database
+ * If the user agrees, a backend call is made to remove the label and link entry from the database
  * and remove the label card from the page.
  */
 function deleteLabel(){
     var labelCard = $(this).parents(".labelCard");
-    popUpData['labelCard'] = labelCard;
-    popUpData['deleteLabel']['content'] = "You are attempting to remove the label: <b>"+$(labelCard).find('h4.card-title').text()+"</b>. Do you want to continue?";
     var deleteLabelPopUp = {};
+    deleteLabelPopUp['id'] = 'deleteLabel';
+    deleteLabelPopUp['title'] = 'Warning';
+    deleteLabelPopUp['content'] = "You are attempting to remove the label: <b>"+$(labelCard).find('h4.card-title').text()+"</b>. Do you want to continue?";
+    deleteLabelPopUp['noText'] = 'No';
+    deleteLabelPopUp['yesText'] = 'Yes';
+    deleteLabelPopUp['yesFunction'] = function () {
+        var labelID = labelCard.attr("id").split("-")[1];
+        $.ajax({
+            type: "post",
+            url: "php/interact_db.php",
+            data: {
+                function: "deleteLabel",
+                label_id: labelID
+            }
+        });
+        $(labelCard).remove();
+        $('#deleteLabel').modal('hide');
+        $('#deleteLabel').on('hidden.bs.modal', function () {
+            $("body .modal.fade.hide").remove();
+            $("body .modal-backdrop.fade.in").remove();
+        });
+    };
     generatePopup(deleteLabelPopUp);
 }
 
