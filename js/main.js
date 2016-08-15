@@ -28,7 +28,6 @@ $(document).ready(function() {
                 progressData != null &&
                 progressData.length > 0) {
                 isLoading = true;
-                //generatePopup("loading", "Loading...", "", "", "");
                 //    - Call load
                 loadProgress();
                 isLoading = false;
