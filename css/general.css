@@ -189,6 +189,12 @@ input::-webkit-inner-spin-button {
 .input-group-addon {
     width: 70%;
 }
+.labelNameNav {
+    margin-right: 0rem;
+    font-size: 1rem;
+    padding-top: .425rem;
+    padding-bottom: .425rem;
+}
 .no-border-radius {
     -webkit-border-radius: 0rem;
     -moz-border-radius: 0rem;
@@ -207,6 +213,9 @@ input::-webkit-inner-spin-button {
 }
 div.steps {
     overflow: auto;
+}
+.wizardExitButton {
+    margin-left: 1rem;
 }
 .zero-instances {
     opacity: 0.3;

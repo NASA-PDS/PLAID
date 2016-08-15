@@ -4,9 +4,6 @@
 var popUpData = {
     currentStep : 0,
     newStep : 0,
-    // These two variables, labelCard and labelName, are tied into the deleteLabel pop-up, located on line 107 of this file
-    labelCard : "",
-    labelName : "",
     addAttr : {
         id : "addAttr",
         title : "Warning",
@@ -108,31 +105,6 @@ var popUpData = {
             progressData = progressData.slice(0, wizardData.currentStep);
             storeProgress(wizardData.currentStep, type);
             location.reload(true);
-        }
-    },
-    deleteLabel : {
-        id : "deleteLabel",
-        title: "Warning",
-        content: "",
-        noText: "No",
-        yesText: "Yes",
-        yesFunction: function () {
-            var labelCard = popUpData.labelCard;
-            var labelID = labelCard.attr("id").split("-")[1];
-            $.ajax({
-                type: "post",
-                url: "php/interact_db.php",
-                data: {
-                    function: "deleteLabel",
-                    label_id: labelID
-                }
-            });
-            $(labelCard).remove();
-            $('#deleteLabel').modal('hide');
-            $('#deleteLabel').on('hidden.bs.modal', function () {
-                $("body .modal.fade.hide").remove();
-                $("body .modal-backdrop.fade.in").remove();
-            });
         }
     }
 };

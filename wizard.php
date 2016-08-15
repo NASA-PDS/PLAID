@@ -38,7 +38,13 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
         <div class="nav navbar-nav">
             <a class="navbar-brand">Label Design Tool</a>
             <li class="nav-item pull-xs-right">
-                <a class="nav-link" href="dashboard.php">Save & Exit</a>
+                <a class="wizardExitButton nav-link" href="dashboard.php">Exit</a>
+            </li>
+            <li class="nav-item pull-xs-right">
+                <a class="labelPreviewButton nav-link" href="dashboard.php">Preview</a>
+            </li>
+            <li class="nav-item pull-xs-right">
+                <p class="labelNameNav navbar-brand m-b-0">Label Name</p>
             </li>
         </div>
     </nav>
