@@ -80,18 +80,8 @@ function getLabelInfo(){
     global $LINK;
     session_start();
     if(isset($_SESSION['user_id'])){
-        $handle = $LINK->prepare('select label_id from link where user_id=?');
+        $handle = $LINK->prepare('select link.user_id, label.* from link inner JOIN label ON link.label_id=label.id where link.user_id=? and label.is_deleted=0 order by label.last_modified desc;');
         $handle->bindValue(1, $_SESSION['user_id'], PDO::PARAM_INT);
-
-        $handle->execute();
-        $result = $handle->fetchAll(\PDO::FETCH_OBJ);
-        $query = "select id,creation,last_modified,name from label where id in (";
-        foreach ($result as $row){
-            $query = $query.strval($row->label_id).",";
-        }
-        $query = preg_replace("/,$/", "", $query);
-        $query = $query.") and is_deleted=0 order by last_modified desc";
-        $handle = $LINK->prepare($query);
         $handle->execute();
 
         $result = $handle->fetchAll(\PDO::FETCH_OBJ);
