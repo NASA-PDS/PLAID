@@ -29,7 +29,7 @@ $(document).ready(function() {
                 progressData.length > 0) {
                 isLoading = true;
                 //    - Call load
-                loadProgress();
+                loadAllProgress();
                 isLoading = false;
             }
         }

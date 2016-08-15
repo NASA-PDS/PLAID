@@ -97,9 +97,11 @@ var popUpData = {
     deleteProgress : {
         id : "deleteProgress",
         title : "Warning",
-        content : "You have made a change. If you continue, all progress will be lost after this point. Do you want to continue?",
-        noText : "No",
-        yesText : "Yes",
+        content : "<div>You have made a change. Would you like to keep the change or revert it?</div>"+
+            "<br/><div><i>Note: If you keep the change, all progress will be lost after this point."+
+            " If you revert, then the changes will be reverted and you will advance to the next step.</i></div>",
+        noText : "Revert Changes",
+        yesText : "Continue",
         yesFunction : function(){
             var type = progressData[wizardData.currentStep]['step'];
             progressData = progressData.slice(0, wizardData.currentStep);
@@ -109,6 +111,9 @@ var popUpData = {
                 {namespaces: jsonData.namespaces},
                 function(data){});
             location.reload(true);
+        },
+        noFunction : function(){
+            loadProgress(progressData[wizardData.currentStep]);
         }
     }
 };

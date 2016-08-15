@@ -85,18 +85,6 @@ function generatePopup(popUpObj) {
     var modalHeader = document.createElement("div");
     modalHeader.className = "modal-header";
 
-    var modalXButton = document.createElement("button");
-    modalXButton.setAttribute("type", "button");
-    modalXButton.className = "close";
-    modalXButton.setAttribute("data-dismiss", "modal");
-    modalXButton.setAttribute("aria-label", "Close");
-
-    var modalXButtonText = document.createElement("span");
-    modalXButtonText.setAttribute("aria-hidden", "true");
-    modalXButtonText.innerHTML = "&times;";
-    modalXButton.appendChild(modalXButtonText);
-    modalHeader.appendChild(modalXButton);
-
     var modalTitle = document.createElement("h4");
     modalTitle.className = "modal-title";
     modalTitle.innerHTML = popUpObj['title'];
@@ -121,6 +109,9 @@ function generatePopup(popUpObj) {
         modalFooterNoButton.setAttribute("data-dismiss", "modal");
         modalFooterNoButton.innerHTML = popUpObj['noText'];
         modalFooter.appendChild(modalFooterNoButton);
+        if (popUpObj['noFunction']){
+            $(modalFooterNoButton).click(popUpObj['noFunction']);
+        }
     }
 
     var modalFooterYesButton = document.createElement("button");
@@ -137,5 +128,7 @@ function generatePopup(popUpObj) {
 
     $('body').append(modal);
     $("#" + popUpObj['id'] + ' .hide').show();
-    $("#" + popUpObj['id']).modal();
+    $("#" + popUpObj['id']).modal({
+        "backdrop" : "static"
+    });
 }
