@@ -4,7 +4,11 @@
 var popUpData = {
     currentStep : 0,
     newStep : 0,
+    // These two variables, labelCard and labelName, are tied into the deleteLabel pop-up, located on line 107 of this file
+    labelCard : "",
+    labelName : "",
     addAttr : {
+        id : "addAttr",
         title : "Warning",
         content : "<div>Leaving at this step will delete any unsaved progress for this single attribute.</div><br>" +
         "<div>Click 'Continue' to leave anyway.</div>",
@@ -24,6 +28,7 @@ var popUpData = {
         }
     },
     addGroup : {
+        id : "addGroup",
         title : "Warning",
         content : "<div>Leaving at this step will delete any unsaved progress for this attribute group.</div><br>" +
         "<div>Click 'Continue' to leave anyway.</div>",
@@ -43,6 +48,7 @@ var popUpData = {
         }
     },
     invalidChoice : {
+        id : "invalidChoice",
         title : "Invalid Choice",
         content : "Please properly select the elements in the choice section.",
         noText: "",
@@ -53,6 +59,7 @@ var popUpData = {
     },
     // When a user navigates backwards, this pop-up gives a warning that progress will be lost upon changes
     backwardsTraversal : {
+        id : "backwardsTraversal",
         title : "Warning",
         content : "<div>Making a change to a previous step will delete <b>all</b> progress beyond that point.</div><br>" +
         "<div>You are safe to navigate through the different steps without making any changes, however.</div>",
@@ -69,6 +76,7 @@ var popUpData = {
         }
     },
     createNewLabel : {
+        id : "createNewLabel",
         title : "Create New Label",
         content : "<div>Please enter a name for your new label:</div>" +
         "<input id='labelNameInput' class='form-control' type='text' placeholder='Ex. Mars 2020 Label' id='example-text-input'>",
@@ -90,6 +98,7 @@ var popUpData = {
         }
     },
     deleteProgress : {
+        id : "deleteProgress",
         title : "Warning",
         content : "You have made a change. If you continue, all progress will be lost after this point. Do you want to continue?",
         noText : "No",
@@ -99,6 +108,31 @@ var popUpData = {
             progressData = progressData.slice(0, wizardData.currentStep);
             storeProgress(wizardData.currentStep, type);
             location.reload(true);
+        }
+    },
+    deleteLabel : {
+        id : "deleteLabel",
+        title: "Warning",
+        content: "",
+        noText: "No",
+        yesText: "Yes",
+        yesFunction: function () {
+            var labelCard = popUpData.labelCard;
+            var labelID = labelCard.attr("id").split("-")[1];
+            $.ajax({
+                type: "post",
+                url: "php/interact_db.php",
+                data: {
+                    function: "deleteLabel",
+                    label_id: labelID
+                }
+            });
+            $(labelCard).remove();
+            $('#deleteLabel').modal('hide');
+            $('#deleteLabel').on('hidden.bs.modal', function () {
+                $("body .modal.fade.hide").remove();
+                $("body .modal-backdrop.fade.in").remove();
+            });
         }
     }
 };
