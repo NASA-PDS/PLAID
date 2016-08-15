@@ -8,7 +8,10 @@ var infoBarData = {
               "<div>When you have finished creating all of your groups and attributes, select 'Save' to complete your label template.</div><br/>"+
               "<div><em>Need Help?</em></div>" +
               "<div style='font-size: small;'>Take a look at this example <a href=ms_example.xml target=_blank>Mission Specifics section.</a></div><br>"),
-    dashboard: ("<div><b>Create a new label or select an existing one to work on.</b></div>"),
+    dashboard: ("<div><b>Welcome to the LDT Dashboard.</b></div><br/>"+
+                "<div>If you would like to start a new label template, select <i>Create new</i>.</div><br/>"+
+                "<div>You can also see all of your existing label templates in the dashboard. If you would like to continue your work on a template, select <i>Edit</i>. If you would like to remove a template, select <i>Delete</i>.</div></br>"+
+                "<div style='font-size: small;'>Note: If you accidentally delete a label template, contact the LDT administrator to restore it from the database.</div>"),
     discipline_nodes: ("<div><b>Please select the discipline nodes that you would like to include in your product's label.</b></div><br>"+
                        "<div>The PDS has varying requirements for different subject matters and divides these into disciplines.</div><br>"+
                        "<div>To decide which ones you should add, hover over each discipline node to see its description. </div><br>"+
