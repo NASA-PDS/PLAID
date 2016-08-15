@@ -242,8 +242,7 @@ function handleBackwardsProgress(currIndex){
     //if there is a difference in selections between what is stored in the progress data and what
     //is currently in the content of the step
     if (isChanged) {
-        generatePopup("deleteProgress", popUpData["deleteProgress"]["title"], popUpData["deleteProgress"]["content"],
-            popUpData["deleteProgress"]["noText"], popUpData["deleteProgress"]["yesText"], popUpData["deleteProgress"]["yesFunction"]);
+        generatePopup(popUpData["deleteProgress"]);
         return false;
     }
     else

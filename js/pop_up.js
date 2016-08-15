@@ -50,7 +50,7 @@ function showPopup(currentStep, newStep) {
     popUpData.currentStep = currentStep;
     popUpData.newStep = newStep;
 
-    generatePopup($(wrapper).attr("pop-up"));
+    generatePopup(popUpData[$(wrapper).attr("pop-up")]);
 }
 
 /**
@@ -68,18 +68,11 @@ function showBackwardsTraversalPopup(currentStep) {
  * Dynamically generate the Bootstrap (v4) modal given the information derived from the pop_up_config.js file
  * Additionally, give the Yes button a handler to call the function stored in the JSON
  *
- * @param popUpId - A String that corresponds to an object in pop_up_config.js
+ * @param popUpId {Object} - A String that corresponds to an object in pop_up_config.js
  */
-function generatePopup(popUpId) {
-    var popUpObj = popUpData[popUpId];
-    var title = popUpObj['title'];
-    var content = popUpObj['content'];
-    var noText = popUpObj['noText'];
-    var yesText = popUpObj['yesText'];
-    var yesFunction = popUpObj['yesFunction'];
-
+function generatePopup(popUpObj) {
     var modal = document.createElement("div");
-    modal.id = popUpId;
+    modal.id = popUpObj['id'];
     modal.className = "modal fade hide";
 
     var modalDialog = document.createElement("div");
@@ -106,7 +99,7 @@ function generatePopup(popUpId) {
 
     var modalTitle = document.createElement("h4");
     modalTitle.className = "modal-title";
-    modalTitle.innerHTML = title;
+    modalTitle.innerHTML = popUpObj['title'];
     modalHeader.appendChild(modalTitle);
     modalContent.appendChild(modalHeader);
 
@@ -114,28 +107,28 @@ function generatePopup(popUpId) {
     modalBody.className = "modal-body";
 
     var modalBodyContent = document.createElement("p");
-    modalBodyContent.innerHTML = content;
+    modalBodyContent.innerHTML = popUpObj['content'];
     modalBody.appendChild(modalBodyContent);
     modalContent.appendChild(modalBody);
 
     var modalFooter = document.createElement("div");
     modalFooter.className = "modal-footer";
 
-    if (noText !== "") {
+    if (popUpObj['noText'] !== "") {
         var modalFooterNoButton = document.createElement("button");
         modalFooterNoButton.setAttribute("type", "button");
         modalFooterNoButton.className = "btn btn-secondary";
         modalFooterNoButton.setAttribute("data-dismiss", "modal");
-        modalFooterNoButton.innerHTML = noText;
+        modalFooterNoButton.innerHTML = popUpObj['noText'];
         modalFooter.appendChild(modalFooterNoButton);
     }
 
     var modalFooterYesButton = document.createElement("button");
     modalFooterYesButton.setAttribute("type", "button");
     modalFooterYesButton.className = "btn btn-primary";
-    modalFooterYesButton.innerHTML = yesText;
+    modalFooterYesButton.innerHTML = popUpObj['yesText'];
 
-    $(modalFooterYesButton).click(yesFunction)
+    $(modalFooterYesButton).click(popUpObj['yesFunction']);
 
     modalFooter.appendChild(modalFooterYesButton);
     modalContent.appendChild(modalFooter);
@@ -143,6 +136,6 @@ function generatePopup(popUpId) {
     modal.appendChild(modalDialog);
 
     $('body').append(modal);
-    $("#" + popUpId + ' .hide').show();
-    $("#" + popUpId).modal();
+    $("#" + popUpObj['id'] + ' .hide').show();
+    $("#" + popUpObj['id']).modal();
 }
