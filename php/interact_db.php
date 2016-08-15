@@ -371,17 +371,13 @@ function storeNewLabel($args){
     $handle->bindValue(2, $data);
     $handle->execute();
 
-    $handle = $LINK->prepare('select id from label where name=?');
-    $handle->bindValue(1, $args['labelName']);
-    $handle->execute();
-    $result = $handle->fetch(\PDO::FETCH_OBJ);
-
     $handle = $LINK->prepare('INSERT INTO link SET user_id=?,label_id=?');
+    $newLabelId = $LINK->lastInsertId();
     $handle->bindValue(1, $_SESSION['user_id']);
-    $handle->bindValue(2, $result->id);
+    $handle->bindValue(2, $newLabelId);
     $handle->execute();
 
-    $_SESSION['label_id'] = $result->id;
+    $_SESSION['label_id'] = intval($newLabelId);
 }
 
 /**
