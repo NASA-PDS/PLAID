@@ -9,7 +9,7 @@
 
 require_once("interact_db.php");
 // Load the XSD schema from the PSA NASA site
-$schema = "https://pds.nasa.gov/pds4/pds/v1/PDS4_PDS_1600.xsd";
+$schema = "https://pds.jpl.nasa.gov/pds4/schema/develop/pds/PDS4_PDS_1700.xsd";
 
 if(isset($_POST['Function'])){
     $doc = new DOMDocument();
