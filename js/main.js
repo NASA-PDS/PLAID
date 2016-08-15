@@ -34,6 +34,17 @@ $(document).ready(function() {
             }
         }
     });
+    $.ajax({
+        method: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "getLabelName"
+        },
+        datatype: "text",
+        success: function(data){
+            $(".labelNameNav").text(data);
+        }
+    });
     $(".list-group-item:not(.yesButton):not(.noButton)").each(function(){
         $(this).click(captureSelection);
     });
