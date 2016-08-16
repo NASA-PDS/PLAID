@@ -94,3 +94,25 @@ function setOneElementBarStyle(counter) {
         $(counter).siblings(".element-bar-button").children(".element-bar-plus").prop('disabled', false);
     }
 }
+/**
+ * Set the properties/styling within the choice field according to the overall
+ * control values.
+ * @param {Object} choiceField
+ */
+function setChoiceFieldStyle(choiceField){
+    var min = $(choiceField).attr("min");
+    var max = $(choiceField).attr("max");
+    var total = $(choiceField).attr("total");
+
+    if (total === max){
+        $(".element-bar-plus", choiceField).each(function(){
+            $(this).prop('disabled', true);
+        })
+    }
+    $(".element-bar-counter", choiceField).each(function(){
+        if ($(this).val() !== "0")
+            $(this).siblings(".element-bar-button").find(".element-bar-minus").prop('disabled', false);
+        else
+            $(this).siblings(".element-bar-button").find(".element-bar-minus").prop('disabled', true);
+    });
+}
