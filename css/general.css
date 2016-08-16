@@ -148,11 +148,19 @@ input::-webkit-inner-spin-button {
     width: 10%;
 }
 .element-bar .element-bar-counter {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+
     padding: 0.719rem 0rem;
     border-left: 0 !important;
     text-align: center;
 }
+.element-bar .element-bar-input {
+    padding: 0.719rem 0rem 0.719rem 1.25rem;
+}
 .element-bar .element-bar-label {
+    width: 40%;
     padding: 0.719rem 0rem 0.719rem 1.25rem;
     background-color: #ffffff;
     text-align: left;
