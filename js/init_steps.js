@@ -145,12 +145,14 @@ function handleStepAddition(currentIndex, newIndex){
                         hasRun = true;
                     }
                 }
-                //the following handles two checks:
-                //- if the "allChildrenRequired" property is not undefined, then it is a class with children (not an attribute)
-                //- if the "allChildrenRequired" property is false, then there are optional children
-                // if all of these checks are true, then insert a step for the current object/element
-                if (currObj["allChildrenRequired"] !== undefined &&
-                    !currObj["allChildrenRequired"]){
+                //- if the "next" property is defined, then it is a class with children (not an attribute) so
+                //  a step should be added
+                //- if the "title" property equals "Mission_Area" or
+                //- if the "title" property equals "Discipline_Area, then it is a special section handled later in the
+                //  tool and a step should not be added
+                if (currObj['next'] !== undefined &&
+                    currObj['title'] !== "Mission_Area" &&
+                    currObj['title'] !== "Discipline_Area"){
                     insertStep($("#wizard"), insertionIndex, currObj);
                     insertionIndex +=1;
                 }
@@ -159,19 +161,6 @@ function handleStepAddition(currentIndex, newIndex){
                             "addNode",
                             {path: id, quantity: val, value: metadata, ns: jsonData.currNS},
                             function(data){ console.log(data); });
-                //add in the xml for the required elements that will not be displayed in a visible step
-                if (currObj["allChildrenRequired"]){
-                    for (var index in currObj["next"]){
-                        for (var key in currObj["next"][index]){
-                            var child = currObj["next"][index][key];
-                            var num = child["range"].split("-")[0];
-                            backendCall("php/xml_mutator.php",
-                                "addNode",
-                                {path: child["path"], quantity: num, ns: jsonData.currNS},
-                                function(data){ console.log(data); });
-                        }
-                    }
-                }
             }
             else if (currentIndex === 1 && val === "0"){
                 var currObj = getObjectFromPath(id);
