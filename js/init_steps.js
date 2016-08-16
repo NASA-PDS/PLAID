@@ -136,19 +136,7 @@ function handleStepAddition(currentIndex, newIndex){
             var val = $(".element-bar-counter", this).val();
             var id = $(this).attr("id");
             if (val !== "0"){
-                var elementKeys = id.split("/");
-                var currObj = jsonData.refObj;
-                for (var index in elementKeys){
-                    try {
-                        currObj = currObj[elementKeys[index]];
-                    }
-                    catch(e){
-                        return;
-                    }
-                    if (index < elementKeys.length-1 && isNaN(elementKeys[index])) {
-                        currObj = currObj["next"];
-                    }
-                }
+                var currObj = getObjectFromPath(id);
                 if (currentIndex === 1){
                     wizardData.mainSteps.push(currObj['title']);
                     if (!hasRun){
@@ -185,19 +173,7 @@ function handleStepAddition(currentIndex, newIndex){
                 }
             }
             else if (currentIndex === 1 && val === "0"){
-                var elementKeys = id.split("/");
-                var currObj = jsonData.refObj;
-                for (var index in elementKeys){
-                    try {
-                        currObj = currObj[elementKeys[index]];
-                    }
-                    catch(e){
-                        return;
-                    }
-                    if (index < elementKeys.length-1 && isNaN(elementKeys[index])) {
-                        currObj = currObj["next"];
-                    }
-                }
+                var currObj = getObjectFromPath(id);
                 backendCall("php/xml_mutator.php",
                     "removeNode",
                     {path: currObj['path'], ns: ""},

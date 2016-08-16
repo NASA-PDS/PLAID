@@ -169,6 +169,27 @@ function assignObjectPath(startingIndex, currObject, children){
     }
 }
 /**
+ * Use the specified path to traverse to the object reference and return it.
+ * @param path
+ * @returns {jsonData.refObj|{}}
+ */
+function getObjectFromPath(path){
+    var elementKeys = path.split("/");
+    var currObj = jsonData.refObj;
+    for (var index in elementKeys){
+        try {
+            currObj = currObj[elementKeys[index]];
+        }
+        catch(e){
+            return;
+        }
+        if (index < elementKeys.length-1 && isNaN(elementKeys[index])) {
+            currObj = currObj["next"];
+        }
+    }
+    return currObj;
+}
+/**
 * Using the values stored in the association list objects (assocMention), determine
 * whether the association is required, set the range, and store the info in the
 * detailed object for that association (assocDetails).
