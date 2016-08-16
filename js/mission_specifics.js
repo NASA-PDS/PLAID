@@ -1,7 +1,23 @@
 /**
  * Created by mikim on 7/15/16.
  */
-
+/**
+ * Make a call to the backend to load the mission specifics data
+ * from the database.
+ */
+function loadMissionSpecificsData(){
+    $.ajax({
+        method: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "getMissionSpecificsData"
+        },
+        datatype: "text",
+        success: function (data) {
+            missionSpecifics = ($.parseJSON(data) === null ? [] : $.parseJSON(data));
+        }
+    });
+}
 /**
  * Upon initialization of the app, creates the Go Back and Save buttons
  * in the same area as the Previous and Next buttons and proceeds to hide them

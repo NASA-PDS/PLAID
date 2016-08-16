@@ -2,6 +2,32 @@
  * Created by morse on 8/10/16.
  */
 /**
+ * Make a call to the backend to load the progress data from the database
+ * and then determine if there is progress to be loaded into the page.
+ */
+function loadProgressData(){
+    $.ajax({
+        method: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "getProgressData"
+        },
+        datatype: "text",
+        success: function (data) {
+            progressData = $.parseJSON(data);
+            //- If the progressData IS set AND IS NOT empty
+            if (typeof progressData != "undefined" &&
+                progressData != null &&
+                progressData.length > 0) {
+                isLoading = true;
+                //    - Call load
+                loadAllProgress();
+                isLoading = false;
+            }
+        }
+    });
+}
+/**
  * For each type of step completed, form an object to store the progress data,
  * push it onto the overall array, and send that to the database.
  * @param {Number} priorIndex index of the step that was just completed
