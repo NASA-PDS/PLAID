@@ -160,10 +160,13 @@ input::-webkit-inner-spin-button {
     padding: 0.719rem 0rem 0.719rem 1.25rem;
 }
 .element-bar .element-bar-label {
-    width: 40%;
+    width: 70%;
     padding: 0.719rem 0rem 0.719rem 1.25rem;
     background-color: #ffffff;
     text-align: left;
+}
+.element-bar .element-bar-label.hasInput {
+    width: 40%;
 }
 .element-bar .element-bar-minus {
     padding: 0.719rem 0rem;
