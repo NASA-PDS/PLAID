@@ -34,7 +34,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <div id="labelManagerWrapper">
         <div id="dashboard" class="card">
             <div class="card-header">
-                <span id="dashboardTitle">Label Dashboard</span>
+                <span id="dashboardTitle">LDT Dashboard</span>
                 <a id="createNewLabelButton" href="#" class="btn btn-primary">Create new</a>
             </div>
             <div class="card-block" id="dashboardContent">
