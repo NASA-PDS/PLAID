@@ -206,8 +206,15 @@ function loadOptionalNode(dataObj){
         //since choice-fields have disabled counter forms, we must mimic the user
         //pressing the plus button instead of inserting the value directly
         if (dataObj['containsChoice']){
-            var initVal = $(".element-bar-counter", elementBar).val();
-            for (var counter = parseInt(initVal, 10); counter < value; counter++)
+            var counter = $(".element-bar-counter", elementBar);
+            var initVal = parseInt($(counter).val(), 10);
+            //this conditional handles a bug when the user wants to revert changes within
+            //a choice field. It resets the values to 0 before proceeding.
+            if ($(counter).parents(".choice-field").length > 0 && initVal !== 0){
+                while ($(counter).val() !== "0")
+                    $(".element-bar-minus", elementBar).click();
+            }
+            for (var x = initVal; x < value; x++)
                 $(".element-bar-plus", elementBar).click();
         }
         //if there is no choice-field though, go ahead and insert the value
@@ -215,6 +222,8 @@ function loadOptionalNode(dataObj){
             $(".element-bar-counter", elementBar).val(value);
         setOneElementBarStyle($(".element-bar-counter", elementBar));
     }
+    if (dataObj['containsChoice'])
+        setChoiceFieldStyle($(".choice-field", stepContent));
     $("#wizard").steps("next");
 }
 /**

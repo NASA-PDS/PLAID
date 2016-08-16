@@ -84,13 +84,7 @@ function handleProductOrNode(overallObj, element, type){
     //get next two levels of associations for creating element-bars and
     //displaying subelement information in the popovers
     getLevelOfAssociations(overallObj, jsonData.refObj, true);
-    if (type === "product"){
-        insertLevelOfSteps(wizardData.currentStep+1, jsonData.refObj);
-    }
-    else {
-        insertStep($("#wizard"), wizardData.currentStep+1, jsonData.refObj);
-    }
-
+    insertStep($("#wizard"), wizardData.currentStep+1, jsonData.refObj);
 }
 /**
 * Search for and form associations in the new object from the overall object.
