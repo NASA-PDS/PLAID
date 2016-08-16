@@ -203,6 +203,13 @@ input::-webkit-inner-spin-button {
 .optional-section {
     height: inherit;
 }
+.preview.popup {
+    padding-top: 0.5rem;
+    height: 70vh;
+    white-space: pre;
+    overflow: auto;
+    font-size: 0.8rem;
+}
 .question {
     font-weight: bold;
     font-size: large;
