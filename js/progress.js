@@ -109,15 +109,18 @@ function storeDisciplineNodes(priorIndex, progressObj){
 function storeOptionalNodes(priorIndex, progressObj){
     progressObj['step'] = "optional_nodes";
     progressObj['type'] = "element-bar";
-    progressObj['selection'] = {};
+    progressObj['selection'] = [];
 
 
     var stepContent = $("#wizard-p-" + priorIndex);
     progressObj['containsChoice'] = ($(".choice-field", stepContent).length > 0);
     $(".element-bar", stepContent).each(function(){
-        var id = $(this).attr('id');
-        var value = $(".element-bar-counter", this).val();
-        progressObj['selection'][id] = value;
+        var element = {
+            id: $(this).attr('id'),
+            num: $(".element-bar-counter", this).val(),
+            val: $(".element-bar-input", this).val()
+        };
+        progressObj['selection'].push(element);
     });
 }
 /**
@@ -200,9 +203,10 @@ function loadProductType(dataObj){
  */
 function loadOptionalNode(dataObj){
     var stepContent = $("section.current");
-    for (var key in dataObj['selection']){
-        var elementBar = $(jq(key), stepContent);
-        var value = dataObj['selection'][key];
+    for (var index in dataObj['selection']){
+        var currObj = dataObj['selection'][index];
+        var elementBar = $(jq(currObj['id']), stepContent);
+        var value = currObj['num'];
         //since choice-fields have disabled counter forms, we must mimic the user
         //pressing the plus button instead of inserting the value directly
         if (dataObj['containsChoice']){
@@ -220,6 +224,8 @@ function loadOptionalNode(dataObj){
         //if there is no choice-field though, go ahead and insert the value
         else
             $(".element-bar-counter", elementBar).val(value);
+        if (currObj['val'] !== undefined && currObj['val'] !== "")
+            $(".element-bar-input", elementBar).val(currObj['val']);
         setOneElementBarStyle($(".element-bar-counter", elementBar));
     }
     if (dataObj['containsChoice'])
@@ -324,10 +330,12 @@ function areDifferentDisciplineNodes(dataObj){
  */
 function areDifferentOptionalNodes(dataObj){
     var stepContent = $("section.current");
-    for (var key in dataObj['selection']){
-        var currValue = $(jq(key) + " .element-bar-counter", stepContent).val();
-        var initValue = dataObj['selection'][key];
-        if (currValue !== initValue)
+    for (var index in dataObj['selection']){
+        var currObj = dataObj['selection'][index];
+        var elementBar = $(jq(currObj['id']), stepContent);
+        var newNum = $(".element-bar-counter", elementBar).val();
+        var newVal = $(".element-bar-input", elementBar).val();
+        if (newNum !== currObj['num'] || newVal !== currObj['val'])
             return true;
     }
     return false;
