@@ -22,6 +22,7 @@ $(document).ready(function() {
         });
         generatePopup(popUpData['preview']);
     });
+    $("ul[role='menu']").hide();
     addMissionSpecificsActionBar();
     previewDescription();
 });
