@@ -40,7 +40,7 @@ var infoBarData = {
                    "<div>The product type defines the general structure for your label based on the Planetary Data System’s most recent archiving standards.</div><br>" +
                    "<div>If you are wondering which product type to choose, hover over the buttons for descriptions. Most users create labels for the Observational product type.</div><br/>" +
                    "<div>Helpful tips:</div>"+
-                   "<div style='font-size: small'>&#8226; Have a list of the items you want on your label!</div>" +
+                   "<div style='font-size: small'>&#8226; Have a list of the items you want in your label!</div>" +
                    "<div style='font-size: small;'>&#8226; Check out a <a href=https://starbase.jpl.nasa.gov/pds4/1600/dph_example_products/product_array_2d_image/Product_Array_2D_Image.xml target=_blank>sample label</a> from another mission!</div><br/>" +
                    "<div><em>Need Help?</em></div>" +
                    "<div style='font-size: small;'>Find your answers in the full<a href=resources/ldt_guide.pdf target=_blank> LDT guide.</a></div><br>")
