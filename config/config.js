@@ -32,3 +32,8 @@ var wizardData = {
 var missionSpecifics = [];
 var progressData = [];
 var isLoading = false;
+var invalidElementsInJSON = [
+  "Conceptual_Object",
+  "Physical_Object",
+  "Digital_Object"
+];
