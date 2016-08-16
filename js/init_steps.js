@@ -229,7 +229,10 @@ function generateContent(sectionTitle, dataObj){
             assignObjectPath(index, currObj, currObj["next"]);
             //need to get one more level of associations for displaying sub-elements in the popovers
             getLevelOfAssociations(jsonData.searchObj, currObj["next"], false);
-            if (dataObj[index].length === 1){
+            if ($.inArray(currObj["title"], invalidElementsInJSON) !== -1){
+                continue;
+            }
+            else if (dataObj[index].length === 1){
                 if (currObj["title"] === "Mission_Area" ||
                     currObj["title"] === "Discipline_Area"){
                     currObj["range"] = "1-1";
