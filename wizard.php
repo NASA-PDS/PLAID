@@ -57,7 +57,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                 <table class="list-group">
                     <tr class="label-item">
                         <td>
-                            <button class="list-group-item">
+                            <button class="list-group-item disabled" disabled>
                                 <i class="fa fa-list fa-fw" aria-hidden="true"></i>
                                 <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Context">Context</span>
                             </button>
@@ -65,7 +65,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                     </tr>
                     <tr class="label-item">
                         <td>
-                            <button class="list-group-item">
+                            <button class="list-group-item disabled" disabled>
                                 <i class="fa fa-file-o fa-fw" aria-hidden="true"></i>
                                 <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Document">Document</span>
                             </button>
@@ -73,7 +73,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                     </tr>
                     <tr class="label-item">
                         <td>
-                            <button class="list-group-item">
+                            <button class="list-group-item disabled" disabled>
                                 <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
                                 <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_File_Text">File Text</span>
                             </button>
@@ -89,7 +89,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                     </tr>
                     <tr class="label-item">
                         <td>
-                            <button class="list-group-item">
+                            <button class="list-group-item disabled" disabled>
                                 <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
                                 <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Thumbnail">Thumbnail</span>
                             </button>
@@ -106,7 +106,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox">
+                                    <input type="checkbox" disabled>
                                     <span class="spacer"></span>
                                     <i class="fa fa-map fa-fw" aria-hidden="true"></i>
                                     <span class="discNode" data-id="">Cartography</span>
@@ -116,7 +116,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox">
+                                    <input type="checkbox" disabled>
                                     <span class="spacer"></span>
                                     <i class="fa fa-desktop fa-fw" aria-hidden="true"></i>
                                     <span class="discNode" data-id="">Display</span>
@@ -136,7 +136,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox">
+                                    <input type="checkbox" disabled>
                                     <span class="spacer"></span>
                                     <i class="fa fa-image fa-fw" aria-hidden="true"></i>
                                     <span class="discNode" data-id="">Imaging</span>
@@ -146,7 +146,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox">
+                                    <input type="checkbox" disabled>
                                     <span class="spacer"></span>
                                     <i class="fa fa-sun-o fa-fw" aria-hidden="true"></i>
                                     <span class="discNode" data-id="">Plasma Particle</span>
@@ -156,7 +156,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox">
+                                    <input type="checkbox" disabled>
                                     <span class="spacer"></span>
                                     <i class="fa fa-circle fa-fw" aria-hidden="true"></i>
                                     <span class="discNode" data-id="">Ring-Moon Systems</span>
@@ -166,7 +166,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox">
+                                    <input type="checkbox" disabled>
                                     <span class="spacer"></span>
                                     <i class="fa fa-spinner fa-fw" aria-hidden="true"></i>
                                     <span class="discNode" data-id="">Small Bodies</span>
@@ -176,7 +176,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox">
+                                    <input type="checkbox" disabled>
                                     <span class="spacer"></span>
                                     <i class="fa fa-rss fa-fw" aria-hidden="true"></i>
                                     <span class="discNode" data-id="">Spectra</span>
@@ -186,7 +186,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox">
+                                    <input type="checkbox" disabled>
                                     <span class="spacer"></span>
                                     <i class="fa fa-google-wallet fa-fw" aria-hidden="true"></i>
                                     <span class="discNode" data-id="">Wave</span>
