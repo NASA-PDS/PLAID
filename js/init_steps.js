@@ -36,6 +36,7 @@ var settings = {
 
     /* Events */
     onStepChanging: function (event, currentIndex, newIndex) {
+        removePopovers();
         if (updatePopup(currentIndex)) {
             return showPopup(currentIndex, newIndex);
         }
@@ -56,7 +57,6 @@ var settings = {
         }
         $("ul[role='menu']").show();
         updateActionBar(newIndex);
-        removePopovers();
         return true;
     },
     onStepChanged: function (event, currentIndex, priorIndex) {
