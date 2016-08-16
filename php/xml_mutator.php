@@ -99,17 +99,20 @@ function addNodeWithComment($parent, $nodeName, $comment){
 }
 /*
  * Remove node(s) from the overall document.
+ * Note: this function only supports removing children of the root element.
  * @param {object} $args object containing argument values
  */
 function removeNode($args){
+    global $DOC;
     $ns = $args["ns"];
     list($nodeName, $parentPath) = handlePath($args["path"], $ns);
-    $nodes = getNode($parentPath . "/" . $nodeName, $ns);
-    $parentNode = getNode($parentPath, $ns)->item(0);
+    $nodes = getNode($nodeName, $ns);
     foreach($nodes as $node){
-        $parentNode->removeChild($node);
+        $DOC->documentElement->removeChild($node);
         echo "Removed: ".$nodeName;
     }
+    $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
+    updateLabelXML($args);
 }
 /*
  * Clear out all child nodes of the target to prepare for adding in new children.
