@@ -141,4 +141,5 @@ function generatePopup(popUpObj) {
     $("#" + popUpObj['id']).modal({
         "backdrop" : "static"
     });
+    removePopovers();
 }
