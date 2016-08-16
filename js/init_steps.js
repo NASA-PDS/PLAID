@@ -182,23 +182,6 @@ function handleStepAddition(currentIndex, newIndex){
         });
     }
 }
-/**
-* Insert a batch of steps corresponding to the same level in the object hierarchy.
-* @param {Number} currIndex zero-based index corresponding to step position in wizard
-* @param {Object} dataObj object containing the PDS data to generate content from
- */
-function insertLevelOfSteps(currIndex, dataObj){
-    for (var index in dataObj){
-        for (var key in dataObj[index]){
-            wizardData.mainSteps.push(dataObj[index][key]["title"]);
-            insertStep($("#wizard"), currIndex, dataObj[index][key]);
-            currIndex +=1;
-            if (index === "0"){
-                prepXML(dataObj[index][key]["title"], true);
-            }
-        }
-    }
-}
 /*
 * Insert a step into the wizard at the specified index with content
 * generated from the specified data object.
