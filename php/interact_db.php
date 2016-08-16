@@ -471,3 +471,17 @@ function getMissionSpecificsData(){
     header('Content-type: application/json');
     echo json_encode($result->mission_specifics);
 }
+
+/**
+ * Get the name of the label corresponding to the id stored in the session.
+ */
+function getLabelName(){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('select name from label where id=?');
+    $handle->bindValue(1, $_SESSION['label_id']);
+    $handle->execute();
+
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+    echo $result->name;
+}

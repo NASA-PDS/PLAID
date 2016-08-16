@@ -2,38 +2,9 @@
  * Created by morse on 6/17/16.
  */
 $(document).ready(function() {
-    //- Check for progressData in database
-    $.ajax({
-        method: "post",
-        url: "php/interact_db.php",
-        data: {
-            function: "getMissionSpecificsData"
-        },
-        datatype: "text",
-        success: function (data) {
-            missionSpecifics = ($.parseJSON(data) === null ? [] : $.parseJSON(data));
-        }
-    });
-    $.ajax({
-        method: "post",
-        url: "php/interact_db.php",
-        data: {
-            function: "getProgressData"
-        },
-        datatype: "text",
-        success: function (data) {
-            progressData = $.parseJSON(data);
-            //- If the progressData IS set AND IS NOT empty
-            if (typeof progressData != "undefined" &&
-                progressData != null &&
-                progressData.length > 0) {
-                isLoading = true;
-                //    - Call load
-                loadAllProgress();
-                isLoading = false;
-            }
-        }
-    });
+    loadMissionSpecificsData();
+    loadProgressData();
+    loadLabelName();
     $(".list-group-item:not(.yesButton):not(.noButton)").each(function(){
         $(this).click(captureSelection);
     });
@@ -41,6 +12,15 @@ $(document).ready(function() {
         clearActiveElements();
         $(this).addClass("active");
         $("#wizard").steps("next");
+    });
+    $(".labelPreviewButton").click(function(){
+        backendCall("php/preview_template.php", null, {}, function(data){
+            var wrapperDiv = document.createElement("div");
+            wrapperDiv.className = "preview popup";
+            wrapperDiv.textContent = data;
+            popUpData['preview']['content'] = wrapperDiv;
+        });
+        generatePopup(popUpData['preview']);
     });
     addMissionSpecificsActionBar();
     previewDescription();
@@ -81,7 +61,22 @@ function previewDescription(){
         data = infoBarData["optional_nodes"];
     $("#help").append(data);
 }
-
+/**
+ * Load the label name from the database and insert it into the navbar.
+ */
+function loadLabelName(){
+    $.ajax({
+        method: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "getLabelName"
+        },
+        datatype: "text",
+        success: function(data){
+            $(".labelNameNav").text(data);
+        }
+    });
+}
 /**
  * When the user clicks on a plus button, increment the corresponding counter.
  * If it is a choice group (in other words, the user can choose between multiple elements),
