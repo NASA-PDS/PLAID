@@ -53,6 +53,7 @@ function addNode($args){
                 $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $nodeName);
             else
                 $newNode = $DOC->createElement($nodeName);
+            addNodeValue($newNode, "");
             $node->appendChild($newNode);
             echo "Created: ".$nodeName;
         }
@@ -61,6 +62,19 @@ function addNode($args){
     updateLabelXML($args);
 }
 
+/**
+ * If a value is included, add it to the specified node.
+ * @param {DOMNode} $node to add the value to
+ * @param {string} $value to insert into the node
+ */
+function addNodeValue($node, $value){
+    global $DOC;
+    if ($value !== ""){
+        $valNode = $DOC->createTextNode($value);
+        $node->appendChild($valNode);
+        echo "Inserted value: ".$value."\n";
+    }
+}
 /**
  * Add custom nodes from the mission specifics json passed in from the front-end.
  * @param {object} $args object containing argument values
