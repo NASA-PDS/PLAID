@@ -49,7 +49,7 @@ var popUpData = {
         title : "Invalid Choice",
         content : "Please properly select the elements in the choice section.",
         noText: "",
-        yesText: "Ok",
+        yesText: "OK",
         yesFunction : function() {
             $('#invalidChoice').modal('hide');
         }
@@ -61,7 +61,7 @@ var popUpData = {
         content : "<div>Making a change to a previous step will delete <b>all</b> progress beyond that point.</div><br>" +
         "<div>You are safe to navigate through the different steps without making any changes, however.</div>",
         noText : "",
-        yesText : "Ok",
+        yesText : "OK",
         yesFunction : function() {
             var wrapper = $("#wizard-p-" + popUpData.currentStep.toString());
             $(wrapper).removeAttr("pop-up");
