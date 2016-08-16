@@ -229,7 +229,10 @@ function generateContent(sectionTitle, dataObj){
             assignObjectPath(index, currObj, currObj["next"]);
             //need to get one more level of associations for displaying sub-elements in the popovers
             getLevelOfAssociations(jsonData.searchObj, currObj["next"], false);
-            if (dataObj[index].length === 1){
+            if ($.inArray(currObj["title"], invalidElementsInJSON) !== -1){
+                continue;
+            }
+            else if (dataObj[index].length === 1){
                 if (currObj["title"] === "Mission_Area" ||
                     currObj["title"] === "Discipline_Area"){
                     currObj["range"] = "1-1";
@@ -266,6 +269,9 @@ function createElementBar(dataObj, genLabel, isChoice){
     var label = genLabel(dataObj["title"], isChoice);
     elementBar.appendChild(label);
 
+    if (dataObj['next'] === undefined){
+        elementBar.appendChild(createValueInput());
+    }
     var minusBtn = createControlButton("minus");
     elementBar.appendChild(minusBtn);
     var plusBtn = createControlButton("plus");
@@ -306,6 +312,17 @@ function createLabel(text, isChoice){
         label.innerHTML = text.replace(/_/g, " ");
     }
     return label;
+}
+/**
+ * Create an input form for metadata within the label elements.
+ * @returns {Element}
+ */
+function createValueInput(){
+    var input = document.createElement("input");
+    input.className = "form-control element-bar-input";
+    input.type = "text";
+    input.placeholder = "Enter metadata (optional)";
+    return input;
 }
 /**
 * Create a plus/minus button for controlling the form in an element-bar.
