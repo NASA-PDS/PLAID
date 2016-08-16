@@ -2,49 +2,9 @@
  * Created by morse on 6/17/16.
  */
 $(document).ready(function() {
-    //- Check for progressData in database
-    $.ajax({
-        method: "post",
-        url: "php/interact_db.php",
-        data: {
-            function: "getMissionSpecificsData"
-        },
-        datatype: "text",
-        success: function (data) {
-            missionSpecifics = ($.parseJSON(data) === null ? [] : $.parseJSON(data));
-        }
-    });
-    $.ajax({
-        method: "post",
-        url: "php/interact_db.php",
-        data: {
-            function: "getProgressData"
-        },
-        datatype: "text",
-        success: function (data) {
-            progressData = $.parseJSON(data);
-            //- If the progressData IS set AND IS NOT empty
-            if (typeof progressData != "undefined" &&
-                progressData != null &&
-                progressData.length > 0) {
-                isLoading = true;
-                //    - Call load
-                loadAllProgress();
-                isLoading = false;
-            }
-        }
-    });
-    $.ajax({
-        method: "post",
-        url: "php/interact_db.php",
-        data: {
-            function: "getLabelName"
-        },
-        datatype: "text",
-        success: function(data){
-            $(".labelNameNav").text(data);
-        }
-    });
+    loadMissionSpecificsData();
+    loadProgressData();
+    loadLabelName();
     $(".list-group-item:not(.yesButton):not(.noButton)").each(function(){
         $(this).click(captureSelection);
     });
@@ -101,7 +61,22 @@ function previewDescription(){
         data = infoBarData["optional_nodes"];
     $("#help").append(data);
 }
-
+/**
+ * Load the label name from the database and insert it into the navbar.
+ */
+function loadLabelName(){
+    $.ajax({
+        method: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "getLabelName"
+        },
+        datatype: "text",
+        success: function(data){
+            $(".labelNameNav").text(data);
+        }
+    });
+}
 /**
  * When the user clicks on a plus button, increment the corresponding counter.
  * If it is a choice group (in other words, the user can choose between multiple elements),
