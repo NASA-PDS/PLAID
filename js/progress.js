@@ -13,6 +13,9 @@ function loadProgressData(){
             function: "getProgressData"
         },
         datatype: "text",
+        beforeSend: function() {
+            $('.modal-backdrop.loadingBackdrop').show();
+        },
         success: function (data) {
             progressData = $.parseJSON(data);
             //- If the progressData IS set AND IS NOT empty
@@ -24,6 +27,9 @@ function loadProgressData(){
                 loadAllProgress();
                 isLoading = false;
             }
+        },
+        complete: function() {
+            $(".modal-backdrop").hide();
         }
     });
 }

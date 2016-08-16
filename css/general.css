@@ -195,6 +195,9 @@ input::-webkit-inner-spin-button {
     padding-top: .425rem;
     padding-bottom: .425rem;
 }
+.modal-backdrop.loadingBackdrop {
+    opacity: 0.5;
+}
 .no-border-radius {
     -webkit-border-radius: 0rem;
     -moz-border-radius: 0rem;
