@@ -53,7 +53,7 @@ function addNode($args){
                 $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $nodeName);
             else
                 $newNode = $DOC->createElement($nodeName);
-            addNodeValue($newNode, "");
+            addNodeValue($newNode, $args["value"]);
             $node->appendChild($newNode);
             echo "Created: ".$nodeName;
         }

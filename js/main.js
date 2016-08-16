@@ -109,6 +109,7 @@ function increaseCounter(){
             }
         }
         $(this).parent().siblings(".element-bar-label").removeClass("zero-instances");
+        $(this).parent().siblings(".element-bar-input").prop('disabled', false);
         $(this).parent().siblings(".element-bar-button").children(".element-bar-minus").prop('disabled', false);
     }
     if (newVal === counterMax){
@@ -161,6 +162,7 @@ function decreaseCounter(){
     }
     if (newVal === 0){
         $(this).parent().siblings(".element-bar-label").addClass("zero-instances");
+        $(this).parent().siblings(".element-bar-input").prop('disabled', true);
     }
 }
 /**
