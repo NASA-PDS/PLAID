@@ -54,6 +54,7 @@ var settings = {
         else if (newIndex === 0 && currentIndex > newIndex){
             return false;
         }
+        $("ul[role='menu']").show();
         updateActionBar(newIndex);
         removePopovers();
         return true;
