@@ -37,8 +37,7 @@ var settings = {
     /* Events */
     onStepChanging: function (event, currentIndex, newIndex) {
         if (updatePopup(currentIndex)) {
-            showPopup(currentIndex, newIndex);
-            return false;
+            return showPopup(currentIndex, newIndex);
         }
         if (progressData === null)
             progressData = [];

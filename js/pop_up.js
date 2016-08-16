@@ -44,13 +44,20 @@ function updatePopup(currentStep) {
  *
  * @param currentStep - A number representing the index of the wizard
  * @param newStep - A number representing the index where the wizard is going to next after the pop-up
+ * @returns {bool} indicates whether to block wizard progression or not
  */
 function showPopup(currentStep, newStep) {
     var wrapper = $("#wizard-p-" + currentStep.toString());
     popUpData.currentStep = currentStep;
     popUpData.newStep = newStep;
 
-    generatePopup(popUpData[$(wrapper).attr("pop-up")]);
+    var id = $(wrapper).attr("pop-up");
+    if (id !== "invalidChoice" ||
+        (id === "invalidChoice" && newStep > currentStep)){
+        generatePopup(popUpData[id]);
+        return false;
+    }
+    return true;
 }
 
 /**
