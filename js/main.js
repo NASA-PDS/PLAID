@@ -16,7 +16,7 @@ $(document).ready(function() {
     $(".labelPreviewButton").click(function(){
         backendCall("php/preview_template.php", null, {}, function(data){
             var wrapperDiv = document.createElement("div");
-            wrapperDiv.className = "finalPreview card-block";
+            wrapperDiv.className = "preview popup";
             wrapperDiv.textContent = data;
             popUpData['preview']['content'] = wrapperDiv;
         });
