@@ -70,14 +70,17 @@ function validateInput() {
  */
 function setOneElementBarStyle(counter) {
     var label = $(counter).siblings(".element-bar-label");
+    var metadata = $(counter).siblings(".element-bar-input");
     var val = parseInt($(counter).val(), 10);
     var minAndMax = getMinMax(counter);
     var min = minAndMax[0], max = minAndMax[1];
     if ($(counter).val() !== "") {
         if (val === 0) {
             $(label).addClass("zero-instances");
+            $(metadata).prop('disabled', true);
         } else {
             $(label).removeClass("zero-instances");
+            $(metadata).prop('disabled', false);
         }
     }
     if (min === max) {

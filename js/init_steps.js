@@ -134,6 +134,7 @@ function handleStepAddition(currentIndex, newIndex){
     if ($(".optional-section", currSection).length > 0){
         $(".element-bar:not(.stepAdded)", currSection).each(function(){
             var val = $(".element-bar-counter", this).val();
+            var metadata = $(".element-bar-input", this).val();
             var id = $(this).attr("id");
             if (val !== "0"){
                 var currObj = getObjectFromPath(id);
@@ -156,7 +157,7 @@ function handleStepAddition(currentIndex, newIndex){
                 $(this).addClass("stepAdded");
                 backendCall("php/xml_mutator.php",
                             "addNode",
-                            {path: id, quantity: val, ns: jsonData.currNS},
+                            {path: id, quantity: val, value: metadata, ns: jsonData.currNS},
                             function(data){ console.log(data); });
                 //add in the xml for the required elements that will not be displayed in a visible step
                 if (currObj["allChildrenRequired"]){
@@ -270,7 +271,9 @@ function createElementBar(dataObj, genLabel, isChoice){
     elementBar.appendChild(label);
 
     if (dataObj['next'] === undefined){
-        elementBar.appendChild(createValueInput());
+        $(label).addClass("hasInput");
+        var input = createValueInput();
+        elementBar.appendChild(input);
     }
     var minusBtn = createControlButton("minus");
     elementBar.appendChild(minusBtn);
@@ -282,6 +285,7 @@ function createElementBar(dataObj, genLabel, isChoice){
     }
     if ($(counter).prop("min") === "0") {
         label.className += " zero-instances";
+        $(input).prop('disabled', true);
     }
     if (isChoice){
         $(counter).prop("disabled", true);
