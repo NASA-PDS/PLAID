@@ -44,7 +44,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                 <a class="labelPreviewButton nav-link" href="#">Preview</a>
             </li>
             <li class="nav-item pull-xs-right">
-                <p class="labelNameNav navbar-brand m-b-0">Label Name</p>
+                <p class="labelNameNav navbar-brand m-b-0"></p>
             </li>
         </div>
     </nav>
@@ -244,6 +244,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                 <div id="help"></div>
             </div>
         </div>
+        <div class="modal-backdrop loadingBackdrop" style="display: none"></div>
     </div>
 </body>
 <script src="js/setup.js"></script>

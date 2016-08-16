@@ -3,8 +3,8 @@
  */
 $(document).ready(function() {
     loadMissionSpecificsData();
-    loadProgressData();
     loadLabelName();
+    loadProgressData();
     $(".list-group-item:not(.yesButton):not(.noButton)").each(function(){
         $(this).click(captureSelection);
     });
@@ -66,6 +66,7 @@ function previewDescription(){
  */
 function loadLabelName(){
     $.ajax({
+        async: false,
         method: "post",
         url: "php/interact_db.php",
         data: {
