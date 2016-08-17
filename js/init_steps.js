@@ -52,6 +52,9 @@ function initWizard(wizard) {
         /* Events */
         onStepChanging: function (event, currentIndex, newIndex) {
             removePopovers();
+            if (newIndex === 0 && currentIndex > newIndex){
+                return false;
+            }
             if (updatePopup(currentIndex)) {
                 return showPopup(currentIndex, newIndex);
             }
@@ -60,15 +63,11 @@ function initWizard(wizard) {
             if (!isLoading && currentIndex < progressData.length){
                 return handleBackwardsProgress(currentIndex);
             }
-            $("#help").hide();
             if (currentIndex < newIndex){
                 handleStepAddition(currentIndex, newIndex);
                 handleMissionSpecificsStep(currentIndex, newIndex);
                 handleExportStep(newIndex);
                 discNodesSelection(currentIndex);
-            }
-            else if (newIndex === 0 && currentIndex > newIndex){
-                return false;
             }
             $("ul[role='menu']").show();
             updateActionBar(newIndex);
