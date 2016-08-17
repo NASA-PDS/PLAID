@@ -1,8 +1,18 @@
 /**
- * Created by morse on 6/29/16.
+ * @file Contains the data dictionary for static popovers as well as the functions for creating
+ * and controlling the popovers. These popovers show throughout the LDT wizard to provide the
+ * user with helpful descriptions to guide their decisions.
+ *
+ * Creation Date: 6/29/16.
+ *
+ * @author Trevor Morse
+ * @author Michael Kim
  */
 $(document).ready(initPopovers);
-
+/**
+ * Data dictionary containing static content for some of the popovers.
+ * @type {{context: string, document: string, file_text: string, observational: string, thumbnail: string, geometry: string, imaging: string, cartography: string, small_bodies: string, plasma_particle: string, display: string, spectra: string, wave: string}}
+ */
 var dict = {
     context: "A basic product identifying the physical and conceptual objects related to an observational product provenance.",
     document: "A basic product identifying a single logical document, such as a description of an instrument or even a user’s manual.",
@@ -40,7 +50,7 @@ function initPopovers(){
 /**
 * Called to dynamically add popovers as elements are added to the wizard.
 * Uses data from the corresponding objects.
-* @param {HTML element} element to add the popover to
+* @param {Element} element to add the popover to
 * @param {Object} data object containing info for the popover
 * @param {string} min info from element denoting minimum occurrences of the object
 * @param {string} max info from element denoting maximum occurrences of the object
