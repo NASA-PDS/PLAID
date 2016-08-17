@@ -1,9 +1,22 @@
 /**
- * Created by morse on 7/15/16.
+ * @file This file contains the functions for handling the selection of discipline nodes
+ * within the LDT wizard.
+ *
+ * Note: Currently, the Geometry node is the only one supported. This is because the JSONs
+ * for the other nodes are not yet available at this time. Once they are, their corresponding
+ * JSON files will need to be included in the config directory and pointed at in the {@link filePaths}
+ * object. The data-id attributes of the discipline node elements in wizard.php will also need to
+ * be updated to contain the identifier for the node within the JSON. After that the code will need
+ * to be modified to update the {@link jsonData.currNS} to the namespace of the current discipline node
+ * as the user progresses through them in the wizard.
+ *
+ * @author Trevor Morse
+ * @author Michael Kim
+ * Creation Date: 7/15/16.
  */
 /**
 * Capture the user's selections of discipline nodes through the checkbox interface.
-* @param {number} currentIndex indicates current step in the wizard
+* @param {number} currentIndex indicates the current step in the wizard
  */
 function discNodesSelection(currentIndex){
     var currSection = $("#wizard-p-" + currentIndex.toString());
@@ -25,7 +38,8 @@ function discNodesSelection(currentIndex){
     }
 }
 /**
- * Return the file path to the JSON of data for the specified discipline node.
+ * Return the file path to the JSON of data for the specified discipline node. This JSON
+ * will be read in as a variable and searched through for the necessary data.
  * @param {string} nodeName parsed from the HTML element content
  * @return {string} path to the JSON file
  */
