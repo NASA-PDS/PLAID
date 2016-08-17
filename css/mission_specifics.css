@@ -1,74 +1,56 @@
-#include_mission_specifics {
-
-}
-
-.missionSpecificsActionBar {
-    text-align: center;
-    margin-left: 0.2rem;
-    margin-right: 0.5rem;
-}
-
-/*
-.missionSpecificsActionBar .btn {
-    padding: 0.5em 1em;
-}
-*/
-
+/**
+ * @file Contains the CSS rules for the mission specifics and builder steps in the LDT wizard.
+ *
+ * @author Michael Kim
+ * @author Trevor Morse
+ */
+/* id */
 #previewContent {
     max-height: 19rem;
     overflow: auto;
 }
-
 #saveButton {
     margin-left: 1em;
 }
-
+/* class */
 .check-span {
     margin-left: 0.3rem;
 }
-
 .checkbox-section {
     height: 90%;
     min-height: 30rem;
     overflow-y: auto;
 }
-
 .form-check.nested .form-check-label {
     margin-left: 1rem;
 }
-
-.goBack {
-
-}
-
 .list-group-item.goBack {
     background-color: #5d9bd5;
     color: white;
 }
-
 .list-group-item.goBack:hover {
     background-color: #428BCF;
     color: white;
 }
-
 .list-group-item.save {
     background-color: #8bce64;
     color: white;
 }
-
 .list-group-item.save:hover {
     background-color: #72C342;
     color: white;
 }
-
+.missionSpecificsActionBar {
+    text-align: center;
+    margin-left: 0.2rem;
+    margin-right: 0.5rem;
+}
 .mission_specifics_builder {
     height: inherit;
 }
-
 .mission_specifics_form {
     display: none;
 }
-
 .previewContainer {
     height: 30%;
     padding: 0.3em;
