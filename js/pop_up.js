@@ -11,7 +11,7 @@
  * @param currentStep - The index where the wizard is currently at
  * @returns {boolean} - Whether or not a pop-up should show
  */
-function updatePopup(currentStep) {
+function updatePopUp(currentStep) {
     //Can add logic here to decide to clear the pop-up or not
     var wrapper = $("#wizard-p-" + currentStep.toString());
     $(wrapper).removeAttr("pop-up");
@@ -46,7 +46,7 @@ function updatePopup(currentStep) {
  * @param newStep - A number representing the index where the wizard is going to next after the pop-up
  * @returns {bool} indicates whether to block wizard progression or not
  */
-function showPopup(currentStep, newStep) {
+function showPopUp(currentStep, newStep) {
     var wrapper = $("#wizard-p-" + currentStep.toString());
     popUpData.currentStep = currentStep;
     popUpData.newStep = newStep;
@@ -54,7 +54,7 @@ function showPopup(currentStep, newStep) {
     var id = $(wrapper).attr("pop-up");
     if (id !== "invalidChoice" ||
         (id === "invalidChoice" && newStep > currentStep)){
-        generatePopup(popUpData[id]);
+        generatePopUp(popUpData[id]);
         return false;
     }
     return true;
@@ -65,10 +65,10 @@ function showPopup(currentStep, newStep) {
  *
  * @param currentStep - A number representing the index of the wizard
  */
-function showBackwardsTraversalPopup(currentStep) {
+function showBackwardsTraversalPopUp(currentStep) {
     var wrapper = $("#wizard-p-" + currentStep.toString());
     $(wrapper).attr("pop-up", "backwardsTraversal");
-    showPopup(currentStep, popUpData.newStep);
+    showPopUp(currentStep, popUpData.newStep);
 }
 
 /**
@@ -77,7 +77,7 @@ function showBackwardsTraversalPopup(currentStep) {
  *
  * @param popUpId {Object} - A String that corresponds to an object in pop_up_config.js
  */
-function generatePopup(popUpObj) {
+function generatePopUp(popUpObj) {
     var modal = document.createElement("div");
     modal.id = popUpObj['id'];
     modal.className = "modal fade hide";

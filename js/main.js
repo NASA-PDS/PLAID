@@ -26,7 +26,7 @@ $(document).ready(function() {
             wrapperDiv.textContent = data;
             popUpData['preview']['content'] = wrapperDiv;
         });
-        generatePopup(popUpData['preview']);
+        generatePopUp(popUpData['preview']);
     });
     $("ul[role='menu']").hide();
     addMissionSpecificsActionBar();

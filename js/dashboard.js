@@ -26,7 +26,7 @@ $(document).ready(function(){
 
     $("#createNewLabelButton").click(function() {
         $('#labelNameInput').removeClass('error');
-        generatePopup(popUpData['createNewLabel']);
+        generatePopUp(popUpData['createNewLabel']);
     });
 });
 /**
@@ -124,7 +124,7 @@ function deleteLabel(){
             $("body .modal-backdrop.fade.in").remove();
         });
     };
-    generatePopup(deleteLabelPopUp);
+    generatePopUp(deleteLabelPopUp);
 }
 
 /**
