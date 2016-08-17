@@ -2,25 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-
     <title>LDT Sign Up</title>
-
-    <!-- Bootstrap core CSS -->
     <link href="thirdparty/css/bootstrap.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
     <link href="css/user_management.css" rel="stylesheet">
 </head>
-
 <body>
-
 <div class="container">
-
     <form class="form-signup" action="php/interact_db.php" method="post">
         <h2 class="form-signup-heading">Create an account</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
@@ -36,11 +23,9 @@
         <input id="submit" class="btn btn-lg btn-primary btn-block" type="submit" value="Sign Up">
         <input name="function" value="insertUser" style="display: none;">
     </form>
-
     <div class="signUpWrapper">
         <button id="signUp" class="btn btn-lg btn-primary btn-block" onclick="location.href='login.html';">Cancel</button>
     </div>
 </div>
-
 </body>
 </html>
