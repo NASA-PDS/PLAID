@@ -261,6 +261,7 @@ function createElementBar(dataObj, genLabel, isChoice){
     elementBar.appendChild(label);
 
     if (dataObj['next'] === undefined){
+        $(elementBar).addClass("valueElementBar");
         $(label).addClass("hasInput");
         var input = createValueInput();
         elementBar.appendChild(input);
