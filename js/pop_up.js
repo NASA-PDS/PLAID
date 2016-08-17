@@ -1,15 +1,22 @@
 /**
- * Created by mikim on 7/25/16.
+ * @file Contains the functions for checking, activating, and showing pop-ups throughout the LDT wizard.
+ * The functions work closely with the flow set by the init_steps.js class because in order for pop-ups to disrupt and cancel
+ * a step change in the wizard, it must return false within the onStepChanging event.
+ *
+ * Creation Date: 7/25/16.
+ *
+ * @author Michael Kim
+ * @author Trevor Morse
  */
 
 /**
- * This method is called recursively and it does these things:
+ * This method is called frequently in init_steps.js and it does these things:
  * - Remove all lingering pop-ups and HTML attributes that are used for pop-ups
  * - Check if a pop-up should be shown and the wizard should be denied the ability to step
  * - Set which pop-up is going to be shown by saving the ID in an HTML attr
  *
- * @param currentStep - The index where the wizard is currently at
- * @returns {boolean} - Whether or not a pop-up should show
+ * @param {number} currentStep The index where the wizard is currently at
+ * @returns {boolean} Whether or not a pop-up should show
  */
 function updatePopUp(currentStep) {
     //Can add logic here to decide to clear the pop-up or not
@@ -42,9 +49,9 @@ function updatePopUp(currentStep) {
  * Match the value of the HTML pop-up attribute to an object stored in pop_up_config.js
  * to retrieve the contents of the pop-up to be generated
  *
- * @param currentStep - A number representing the index of the wizard
- * @param newStep - A number representing the index where the wizard is going to next after the pop-up
- * @returns {bool} indicates whether to block wizard progression or not
+ * @param {number} currentStep A number representing the index of the wizard
+ * @param {number} newStep A number representing the index where the wizard is going to next after the pop-up
+ * @returns {boolean} indicates whether to block wizard progression or not
  */
 function showPopUp(currentStep, newStep) {
     var wrapper = $("#wizard-p-" + currentStep.toString());
@@ -61,9 +68,9 @@ function showPopUp(currentStep, newStep) {
 }
 
 /**
- * Set the pop-up to be shown to be the backwards traversal one, and then call the display method
+ * Sets the pop-up to be shown as the backwards traversal one, and then calls the display method
  *
- * @param currentStep - A number representing the index of the wizard
+ * @param {number} currentStep A number representing the index of the wizard
  */
 function showBackwardsTraversalPopUp(currentStep) {
     var wrapper = $("#wizard-p-" + currentStep.toString());
@@ -75,7 +82,7 @@ function showBackwardsTraversalPopUp(currentStep) {
  * Dynamically generate the Bootstrap (v4) modal given the information derived from the pop_up_config.js file
  * Additionally, give the Yes button a handler to call the function stored in the JSON
  *
- * @param popUpId {Object} - A String that corresponds to an object in pop_up_config.js
+ * @param {Object} popUpObj An Object that holds all of the information and functions to be used in this pop-up
  */
 function generatePopUp(popUpObj) {
     var modal = document.createElement("div");
@@ -112,6 +119,7 @@ function generatePopUp(popUpObj) {
     var modalFooter = document.createElement("div");
     modalFooter.className = "modal-footer";
 
+    // If noText is set to empty, do not include a no button in the pop-up
     if (popUpObj['noText'] !== "") {
         var modalFooterNoButton = document.createElement("button");
         modalFooterNoButton.setAttribute("type", "button");
@@ -119,6 +127,7 @@ function generatePopUp(popUpObj) {
         modalFooterNoButton.setAttribute("data-dismiss", "modal");
         modalFooterNoButton.innerHTML = popUpObj['noText'];
         modalFooter.appendChild(modalFooterNoButton);
+        // If a noFunction is defined, tie the function into the pop-up's no button
         if (popUpObj['noFunction']){
             $(modalFooterNoButton).click(popUpObj['noFunction']);
         }

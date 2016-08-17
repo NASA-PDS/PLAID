@@ -6,7 +6,7 @@
  *
  * Note: This is setup to interact with a MySQL database with three tables: user, label, and link.
  *
- * Creation Date: 8/9/16
+ * Creation Date: 8/9/16.
  *
  * @author Trevor Morse
  * @author Michael Kim
