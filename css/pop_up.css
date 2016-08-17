@@ -1,3 +1,10 @@
+/**
+ * @file Contains the CSS rules for elements for pop-ups.
+ *
+ * @author Michael Kim
+ * @author Trevor Morse
+ */
+/* class */
 .modal-footer .btn-secondary {
     padding: .375rem 1rem;
 }
