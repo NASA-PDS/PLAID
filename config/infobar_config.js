@@ -1,8 +1,9 @@
 /**
- * This file contains the content to be displayed in the info bars throughout the LDT.
+ * @file This file contains the content to be displayed in the info bars throughout the LDT.
  * The general format is to use the name of the step or page as the key within the object.
  *
- * Developers: Trevor Morse, Michael Kim
+ * @author Trevor Morse
+ * @author Michael Kim
  * Creation Date: 7/27/16.
  */
 var infoBarData = {
