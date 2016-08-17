@@ -1,9 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: morse
- * Date: 8/2/16
- * Time: 10:53 AM
+ * @file Gets the XML from the database and outputs it to the front-end.
+ *
+ * Creation Date: 8/2/16
+ *
+ * @author Trevor Morse
+ * @author Michael Kim
  */
 require_once("interact_db.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
