@@ -1,12 +1,13 @@
 /**
- * @file This file contains the core of the wizard controls. The primary function is
+ * @file Contains the core of the wizard controls. The primary function is
  * initWizard, which contains the settings object controlling the wizard. The other functions
  * control the dynamic creation of steps in the wizard from JSON data as well as controlling
  * the flow of the wizard.
  *
+ * Creation Date: 6/16/16.
+ *
  * @author Trevor Morse
  * @author Michael Kim
- * Creation Date: 6/16/16.
  */
 /**
  * Initialize the wizard using jQuery-Steps built-in method.

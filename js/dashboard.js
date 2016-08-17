@@ -1,9 +1,10 @@
 /**
- * @file This file contains the functions for controlling the content on dashboard.php.
+ * @file Contains the functions for controlling the content on dashboard.php.
+ *
+ * Creation Date: 8/10/16.
  *
  * @author Trevor Morse
  * @author Michael Kim
- * Creation Date: 8/10/16.
  */
 $(document).ready(function(){
     $.ajax({

@@ -1,10 +1,11 @@
 /**
- * @file This file contains global objects and lists that are referenced throughout
+ * @file Contains global objects and lists that are referenced throughout
  * the project. This file provides a central place for tracking this data.
+ *
+ * Creation Date: 7/7/16.
  *
  * @author Trevor Morse
  * @author Michael Kim
- * Creation Date: 7/7/16.
  */
 /**
  * This object is for storing the paths to the various JSON files for PDS4 and
