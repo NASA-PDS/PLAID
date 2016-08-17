@@ -1,9 +1,15 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: morse
- * Date: 8/9/16
- * Time: 11:07 AM
+ * @file Contains the various functions for interacting with the database. Most of these
+ * functions execute a particular query to insert, update, or select data related to the
+ * LDT wizard in the database.
+ *
+ * Note: This is setup to interact with a MySQL database with three tables: user, label, and link.
+ *
+ * Creation Date: 8/9/16
+ *
+ * @author Trevor Morse
+ * @author Michael Kim
  */
 require_once('../thirdparty/php/PasswordHash.php');
 $HASHER = new PasswordHash(8, false);
@@ -26,7 +32,7 @@ catch(\PDOException $ex){
 }
 /**
  * When a new user creates an account, store the form data in the user table.
- * @param {Object} $args
+ * @param {Object} $args object containing the user's email, password, full name, and organization
  */
 function insertUser($args){
     global $LINK;
@@ -46,7 +52,7 @@ function insertUser($args){
 }
 /**
  * Verify that the user exists in the database and entered the correct password.
- * @param {Object} $args
+ * @param {Object} $args object containing the user's email and password
  */
 function verifyUser($args){
     global $LINK;
@@ -93,7 +99,11 @@ function getLabelInfo(){
 /**
  * When a user creates a new label, create an entry for it in the label table and link
  * it to the user in the link table.
- * @param {Object} $args
+ *
+ * Note: $data will need to be updated in future once multiple product types are supported
+ * in the LDT. Currently, observational is the only supported product type.
+ *
+ * @param {Object} $args object containing the name of the label inputted by the user
  */
 function storeNewLabel($args){
     global $LINK;
@@ -371,8 +381,9 @@ function storeNewLabel($args){
 }
 
 /**
- * Read out the XML from the database
- * @return mixed
+ * Use the label id stored in the session to determine which label to output
+ * the XML from the database.
+ * @return {string}
  */
 function getLabelXML(){
     global $LINK;
@@ -387,7 +398,7 @@ function getLabelXML(){
 
 /**
  * Update the XML stored in the database with the most recent changes.
- * @param {Object} $args
+ * @param {Object} $args object containing the updated XML string
  */
 function updateLabelXML($args){
     global $LINK;
@@ -399,10 +410,10 @@ function updateLabelXML($args){
 }
 
 /**
- * Remove the link and label entries for the specifed label id.
- * Note: the link entry must be removed before the label entry because it is
- * a foreign key to the label entry.
- * @param {Object} $args
+ * Set a flag on the label entry to denote that the user has deleted it.
+ * Note: this does not actually remove the label from the database so that it can
+ * be recovered later if necessary.
+ * @param {Object} $args object containing the id of the label to flag
  */
 function deleteLabel($args){
     global $LINK;
@@ -416,7 +427,7 @@ function deleteLabel($args){
 
 /**
  * Store the JSON with the user's progress in the database.
- * @param {Object} $args
+ * @param {Object} $args object containing a string-ified JSON of the user's progress
  */
 function storeProgressData($args){
     global $LINK;
@@ -445,7 +456,7 @@ function getProgressData(){
 
 /**
  * Store the JSON with the user's progress in the database.
- * @param {Object} $args
+ * @param {Object} $args object containing a string-ified JSON of the user's mission specifics content
  */
 function storeMissionSpecificsData($args){
     global $LINK;
