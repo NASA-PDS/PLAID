@@ -1,19 +1,23 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: morse
- * Date: 7/26/16
- * Time: 1:50 PM
+ * @file Contains the functions for modifying the XML of the label according to the user's
+ * progression throught the LDT wizard. These functions utilize the DOMDocument class from
+ * PHP to interact with the XML.
+ *
+ * Creation Date: 7/26/16
+ *
+ * @author Trevor Morse
+ * @author Michael Kim
  */
 require_once("interact_db.php");
 if(isset($_POST['Function'])){
     $DOC = readInXML(getLabelXML());
     call_user_func($_POST['Function'], $_POST['Data']);
 }
-/*
+/**
  * Load the specified file into a new DOMDocument.
  * @param {string} $xml string containing XML document
- * @return {DOMDocument}
+ * @return DOMDocument
  */
 function readInXML($xml){
     $doc = new DOMDocument();
@@ -22,10 +26,11 @@ function readInXML($xml){
     $doc->loadXML($xml);
     return $doc;
 }
-/*
+/**
  * Use an XPath query to find a particular node or nodes in the DOMDoc.
  * @param {string} $path path to the node
- * @return {NodeList} list of query results
+ * @param {string} $ns either the current namespace to search with or an empty string
+ * @return NodeList list of query results
  */
 function getNode($path, $ns){
     global $DOC;
@@ -35,9 +40,10 @@ function getNode($path, $ns){
     $query = "//" . $path;
     return $xpath->query($query);
 }
-/*
+/**
  * Add node(s) to the overall document.
- * @param {object} $args object containing argument values
+ * @param {object} $args object containing the node path, number of nodes to add,
+ * the namespace of the node, and the value (if any) to insert in the node.
  */
 function addNode($args){
     global $DOC;
@@ -55,7 +61,6 @@ function addNode($args){
                 $newNode = $DOC->createElement($nodeName);
             addNodeValue($newNode, $args["value"]);
             $node->appendChild($newNode);
-            echo "Created: ".$nodeName;
         }
     }
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
@@ -72,12 +77,12 @@ function addNodeValue($node, $value){
     if ($value !== ""){
         $valNode = $DOC->createTextNode($value);
         $node->appendChild($valNode);
-        echo "Inserted value: ".$value."\n";
     }
 }
 /**
- * Add custom nodes from the mission specifics json passed in from the front-end.
- * @param {object} $args object containing argument values
+ * Add custom nodes from the mission specifics JSON passed in from the front-end.
+ * Note: only handles adding custom nodes within the Mission_Area node of the document.
+ * @param {object} $args object containing the string-ified JSON
  */
 function addCustomNodes($args){
     global $DOC;
@@ -90,10 +95,8 @@ function addCustomNodes($args){
             foreach ($node["children"] as $child){
                 $groupNode = getNode($path."/".$node["name"], "")->item(0);
                 addNodeWithComment($groupNode, $child["name"], $child["description"]);
-                echo "-> Added: ".$child["name"].": ".$child["description"];
             }
         }
-        echo "Added: ".$node["name"].": ".$node["description"];
     }
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
@@ -111,10 +114,10 @@ function addNodeWithComment($parent, $nodeName, $comment){
     $newNode->appendChild($newComment);
     $parent->appendChild($newNode);
 }
-/*
+/**
  * Remove node(s) from the overall document.
  * Note: this function only supports removing children of the root element.
- * @param {object} $args object containing argument values
+ * @param {object} $args object containing the path to the node and its namespace (if any)
  */
 function removeNode($args){
     global $DOC;
@@ -123,14 +126,13 @@ function removeNode($args){
     $nodes = getNode($nodeName, $ns);
     foreach($nodes as $node){
         $DOC->documentElement->removeChild($node);
-        echo "Removed: ".$nodeName;
     }
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
 }
-/*
+/**
  * Clear out all child nodes of the target to prepare for adding in new children.
- * @param {object} $args object containing argument values
+ * @param {object} $args object containing the path to the node and its namespace (if any)
  */
 function removeAllChildNodes($args){
     global $DOC;
@@ -141,7 +143,6 @@ function removeAllChildNodes($args){
         while ($node->hasChildNodes()){
             $childNode = $node->childNodes->item(0);
             $cnName = $childNode->nodeName;
-            echo "Removed: ".$cnName."\n";
             $node->removeChild($childNode);
         }
     }
@@ -151,9 +152,11 @@ function removeAllChildNodes($args){
 /**
  * Helper function to work on the path passed from the front-end and
  * put it in the format expected by the backend.
+ * Note: This is converting the path from following the structure of the reference JSON
+ * used on the front-end to the structure of the XML document.
  * @param {string} $path path to the node (in front-end structure)
  * @param {string} $ns namespace for the node (or empty if default namespace)
- * @return {array} name of the node and the path to its parent (in backend structure)
+ * @return array name of the node and the path to its parent (in backend structure)
  */
 function handlePath($path, $ns){
     $arr = explode("/", $path);
@@ -176,6 +179,11 @@ function handlePath($path, $ns){
     }
     return array($nodeName, $path);
 }
+
+/**
+ * Adds the xmlns definitions to the root element.
+ * @param $args object containing list of namespaces
+ */
 function addRootAttrs($args){
     $namespaces = $args["namespaces"];
     global $DOC;
@@ -189,6 +197,13 @@ function addRootAttrs($args){
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
 }
+
+/**
+ * Removes the xmlns definitions from the root element.
+ * Note: this function is necessary to ease the searching of the document using XPath queries.
+ * If the namespaces were left in all the time, then these searches would break.
+ * @param $args object containing list of namespaces
+ */
 function removeRootAttrs($args){
     $namespaces = $args["namespaces"];
     global $DOC;
@@ -219,9 +234,21 @@ function formatDoc(){
     $args = array("xml"=>$modFile);
     updateLabelXML($args);
 }
+
+/**
+ * Helper function to determine if a value is not a number.
+ * @param {string} $val
+ * @return bool
+ */
 function isNaN($val){
     return !(is_numeric($val));
 }
+
+/**
+ * Helper function to determine if a namespace is not the default.
+ * @param {string} $ns namespace
+ * @return bool
+ */
 function isNonDefaultNamespace($ns){
     return !empty($ns) && $ns !== "pds";
 }
