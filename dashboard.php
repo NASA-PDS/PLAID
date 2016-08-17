@@ -4,6 +4,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     header("Location: login.html");
 
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +40,6 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                 <a id="createNewLabelButton" href="#" class="btn btn-primary">Create new</a>
             </div>
             <div class="card-block" id="dashboardContent">
-
             </div>
         </div>
     </div>

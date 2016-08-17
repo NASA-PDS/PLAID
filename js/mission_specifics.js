@@ -1,6 +1,16 @@
 /**
- * Created by mikim on 7/15/16.
+ * @file Contains the functions for loading and displaying mission specifics data as well as generating the UI
+ * within the wizard that allow users to interact with this data. For the builder step, it should be noted that
+ *
+ * Note: For the builder step, the HTML for this step is being reset and set as the user progresses. This is different
+ * from the traditional flow of the wizard for all previous steps where a UI change meant a step change.
+ * 
+ * Creation Date: 7/15/16.
+ * 
+ * @author Michael Kim
+ * @author Trevor Morse
  */
+
 /**
  * Make a call to the backend to load the mission specifics data
  * from the database.
@@ -18,6 +28,7 @@ function loadMissionSpecificsData(){
         }
     });
 }
+
 /**
  * Upon initialization of the app, creates the Go Back and Save buttons
  * in the same area as the Previous and Next buttons and proceeds to hide them
@@ -30,8 +41,7 @@ function addMissionSpecificsActionBar() {
 
     var row = document.createElement("tr");
     $(".missionSpecificsActionBar").append(row);
-
-
+    
     $(".missionSpecificsActionBar tr").append(generateButtonColumn("goBack", "fa-undo", "Go Back"));
     $(".missionSpecificsActionBar tr").append(generateButtonColumn("save", "fa-check", "Save"));
 
@@ -43,10 +53,10 @@ function addMissionSpecificsActionBar() {
 /**
  * Helper method for adding button bars to list-group tables
  *
- * @param buttonClass - A class added to the button for easier identification
- * @param iconClass - The class name indicating which FontAwesome icon is used
- * @param spanHTML - The text inside the button
- * @return The generated HTML element
+ * @param {string} buttonClass A class added to the button for easier identification
+ * @param {string} iconClass The class name indicating which FontAwesome icon is used
+ * @param {string} spanHTML The text inside the button
+ * @return {Element} The generated HTML element
  */
 function generateButtonColumn(buttonClass, iconClass, spanHTML) {
     var col = document.createElement("td");
@@ -68,10 +78,10 @@ function generateButtonColumn(buttonClass, iconClass, spanHTML) {
  * Assigns handlers to the Go Back and Save buttons based on what state the Builder is in
  * when constructing a Mission Specific Dictionary
  *
- * @param builderState - A String key for determining which handlers to give to the action bar buttons
- *                       during the Mission Specifics step
- * @param goBackSelector - The jQuery selector corresponding to the Go Back button
- * @param saveSelector - The jQuery selector corresponding to the Save button
+ * @param {string} builderState A String key for determining which handlers to give to the action bar buttons
+ *                 during the Mission Specifics step
+ * @param {string} goBackSelector The jQuery selector corresponding to the Go Back button
+ * @param {string} saveSelector The jQuery selector corresponding to the Save button
  *
  * CURRENTLY ACCEPTED VALUES FOR builderState:
  *  - "home"     : The indicator for giving action bar buttons the Previous and Next functionality
@@ -106,8 +116,8 @@ function updateActionBarHandlers(builderState, goBackSelector, saveSelector) {
  * Adjusts the missionSpecifics preview array in the config based on which state of the builder is being
  * completed and what is being inputted into the forms
  *
- * @param builderState - A String representing the state of the builder out of the following
- *                       accepted values:
+ * @param {string} builderState A String representing the state of the builder out of the following
+ *                 accepted values:
  * - "addAttr"  : Make the save button add a single attribute to the array
  * - "addGroup" : Make the save button add a group of attributes to the array
  * - "remove"   : Make the save button remove attributes and groups from the array
@@ -134,7 +144,6 @@ function handleSaveButton(builderState) {
 function createAttribute() {
     var element = {};
     var groupSelect;
-    // TODO XSS
     element.name = $("fieldset.title").find("input").val();
     element.description = $("fieldset.description").find("input").val();
     element.isGroup = false;
@@ -185,9 +194,10 @@ function removeFromMissionSpecifics() {
     });
     mutatePage("home", wizardData.currentStep.toString());
 }
+
 /**
  * Check if the field is empty or contains any spaces.
- * @param field input to check
+ * @param {Object} jQuery selected field input to check
  * @returns {boolean}
  */
 function isValidMSInput(field){
@@ -200,6 +210,7 @@ function isValidMSInput(field){
         return true;
     }
 }
+
 /**
  * For all groups in the mission specifics array, make sure that they have a children array field
  */
@@ -217,7 +228,7 @@ function refreshGroupChildren() {
  * the display between the Previous/Next buttons and Go Back/Save buttons used
  * in either the Mission Specifics or Builder steps
  *
- * @param newIndex - The next index that the user is changing to in the jQuery Steps process
+ * @param {number} newIndex The next index that the user is changing to in the jQuery Steps process
  */
 function updateActionBar(newIndex) {
     var actionBar = $(".actions.clearfix");
@@ -239,8 +250,8 @@ function updateActionBar(newIndex) {
  * adds the Mission Specific Dictionary Builder Step based on if the user has selected
  * Yes in the previous step
  *
- * @param currentIndex - Current index of the jQuery Steps process
- * @param newIndex - The next index that the user is changing to
+ * @param {number} currentIndex Current index of the jQuery Steps process
+ * @param {number} newIndex The next index that the user is changing to
  */
 function handleMissionSpecificsStep(currentIndex, newIndex) {
     var insertionIndex = newIndex;
@@ -260,9 +271,9 @@ function handleMissionSpecificsStep(currentIndex, newIndex) {
  * Refreshes the content inside the main pane according to what step in the builder
  * the user traverses to
  *
- * @param nextPage - A String variable representing what slide is being navigated to
- * @param step - A String representing which step is being mutated,
- *               derived from the wizardData obj in config.js
+ * @param {string} nextPage A String variable representing what slide is being navigated to
+ * @param {string} step A String representing which step is being mutated,
+ *                 derived from the wizardData obj in config.js
  *
  * CURRENTLY ACCEPTED VALUES FOR nextPage:
  *  - "home"       : The homepage for the builder
@@ -292,8 +303,8 @@ function mutatePage(nextPage, step) {
  * Dynamically generates the Mission Specific Dictionary Builder homepage in a
  * wrapper div
  *
- * @param wrapperClass - The class name assigned to the div that will wrap this HTML
- * @return The generated HTML representing the homepage
+ * @param {string} wrapperClass The class name assigned to the div that will wrap this HTML
+ * @return {Element} The generated HTML representing the homepage
  */
 function generateHomepage(wrapperClass) {
     var wrapper = document.createElement("div");
@@ -328,7 +339,7 @@ function generateHomepage(wrapperClass) {
  * Dynamically generates the Mission Specific Dictionary preview container
  * that displays on the homepage
  *
- * @return The HTML element representing the preview container
+ * @return {Element} The HTML element representing the preview container
  */
 function generatePreview() {
     var previewContainer = document.createElement("div");
@@ -358,7 +369,7 @@ function generatePreview() {
 /**
  * Helper method for generatePreview to populate the preview with the jqTree
  *
- * @param cardBlock - An Element to add the jqTree into
+ * @param {Element} cardBlock - An Element to add the jqTree into
  */
 
 function generateTree(cardBlock) {
@@ -388,10 +399,10 @@ function generateTree(cardBlock) {
 /**
  * Helper method for adding button bars to list-group tables
  *
- * @param buttonClass - A class added to the button for easier identification
- * @param iconClass - The class name indicating which FontAwesome icon is used
- * @param spanHTML - The text inside the button
- * @param onClickHandler - The function to be called when this button is pressed
+ * @param {string} buttonClass A class added to the button for easier identification
+ * @param {string} iconClass The class name indicating which FontAwesome icon is used
+ * @param {string} spanHTML The text inside the button
+ * @param {Function} onClickHandler The function to be called when this button is pressed
  * @return The generated HTML table row containing buttons
  */
 function generateButtonRow(buttonClass, iconClass, spanHTML, onClickHandler) {
@@ -418,8 +429,8 @@ function generateButtonRow(buttonClass, iconClass, spanHTML, onClickHandler) {
  * Dynamically generates inside a wrapper div the Add Single Attribute page for the Mission Specific
  * Dictionary Builder step
  *
- * @param wrapperClass - The class name assigned to the div that will wrap this HTML
- * @return The generated HTML element representing the Add Single Attribute page
+ * @param {string} wrapperClass The class name assigned to the div that will wrap this HTML
+ * @return {Element} The generated HTML element representing the Add Single Attribute page
  */
 function generateAddAttributePage(wrapperClass) {
     var wrapper = document.createElement("div");
@@ -449,8 +460,8 @@ function generateAddAttributePage(wrapperClass) {
  * Dynamically generates inside a wrapper div the Add Group Attribute page for the Mission Specific
  * Dictionary Builder step
  *
- * @param wrapperClass - The class name assigned to the div that will wrap this HTML
- * @return The generated HTML element representing the Add Group Attribute page
+ * @param {string} wrapperClass The class name assigned to the div that will wrap this HTML
+ * @return {Element} The generated HTML element representing the Add Group Attribute page
  */
 function generateAddGroupPage(wrapperClass) {
     var wrapper = document.createElement("div");
@@ -480,8 +491,8 @@ function generateAddGroupPage(wrapperClass) {
  * Dynamically generates inside a wrapper div the Remove Attributes/Groups page for the Mission Specific
  * Dictionary Builder step
  *
- * @param wrapperClass - The class name for the wrapper div
- * @return The generated HTML element representing the remove page
+ * @param {string} wrapperClass The class name for the wrapper div
+ * @return {Element} The generated HTML element representing the remove page
  */
 function generateRemovePage(wrapperClass) {
     var wrapper = document.createElement("div");
@@ -507,8 +518,6 @@ function generateRemovePage(wrapperClass) {
 
 /**
  * Generates and appends each of the checkbox and label pairs into the given wrapper
- *
- * @param wrapper - The Element to add the checkbox inputs and labels into
  */
 function generateCheckboxForm() {
     var wrapper = document.createElement("div");
@@ -542,8 +551,9 @@ function generateCheckboxForm() {
 /**
  * Generate a checkbox and label input
  *
- * @param node - A String for the name of the checkbox input
- * @returns {Element} - The label and checkbox input
+ * @param {string} labelName A String for the name of the checkbox input
+ * @param {boolean} isChild Determines whether or not the checkbox is a child of a parent checkbox
+ * @returns {Element} The label and checkbox input
  */
 function generateCheckbox(labelName, isChild) {
     var checkLabel = document.createElement("label");
@@ -570,10 +580,8 @@ function generateCheckbox(labelName, isChild) {
  * 1. If checkbox selected is a group, select all children checkboxes
  * 2. If checkbox deselected is a child, deselect its parent checkbox if checked
  *
- * @param checkInput - The checkbox input element
- * @param isChild - Boolean stating if checkbox is a child
- *
- * TODO optimize jquery selectors
+ * @param {Element} checkInput The checkbox input element
+ * @param {boolean} isChild Boolean stating if checkbox is a child
  */
 function handleCheckbox(checkInput, isChild) {
     $(checkInput).click(function() {
@@ -591,11 +599,11 @@ function handleCheckbox(checkInput, isChild) {
 /**
  * Generates a fieldset to be placed into a form
  *
- * @param fieldsetClass - Class name for the fieldset
- * @param labelHTML - The main text instructions to go with this field in the form
- *                    Ex. "Name", "Version Number", "Password"
- * @param placeholderText - Text to be placed as a watermark inside the field
- * @return The HTML element representing the fieldset
+ * @param {string} fieldsetClass Class name for the fieldset
+ * @param {string} labelHTML The main text instructions to go with this field in the form
+ *                 Ex. "Name", "Version Number", "Password"
+ * @param {string} placeholderText Text to be placed as a watermark inside the field
+ * @return {Element} The HTML element representing the fieldset
  */
 function generateFieldset(fieldsetClass, labelHTML, placeholderText) {
     var fieldset = document.createElement("fieldset");
@@ -617,9 +625,9 @@ function generateFieldset(fieldsetClass, labelHTML, placeholderText) {
 /**
  * Dynamically generate the dropdown bar and label for selecting which group to add a single attribute to
  *
- * @param wrapperClass - The name for the element encasing the label and dropdown
- * @param labelHTML - The text of the label preceding the dropdown
- * @returns {Element} - The dropdown bar filled with group elements from the config
+ * @param {string} wrapperClass The name for the element encasing the label and dropdown
+ * @param {string} labelHTML The text of the label preceding the dropdown
+ * @returns {Element} The dropdown bar filled with group elements from the config
  */
 function generateDropdown(wrapperClass, labelHTML) {
     var wrapper = document.createElement("div");
@@ -657,8 +665,8 @@ function generateDropdownSelect() {
 /**
  * Generate an option for the dropdown select in the addSingleAttribute page
  *
- * @param optionName -  A String representing the name of the option
- * @returns {Element} - The dropdown option
+ * @param {string} optionName A String representing the name of the option
+ * @returns {Element} The dropdown option
  */
 function generateOption(optionName) {
     var option = document.createElement("option");
