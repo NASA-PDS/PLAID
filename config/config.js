@@ -1,8 +1,9 @@
 /**
- * This file contains global objects and lists that are referenced throughout
+ * @file This file contains global objects and lists that are referenced throughout
  * the project. This file provides a central place for tracking this data.
  *
- * Developers: Trevor Morse, Michael Kim
+ * @author Trevor Morse
+ * @author Michael Kim
  * Creation Date: 7/7/16.
  */
 /**
