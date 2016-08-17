@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: morse
- * Date: 8/1/16
- * Time: 10:05 AM
+ * @file Contains the backend code to download the XML file using the filename
+ * specified by the user on the frontend.
+ *
+ * Creation Date: 8/1/16
+ *
+ * @author Trevor Morse
+ * @author Michael Kim
  */
 
 require_once("interact_db.php");
@@ -13,7 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Content-Disposition: attachment; filename=\"$filename\"");
     echo getLabelXML();
 }
-
+/**
+ * Helper function to remove bad input from the data.
+ * @param {string} $data
+ * @return {string}
+ */
 function handleData($data) {
     $data = trim($data);
     $data = stripslashes($data);
