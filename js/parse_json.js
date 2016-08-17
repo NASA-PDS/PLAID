@@ -1,5 +1,11 @@
 /**
- * Created by morse on 7/5/16.
+ * @file Contains the primary functions for searching the PDS4 and discipline node JSONS
+ * and storing the necessary data for the wizard in a new JSON for easier/quicker reference.
+ *
+ * Creation Date: 7/5/16.
+ *
+ * @author Trevor Morse
+ * @author Michael Kim
  */
 $(document).ready(function(){
     jsonData.pds4Obj = getJSON(filePaths.PDS4_JSON);
@@ -25,7 +31,7 @@ function loadJSON(file, callback) {
 }
 /**
 * Get the text contents from the specified JSON file and store them in
-* a JavaScript Object.
+* a JS Object.
 * @param {string} file path to the JSON file
 */
 function getJSON(file){
@@ -40,7 +46,7 @@ function getJSON(file){
  * @param {Object} outerObj object to search through
  * @param {string} type ["class" | "attribute" | "product" | nodeName]
  * @param {string} dictName name of the dictionary to search in
- * @param {string} elementName id/name of the element to search for
+ * @param {string} elementName PDS4 identifier of the element to search for
  * @return {Object} object corresponding to the specified class name
  */
 function getElement(outerObj, type, dictName, elementName){
@@ -72,6 +78,8 @@ function getElement(outerObj, type, dictName, elementName){
 /**
  * Once the product or discipline node object has been found in the overall JSON object, get the
  * associations and start creating corresponding steps in the wizard.
+ * Note: jsonData.refObj is the newly formed object that is used for storing the necessary
+ * data for the wizard and quicker searching.
  * @param {Object} overallObj JSON object to search
  * @param {Object} element object containing the overall info for the product or node
  * @param {string} type
@@ -90,7 +98,7 @@ function handleProductOrNode(overallObj, element, type){
 * Search for and form associations in the new object from the overall object.
 * @param {Object} object JSON object to search through
 * @param {Array} associationList list of association objects to search for
-* @param {Object} currObj object to store each child of the overall product type, maintaining relations
+* @param {Object} currObj object to store each child element in, maintaining relations
 */
 function getAssociations(object, associationList, currObj){
     for (var index in associationList){
@@ -149,6 +157,7 @@ function getLevelOfAssociations(searchObj, nextObjs, exeTwice){
 * Note: Since this function goes through all the children of an object, it also checks
 * to see if any of the children are optional and sets the "allChildrenRequired" attribute
 * accordingly.
+* Also, this path will be used as the ID of the corresponding HTML element for the object.
 * @param {number} startingIndex index for the first level of children in the refObject
 * @param {Object} currObject to get preceding path from
 * @param {Object} children to add full path to
