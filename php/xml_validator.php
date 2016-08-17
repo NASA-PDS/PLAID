@@ -1,11 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: mikim
- * Date: 8/1/16
- * Time: 9:48 AM
+ * @file Holds the functions for validating the label being generated in the LDT against its respective PDS4
+ * schema. It achieves this using the schemaValidate method found in the DOMDocument object from PHP.
+ *
+ * Creation Date: 8/1/16
+ *
+ * @author Michael Kim
+ * @author Trevor Morse
  */
-
 
 require_once("interact_db.php");
 // Load the XSD schema from the PSA NASA site
@@ -37,12 +39,4 @@ function validate() {
         libxml_clear_errors();
     }
     libxml_use_internal_errors(false);
-}
-
-/**
- * Prints the current XML in the console
- */
-function printXML() {
-    global $doc;
-    echo $doc->saveXML();
 }
