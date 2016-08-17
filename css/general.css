@@ -179,6 +179,23 @@ input::-webkit-inner-spin-button {
     padding: 0.719rem 0rem;
     width: 100%;
 }
+.element-bar.valueElementBar .element-bar-counter {
+    max-width: 20px;
+    min-width: 20px;
+}
+.element-bar.valueElementBar .element-bar-counter:disabled {
+    background-color: #f3f3f3;
+    opacity: 1;
+    color: #b7b8b9;
+    border-color: #e4e4e4 !important;
+}
+.element-bar.valueElementBar .element-bar-plus {
+    margin-left: -17%;
+    z-index: 0;
+}
+.element-bar.valueElementBar .element-bar-plus:hover {
+    z-index: 0;
+}
 .finalPreview.card,
 .finalPreview.previewContainer{
     height: 100% !important;
@@ -194,8 +211,8 @@ input::-webkit-inner-spin-button {
     font-size: 0.8rem;
 }
 .form-control:disabled {
-    background-color: #ffffff;
     opacity: 0.3;
+    background-color: #ffffff;
 }
 .input-group-addon {
     width: 70%;
