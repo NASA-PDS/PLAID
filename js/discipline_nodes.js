@@ -1,5 +1,5 @@
 /**
- * @file This file contains the functions for handling the selection of discipline nodes
+ * @file Contains the functions for handling the selection of discipline nodes
  * within the LDT wizard.
  *
  * Note: Currently, the Geometry node is the only one supported. This is because the JSONs
@@ -10,9 +10,10 @@
  * to be modified to update the {@link jsonData.currNS} to the namespace of the current discipline node
  * as the user progresses through them in the wizard.
  *
+ * Creation Date: 7/15/16.
+ *
  * @author Trevor Morse
  * @author Michael Kim
- * Creation Date: 7/15/16.
  */
 /**
 * Capture the user's selections of discipline nodes through the checkbox interface.
