@@ -1,3 +1,10 @@
+/**
+ * @file Contains the CSS rules for the LDT's dashboard page.
+ *
+ * @author Michael Kim
+ * @author Trevor Morse
+ */
+/* id */
 #createNewLabelButton {
     float: right;
     margin-right: 1rem;
@@ -5,70 +12,57 @@
     top: 50%;
     transform: translateY(-50%);
 }
-
 #dashboard {
     height: inherit;
 }
-
 #dashboardContent {
     height: 92%;
     overflow: auto;
     padding-bottom: 0;
 }
-
 #dashboardTitle {
     position: relative;
     margin-left: 1rem;
     top: 25%;
     transform: translateY(-50%);
 }
-
 #labelManagerWrapper {
     height: inherit;
     width: 75%;
     float: left;
     padding: 1rem 0.4rem 0rem 1rem;
 }
-
 #labelManagerWrapper .card .card-header {
     overflow: hidden;
     height: 55px;
     padding: 0;
 }
-
 #labelNameInput {
     margin-top: 0.5rem;
 }
-
 #labelNameInput.error {
     background: rgb(251, 227, 228);
     border: 1px solid #fbc2c4;
     color: #8a1f11;
 }
-
 #sidebar {
     height: inherit;
 }
-
+/* class */
 .dashboardTitle {
     float: left;
 }
-
 .labelButton {
     padding: .375rem 1rem;
 }
-
 .labelButtonGroup {
     float: right;
 }
-
 .labelCard {
     margin-bottom: 1rem;
     box-shadow: 0 8px 6px -6px #ddd;
     overflow: hidden;
 }
-
 .labelText {
     float: left;
 }
-/*box-shadow: 0 8px 6px -6px #ddd;*/
