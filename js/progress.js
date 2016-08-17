@@ -1,9 +1,16 @@
 /**
- * Created by morse on 8/10/16.
+ * @file Contains functions for storing and loading progress as well as handling when the
+ * user traverses backwards in the LDT wizard. This file references the progress data from
+ * the database when storing, loading, and comparing the user's progress.
+ *
+ * Creation Date: 8/10/16.
+ *
+ * @author Trevor Morse
+ * @author Michael Kim
  */
 /**
  * Make a call to the backend to load the progress data from the database
- * and then determine if there is progress to be loaded into the page.
+ * and then determine if there is progress to be loaded into the LDT wizard.
  */
 function loadProgressData(){
     $.ajax({
@@ -36,8 +43,8 @@ function loadProgressData(){
 /**
  * For each type of step completed, form an object to store the progress data,
  * push it onto the overall array, and send that to the database.
- * @param {Number} priorIndex index of the step that was just completed
- * @param {String} stepType
+ * @param {number} priorIndex index of the step that was just completed
+ * @param {string} stepType often corresponds to the title of the step
  */
 function storeProgress(priorIndex, stepType){
     priorIndex = priorIndex.toString();
@@ -77,7 +84,7 @@ function storeProgress(priorIndex, stepType){
  * After the user completes the product type step, store the data necessary for recreating
  * the user's progress.
  * @param {string} priorIndex index of the step that was just completed
- * @param {Object} progressObj
+ * @param {Object} progressObj object containing the user's progress data
  */
 function storeProductType(priorIndex, progressObj){
     progressObj['step'] = "product_type";
@@ -85,9 +92,9 @@ function storeProductType(priorIndex, progressObj){
     progressObj['selection'] = $("#wizard-p-" + priorIndex + " button.active span").attr("data-id");
 }
 /**
- * Store the user's selection of Discipline Nodes.
- * @param priorIndex
- * @param progressObj
+ * Store the user's selection in the Discipline Nodes step.
+ * @param {string} priorIndex index of the step that was just completed
+ * @param {Object} progressObj object containing the user's progress data
  */
 function storeDisciplineNodes(priorIndex, progressObj){
     progressObj['step'] = "discipline_nodes";
@@ -102,15 +109,15 @@ function storeDisciplineNodes(priorIndex, progressObj){
 }
 /**
  * After the user completes an optional node step, store the data necessary for recreating
- * the user's progress.
+ * the user's progress. This function loops through the element-bars on a step and stores
+ * the key data points: id (object path), num (number of occurrences), and val (text value, if any).
  * @param {string} priorIndex index of the step that was just completed
- * @param {Object} progressObj
+ * @param {Object} progressObj object containing the user's progress data
  */
 function storeOptionalNodes(priorIndex, progressObj){
     progressObj['step'] = "optional_nodes";
     progressObj['type'] = "element-bar";
     progressObj['selection'] = [];
-
 
     var stepContent = $("#wizard-p-" + priorIndex);
     progressObj['containsChoice'] = ($(".choice-field", stepContent).length > 0);
@@ -125,8 +132,8 @@ function storeOptionalNodes(priorIndex, progressObj){
 }
 /**
  * Store whether the user chose to add or remove the Mission Specifics.
- * @param priorIndex
- * @param progressObj
+ * @param {string} priorIndex index of the step that was just completed
+ * @param {Object} progressObj object containing the user's progress data
  */
 function storeMissionSpecifics(priorIndex, progressObj){
     progressObj['step'] = "mission_specifics";
@@ -140,8 +147,10 @@ function storeMissionSpecifics(priorIndex, progressObj){
     }
 }
 /**
- * Store the user's new groups/attributes created in the Builder.
- * @param progressObj
+ * Store the user's new groups/attributes created in the Builder for Mission Specifics.
+ * Note: since there is a separate field in the database for storing the mission specifics
+ * data, this function just writes that data out as a string-ified JSON to the db.
+ * @param {Object} progressObj object containing the user's progress data
  */
 function storeBuilder(progressObj){
     progressObj['step'] = "builder";
@@ -165,7 +174,7 @@ function loadAllProgress(){
 }
 /**
  * Load the progress for the current step using the specified object data.
- * @param {Object} stepObj
+ * @param {Object} stepObj progress data object for the given step
  */
 function loadProgress(stepObj){
     switch(stepObj['step']){
@@ -189,7 +198,7 @@ function loadProgress(stepObj){
 /**
  * Using the data stored in the progress object, load the user's prior selection
  * of the product type.
- * @param dataObj
+ * @param {Object} dataObj progress data object for the given step
  */
 function loadProductType(dataObj){
     var select = $("section.current button span[data-id='" + dataObj['selection'] + "']");
@@ -198,14 +207,17 @@ function loadProductType(dataObj){
 }
 /**
  * Using the data stored in the progress object, load the user's prior selections
- * for the optional node step.
- * @param dataObj
+ * for the optional node step. Since some optional node steps involve choice-fields,
+ * this function has to have the ability to handle those separately from the others.
+ * Note: since the element-bar-counters are disabled in a choice-field, it is necessary
+ * to load the progress by clicking the plus/minus buttons rather than directly inserting the value.
+ * @param {Object} dataObj progress data object for the given step
  */
 function loadOptionalNode(dataObj){
     var stepContent = $("section.current");
     for (var index in dataObj['selection']){
         var currObj = dataObj['selection'][index];
-        var elementBar = $(jq(currObj['id']), stepContent);
+        var elementBar = $(prepJqId(currObj['id']), stepContent);
         var value = currObj['num'];
         //since choice-fields have disabled counter forms, we must mimic the user
         //pressing the plus button instead of inserting the value directly
@@ -226,6 +238,8 @@ function loadOptionalNode(dataObj){
             $(".element-bar-counter", elementBar).val(value);
         if (currObj['val'] !== undefined && currObj['val'] !== "")
             $(".element-bar-input", elementBar).val(currObj['val']);
+        //need to call this function to reset the properties of the element bar
+        //after the adjustments have been made to load the progress
         setOneElementBarStyle($(".element-bar-counter", elementBar));
     }
     if (dataObj['containsChoice'])
@@ -234,16 +248,16 @@ function loadOptionalNode(dataObj){
 }
 /**
  * Helper function to escape characters in a jQuery id selector string.
- * @param myid
- * @returns {string}
+ * @param {string} id jQuery selector string to modify
+ * @returns {string} modified jQuery selector
  */
-function jq( myid ) {
-    return "#" + myid.replace( /(:|\.|\[|\]|,|\/)/g, "\\$1" );
+function prepJqId(id) {
+    return "#" + id.replace( /(:|\.|\[|\]|,|\/)/g, "\\$1" );
 }
 /**
  * Using the data stored in the progress object, check the boxes that the user
  * selected on the Discipline Nodes step.
- * @param dataObj
+ * @param {Object} dataObj progress data object for the given step
  */
 function loadDisciplineNodes(dataObj){
     var stepContent = $("section.current");
@@ -253,19 +267,19 @@ function loadDisciplineNodes(dataObj){
     });
     $("#wizard").steps("next");
 }
-
 /**
  * Make the same decision stored from the user's progress on the Mission Specifics
- * step.
- * @param dataObj
+ * step. In other words, click either the yes or no button.
+ * @param {Object} dataObj progress data object for the given step
  */
 function loadMissionSpecifics(dataObj) {
     var stepContent = $("section.current");
     $("." + dataObj["selection"], stepContent).click();
 }
-
 /**
  * Mimic the user's progression through the Builder step.
+ * Note: mission specifics data is loaded on document.ready so there is no
+ * need to load it specifically here. Just click save to progress through.
  */
 function loadBuilder() {
     $("table.missionSpecificsActionBar button.save").click();
@@ -273,9 +287,10 @@ function loadBuilder() {
 /**
  * Check to see if the user has made a change. If so, display a popup and react accordingly
  * to the user's selection. If they choose to keep the changes, the progress after that point will
- * be cleared and the page will be reloaded.
- * @param currIndex
- * @returns {boolean}
+ * be cleared and the page will be reloaded. If they choose to revert, then their changes will
+ * be reverted, and they will be taken to the next step.
+ * @param {number} currIndex index of the current step
+ * @returns {boolean} indicates whether to continue to the next step or not
  */
 function handleBackwardsProgress(currIndex){
     var isChanged = false;
@@ -302,9 +317,9 @@ function handleBackwardsProgress(currIndex){
 }
 /**
  * Loop through the checkboxes to check if:
- * - There is a different number of ones checked than before
+ * - The total number checked is different than before
  * - There are different selections than before
- * @param {object} dataObj - The progressData at the current step
+ * @param {object} dataObj the progressData at the current step
  * @returns {boolean}
  */
 function areDifferentDisciplineNodes(dataObj){
@@ -325,14 +340,14 @@ function areDifferentDisciplineNodes(dataObj){
 }
 /**
  * Loop through the element-bar values and check for differences.
- * @param {object} dataObj - The progressData at the current step
+ * @param {object} dataObj the progressData at the current step
  * @returns {boolean}
  */
 function areDifferentOptionalNodes(dataObj){
     var stepContent = $("section.current");
     for (var index in dataObj['selection']){
         var currObj = dataObj['selection'][index];
-        var elementBar = $(jq(currObj['id']), stepContent);
+        var elementBar = $(prepJqId(currObj['id']), stepContent);
         var newNum = $(".element-bar-counter", elementBar).val();
         var newVal = $(".element-bar-input", elementBar).val();
         if (newNum !== currObj['num'] || newVal !== currObj['val'])
