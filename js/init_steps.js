@@ -172,7 +172,7 @@ function handleStepAddition(currentIndex, newIndex){
                 backendCall("php/xml_mutator.php",
                             "addNode",
                             {path: id, quantity: val, value: metadata, ns: jsonData.currNS},
-                            function(data){ console.log(data); });
+                            function(data){});
             }
             //The LDT currently utilizes a starter label as the base of the XML. This starter label
             //contains one instance of all required and optional elements according to the PDS4 standard.
@@ -184,7 +184,7 @@ function handleStepAddition(currentIndex, newIndex){
                 backendCall("php/xml_mutator.php",
                     "removeNode",
                     {path: currObj['path'], ns: ""},
-                    function(data){ console.log(data); });
+                    function(data){});
             }
         });
     }
