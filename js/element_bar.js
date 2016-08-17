@@ -1,6 +1,14 @@
 /**
- * Created by mikim on 7/7/16.
+ * @file Contains the functions for handling and controlling style of the element bars throughout the LDT wizard. Element
+ * bars are created from the Bootstrap v4 Input Groups and are used to determine the quantity of optional attributes
+ * desired in the label.
+ *
+ * Creation Date: 7/15/16.
+ *
+ * @author Michael Kim
+ * @author Trevor Morse
  */
+
 /**
  * When the user clicks INTO the counter, keep track of what number was in there initially by giving the element
  * an attribute to store it in
@@ -28,6 +36,8 @@ function releaseValue() {
  * When the user presses a key, check if it as a valid input (0-9, backspace, left/right keys)
  * If not, prevent the event from happening
  * Notes: Keycodes 8, 37, and 39 correspond to backspace, left, and right keys respectively
+ *
+ * @param {Object} event Object that stores the information behind the user triggered event
  */
 function preventInput(event) {
     var regex = new RegExp("^[0-9]+$");
@@ -58,6 +68,7 @@ function validateInput() {
         setOneElementBarStyle(this);
     }
 }
+
 /**
  * Helper method to update the element label based on its allowed range and current counter value
  * Cases:
@@ -67,6 +78,8 @@ function validateInput() {
  *  - If the value in the counter is equal to the maximum, the increment button should be disabled
  *  - If the value in the counter is above the minimum, the decrement button should be enabled
  *  - If the value in the counter is below the maximum, the increment button should be enabled
+ *
+ *  @param {Object} counter A jQuery selected object to have its style modified based on the rules above
  */
 function setOneElementBarStyle(counter) {
     var label = $(counter).siblings(".element-bar-label");
@@ -97,10 +110,12 @@ function setOneElementBarStyle(counter) {
         $(counter).siblings(".element-bar-button").children(".element-bar-plus").prop('disabled', false);
     }
 }
+
 /**
  * Set the properties/styling within the choice field according to the overall
  * control values.
- * @param {Object} choiceField
+ *
+ * @param {Object} choiceField The jQuery selected choice field object to be modified
  */
 function setChoiceFieldStyle(choiceField){
     var min = $(choiceField).attr("min");
