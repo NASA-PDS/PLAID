@@ -7,7 +7,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Lable Design Tool</title>
+    <title>Label Design Tool</title>
     <meta charset="utf-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="thirdparty/js/jquery.steps.min.js"></script>
