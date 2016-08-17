@@ -17,11 +17,11 @@ Deployment:
 How the LDT constructs PDS4 labels:
 -----------------------------------
 
-###Preparation
+####Preparation
 
 Inside of the LDT is the overall PDS4 JSON. This JSON is generated from the schema, which defines the structure and necessary content of a label. After the user selects the product type for their label, the LDT starts creating a new JSON that is a subset of the overall PDS4 JSON. In this new JSON, objects are stored in a hierarchy relating to the structure of the label's XML. The LDT uses the data stored in this new JSON to dynamically create the wizard's content and guide the user through the entire process of creating a PDS4-compliant label.
 
-###Wizard
+####Wizard
 
 After the initial set of steps has been dynamically created from the JSON for the selected product type, the LDT handles a variety of tasks behind the scenes as the user progresses through the wizard. 
 
@@ -34,6 +34,6 @@ Second, it updates the XML based on the user's decisions and stores that XML in 
 
 Third, it captures the user's progress in the wizard and saves it to the database for future loading. This information is stored in a JSON that sits in a column of the label’s table. Upon reloading the wizard, this JSON is used to restore the user’s progress for the selected label.
 
-###Completion
+####Completion
 
 Once the user has completed the process of constructing the label, the LDT presents a preview and the option to export. The preview and file export are both accomplished by getting the XML from the database and either displaying it in the webpage or sending it as a downloaded file.
