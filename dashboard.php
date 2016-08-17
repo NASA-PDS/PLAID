@@ -7,7 +7,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
 <!DOCTYPE html>
 <html>
 <head>
-    <title>LDT Test UI</title>
+    <title>Label Design Tool</title>
     <meta charset="utf-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="config/pop_up_config.js"></script>
