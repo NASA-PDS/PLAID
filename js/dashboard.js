@@ -1,5 +1,9 @@
 /**
- * Created by morse on 8/10/16.
+ * @file This file contains the functions for controlling the content on dashboard.php.
+ *
+ * @author Trevor Morse
+ * @author Michael Kim
+ * Creation Date: 8/10/16.
  */
 $(document).ready(function(){
     $.ajax({
@@ -26,7 +30,7 @@ $(document).ready(function(){
 });
 /**
  * Create a card to display a label entry using data from the database.
- * @param {Object} labelData data from database about the label
+ * @param {Object} labelData data from the database about the label
  * @returns {Element}
  */
 function createLabelEntry(labelData){
@@ -87,9 +91,12 @@ function createLabelEntry(labelData){
     return labelCard;
 }
 /**
- * Calls a pop-up that verifies the user wants to delete the selected label
- * If the user agrees, a backend call is made to remove the label and link entry from the database
- * and remove the label card from the page.
+ * Calls a pop-up that verifies if the user wants to delete the selected label.
+ * If the user agrees, a backend call is made to flag the label as deleted
+ * in the database and the label card is removed from the page.
+ *
+ * Note: Since the deleteLabelPopup contains dynamic content, its content is created
+ * in this function instead of being stored statically in pop_up_config.js.
  */
 function deleteLabel(){
     var labelCard = $(this).parents(".labelCard");
@@ -120,8 +127,8 @@ function deleteLabel(){
 }
 
 /**
- * Make a backend call to remove the label and link entry from the database
- * and remove the label card from the page.
+ * Make a backend call to store the label id as a session variable. Then navigate
+ * to wizard.php.
  */
 function editLabel(){
     var labelCard = $(this).parents(".labelCard");
@@ -130,19 +137,18 @@ function editLabel(){
         type: "post",
         url: "php/navigate.php",
         data: {
-            /*function: "editLabel",*/
             label_id: labelID
         },
         success: function(data) {
-            console.log(data);
             window.location = "wizard.php";
         }
     });
 }
 
 /**
- * Check if the field is empty.
- * @param field input to check
+ * Check if the field is empty. Add the error class if it is. Remove
+ * the error class if it is not.
+ * @param field input form to check
  * @returns {boolean}
  */
 function isValidLabelNameInput(field){
