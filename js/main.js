@@ -1,5 +1,11 @@
 /**
- * Created by morse on 6/17/16.
+ * @file Contains the document.ready calls for wizard.php and helper functions used
+ * throughout the project.
+ *
+ * Creation Date: 6/17/16.
+ *
+ * @author Trevor Morse
+ * @author Michael Kim
  */
 $(document).ready(function() {
     loadMissionSpecificsData();
@@ -27,8 +33,8 @@ $(document).ready(function() {
     previewDescription();
 });
 /**
- * When the user selects an option in the wizard pane, add
- * the active class to that element and store the result.
+ * When the user selects a product type, add the active class to that element
+ * and store the result.
  */
 function captureSelection(){
     var element = $(this)[0];
@@ -48,7 +54,7 @@ function clearActiveElements(){
 }
 /**
  * Parse out the title of the current step and use that to determine
- * which attribute to access from the infoBarData object.
+ * which attribute to access from the {@link infoBarData} object.
  */
 function previewDescription(){
     var currentStep = $(".title.current")[0].innerHTML
@@ -63,7 +69,7 @@ function previewDescription(){
     $("#help").append(data);
 }
 /**
- * Load the label name from the database and insert it into the navbar.
+ * Load the label name from the database and insert it into the LDT navbar in wizard.php.
  */
 function loadLabelName(){
     $.ajax({
@@ -168,6 +174,7 @@ function decreaseCounter(){
 }
 /**
  * Helper function to return min/max values from the element's attributes.
+ * @returns {number[]}
  */
 function getMinMax(counter){
     var counterMin = parseInt($(counter).attr("min"), 10);
@@ -215,11 +222,11 @@ function handleExportStep(newIndex){
         backendCall("php/xml_mutator.php",
             "addRootAttrs",
             {namespaces: jsonData.namespaces},
-            function(data){ console.log(data); });
+            function(data){});
         backendCall("php/xml_mutator.php",
             "formatDoc",
             {},
-            function(data){ console.log(data); });
+            function(data){});
         var preview = generateFinalPreview();
         $("#finalPreview", nextSection).append(preview);
     }
@@ -261,7 +268,6 @@ function generateFinalPreview() {
  * @param {Function} callback function to execute upon return
  */
 function backendCall(file, funcName, args, callback){
-    args.outputFile = filePaths.OUTPUT;
     $.ajax({
         async: false,
         type: "POST",
