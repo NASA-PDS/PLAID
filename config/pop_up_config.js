@@ -30,7 +30,7 @@ var popUpData = {
         /**
          * When a user confirms to leave out of this phase of the mission specifics builder, use jQuery to click the
          * step on the left toolbar representing the desired new location. To leave the page without triggering
-         * the same pop-up once again, a leaving class is added to the HTML. This flag is processed in updatePopup of
+         * the same pop-up once again, a leaving class is added to the HTML. This flag is processed in updatePopUp of
          * the pop_up.js file.
          */
         yesFunction : function() {

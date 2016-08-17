@@ -55,8 +55,8 @@ function initWizard(wizard) {
             if (newIndex === 0 && currentIndex > newIndex){
                 return false;
             }
-            if (updatePopup(currentIndex)) {
-                return showPopup(currentIndex, newIndex);
+            if (updatePopUp(currentIndex)) {
+                return showPopUp(currentIndex, newIndex);
             }
             if (progressData === null)
                 progressData = [];
@@ -447,7 +447,7 @@ function handleBackwardsTraversalPopup(currentIndex) {
     }
     // If the current index is behind the max and there has yet to be a warning pop-up, show the pop-up
     else if (currentIndex < wizardData.maxStep && wizardData.numWarnings === 0) {
-        showBackwardsTraversalPopup(currentIndex);
+        showBackwardsTraversalPopUp(currentIndex);
         wizardData.numWarnings = 1;
     }
 }
