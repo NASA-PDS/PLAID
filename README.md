@@ -37,3 +37,13 @@ Third, it captures the user's progress in the wizard and saves it to the databas
 ####Completion
 
 Once the user has completed the process of constructing the label, the LDT presents a preview and the option to export. The preview and file export are both accomplished by getting the XML from the database and either displaying it in the webpage or sending it as a downloaded file.
+
+LDT Flow Diagram:
+-----------------
+
+![LDT Flow](resources/ldt_flow.png "LDT Flow Diagram")
+
+MySql Database Diagram:
+-----------------------
+
+![DB Diagram](resources/db_diagram.png "DB Diagram")
