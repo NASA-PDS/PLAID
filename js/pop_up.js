@@ -80,7 +80,10 @@ function showBackwardsTraversalPopUp(currentStep) {
 
 /**
  * Dynamically generate the Bootstrap (v4) modal given the information derived from the pop_up_config.js file
- * Additionally, give the Yes button a handler to call the function stored in the JSON
+ *
+ * Note: This function is closely tied to the pop_up_config.js file, where JS objects defined there are sent
+ * through the arguments. Alternatively, objects can be defined anywhere and sent through the arguments the same way.
+ * These objects are accessed to populate the generated pop-up with content and functionality.
  *
  * @param {Object} popUpObj An Object that holds all of the information and functions to be used in this pop-up
  */
