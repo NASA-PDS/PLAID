@@ -10,9 +10,10 @@ The APPS LDT is a web GUI to help create PDS4 compliant labels. The core of the 
 
 Deployment:
 -----------
-1. 
-2. 
-3. 
+1. Setup an Apache server with PHP.
+2. Copy the project files from this repo.
+3. Setup a MySql database using the attached database dump files (```resources/ldt_dump.sql```).
+4. Configure the connection instructions in interact_db.php with your database settings.
 
 How the LDT constructs PDS4 labels:
 -----------------------------------
@@ -36,7 +37,7 @@ Third, it captures the user's progress in the wizard and saves it to the databas
 
 ####Completion
 
-Once the user has completed the process of constructing the label, the LDT presents a preview and the option to export. The preview and file export are both accomplished by getting the XML from the database and either displaying it in the webpage or sending it as a downloaded file.
+Once the user has completed the process of constructing the label, the LDT presents a preview and the option to export. The preview and file export are both accomplished by getting the XML from the database and either displaying it in the webpage or sending it as a downloadable file.
 
 LDT Flow Diagram:
 -----------------
