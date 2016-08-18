@@ -78,8 +78,7 @@ function initWizard(wizard) {
             if (currentIndex > priorIndex){
                 var priorStepHeading = $("#wizard-t-" + priorIndex.toString());
                 var priorStepTitle = (/[A-Z].+/.exec(priorStepHeading.text())[0].replace(/ /g, "_"));
-                var number = $(".number", priorStepHeading)[0];
-                number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
+                insertCheckmark(priorStepHeading);
 
                 var currStepHeading = $("#wizard-t-" + currentIndex.toString());
                 //parse the step title from the overall step element (in the left sidebar)
@@ -99,9 +98,9 @@ function initWizard(wizard) {
         onCanceled: function (event) { },
         onFinishing: function (event, currentIndex) { return true; },
         onFinished: function (event, currentIndex) {
-            var lastStepHeading = $("#wizard-t-" + currentIndex.toString());
-            var number = $(".number", lastStepHeading)[0];
-            number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
+            insertCheckmark($("#wizard-t-" + currentIndex.toString()));
+
+            window.location = "dashboard.php";
         },
 
         /* Labels */
@@ -495,4 +494,12 @@ function prepXML(sectionHeading, isValidating){
             {path: sectionHeading, ns: ""},
             function(data){});
     }
+}
+/**
+ * After a user has completed a step, replace the step number with a check mark.
+ * @param {Object} stepHeading
+ */
+function insertCheckmark(stepHeading){
+    var number = $(".number", stepHeading)[0];
+    number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
 }
