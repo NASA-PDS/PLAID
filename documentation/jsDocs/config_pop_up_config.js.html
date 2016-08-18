@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: config/pop_up_config.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: config/pop_up_config.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file An isolated location to store configurations for the pop-up windows used throughout the LDT. The main intent
+ * of this file is to interact closely with the generatePopUp method found in pop_up.js, supplying it with
+ * the content and functions it requires to dynamically construct unique pop-ups for any given situation.
+ *
+ * Note: Many yesFunctions will redirect the window upon click in order to navigate the user to the next process.
+ * Note: The generatePopUp method does not need to use objects from this file to create pop-ups, the Objects can be
+ *       constructed anywhere. This comes in handy when a pop-up calls for content or functions that cannot be
+ *       defined statically.
+ *
+ * Creation Date: 7/25/16.
+ *
+ * @author Michael Kim
+ * @author Trevor Morse
+ */
+var popUpData = {
+    // These variables, currentStep and newStep, are used to store the initial step change attempt made by the user,
+    // which is referenced again later in the pop-up's yesFunctions that have intent to mimic the same step change
+    currentStep : 0,
+    newStep : 0,
+    // When a user is leaving in the middle of constructing a single attribute, this pop-up warns the user that
+    // the progress made for this particular single attribute will not be saved
+    addAttr : {
+        id : "addAttr",
+        title : "Warning",
+        content : "&lt;div>Leaving at this step will delete any unsaved progress for this single attribute.&lt;/div>&lt;br>" +
+        "&lt;div>Click 'Continue' to leave anyway.&lt;/div>",
+        noText : "Cancel",
+        yesText : "Continue",
+        /**
+         * When a user confirms to leave out of this phase of the mission specifics builder, use jQuery to click the
+         * step on the left toolbar representing the desired new location. To leave the page without triggering
+         * the same pop-up once again, a leaving class is added to the HTML. This flag is processed in updatePopUp of
+         * the pop_up.js file.
+         */
+        yesFunction : function() {
+            $('#addAttr').modal('hide');
+            var section = $("#wizard-p-" + popUpData.currentStep.toString());
+            $(section).find("[pop-up]").each(function() {
+                $(this).addClass(" leaving");
+            });
+            // Turn on the HTML class that skips the check for pop-ups, allowing the wizard to step
+            var section = $("#wizard-p-" + popUpData.currentStep.toString());
+            $(section).addClass("leaving");
+            var newStep = "#wizard-t-" + popUpData.newStep.toString();
+            $(newStep).click();
+        }
+    },
+    // When a user is leaving in the middle of constructing a group of attributes, this pop-up warns the user that
+    // the progress made for this particular group will not be saved
+    addGroup : {
+        id : "addGroup",
+        title : "Warning",
+        content : "&lt;div>Leaving at this step will delete any unsaved progress for this attribute group.&lt;/div>&lt;br>" +
+        "&lt;div>Click 'Continue' to leave anyway.&lt;/div>",
+        noText : "Cancel",
+        yesText : "Continue",
+        /**
+         * See doc for yesFunction in addAttr object
+         */
+        yesFunction : function() {
+            $('#addGroup').modal('hide');
+            var section = $("#wizard-p-" + popUpData.currentStep.toString());
+            $(section).find("[pop-up]").each(function() {
+                $(this).addClass(" leaving");
+            });
+            // Turn on the HTML class that skips the check for pop-ups, allowing the wizard to step
+            var section = $("#wizard-p-" + popUpData.currentStep.toString());
+            $(section).addClass("leaving");
+            var newStep = "#wizard-t-" + popUpData.newStep.toString();
+            $(newStep).click();
+        }
+    },
+    // When a user incorrectly fills out a choice section of optional PDS4-attributes, disallow the step change
+    // and force the user to complete the form correctly
+    invalidChoice : {
+        id : "invalidChoice",
+        title : "Invalid Choice",
+        content : "Please properly select the elements in the choice section.",
+        noText: "",
+        yesText: "OK",
+        /**
+         * Hides the pop-up once the user confirms that an error exists
+         */
+        yesFunction : function() {
+            $('#invalidChoice').modal('hide');
+        }
+    },
+    // When a user navigates backwards, this pop-up gives a warning that progress will be lost upon changes
+    backwardsTraversal : {
+        id : "backwardsTraversal",
+        title : "Warning",
+        content : "&lt;div>Making a change to a previous step will delete &lt;b>all&lt;/b> progress beyond that point.&lt;/div>&lt;br>" +
+        "&lt;div>You are safe to navigate through the different steps without making any changes, however.&lt;/div>",
+        noText : "",
+        yesText : "OK",
+        /**
+         * Hides the pop-up once the user agrees to the warning of backwards traversal in the LDT wizard
+         */
+        yesFunction : function() {
+            var wrapper = $("#wizard-p-" + popUpData.currentStep.toString());
+            $(wrapper).removeAttr("pop-up");
+            $('#backwardsTraversal').modal('hide');
+            $('#backwardsTraversal').on('hidden.bs.modal', function () {
+                $("body .modal.fade.hide").remove();
+                $("body .modal-backdrop.fade.in").remove();
+            })
+        }
+    },
+    // When a user attempts to create a new label from the dashboard, this pop-up forces the user to give the label
+    // a name before proceeding
+    createNewLabel : {
+        id : "createNewLabel",
+        title : "Create New Label",
+        content : "&lt;div>Please enter a name for your new label:&lt;/div>" +
+        "&lt;input id='labelNameInput' class='form-control' type='text' placeholder='Ex. Mars 2020 Label' id='example-text-input'>",
+        noText: "Cancel",
+        yesText: "Submit",
+        /**
+         * Captures user's input for label name and sends it to the backend to be processed
+         */
+        yesFunction : function() {
+            if (isValidLabelNameInput($('#labelNameInput'))) {
+                $('#createNewLabel').modal('hide');
+                $.ajax({
+                    type: "post",
+                    url: "php/interact_db.php",
+                    data: {
+                        function: "storeNewLabel",
+                        labelName: $("#labelNameInput").val()
+                    }
+                });
+                window.location = "wizard.php";
+            }
+        }
+    },
+    // When a user attempts to change the label from a previously visited step, give the user the option to save
+    // the change and lose the proceeding progress or to revert the changes made
+    deleteProgress : {
+        id : "deleteProgress",
+        title : "Warning",
+        content : "&lt;div>You have made a change. Would you like to keep the change or revert it?&lt;/div>"+
+            "&lt;br/>&lt;div>&lt;i>Note: If you keep the change, all progress will be lost after this point."+
+            " If you revert, then the changes will be reverted and you will advance to the next step.&lt;/i>&lt;/div>",
+        noText : "Revert Changes",
+        yesText : "Continue",
+        /**
+         * Removes the progressData proceeding this step and stores the new changes
+         * After, a backend call is made to remove root attributes
+         * Finally, the window is reloaded for a proper load of the newly formed progress
+         */
+        yesFunction : function(){
+            var type = progressData[wizardData.currentStep]['step'];
+            progressData = progressData.slice(0, wizardData.currentStep);
+            storeProgress(wizardData.currentStep, type);
+            backendCall("php/xml_mutator.php",
+                "removeRootAttrs",
+                {namespaces: jsonData.namespaces},
+                function(data){});
+            location.reload(true);
+        },
+        /**
+         * Returns the user to the same step using the unchanged progressData
+         */
+        noFunction : function(){
+            loadProgress(progressData[wizardData.currentStep]);
+        }
+    },
+    // When a user wants to preview the
+    // Note: The content for this pop-up is set dynamically from where it calls the generate method
+    preview: {
+        id : "preview",
+        title : "Label Template Preview",
+        content : "",
+        noText : "",
+        yesText : "Dismiss",
+        /**
+         * Hides the pop-up
+         */
+        yesFunction : function(){
+            $('#preview').modal('hide');
+        }
+    }
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addMissionSpecificsActionBar">addMissionSpecificsActionBar</a></li><li><a href="global.html#addPopover">addPopover</a></li><li><a href="global.html#areDifferentDisciplineNodes">areDifferentDisciplineNodes</a></li><li><a href="global.html#areDifferentMissionSpecifics">areDifferentMissionSpecifics</a></li><li><a href="global.html#areDifferentOptionalNodes">areDifferentOptionalNodes</a></li><li><a href="global.html#assignObjectPath">assignObjectPath</a></li><li><a href="global.html#backendCall">backendCall</a></li><li><a href="global.html#captureSelection">captureSelection</a></li><li><a href="global.html#captureValue">captureValue</a></li><li><a href="global.html#checkFilename">checkFilename</a></li><li><a href="global.html#clearActiveElements">clearActiveElements</a></li><li><a href="global.html#createAttribute">createAttribute</a></li><li><a href="global.html#createAttributeGroup">createAttributeGroup</a></li><li><a href="global.html#createChoiceGroup">createChoiceGroup</a></li><li><a href="global.html#createControlButton">createControlButton</a></li><li><a href="global.html#createCounterInput">createCounterInput</a></li><li><a href="global.html#createElementBar">createElementBar</a></li><li><a href="global.html#createLabel">createLabel</a></li><li><a href="global.html#createLabelEntry">createLabelEntry</a></li><li><a href="global.html#createValueInput">createValueInput</a></li><li><a href="global.html#decreaseCounter">decreaseCounter</a></li><li><a href="global.html#deleteLabel">deleteLabel</a></li><li><a href="global.html#determineRequirements">determineRequirements</a></li><li><a href="global.html#dict">dict</a></li><li><a href="global.html#discNodesSelection">discNodesSelection</a></li><li><a href="global.html#editLabel">editLabel</a></li><li><a href="global.html#filePaths">filePaths</a></li><li><a href="global.html#generateAddAttributePage">generateAddAttributePage</a></li><li><a href="global.html#generateAddGroupPage">generateAddGroupPage</a></li><li><a href="global.html#generateButtonColumn">generateButtonColumn</a></li><li><a href="global.html#generateButtonRow">generateButtonRow</a></li><li><a href="global.html#generateCheckbox">generateCheckbox</a></li><li><a href="global.html#generateCheckboxForm">generateCheckboxForm</a></li><li><a href="global.html#generateContent">generateContent</a></li><li><a href="global.html#generateDropdown">generateDropdown</a></li><li><a href="global.html#generateDropdownSelect">generateDropdownSelect</a></li><li><a href="global.html#generateFieldset">generateFieldset</a></li><li><a href="global.html#generateFinalPreview">generateFinalPreview</a></li><li><a href="global.html#generateHomepage">generateHomepage</a></li><li><a href="global.html#generateOption">generateOption</a></li><li><a href="global.html#generatePopUp">generatePopUp</a></li><li><a href="global.html#generatePreview">generatePreview</a></li><li><a href="global.html#generateRemovePage">generateRemovePage</a></li><li><a href="global.html#generateTree">generateTree</a></li><li><a href="global.html#getAssociations">getAssociations</a></li><li><a href="global.html#getElement">getElement</a></li><li><a href="global.html#getJSON">getJSON</a></li><li><a href="global.html#getLevelOfAssociations">getLevelOfAssociations</a></li><li><a href="global.html#getMinMax">getMinMax</a></li><li><a href="global.html#getNodeJsonFilename">getNodeJsonFilename</a></li><li><a href="global.html#getObjectFromPath">getObjectFromPath</a></li><li><a href="global.html#handleBackwardsProgress">handleBackwardsProgress</a></li><li><a href="global.html#handleBackwardsTraversalPopup">handleBackwardsTraversalPopup</a></li><li><a href="global.html#handleCheckbox">handleCheckbox</a></li><li><a href="global.html#handleExportStep">handleExportStep</a></li><li><a href="global.html#handleMissionSpecificsStep">handleMissionSpecificsStep</a></li><li><a href="global.html#handleProductOrNode">handleProductOrNode</a></li><li><a href="global.html#handleSaveButton">handleSaveButton</a></li><li><a href="global.html#handleStepAddition">handleStepAddition</a></li><li><a href="global.html#increaseCounter">increaseCounter</a></li><li><a href="global.html#initPopovers">initPopovers</a></li><li><a href="global.html#initWizard">initWizard</a></li><li><a href="global.html#insertCheckmark">insertCheckmark</a></li><li><a href="global.html#invalidElementsInJSON">invalidElementsInJSON</a></li><li><a href="global.html#isLoading">isLoading</a></li><li><a href="global.html#isValidLabelNameInput">isValidLabelNameInput</a></li><li><a href="global.html#isValidMSInput">isValidMSInput</a></li><li><a href="global.html#jsonData">jsonData</a></li><li><a href="global.html#loadAllProgress">loadAllProgress</a></li><li><a href="global.html#loadBuilder">loadBuilder</a></li><li><a href="global.html#loadDisciplineNodes">loadDisciplineNodes</a></li><li><a href="global.html#loadJSON">loadJSON</a></li><li><a href="global.html#loadLabelName">loadLabelName</a></li><li><a href="global.html#loadMissionSpecifics">loadMissionSpecifics</a></li><li><a href="global.html#loadMissionSpecificsData">loadMissionSpecificsData</a></li><li><a href="global.html#loadOptionalNode">loadOptionalNode</a></li><li><a href="global.html#loadProductType">loadProductType</a></li><li><a href="global.html#loadProgress">loadProgress</a></li><li><a href="global.html#loadProgressData">loadProgressData</a></li><li><a href="global.html#matchWizardHeight">matchWizardHeight</a></li><li><a href="global.html#missionSpecifics">missionSpecifics</a></li><li><a href="global.html#mutatePage">mutatePage</a></li><li><a href="global.html#prepJqId">prepJqId</a></li><li><a href="global.html#preventInput">preventInput</a></li><li><a href="global.html#previewDescription">previewDescription</a></li><li><a href="global.html#progressData">progressData</a></li><li><a href="global.html#refreshGroupChildren">refreshGroupChildren</a></li><li><a href="global.html#releaseValue">releaseValue</a></li><li><a href="global.html#removeFromMissionSpecifics">removeFromMissionSpecifics</a></li><li><a href="global.html#removePopovers">removePopovers</a></li><li><a href="global.html#resetMissionSpecificsBuilder">resetMissionSpecificsBuilder</a></li><li><a href="global.html#revertStepClass">revertStepClass</a></li><li><a href="global.html#setChoiceFieldStyle">setChoiceFieldStyle</a></li><li><a href="global.html#setOneElementBarStyle">setOneElementBarStyle</a></li><li><a href="global.html#showBackwardsTraversalPopUp">showBackwardsTraversalPopUp</a></li><li><a href="global.html#showPopUp">showPopUp</a></li><li><a href="global.html#storeBuilder">storeBuilder</a></li><li><a href="global.html#storeDisciplineNodes">storeDisciplineNodes</a></li><li><a href="global.html#storeMissionSpecifics">storeMissionSpecifics</a></li><li><a href="global.html#storeOptionalNodes">storeOptionalNodes</a></li><li><a href="global.html#storeProductType">storeProductType</a></li><li><a href="global.html#storeProgress">storeProgress</a></li><li><a href="global.html#updateActionBar">updateActionBar</a></li><li><a href="global.html#updateActionBarHandlers">updateActionBarHandlers</a></li><li><a href="global.html#updatePopUp">updatePopUp</a></li><li><a href="global.html#validateInput">validateInput</a></li><li><a href="global.html#wizardData">wizardData</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Aug 18 2016 09:02:35 GMT-0700 (PDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
