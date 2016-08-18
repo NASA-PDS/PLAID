@@ -41,9 +41,9 @@ Once the user has completed the process of constructing the label, the LDT prese
 LDT Flow Diagram:
 -----------------
 
-![LDT Flow](resources/ldt_flow.png "LDT Flow Diagram" | width=500)
+![LDT Flow](resources/ldt_flow.png "LDT Flow Diagram")
 
 MySql Database Diagram:
 -----------------------
 
-![DB Diagram](resources/db_diagram.png "DB Diagram" | width=500)
+![DB Diagram](resources/db_diagram.png "DB Diagram")
