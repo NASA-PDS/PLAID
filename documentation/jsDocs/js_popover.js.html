@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: js/popover.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: js/popover.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file Contains the data dictionary for static popovers as well as the functions for creating
+ * and controlling the popovers. These popovers show throughout the LDT wizard to provide the
+ * user with helpful descriptions to guide their decisions.
+ *
+ * Creation Date: 6/29/16.
+ *
+ * @author Trevor Morse
+ * @author Michael Kim
+ */
+$(document).ready(initPopovers);
+/**
+ * Data dictionary containing static content for some of the popovers.
+ * @type {{context: string, document: string, file_text: string, observational: string, thumbnail: string, geometry: string, imaging: string, cartography: string, small_bodies: string, plasma_particle: string, display: string, spectra: string, wave: string}}
+ */
+var dict = {
+    context: "A basic product identifying the physical and conceptual objects related to an observational product provenance.",
+    document: "A basic product identifying a single logical document, such as a description of an instrument or even a user’s manual.",
+    file_text: "A basic product with a single digital file with ASCII character encoding.",
+    observational: "A basic product comprising one or more images, tables, and/or other fundamental data structures that are the result of a science or engineering observation.",
+    thumbnail: "A basic product consisting of a highly reduced version of an image, typically used in displaying the results from search interfaces.",
+    geometry: "Contains meta-data relating to flight paths of spacecrafts and the paths of rovers. If your mission involves the movement of any kind of vehicle, you need the geometry discipline!",
+    imaging: "Contains meta-data relating to any images. This includes filters, bands, angles of cameras, temperature of cameras, etc. If your data involves any pictures at all, odds are you need the imaging discipine!",
+    cartography: "Contains metadata on mapping systems. If your mission is mapping celestial information or even terrestrial, you need the Cartography node!",
+    small_bodies: "Contains metadata on objects that qualify as small bodies. Asteroides, comets, dust, or anything that isn't in solar orbit",
+    plasma_particle: "Contains information on the interaction between the solar wind and planetary winds with planetary magnetospheres, ionospheres and surfaces.",
+    display: "Contains the details about how to display data on a device. For example, if you have movie data, then you need the Display node to explain how to use software to view the movie.",
+    spectra: "Contains detail about presenting data in any kind of spectrum",
+    wave: "Contains classes that describe the composition of multidimensional wave data consisting of Array (and Array subclass) data objects"
+};
+/**
+* For each element with the class name "label-item", initialize a popover.
+* The title for the popover is formed from the element's inner HTML, while
+* the content for the popover is parsed out of the dict object.
+*/
+function initPopovers(){
+    $('.label-item').each(function(){
+        var title = $(this).find(".productType").html();
+        if (title === undefined) { title = $(this).find(".discNode").html(); }
+        var key = title.trim().replace(/\b\s\b/g, "_").toLowerCase();
+        $(this).popover({
+            container: "body",
+            html: true,
+            title: title,
+            content: dict[key],
+            trigger: "hover"
+        });
+    });
+}
+/**
+* Called to dynamically add popovers as elements are added to the wizard.
+* Uses data from the corresponding objects.
+* @param {Element} element to add the popover to
+* @param {Object} data object containing info for the popover
+* @param {string} min info from element denoting minimum occurrences of the object
+* @param {string} max info from element denoting maximum occurrences of the object
+ */
+function addPopover(element, data, min, max){
+    if (max === "9999999999"){ max = "unbounded"; }
+    var title = data["title"].replace(/_/g, " ");
+    var description = "";
+    if (data["isRequired"]){
+        title += " (Required)";
+        description = data["description"];
+    }
+    else {
+        title += " (Optional)";
+        min = "&lt;b>Min Occurrences: " + min + "&lt;/b>&lt;br/>";
+        max = "&lt;b>Max Occurrences: " + max + "&lt;/b>&lt;br/>";
+        description = min + max + data["description"];
+    }
+    if(data["next"] &amp;&amp; !$.isEmptyObject(data["next"])){
+        description += "&lt;br/>&lt;b>Sub-attributes: &lt;/b>&lt;br/>";
+    }
+    for (var index in data["next"]){
+        for (var key in data["next"][index]){
+            description += "&lt;i>- " + data["next"][index][key]["title"] + "&lt;/i>&lt;br/>";
+        }
+    }
+    $(element).popover({
+        container: "body",
+        html: true,
+        title: title,
+        content: description,
+        trigger: "hover"
+    });
+}
+/**
+* Sometimes popovers remain on the page after the user has stopped hovering
+* over the corresponding element. This will hide all remaining popovers.
+ */
+function removePopovers(){
+    $(".label-item").popover('hide');
+    $(".element-bar").popover('hide');
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addMissionSpecificsActionBar">addMissionSpecificsActionBar</a></li><li><a href="global.html#addPopover">addPopover</a></li><li><a href="global.html#areDifferentDisciplineNodes">areDifferentDisciplineNodes</a></li><li><a href="global.html#areDifferentMissionSpecifics">areDifferentMissionSpecifics</a></li><li><a href="global.html#areDifferentOptionalNodes">areDifferentOptionalNodes</a></li><li><a href="global.html#assignObjectPath">assignObjectPath</a></li><li><a href="global.html#backendCall">backendCall</a></li><li><a href="global.html#captureSelection">captureSelection</a></li><li><a href="global.html#captureValue">captureValue</a></li><li><a href="global.html#checkFilename">checkFilename</a></li><li><a href="global.html#clearActiveElements">clearActiveElements</a></li><li><a href="global.html#createAttribute">createAttribute</a></li><li><a href="global.html#createAttributeGroup">createAttributeGroup</a></li><li><a href="global.html#createChoiceGroup">createChoiceGroup</a></li><li><a href="global.html#createControlButton">createControlButton</a></li><li><a href="global.html#createCounterInput">createCounterInput</a></li><li><a href="global.html#createElementBar">createElementBar</a></li><li><a href="global.html#createLabel">createLabel</a></li><li><a href="global.html#createLabelEntry">createLabelEntry</a></li><li><a href="global.html#createValueInput">createValueInput</a></li><li><a href="global.html#decreaseCounter">decreaseCounter</a></li><li><a href="global.html#deleteLabel">deleteLabel</a></li><li><a href="global.html#determineRequirements">determineRequirements</a></li><li><a href="global.html#dict">dict</a></li><li><a href="global.html#discNodesSelection">discNodesSelection</a></li><li><a href="global.html#editLabel">editLabel</a></li><li><a href="global.html#filePaths">filePaths</a></li><li><a href="global.html#generateAddAttributePage">generateAddAttributePage</a></li><li><a href="global.html#generateAddGroupPage">generateAddGroupPage</a></li><li><a href="global.html#generateButtonColumn">generateButtonColumn</a></li><li><a href="global.html#generateButtonRow">generateButtonRow</a></li><li><a href="global.html#generateCheckbox">generateCheckbox</a></li><li><a href="global.html#generateCheckboxForm">generateCheckboxForm</a></li><li><a href="global.html#generateContent">generateContent</a></li><li><a href="global.html#generateDropdown">generateDropdown</a></li><li><a href="global.html#generateDropdownSelect">generateDropdownSelect</a></li><li><a href="global.html#generateFieldset">generateFieldset</a></li><li><a href="global.html#generateFinalPreview">generateFinalPreview</a></li><li><a href="global.html#generateHomepage">generateHomepage</a></li><li><a href="global.html#generateOption">generateOption</a></li><li><a href="global.html#generatePopUp">generatePopUp</a></li><li><a href="global.html#generatePreview">generatePreview</a></li><li><a href="global.html#generateRemovePage">generateRemovePage</a></li><li><a href="global.html#generateTree">generateTree</a></li><li><a href="global.html#getAssociations">getAssociations</a></li><li><a href="global.html#getElement">getElement</a></li><li><a href="global.html#getJSON">getJSON</a></li><li><a href="global.html#getLevelOfAssociations">getLevelOfAssociations</a></li><li><a href="global.html#getMinMax">getMinMax</a></li><li><a href="global.html#getNodeJsonFilename">getNodeJsonFilename</a></li><li><a href="global.html#getObjectFromPath">getObjectFromPath</a></li><li><a href="global.html#handleBackwardsProgress">handleBackwardsProgress</a></li><li><a href="global.html#handleBackwardsTraversalPopup">handleBackwardsTraversalPopup</a></li><li><a href="global.html#handleCheckbox">handleCheckbox</a></li><li><a href="global.html#handleExportStep">handleExportStep</a></li><li><a href="global.html#handleMissionSpecificsStep">handleMissionSpecificsStep</a></li><li><a href="global.html#handleProductOrNode">handleProductOrNode</a></li><li><a href="global.html#handleSaveButton">handleSaveButton</a></li><li><a href="global.html#handleStepAddition">handleStepAddition</a></li><li><a href="global.html#increaseCounter">increaseCounter</a></li><li><a href="global.html#initPopovers">initPopovers</a></li><li><a href="global.html#initWizard">initWizard</a></li><li><a href="global.html#insertCheckmark">insertCheckmark</a></li><li><a href="global.html#invalidElementsInJSON">invalidElementsInJSON</a></li><li><a href="global.html#isLoading">isLoading</a></li><li><a href="global.html#isValidLabelNameInput">isValidLabelNameInput</a></li><li><a href="global.html#isValidMSInput">isValidMSInput</a></li><li><a href="global.html#jsonData">jsonData</a></li><li><a href="global.html#loadAllProgress">loadAllProgress</a></li><li><a href="global.html#loadBuilder">loadBuilder</a></li><li><a href="global.html#loadDisciplineNodes">loadDisciplineNodes</a></li><li><a href="global.html#loadJSON">loadJSON</a></li><li><a href="global.html#loadLabelName">loadLabelName</a></li><li><a href="global.html#loadMissionSpecifics">loadMissionSpecifics</a></li><li><a href="global.html#loadMissionSpecificsData">loadMissionSpecificsData</a></li><li><a href="global.html#loadOptionalNode">loadOptionalNode</a></li><li><a href="global.html#loadProductType">loadProductType</a></li><li><a href="global.html#loadProgress">loadProgress</a></li><li><a href="global.html#loadProgressData">loadProgressData</a></li><li><a href="global.html#matchWizardHeight">matchWizardHeight</a></li><li><a href="global.html#missionSpecifics">missionSpecifics</a></li><li><a href="global.html#mutatePage">mutatePage</a></li><li><a href="global.html#prepJqId">prepJqId</a></li><li><a href="global.html#preventInput">preventInput</a></li><li><a href="global.html#previewDescription">previewDescription</a></li><li><a href="global.html#progressData">progressData</a></li><li><a href="global.html#refreshGroupChildren">refreshGroupChildren</a></li><li><a href="global.html#releaseValue">releaseValue</a></li><li><a href="global.html#removeFromMissionSpecifics">removeFromMissionSpecifics</a></li><li><a href="global.html#removePopovers">removePopovers</a></li><li><a href="global.html#resetMissionSpecificsBuilder">resetMissionSpecificsBuilder</a></li><li><a href="global.html#revertStepClass">revertStepClass</a></li><li><a href="global.html#setChoiceFieldStyle">setChoiceFieldStyle</a></li><li><a href="global.html#setOneElementBarStyle">setOneElementBarStyle</a></li><li><a href="global.html#showBackwardsTraversalPopUp">showBackwardsTraversalPopUp</a></li><li><a href="global.html#showPopUp">showPopUp</a></li><li><a href="global.html#storeBuilder">storeBuilder</a></li><li><a href="global.html#storeDisciplineNodes">storeDisciplineNodes</a></li><li><a href="global.html#storeMissionSpecifics">storeMissionSpecifics</a></li><li><a href="global.html#storeOptionalNodes">storeOptionalNodes</a></li><li><a href="global.html#storeProductType">storeProductType</a></li><li><a href="global.html#storeProgress">storeProgress</a></li><li><a href="global.html#updateActionBar">updateActionBar</a></li><li><a href="global.html#updateActionBarHandlers">updateActionBarHandlers</a></li><li><a href="global.html#updatePopUp">updatePopUp</a></li><li><a href="global.html#validateInput">validateInput</a></li><li><a href="global.html#wizardData">wizardData</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Aug 18 2016 09:02:35 GMT-0700 (PDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
