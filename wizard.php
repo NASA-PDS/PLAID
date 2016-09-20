@@ -136,10 +136,10 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" disabled>
+                                    <input type="checkbox">
                                     <span class="spacer"></span>
                                     <i class="fa fa-image fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="">Imaging</span>
+                                    <span class="discNode" data-id="0001_NASA_PDS_1.img.Imaging">Imaging</span>
                                 </div>
                             </td>
                         </tr>
