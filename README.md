@@ -10,9 +10,24 @@ The APPS LDT is a web GUI to help create PDS4 compliant labels. The core of the 
 
 Deployment:
 -----------
-1. Setup an Apache server with PHP.
-2. Copy the project files from this repo.
-3. Setup a MySql database using the attached database dump files (```resources/ldt_dump.sql```).
+#### Setup an Apache server with PHP
+
+Add the following to your httpd.conf:
+```
+LoadModule php5_module libexec/apache2/libphp5.so
+```
+
+#### Copy the project files from this repo.
+
+Per your DocumentRoot in httpd.conf, you can either copy all of the files there, or create a symbolic link.
+
+####  Setup a MySql database using the attached database dump files (```resources/ldt_dump.sql```).
+
+```
+$ mysql -u <user> -p<password> -e 'create database ldt'
+$ mysql -u <user> -p<password> < ldt_dump.sql
+```
+
 4. Configure the connection instructions in interact_db.php with your database settings.
 
 How the LDT constructs PDS4 labels:

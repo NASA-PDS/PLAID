@@ -17,7 +17,7 @@ var filePaths = {
     CART_JSON: "",
     DISP_JSON: "",
     GEOM_JSON: "config/input-PDS4_GEOM_1600_1300_GEOM_1300.JSON",
-    IMG_JSON: "",
+    IMG_JSON: "config/PDS4_IMG_1700.JSON",
     PART_JSON: "",
     RMS_JSON: "",
     BOD_JSON: "",
