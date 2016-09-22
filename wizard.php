@@ -30,6 +30,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <link href="css/general.css" rel="stylesheet">
     <link href="css/mission_specifics.css" rel="stylesheet">
     <link href="css/pop_up.css" rel="stylesheet">
+    <link href="css/loading.css" rel="stylesheet">
     <link href="thirdparty/css/tether.min.css" rel="stylesheet">
     <link href="thirdparty/font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet">
 </head>
@@ -65,7 +66,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                     </tr>
                     <tr class="label-item">
                         <td>
-                            <button class="list-group-item disabled" disabled>
+                            <button class="list-group-item">
                                 <i class="fa fa-file-o fa-fw" aria-hidden="true"></i>
                                 <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Document">Document</span>
                             </button>
@@ -246,6 +247,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
         </div>
         <div class="modal-backdrop loadingBackdrop" style="display: none"></div>
     </div>
+    <div class="loading" hidden>&#8230;</div>
 </body>
 <script src="js/setup.js"></script>
 <script src="thirdparty/js/tether.min.js"></script>
