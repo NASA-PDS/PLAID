@@ -51,6 +51,7 @@ function initWizard(wizard) {
 
         /* Events */
         onStepChanging: function (event, currentIndex, newIndex) {
+            $('.loading').toggle();
             removePopovers();
             if (newIndex === 0 && currentIndex > newIndex){
                 return false;
@@ -74,6 +75,7 @@ function initWizard(wizard) {
             return true;
         },
         onStepChanged: function (event, currentIndex, priorIndex) {
+            $('.loading').toggle();
             wizardData.currentStep = currentIndex;
             if (currentIndex > priorIndex){
                 var priorStepHeading = $("#wizard-t-" + priorIndex.toString());
