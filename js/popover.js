@@ -8,7 +8,10 @@
  * @author Trevor Morse
  * @author Michael Kim
  */
-$(document).ready(initPopovers);
+$(function() {
+    initPopovers();
+});
+
 /**
  * Data dictionary containing static content for some of the popovers.
  * @type {{context: string, document: string, file_text: string, observational: string, thumbnail: string, geometry: string, imaging: string, cartography: string, small_bodies: string, plasma_particle: string, display: string, spectra: string, wave: string}}
@@ -36,7 +39,10 @@ var dict = {
 function initPopovers(){
     $('.label-item').each(function(){
         var title = $(this).find(".productType").html();
-        if (title === undefined) { title = $(this).find(".discNode").html(); }
+
+        if (title === undefined) {
+            title = $(this).find(".discNode").html();
+        }
         var key = title.trim().replace(/\b\s\b/g, "_").toLowerCase();
         $(this).popover({
             container: "body",
@@ -82,7 +88,8 @@ function addPopover(element, data, min, max){
         html: true,
         title: title,
         content: description,
-        trigger: "hover"
+        trigger: "hover",
+        selector: true
     });
 }
 /**
