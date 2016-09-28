@@ -30,7 +30,6 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <link href="css/general.css" rel="stylesheet">
     <link href="css/mission_specifics.css" rel="stylesheet">
     <link href="css/pop_up.css" rel="stylesheet">
-    <link href="css/loading.css" rel="stylesheet">
     <link href="thirdparty/css/tether.min.css" rel="stylesheet">
     <link href="thirdparty/font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet">
 </head>
@@ -247,7 +246,6 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
         </div>
         <div class="modal-backdrop loadingBackdrop" style="display: none"></div>
     </div>
-    <div class="loading" hidden>&#8230;</div>
 </body>
 <script src="js/setup.js"></script>
 <script src="thirdparty/js/tether.min.js"></script>
