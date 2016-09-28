@@ -51,6 +51,7 @@ function initWizard(wizard) {
 
         /* Events */
         onStepChanging: function (event, currentIndex, newIndex) {
+            $('.modal-backdrop.loadingBackdrop').show();
             removePopovers();
             if (newIndex === 0 && currentIndex > newIndex){
                 return false;
@@ -64,6 +65,8 @@ function initWizard(wizard) {
                 return handleBackwardsProgress(currentIndex);
             }
             if (currentIndex < newIndex){
+                // TODO - we should do a check here to figure out what
+                // page we are on and determine where to go from there
                 handleStepAddition(currentIndex, newIndex);
                 handleMissionSpecificsStep(currentIndex, newIndex);
                 handleExportStep(newIndex);
@@ -74,15 +77,16 @@ function initWizard(wizard) {
             return true;
         },
         onStepChanged: function (event, currentIndex, priorIndex) {
+            $('.modal-backdrop.loadingBackdrop').hide();
             wizardData.currentStep = currentIndex;
             if (currentIndex > priorIndex){
                 var priorStepHeading = $("#wizard-t-" + priorIndex.toString());
-                var priorStepTitle = (/[A-Z].+/.exec(priorStepHeading.text())[0].replace(/ /g, "_"));
+                var priorStepTitle = (/[a-z].+/.exec(priorStepHeading.text())[0].replace(/ /g, "_"));
                 insertCheckmark(priorStepHeading);
 
                 var currStepHeading = $("#wizard-t-" + currentIndex.toString());
                 //parse the step title from the overall step element (in the left sidebar)
-                var currStepTitle = (/[A-Z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
+                var currStepTitle = (/[a-z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
                 prepXML(currStepTitle, true);
 
                 if((typeof progressData != "undefined" || progressData != null) &&
@@ -146,6 +150,9 @@ function handleStepAddition(currentIndex, newIndex){
             var val = $(".element-bar-counter", this).val();
             var metadata = $(".element-bar-input", this).val();
             var id = $(this).attr("id");
+            // TODO -   this val check doesn't seem good enough.
+            //          the else if is intended to handle the initial
+            //          IM ingestion. everything else should fall under here
             if (val !== "0"){
                 var currObj = getObjectFromPath(id);
                 if (currentIndex === 1){
@@ -198,7 +205,7 @@ function insertStep(wizard, index, dataObj){
     revertStepClass(index);
     //this reworking of jsonData.currNode is due to the differences in how the step title is stored
     //in the HTML versus in the variable
-    jsonData.currNode = jsonData.currNode.charAt(0).toUpperCase() + jsonData.currNode.substr(1);
+
     var title = (dataObj["title"] ? dataObj["title"].replace(/_/g, " ") : jsonData.currNode);
     var data = (dataObj["next"] ? dataObj["next"] : dataObj);
     wizard.steps("insert", index, {
