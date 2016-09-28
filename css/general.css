@@ -87,6 +87,11 @@ td {
 #wrapper #wizard .steps.clearfix {
     min-height: 40rem;
 }
+
+.steps {
+    text-transform: capitalize;
+}
+
 /* class */
 .active {
     background-color: #2184be !important;
