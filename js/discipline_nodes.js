@@ -23,18 +23,16 @@ function discNodesSelection(currentIndex){
     var currSection = $("#wizard-p-" + currentIndex.toString());
     if ($(".checkbox-group", currSection).length > 0){
         wizardData.mainSteps = [];
-        $("input:not(.stepAdded)", currSection).each(function(){
-            if ($(this).is(":checked")){
-                var span = $(this).siblings("span.discNode");
-                var nodeName = span.html();
-                nodeName = nodeName.replace(/\b\s\b/, "_").toLowerCase();
-                var nodeId = span.attr("data-id");
-                jsonData.nodes[nodeName] = getJSON(getNodeJsonFilename(nodeName));
-                jsonData.searchObj = jsonData.nodes[nodeName];
-                wizardData.mainSteps.push(nodeName);
-                getElement(jsonData.nodes[nodeName], nodeName, "classDictionary", nodeId);
-                $(this).addClass("stepAdded");
-            }
+        $($("input:not(.stepAdded):checked", currSection).get().reverse()).each(function(){
+            var span = $(this).siblings("span.discNode");
+            var nodeName = span.html();
+            nodeName = nodeName.replace(/\b\s\b/, "_").toLowerCase();
+            var nodeId = span.attr("data-id");
+            jsonData.nodes[nodeName] = getJSON(getNodeJsonFilename(nodeName));
+            jsonData.searchObj = jsonData.nodes[nodeName];
+            wizardData.mainSteps.push(nodeName);
+            getElement(jsonData.nodes[nodeName], nodeName, "classDictionary", nodeId);
+            $(this).addClass("stepAdded");
         });
     }
 }
