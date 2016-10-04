@@ -155,7 +155,7 @@ var popUpData = {
             storeProgress(wizardData.currentStep, type);
             backendCall("php/xml_mutator.php",
                 "removeRootAttrs",
-                {namespaces: jsonData.namespaces},
+                {namespaces: g_jsonData.namespaces},
                 function(data){});
             location.reload(true);
         },
