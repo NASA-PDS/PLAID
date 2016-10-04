@@ -79,12 +79,12 @@ function initWizard(wizard) {
             wizardData.currentStep = currentIndex;
             if (currentIndex > priorIndex){
                 var priorStepHeading = $("#wizard-t-" + priorIndex.toString());
-                var priorStepTitle = (/[a-z].+/.exec(priorStepHeading.text())[0].replace(/ /g, "_"));
+                var priorStepTitle = (/[A-Za-z].+/.exec(priorStepHeading.text())[0].replace(/ /g, "_"));
                 insertCheckmark(priorStepHeading);
 
                 var currStepHeading = $("#wizard-t-" + currentIndex.toString());
                 //parse the step title from the overall step element (in the left sidebar)
-                var currStepTitle = (/[a-z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
+                var currStepTitle = (/[A-Za-z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
                 prepXML(currStepTitle, true);
 
                 if((typeof progressData != "undefined" || progressData != null) &&
@@ -147,12 +147,12 @@ function handleStepAddition(currentIndex, newIndex){
         $(".element-bar:not(.stepAdded)", currSection).each(function(){
             var val = $(".element-bar-counter", this).val();
             var metadata = $(".element-bar-input", this).val();
-            var id = $(this).attr("id");
+            var path = $(this).attr("data-path");
+            var currObj = getObjectFromPath(path, g_jsonData.refObj);
             // TODO -   this val check doesn't seem good enough.
             //          the else if is intended to handle the initial
             //          IM ingestion. everything else should fall under here
             if (val !== "0"){
-                var currObj = getObjectFromPath(id);
                 if (currentIndex === 1){
                     wizardData.mainSteps.push(currObj['title']);
                     if (!hasRun){
@@ -174,7 +174,7 @@ function handleStepAddition(currentIndex, newIndex){
                 $(this).addClass("stepAdded");
                 backendCall("php/xml_mutator.php",
                             "addNode",
-                            {path: id, quantity: val, value: metadata, ns: jsonData.currNS},
+                            {path: path, quantity: val, value: metadata, ns: g_jsonData.namespaces[g_state.nsIndex]},
                             function(data){});
             }
             //The LDT currently utilizes a starter label as the base of the XML. This starter label
@@ -183,7 +183,6 @@ function handleStepAddition(currentIndex, newIndex){
             //currentIndex = 1, if the user does not choose to include these elements, they need to be removed
             //from the XML.
             else if (currentIndex === 1 && val === "0"){
-                var currObj = getObjectFromPath(id);
                 backendCall("php/xml_mutator.php",
                     "removeNode",
                     {path: currObj['path'], ns: ""},
@@ -201,10 +200,14 @@ function handleStepAddition(currentIndex, newIndex){
  */
 function insertStep(wizard, index, dataObj){
     revertStepClass(index);
-    //this reworking of jsonData.currNode is due to the differences in how the step title is stored
+    //this reworking of g_state.currNode is due to the differences in how the step title is stored
     //in the HTML versus in the variable
-
-    var title = (dataObj["title"] ? dataObj["title"].replace(/_/g, " ") : jsonData.currNode);
+    // var currNS = ;
+    // g_state.currNode = g_state.currNode.charAt(0).toUpperCase() + g_state.currNode.substr(1);
+    var nodeName = g_dictInfo[g_jsonData.namespaces[g_state.nsIndex]].name;
+    // var title = (dataObj["title"] ? dataObj["title"].replace(/_/g, " ") : g_state.currNode);
+    var title = (dataObj["title"] ? dataObj["title"].replace(/_/g, " ") : nodeName);
+    title = title.charAt(0).toUpperCase() + title.substr(1);
     var data = (dataObj["next"] ? dataObj["next"] : dataObj);
     wizard.steps("insert", index, {
         title: title,
@@ -239,10 +242,13 @@ function generateContent(sectionTitle, dataObj){
         for (key in dataObj[index]){
             var currObj = dataObj[index][key];
             //get immediate associations for creating next steps/element-bars
-            getAssociations(jsonData.searchObj, currObj["associationList"], currObj["next"]);
+            getAssociations(g_jsonData.searchObj, currObj["associationList"], currObj["next"]);
+
+            // TODO: I think this is where we will need to add the node top-level path
             assignObjectPath(index, currObj, currObj["next"]);
+
             //need to get one more level of associations for displaying sub-elements in the popovers
-            getLevelOfAssociations(jsonData.searchObj, currObj["next"], false);
+            getLevelOfAssociations(g_jsonData.searchObj, currObj["next"], false);
             if ($.inArray(currObj["title"], invalidElementsInJSON) !== -1){
                 continue;
             }
@@ -279,7 +285,17 @@ function generateContent(sectionTitle, dataObj){
 function createElementBar(dataObj, genLabel, isChoice){
     var elementBar = document.createElement("div");
     elementBar.className = "input-group element-bar";
-    elementBar.id = dataObj["path"];
+
+    // In order to ensure the elementBar ID is unique, we need to append
+    // a counter to the identifier based on the number of elements
+    // that already exist with this identifier prefix
+    // elCounter = $("[id^="+dataObj["identifier"]+"]").length;
+    var elements = "[id^=" + dataObj["identifier"].replace(/\./g,'\\.') + "]";
+    elCounter = $(elements).length;
+    elementBar.id = dataObj["identifier"] + "." + elCounter;
+
+    // Set the data path. This is the traversal path through the JSON
+    elementBar.setAttribute('data-path', dataObj["path"]);
 
     var label = genLabel(dataObj["title"], isChoice);
     elementBar.appendChild(label);
@@ -483,7 +499,7 @@ function prepXML(sectionHeading, isValidating){
         if (isValidating) {
             backendCall("php/xml_mutator.php",
                 "addRootAttrs",
-                {namespaces: jsonData.namespaces},
+                {namespaces: g_jsonData.namespaces},
                 function(data){});
             backendCall("php/xml_validator.php",
                         "validate",
@@ -491,7 +507,7 @@ function prepXML(sectionHeading, isValidating){
                         function(data){});
             backendCall("php/xml_mutator.php",
                 "removeRootAttrs",
-                {namespaces: jsonData.namespaces},
+                {namespaces: g_jsonData.namespaces},
                 function(data){});
         }
         backendCall("php/xml_mutator.php",
