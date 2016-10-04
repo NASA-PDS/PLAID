@@ -98,7 +98,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                 </table>
             </section>
 
-            <h3>Discipline Nodes</h3>
+            <h3>Discipline Dictionaries</h3>
             <section id="disc_node_selection">
                 <p class="question">Which of these are applicable to your product?</p>
                 <div class="data-section">
