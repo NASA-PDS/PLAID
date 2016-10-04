@@ -200,14 +200,10 @@ function handleStepAddition(currentIndex, newIndex){
  */
 function insertStep(wizard, index, dataObj){
     revertStepClass(index);
-    //this reworking of g_state.currNode is due to the differences in how the step title is stored
-    //in the HTML versus in the variable
-    // var currNS = ;
-    // g_state.currNode = g_state.currNode.charAt(0).toUpperCase() + g_state.currNode.substr(1);
+
+    // Get the node name from the g_dictInfo global
     var nodeName = g_dictInfo[g_jsonData.namespaces[g_state.nsIndex]].name;
-    // var title = (dataObj["title"] ? dataObj["title"].replace(/_/g, " ") : g_state.currNode);
     var title = (dataObj["title"] ? dataObj["title"].replace(/_/g, " ") : nodeName);
-    title = title.charAt(0).toUpperCase() + title.substr(1);
     var data = (dataObj["next"] ? dataObj["next"] : dataObj);
     wizard.steps("insert", index, {
         title: title,
