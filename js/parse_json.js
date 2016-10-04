@@ -8,7 +8,10 @@
  * @author Michael Kim
  */
 $(document).ready(function(){
-    jsonData.pds4Obj = getJSON(filePaths.PDS4_JSON);
+    // g_jsonData.pds4Obj = getJSON(filePaths.PDS4_JSON);
+    g_jsonData.searchObj = getJSON(filePaths.PDS_JSON);
+    g_jsonData.nodes['pds'] = getJSON(filePaths.PDS_JSON);
+    g_jsonData.namespaces[0] = 'pds';
 });
 /**
 * Read in the text from a file as a JSON.
@@ -49,7 +52,7 @@ function getJSON(file){
  * @param {string} elementName PDS4 identifier of the element to search for
  * @return {Object} object corresponding to the specified class name
  */
-function getElement(outerObj, type, dictName, elementName){
+function getElementFromDict(outerObj, type, dictName, elementName){
     if ("dataDictionary" in outerObj){
         var dataDict = outerObj["dataDictionary"];
         if (dictName in dataDict){
@@ -58,42 +61,95 @@ function getElement(outerObj, type, dictName, elementName){
                 var specifier = dictName.replace("Dictionary", "");
                 var innerObj = dict[key][specifier];
                 if (innerObj["identifier"] === elementName){
+                    // if a class or attribute is what you are looking for,
+                    // return the object you already have
                     if (type === "class" || type === "attribute"){
                         return innerObj;
-                    }
-                    else {
-                        if (innerObj["nameSpaceId"] !== jsonData.currNS){
-                            jsonData.currNS = innerObj["nameSpaceId"];
-                            jsonData.namespaces.push(innerObj["nameSpaceId"]);
-                        }
-                        jsonData.currNode = type;
-                        handleProductOrNode(outerObj, innerObj, type);
+                    } else { // otherwise you are trying to extract the node dictionary data
+                        console.log('Unknown type: ' + type);
                         return;
                     }
+                    // else {
+                    //     if (innerObj["nameSpaceId"] !== jsonData.currNS){
+                    //         jsonData.currNS = innerObj["nameSpaceId"];
+                    //         jsonData.namespaces.push(innerObj["nameSpaceId"]);
+                    //     }
+                    //     jsonData.currNode = type;
+                    //     handleProductOrNode(outerObj, innerObj, type);
+                    // }
                 }
             }
         }
     }
 }
+
+// getElement(g_jsonData.nodes[nodeName], nodeName, "classDictionary", nodeId);
+function setDisciplineDict(nodeName, nodeId) {
+    // Set the parent node-specific data dictionary object
+    // TODO - this should probably be changed to use one central IM unless a specific
+    // updated node dictionary is specified. This currently reads in dictionaries for
+    // each node separately, when they may be the 'same'
+    g_jsonData.searchObj = g_jsonData.nodes[nodeName];
+    var parentObj = g_jsonData.nodes[nodeName];
+
+    // Set the class dictionary intermediate object to loop through
+    var intermObj = parentObj['dataDictionary']['classDictionary'];
+
+    var childObj = {};
+    for (var key in intermObj) {
+        // Looking for the child class for this specific node
+        childObj = intermObj[key]['class'];
+
+        // If the dictionary is the namespace we are looking for
+        if (childObj["identifier"] === nodeId) {
+
+            // If this new discipline dictionary NS has not already been added
+            // to the state
+            currNS = g_jsonData.namespaces[g_state.nsIndex];
+            newNS = childObj["nameSpaceId"];
+            if ($.inArray(newNS, g_jsonData.namespaces) !== true) {
+            // if ( !== currNS) {
+                g_state.nsIndex = 1;
+                g_jsonData.namespaces.splice(g_state.nsIndex, 0, newNS);
+            }
+
+            // g_state.currNode = g_jsonData.namespaces[g_state.nsIndex];
+            // g_state.currNS
+            // handleProductOrNode(outerObj, innerObj, type);
+
+            var assocList = childObj["associationList"];
+            g_jsonData.refObj = {};
+            //get initial associations for creating main steps
+            getAssociations(parentObj, assocList, g_jsonData.refObj);
+            //get next two levels of associations for creating element-bars and
+            //displaying subelement information in the popovers
+            getLevelOfAssociations(parentObj, g_jsonData.refObj, true);
+            // insertStep($("#wizard"), wizardData.currentStep+1, g_jsonData.refObj);
+
+            break;
+        }
+    }
+}
+
 /**
  * Once the product or discipline node object has been found in the overall JSON object, get the
  * associations and start creating corresponding steps in the wizard.
- * Note: jsonData.refObj is the newly formed object that is used for storing the necessary
+ * Note: g_jsonData.refObj is the newly formed object that is used for storing the necessary
  * data for the wizard and quicker searching.
  * @param {Object} overallObj JSON object to search
  * @param {Object} element object containing the overall info for the product or node
  * @param {string} type
  */
-function handleProductOrNode(overallObj, element, type){
-    var assocList = element["associationList"];
-    jsonData.refObj = {};
-    //get initial associations for creating main steps
-    getAssociations(overallObj, assocList, jsonData.refObj);
-    //get next two levels of associations for creating element-bars and
-    //displaying subelement information in the popovers
-    getLevelOfAssociations(overallObj, jsonData.refObj, true);
-    insertStep($("#wizard"), wizardData.currentStep+1, jsonData.refObj);
-}
+// function handleProductOrNode(overallObj, element, type){
+//     var assocList = element["associationList"];
+//     g_jsonData.refObj = {};
+//     //get initial associations for creating main steps
+//     getAssociations(overallObj, assocList, g_jsonData.refObj);
+//     //get next two levels of associations for creating element-bars and
+//     //displaying subelement information in the popovers
+//     getLevelOfAssociations(overallObj, g_jsonData.refObj, true);
+//     insertStep($("#wizard"), wizardData.currentStep+1, g_jsonData.refObj);
+// }
 /**
 * Search for and form associations in the new object from the overall object.
 * @param {Object} object JSON object to search through
@@ -111,7 +167,7 @@ function getAssociations(object, associationList, currObj){
             if (identifiers === undefined) { identifiers = child["attributeId"]; }
             for (var attIndex in identifiers){
                 title = identifiers[attIndex].split(".").pop();
-                currObj[index][title] = getElement(object, "attribute", "attributeDictionary", identifiers[attIndex]);
+                currObj[index][title] = getElementFromDict(object, "attribute", "attributeDictionary", identifiers[attIndex]);
                 determineRequirements(child, currObj[index][title]);
             }
         }
@@ -120,7 +176,7 @@ function getAssociations(object, associationList, currObj){
             if (identifiers === undefined) { identifiers = child["classId"]; }
             for (var clIndex in identifiers){
                 title = identifiers[clIndex].split(".").pop();
-                var classObj = getElement(object, "class", "classDictionary", identifiers[clIndex]);
+                var classObj = getElementFromDict(object, "class", "classDictionary", identifiers[clIndex]);
                 //use Object.assign to make a copy of the object
                 //this prevents overwriting the original object in future modifications
                 currObj[index][title] = Object.assign({}, classObj);
@@ -180,17 +236,29 @@ function assignObjectPath(startingIndex, currObject, children){
 /**
  * Use the specified path to traverse to the object reference and return it.
  * @param path
- * @returns {jsonData.refObj|{}}
+ * @returns {g_jsonData.refObj|{}}
  */
-function getObjectFromPath(path){
+function getObjectFromPath(path, refObj){
     var elementKeys = path.split("/");
-    var currObj = jsonData.refObj;
+    var currObj = refObj;
+    var nextDictInfo = {};
     for (var index in elementKeys){
         try {
             currObj = currObj[elementKeys[index]];
-        }
-        catch(e){
+        } catch(e){
             return;
+        }
+
+        // If currObj is undefined, we can assume there is more to traverse through, but we are not in the write
+        // dictionary. Need to switch to another node dictionary.
+        if ( currObj === undefined ) {
+            g_state.nsIndex++;
+
+            // nextDiscDict = g_jsonData.namespaces[g_state.nsIndex];
+            nextDictInfo = g_dictInfo[g_jsonData.namespaces[g_state.nsIndex]];
+
+            setDisciplineDict(nextDictInfo['name'], nextDictInfo['base_class']);
+            getObjectFromPath(path, g_jsonData.refObj);
         }
         if (index < elementKeys.length-1 && isNaN(elementKeys[index])) {
             currObj = currObj["next"];
@@ -198,6 +266,7 @@ function getObjectFromPath(path){
     }
     return currObj;
 }
+
 /**
 * Using the values stored in the association list objects (assocMention), determine
 * whether the association is required, set the range, and store the info in the
