@@ -8,7 +8,6 @@
  * @author Michael Kim
  */
 $(document).ready(function(){
-    // g_jsonData.pds4Obj = getJSON(filePaths.PDS4_JSON);
     g_jsonData.searchObj = getJSON(filePaths.PDS_JSON);
     g_jsonData.nodes['pds'] = getJSON(filePaths.PDS_JSON);
     g_jsonData.namespaces[0] = 'pds';
