@@ -10,10 +10,10 @@
 /**
  * This object is for storing the paths to the various JSON files for PDS4 and
  * discipline nodes. These JSONs control the dynamic creation of content in the LDT.
- * @type {{PDS4_JSON: string, CART_JSON: string, DISP_JSON: string, GEOM_JSON: string, IMG_JSON: string, PART_JSON: string, RMS_JSON: string, BOD_JSON: string, SPECT_JSON: string, WAV_JSON: string}}
+ * @type {{PDS_JSON: string, CART_JSON: string, DISP_JSON: string, GEOM_JSON: string, IMG_JSON: string, PART_JSON: string, RMS_JSON: string, BOD_JSON: string, SPECT_JSON: string, WAV_JSON: string}}
  */
 var filePaths = {
-    PDS4_JSON: "config/PDS4_PDS_JSON_1700.json",
+    PDS_JSON: "config/PDS4_PDS_JSON_1700.json",
     CART_JSON: "",
     DISP_JSON: "",
     GEOM_JSON: "config/input-PDS4_GEOM_1600_1300_GEOM_1300.JSON",
@@ -24,20 +24,55 @@ var filePaths = {
     SPECT_JSON: "",
     WAV_JSON: ""
 };
+
+/**
+ * A dictionary of information specific to each namespace/dictionary.
+ * Details TBD.
+ */
+var g_dictInfo = {
+    pds: {
+        name: 'Product Type',
+        path: "config/PDS4_PDS_JSON_1700.json"
+    },
+    img: {
+        ns: 'img',
+        name: 'imaging',
+        base_class: '0001_NASA_PDS_1.img.Imaging',
+        path: "config/PDS4_IMG_1700.JSON"
+    },
+    geom: {
+        ns: 'geom',
+        name: 'geometry',
+        base_class: '0001_NASA_PDS_1.geom.Geometry',
+        path: "config/input-PDS4_GEOM_1600_1300_GEOM_1300.JSON"
+    },
+}
+
 /**
  * This object stores data related to the JSONs being referenced. It helps with
  * searching and quick reference of the JSON data.
  * @type {{refObj: {}, pds4Obj: {}, searchObj: {}, nodes: Array, currNS: string, namespaces: Array, currNode: string}}
  */
-var jsonData = {
+var g_jsonData = {
     refObj: {},
-    pds4Obj: {},
     searchObj: {},
-    nodes: [],
-    currNS: "",
-    namespaces: [],
-    currNode: ""
+    nodes: {},
+    namespaces: []
 };
+
+/**
+ * Maps namespace to specific node information.
+ *
+ */
+// var
+
+/** Maintains current state information
+ */
+var g_state = {
+    currNS: "",         // maps to g_jsonData.namespaces[]
+    nsIndex: 0,     // maps to g_jsonData.namespaces indexes
+};
+
 /**
  * This object contains information related to the LDT wizard. Referencing this object
  * helps with control of the wizard.
