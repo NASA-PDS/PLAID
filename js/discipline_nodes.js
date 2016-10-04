@@ -32,7 +32,6 @@ function discNodesSelection(currentIndex){
 
             // Get the nodeName from the HTML
             var nodeName = span.html().replace(/\b\s\b/, "_").toLowerCase();
-            nodeName = nodeName.replace(/\b\s\b/, "_").toLowerCase();
 
             // Get the IM identifier from the data-id
             var nodeId = span.attr("data-id");
@@ -41,10 +40,8 @@ function discNodesSelection(currentIndex){
             // TODO - do all of the node-specific processing in the getJSON method
             // not later on in the setDisciplineDict function.
             g_jsonData.nodes[nodeName] = getJSON(getNodeJsonFilename(nodeName));
-            // g_jsonData.searchObj = g_jsonData.nodes[nodeName];
             wizardData.mainSteps.push(nodeName);
 
-            // getElementFromDict(g_jsonData.nodes[nodeName], nodeName, "classDictionary", nodeId);
             setDisciplineDict(nodeName, nodeId);
 
             // Add this discipline node as a step. We go in reverse order because we basically add
