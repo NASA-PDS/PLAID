@@ -41,8 +41,10 @@ function captureSelection(){
     clearActiveElements();
     $(element).addClass("active");
     var selection = $(".productType", element).attr("data-id");
-    jsonData.searchObj = jsonData.pds4Obj;
-    getElement(jsonData.pds4Obj, "product", "classDictionary", selection);
+    // g_jsonData.searchObj = g_jsonData.pds4Obj;
+    // getElementFromDict(g_jsonData.searchObj, "product", "classDictionary", selection);
+    setDisciplineDict("pds", selection);
+    insertStep($("#wizard"), wizardData.currentStep+1, g_jsonData.refObj);
     //auto-advance to the next step after capturing the user's product selection
     $("#wizard").steps("next");
 }
@@ -221,7 +223,7 @@ function handleExportStep(newIndex){
     if (isExportStep && hasNoPreview){
         backendCall("php/xml_mutator.php",
             "addRootAttrs",
-            {namespaces: jsonData.namespaces},
+            {namespaces: g_jsonData.namespaces},
             function(data){});
         backendCall("php/xml_mutator.php",
             "formatDoc",
