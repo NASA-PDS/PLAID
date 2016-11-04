@@ -7,7 +7,7 @@
  * JSON files will need to be included in the config directory and pointed at in the {@link filePaths}
  * object. The data-id attributes of the discipline node elements in wizard.php will also need to
  * be updated to contain the identifier for the node within the JSON. After that the code will need
- * to be modified to update the {@link jsonData.currNS} to the namespace of the current discipline node
+ * to be modified to update the {@link g_state.currNS} to the namespace of the current discipline node
  * as the user progresses through them in the wizard.
  *
  * Creation Date: 7/15/16.
@@ -23,15 +23,31 @@ function discNodesSelection(currentIndex){
     var currSection = $("#wizard-p-" + currentIndex.toString());
     if ($(".checkbox-group", currSection).length > 0){
         wizardData.mainSteps = [];
+
+        // Let's loop through all of those discipline node steps that have not been
+        // added as a step and have the box checked to be added
         $($("input:not(.stepAdded):checked", currSection).get().reverse()).each(function(){
+            // Get the discNode section DOM object
             var span = $(this).siblings("span.discNode");
-            var nodeName = span.html();
-            nodeName = nodeName.replace(/\b\s\b/, "_").toLowerCase();
+
+            // Get the nodeName from the HTML
+            var nodeName = span.html().replace(/\b\s\b/, "_").toLowerCase();
+
+            // Get the IM identifier from the data-id
             var nodeId = span.attr("data-id");
-            jsonData.nodes[nodeName] = getJSON(getNodeJsonFilename(nodeName));
-            jsonData.searchObj = jsonData.nodes[nodeName];
+
+            // Maintain the node dictionary in its own object
+            // TODO - do all of the node-specific processing in the getJSON method
+            // not later on in the setDisciplineDict function.
+            g_jsonData.nodes[nodeName] = getJSON(getNodeJsonFilename(nodeName));
             wizardData.mainSteps.push(nodeName);
-            getElement(jsonData.nodes[nodeName], nodeName, "classDictionary", nodeId);
+
+            setDisciplineDict(nodeName, nodeId);
+
+            // Add this discipline node as a step. We go in reverse order because we basically add
+            // each node step right after the current step
+            insertStep($("#wizard"), wizardData.currentStep+1, g_jsonData.refObj);
+
             $(this).addClass("stepAdded");
         });
     }
