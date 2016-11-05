@@ -31,7 +31,7 @@ var filePaths = {
  */
 var g_dictInfo = {
     pds: {
-        name: 'Product Type',
+        name: 'Label Root',
         path: "config/PDS4_PDS_JSON_1700.json"
     },
     img: {
