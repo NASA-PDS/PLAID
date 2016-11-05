@@ -123,7 +123,7 @@ function storeOptionalNodes(priorIndex, progressObj){
     progressObj['containsChoice'] = ($(".choice-field", stepContent).length > 0);
     $(".element-bar", stepContent).each(function(){
         var element = {
-            id: $(this).attr('id'),
+            id: $(this).attr('data-path'),
             num: $(".element-bar-counter", this).val(),
             val: $(".element-bar-input", this).val()
         };
@@ -252,7 +252,7 @@ function loadOptionalNode(dataObj){
  * @returns {string} modified jQuery selector
  */
 function prepJqId(id) {
-    return "#" + id.replace( /(:|\.|\[|\]|,|\/)/g, "\\$1" );
+    return "[data-path='" + id.replace( /(:|\.|\[|\]|,|\/)/g, "\\$1" ) + "']";
 }
 /**
  * Using the data stored in the progress object, check the boxes that the user
