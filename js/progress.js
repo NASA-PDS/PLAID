@@ -54,7 +54,7 @@ function storeProgress(priorIndex, stepType){
         case "product_type":
             storeProductType(priorIndex, currObj);
             break;
-        case "discipline_nodes":
+        case "discipline_dictionaries":
             storeDisciplineNodes(priorIndex, currObj);
             break;
         case "mission_specifics":
