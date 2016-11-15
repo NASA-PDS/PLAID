@@ -223,7 +223,7 @@ function generateContent(sectionTitle, dataObj){
     section.className = "optional-section";
     var question = document.createElement("p");
     question.className = "question";
-    question.innerHTML = "What elements do you want to keep in '" + sectionTitle + "'?";
+    question.innerHTML = "What elements do you want to keep in '" + sectionTitle.charAt(0).toUpperCase() + sectionTitle.slice(1) + "'?";
     section.appendChild(question);
     var subsection = document.createElement("div");
     subsection.className = "data-section";

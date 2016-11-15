@@ -230,7 +230,15 @@ function handleExportStep(newIndex){
             {},
             function(data){});
         var preview = generateFinalPreview();
-        $("#finalPreview", nextSection).append(preview);
+        $("#finalPreview", nextSection).append(preview[0]);
+        var codemirror_editor = CodeMirror.fromTextArea(preview[1], {
+            mode: "xml",
+            lineNumbers: true
+        })
+        $(".CodeMirror").css("height", "93%");
+        setTimeout(function() {
+            codemirror_editor.refresh();
+        }, 100);
     }
 }
 /**
@@ -250,17 +258,17 @@ function generateFinalPreview() {
     cardHeader.innerHTML = "Label Template Preview";
     card.appendChild(cardHeader);
 
-    var cardBlock = document.createElement("div");
-    cardBlock.className = "finalPreview card-block";
+    var cardBlock = document.createElement("textarea");
+    cardBlock.className = "";
     card.appendChild(cardBlock);
 
     backendCall("php/preview_template.php", null, {}, function(data){
-        cardBlock.textContent = data;
+        $(cardBlock).text(data);
     });
 
     previewContainer.appendChild(card);
 
-    return previewContainer;
+    return [previewContainer, cardBlock];
 }
 /**
  * Make a call to a function in the specified file on the backend.

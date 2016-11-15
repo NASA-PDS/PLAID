@@ -12,6 +12,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="thirdparty/js/jquery.steps.min.js"></script>
     <script src="thirdparty/js/tree.jquery.js"></script>
+    <script src="js/codemirror.js"></script>
+    <script src="js/xml.js"></script>
     <script src="config/config.js"></script>
     <script src="config/infobar_config.js"></script>
     <script src="js/main.js"></script>
@@ -24,6 +26,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <script src="js/discipline_nodes.js"></script>
     <script src="js/pop_up.js"></script>
     <script src="js/progress.js"></script>
+    <link href="css/codemirror.css" rel="stylesheet">
+
     <link href="thirdparty/css/jquery.steps.css" rel="stylesheet">
     <link href="thirdparty/css/jqtree.css" rel="stylesheet">
     <link href="thirdparty/css/bootstrap.css" rel="stylesheet">
@@ -106,20 +110,20 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" disabled>
+                                    <input type="checkbox">
                                     <span class="spacer"></span>
                                     <i class="fa fa-map fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="">Cartography</span>
+                                    <span class="discNode" data-id="0001_NASA_PDS_1.cart.Cartography">Cartography</span>
                                 </div>
                             </td>
                         </tr>
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" disabled>
+                                    <input type="checkbox">
                                     <span class="spacer"></span>
                                     <i class="fa fa-desktop fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="">Display</span>
+                                    <span class="discNode" data-id="0001_NASA_PDS_1.disp.Display">Display</span>
                                 </div>
                             </td>
                         </tr>
@@ -156,10 +160,10 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" disabled>
+                                    <input type="checkbox">
                                     <span class="spacer"></span>
                                     <i class="fa fa-circle fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="">Ring-Moon Systems</span>
+                                    <span class="discNode" data-id="0001_NASA_PDS_1.rings.Rings">Ring-Moon Systems</span>
                                 </div>
                             </td>
                         </tr>

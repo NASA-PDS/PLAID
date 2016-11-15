@@ -94,6 +94,7 @@ function setDisciplineDict(nodeName, nodeId) {
     // Set the class dictionary intermediate object to loop through
     var intermObj = parentObj['dataDictionary']['classDictionary'];
 
+    var found = 0;
     var childObj = {};
     for (var key in intermObj) {
         // Looking for the child class for this specific node
@@ -101,12 +102,12 @@ function setDisciplineDict(nodeName, nodeId) {
 
         // If the dictionary is the namespace we are looking for
         if (childObj["identifier"] === nodeId) {
-
+            found = 1;
             // If this new discipline dictionary NS has not already been added
             // to the state
             currNS = g_jsonData.namespaces[g_state.nsIndex];
             newNS = childObj["nameSpaceId"];
-            if ($.inArray(newNS, g_jsonData.namespaces) !== true) {
+            if (g_jsonData.namespaces.indexOf(newNS) == -1) {
             // if ( !== currNS) {
                 g_state.nsIndex = 1;
                 g_jsonData.namespaces.splice(g_state.nsIndex, 0, newNS);
@@ -127,6 +128,50 @@ function setDisciplineDict(nodeName, nodeId) {
 
             break;
         }
+    }
+    if(!found && nodeName != "pds") {
+        // Couldn't find the specified element... need to determine by looking at json
+        var objectToReturn = {};
+        var splitOutNamespace = nodeId.substr(0, nodeId.lastIndexOf("."));
+        var nodeNS = splitOutNamespace.substr(splitOutNamespace.lastIndexOf(".")+1, splitOutNamespace.length);
+        objectToReturn["associationList"] = [];
+        var specifier = nodeName.replace("Dictionary", "");
+        // collect objects from namespace
+        for (var key in intermObj){
+            var innerObj = intermObj[key]["class"];
+            if(innerObj["identifier"].indexOf(splitOutNamespace) != -1 && (innerObj["identifier"].match(/\./g)||[]).length == 2) {
+                // Upper level node that matches namespace
+                console.log(innerObj["identifier"]);
+                console.log(innerObj);
+                var associationToInsert = {};
+                associationToInsert["association"] = {};
+                associationToInsert["association"]["isAttribute"] = "false";
+                associationToInsert["association"]["classId"] = [];
+                associationToInsert["association"]["classId"].push(innerObj["identifier"]);
+                associationToInsert["association"]["minimumCardinality"] = "0";
+                associationToInsert["association"]["maximumCardinality"] = "1";
+                objectToReturn["associationList"].push(associationToInsert);
+
+            }
+        }
+        if(objectToReturn["associationList"].length > 0) {
+            if (g_jsonData.namespaces.indexOf(nodeNS) == -1) {
+                g_state.nsIndex = 1;
+                g_jsonData.namespaces.splice(g_state.nsIndex, 0, nodeNS);
+            }
+        }
+
+
+        var assocList = objectToReturn["associationList"];
+        g_jsonData.refObj = {};
+        //get initial associations for creating main steps
+        getAssociations(parentObj, assocList, g_jsonData.refObj);
+        //get next two levels of associations for creating element-bars and
+        //displaying subelement information in the popovers
+        getLevelOfAssociations(parentObj, g_jsonData.refObj, true);
+        // insertStep($("#wizard"), wizardData.currentStep+1, g_jsonData.refObj);
+
+       // handleProductOrNode(outerObj, objectToReturn, type);
     }
 }
 
@@ -248,16 +293,17 @@ function getObjectFromPath(path, refObj){
             return;
         }
 
-        // If currObj is undefined, we can assume there is more to traverse through, but we are not in the write
+        // If currObj is undefined, we can assume there is more to traverse through, but we are not in the right
         // dictionary. Need to switch to another node dictionary.
         if ( currObj === undefined ) {
             g_state.nsIndex++;
 
             // nextDiscDict = g_jsonData.namespaces[g_state.nsIndex];
+            // g_dictInfo is an associative array...
             nextDictInfo = g_dictInfo[g_jsonData.namespaces[g_state.nsIndex]];
 
             setDisciplineDict(nextDictInfo['name'], nextDictInfo['base_class']);
-            getObjectFromPath(path, g_jsonData.refObj);
+            return getObjectFromPath(path, g_jsonData.refObj);
         }
         if (index < elementKeys.length-1 && isNaN(elementKeys[index])) {
             currObj = currObj["next"];

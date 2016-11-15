@@ -14,12 +14,12 @@
  */
 var filePaths = {
     PDS_JSON: "config/PDS4_PDS_JSON_1700.json",
-    CART_JSON: "",
-    DISP_JSON: "",
+    CART_JSON: "config/cart_1700.json",
+    DISP_JSON: "config/geom_disp_rings_1700.json",
     GEOM_JSON: "config/input-PDS4_GEOM_1600_1300_GEOM_1300.JSON",
     IMG_JSON: "config/PDS4_IMG_1700.JSON",
     PART_JSON: "",
-    RMS_JSON: "",
+    RMS_JSON: "config/geom_disp_rings_1700.json",
     BOD_JSON: "",
     SPECT_JSON: "",
     WAV_JSON: ""
@@ -46,6 +46,24 @@ var g_dictInfo = {
         base_class: '0001_NASA_PDS_1.geom.Geometry',
         path: "config/input-PDS4_GEOM_1600_1300_GEOM_1300.JSON"
     },
+    cart: {
+        ns: 'cart',
+        name: 'cartography',
+        base_class: '0001_NASA_PDS_1.cart.Cartogrpahy',
+        path: "config/cart_1700.json"
+    },
+    disp: {
+        ns: 'disp',
+        name: 'display',
+        base_class: '0001_NASA_PDS_1.disp.Display',
+        path: "config/geom_disp_rings_1700.json"
+    },
+    rings: {
+        ns: 'rings',
+        name: 'rings',
+        base_class: '0001_NASA_PDS_1.rings.Rings',
+        path: "config/geom_disp_rings_1700.json"
+    }
 }
 
 /**
