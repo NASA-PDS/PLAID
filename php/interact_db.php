@@ -11,7 +11,6 @@
  * @author Trevor Morse
  * @author Michael Kim
  */
-
 require_once('../thirdparty/php/PasswordHash.php');
 $HASHER = new PasswordHash(8, false);
 try{
@@ -80,7 +79,7 @@ function verifyUser($args){
         $_SESSION['user_id'] = $result[0]->id;
     }
     else{
-        header("Location: ../login.html");
+        header("Location: ../index.html");
         $_SESSION['login'] = true;
     }
 
