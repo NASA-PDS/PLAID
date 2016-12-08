@@ -1,4 +1,19 @@
 /**
+ * Copyright 2017 California Institute of Technology, developed with support from NASA.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *
  * @file An isolated location to store configurations for the pop-up windows used throughout the LDT. The main intent
  * of this file is to interact closely with the generatePopUp method found in pop_up.js, supplying it with
  * the content and functions it requires to dynamically construct unique pop-ups for any given situation.
@@ -12,6 +27,7 @@
  *
  * @author Michael Kim
  * @author Trevor Morse
+ * @author Stirling Algermissen
  */
 var popUpData = {
     // These variables, currentStep and newStep, are used to store the initial step change attempt made by the user,
