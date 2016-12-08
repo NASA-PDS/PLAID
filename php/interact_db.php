@@ -27,13 +27,14 @@
  * @author Stirling Algermissen
  */
 require_once('../thirdparty/php/PasswordHash.php');
+require("configuration.php");
 $HASHER = new PasswordHash(8, false);
 try{
-    $host = 'miplapps2.jpl.nasa.gov';
-    $db   = 'apps';
-    $port = '4306';
-    $user = 'dev';
-    $pass = '!miplDev8';
+    $host = DB_HOST;
+    $db   = DB_DATABASE;
+    $port = DB_PORT;
+    $user = DB_USER;
+    $pass = DB_PASSWORD;
 
     $LINK = new \PDO('mysql:host=' . $host .
                      ';dbname='. $db .
