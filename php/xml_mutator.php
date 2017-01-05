@@ -65,20 +65,39 @@ function addNode($args){
     $nodePath = $args["path"];
     $quantity = $args["quantity"];
     $ns = $args["ns"];
-    list($nodeName, $nodePath) = handlePath($nodePath, $ns);
-    if (isNonDefaultNamespace($ns)){ $nodeName = $ns.":".$nodeName; }
+    list($nodeName, $nodePath) = handlePath($nodePath, $ns, isset($args["root_discipline_node"]));
+    if (isNonDefaultNamespace($ns)){
+        // make sure discipline root node exists
+        $nodeName = $ns.":".$nodeName;
+    }
     $nodes = getNode($nodePath, $ns);
+    print_r($nodes);
+    if($nodes->length == 0 && isNonDefaultNamespace($ns)) {
+        // Create ns root node
+        $root_discipline_node = prependDisciplineRootNode(array(), $ns);
+        if(count($root_discipline_node) == 1) {
+            $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $root_discipline_node[0]);
+            $discipline_area = getNode("Observation_Area/Discipline_Area", "");
+            $discipline_area = $discipline_area[0];
+            $discipline_area->appendChild($newNode);
+            $nodes = getNode($nodePath, $ns);
+        }
+    }
     foreach($nodes as $node){
         for ($x = 0; $x < $quantity; $x++){
-            if (isNonDefaultNamespace($ns))
+
+            if (isNonDefaultNamespace($ns)) {
+
                 $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $nodeName);
-            else
+            } else {
                 $newNode = $DOC->createElement($nodeName);
+            }
             addNodeValue($newNode, $args["value"]);
             $node->appendChild($newNode);
         }
     }
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
+    print_r($args);
     updateLabelXML($args);
 }
 
@@ -162,6 +181,7 @@ function removeAllChildNodes($args){
         }
     }
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
+    print_r($args);
     updateLabelXML($args);
 }
 /**
@@ -173,7 +193,7 @@ function removeAllChildNodes($args){
  * @param {string} $ns namespace for the node (or empty if default namespace)
  * @return array name of the node and the path to its parent (in backend structure)
  */
-function handlePath($path, $ns){
+function handlePath($path, $ns, $is_discpline_root){
     $arr = explode("/", $path);
     //have to call array_values to reset indices of the array after filtering
     $filtArr = array_values(array_filter($arr, isNaN));
@@ -183,6 +203,11 @@ function handlePath($path, $ns){
             if (!empty($filtArr[$i]))
                 $filtArr[$i] = $ns.":".$filtArr[$i];
         }
+
+        if(!$is_discpline_root) {
+            $filtArr = prependDisciplineRootNode($filtArr, $ns);
+        }
+
         $subpath = implode("/", $filtArr);
         if (!empty($subpath))
             $path = "Observation_Area/Discipline_Area/".$subpath;
@@ -204,10 +229,11 @@ function addRootAttrs($args){
     global $DOC;
     $root = $DOC->documentElement;
     foreach ($namespaces as $ns){
-        if ($ns === "pds")
+        if ($ns === "pds") {
             $root->setAttribute("xmlns", "http://pds.nasa.gov/pds4/$ns/v1");
-        else
+        } else {
             $root->setAttribute("xmlns:$ns", "http://pds.nasa.gov/pds4/$ns/v1");
+        }
     }
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
@@ -230,6 +256,7 @@ function removeRootAttrs($args){
             $root->removeAttributeNS("http://pds.nasa.gov/pds4/$ns/v1", $ns);
     }
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
+    print_r($args);
     updateLabelXML($args);
 }
 
@@ -266,4 +293,38 @@ function isNaN($val){
  */
 function isNonDefaultNamespace($ns){
     return !empty($ns) && $ns !== "pds";
+}
+
+/**
+ * Helper function for prepending namespace root node for discipline nodes
+ * @param {string} $filtArr Array of attribute/class to be added
+ * @param {string} $ns namespace of attribute/class
+ * @return array
+ */
+function prependDisciplineRootNode($filtArr, $ns) {
+    switch($ns) {
+        case "img":
+            array_unshift($filtArr, "img:Imaging");
+            break;
+        case "cart":
+            array_unshift($filtArr, "cart:Cartography");
+            break;
+        case "geom":
+            array_unshift($filtArr, "geom:Geometry");
+            break;
+        case "disp":
+            array_unshift($filtArr, "disp:Display");
+            break;
+        case "rings":
+            array_unshift($filtArr, "rings:Rings");
+            break;
+        case "wave":
+            array_unshift($filtArr, "wave:Wave");
+            break;
+        default:
+            return $filtArr;
+    }
+    return $filtArr;
+
+
 }
