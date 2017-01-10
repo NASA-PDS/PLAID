@@ -145,8 +145,9 @@ var popUpData = {
                         function: "storeNewLabel",
                         labelName: $("#labelNameInput").val()
                     }
+                }).always(function() {
+                    window.location = "wizard.php";
                 });
-                window.location = "wizard.php";
             }
         }
     },

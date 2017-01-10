@@ -23,6 +23,16 @@
  * @author Stirling Algermissen
  */
 $(document).ready(function() {
+    var refreshTime = 300000; // every 5 minutes in milliseconds - refresh the session
+    window.setInterval( function() {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "php/refresh_session.php",
+            success: function(data) {
+            }
+        });
+    }, refreshTime );
     loadMissionSpecificsData();
     loadLabelName();
     loadProgressData();
