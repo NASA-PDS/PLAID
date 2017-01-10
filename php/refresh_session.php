@@ -1,0 +1,6 @@
+<?php
+/**
+ * This file keeps the session alive
+ */
+session_start();
+?>
