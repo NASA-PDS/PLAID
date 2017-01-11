@@ -33,9 +33,6 @@ $(document).ready(function() {
             }
         });
     }, refreshTime );
-    loadMissionSpecificsData();
-    loadLabelName();
-    loadProgressData();
     $(".list-group-item:not(.yesButton):not(.noButton)").each(function(){
         $(this).click(captureSelection);
     });
@@ -56,6 +53,66 @@ $(document).ready(function() {
     $("ul[role='menu']").hide();
     addMissionSpecificsActionBar();
     previewDescription();
+    $('.modal-backdrop.loadingBackdrop').show();
+    $.when(
+        $.getJSON(filePaths.PDS_JSON, function(data) {
+            if (data.length === 1) {
+                g_jsonData.searchObj = data[0];
+                g_jsonData.nodes['pds'] = data[0];
+            } else {
+                g_jsonData.searchObj = data;
+                g_jsonData.nodes['pds'] = data;
+            }
+            g_jsonData.namespaces[0] = 'pds';
+        }),
+        $.ajax({
+            method: "post",
+            url: "php/interact_db.php",
+            data: {
+                function: "getMissionSpecificsData"
+            },
+            datatype: "text",
+            success: function (data) {
+                missionSpecifics = ($.parseJSON(data) === null ? [] : $.parseJSON(data));
+            }
+        }),
+        $.ajax({
+            method: "post",
+            url: "php/interact_db.php",
+            data: {
+                function: "getLabelName"
+            },
+            datatype: "text",
+            success: function(data){
+                $(".labelNameNav").text(data);
+            }
+        })
+
+    ).then(function() {
+        $.ajax({
+            method: "post",
+            url: "php/interact_db.php",
+            data: {
+                function: "getProgressData"
+            },
+            datatype: "text",
+            success: function (data) {
+                progressData = $.parseJSON(data);
+                //- If the progressData IS set AND IS NOT empty
+                if (typeof progressData != "undefined" &&
+                    progressData != null &&
+                    progressData.length > 0) {
+                    isLoading = true;
+                    //    - Call load
+                    loadAllProgress();
+                    isLoading = false;
+
+                }
+            }
+        }).always(function() {
+            $(".modal-backdrop").hide();
+        });
+    });
 });
 /**
  * When the user selects a product type, add the active class to that element
@@ -95,23 +152,7 @@ function previewDescription(){
         data = infoBarData["optional_nodes"];
     $("#help").append(data);
 }
-/**
- * Load the label name from the database and insert it into the LDT navbar in wizard.php.
- */
-function loadLabelName(){
-    $.ajax({
-        async: false,
-        method: "post",
-        url: "php/interact_db.php",
-        data: {
-            function: "getLabelName"
-        },
-        datatype: "text",
-        success: function(data){
-            $(".labelNameNav").text(data);
-        }
-    });
-}
+
 /**
  * When the user clicks on a plus button, increment the corresponding counter.
  * If it is a choice group (in other words, the user can choose between multiple elements),

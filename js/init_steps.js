@@ -100,7 +100,7 @@ function initWizard(wizard) {
                 var currStepHeading = $("#wizard-t-" + currentIndex.toString());
                 //parse the step title from the overall step element (in the left sidebar)
                 var currStepTitle = (/[A-Za-z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
-                prepXML(currStepTitle, true);
+                prepXML(currStepTitle, false); // XML validation disabled until integrated into tool
 
                 if((typeof progressData != "undefined" || progressData != null) &&
                     priorIndex+1 > progressData.length)
@@ -171,7 +171,7 @@ function handleStepAddition(currentIndex, newIndex){
                 if (currentIndex === 1){
                     wizardData.mainSteps.push(currObj['title']);
                     if (!hasRun){
-                        prepXML(currObj['title'], true);
+                        prepXML(currObj['title'], false); // XML validation disabled until integrated into tool
                         hasRun = true;
                     }
                 }
@@ -512,10 +512,12 @@ function prepXML(sectionHeading, isValidating){
                 "addRootAttrs",
                 {namespaces: g_jsonData.namespaces},
                 function(data){});
-            backendCall("php/xml_validator.php",
+           backendCall("php/xml_validator.php",
                         "validate",
                         {},
                         function(data){});
+
+
             backendCall("php/xml_mutator.php",
                 "removeRootAttrs",
                 {namespaces: g_jsonData.namespaces},

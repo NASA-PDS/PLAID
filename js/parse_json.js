@@ -22,11 +22,7 @@
  * @author Michael Kim
  * @author Stirling Algermissen
  */
-$(document).ready(function(){
-    g_jsonData.searchObj = getJSON(filePaths.PDS_JSON);
-    g_jsonData.nodes['pds'] = getJSON(filePaths.PDS_JSON);
-    g_jsonData.namespaces[0] = 'pds';
-});
+
 /**
 * Read in the text from a file as a JSON.
 * Modified from: https://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript
@@ -56,7 +52,7 @@ function getJSON(file){
     loadJSON(file, function(data){
         obj = JSON.parse(data);
     });
-    return (obj.length === 1 ? obj[0] : obj);
+    return obj.length === 1 ? obj[0] : obj;
 }
 /**
  * Search the specified object for an element of a specified type.
