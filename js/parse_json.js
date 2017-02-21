@@ -336,5 +336,6 @@ function determineRequirements(assocMention, assocDetails){
         var max = assocMention["maximumCardinality"];
         assocDetails["range"] = min + "-" + max;
         assocDetails["isRequired"] = (min === max);
+	assocDetails["classOrder"] = assocMention["classOrder"];
     }
 }

@@ -100,7 +100,7 @@ function initWizard(wizard) {
                 var currStepHeading = $("#wizard-t-" + currentIndex.toString());
                 //parse the step title from the overall step element (in the left sidebar)
                 var currStepTitle = (/[A-Za-z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
-                prepXML(currStepTitle, false); // XML validation disabled until integrated into tool
+                prepXML(currStepTitle, true); // XML validation disabled until integrated into tool
 
                 if((typeof progressData != "undefined" || progressData != null) &&
                     priorIndex+1 > progressData.length)
@@ -242,7 +242,24 @@ function generateContent(sectionTitle, dataObj){
     section.appendChild(question);
     var subsection = document.createElement("div");
     subsection.className = "data-section";
-    for (var index in dataObj){
+    // need to sort before iterating through - TODO - clean this up
+    var indexArray = [];
+    var indexLookup = $.map(dataObj, function(value, index) {
+	    return [value];
+	});
+    var dataArray = $.map(dataObj, function(value, index) {
+	    return [value];
+	});
+    dataArray.sort(function(a, b) {
+	    return a[Object.keys(a)[0]].classOrder - b[Object.keys(b)[0]].classOrder;
+	});
+
+    $.each(dataArray, function(key, value) {
+	    indexArray.push(indexLookup.indexOf(value));
+	});
+
+    for (var curIndex in indexArray){
+        var index = indexArray[curIndex];
         var counter = 0, flag = false;
         var choicegroup;
         for (var key in dataObj[index]){
