@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @file Contains the functions for handling and controlling style of the element bars throughout the LDT wizard. Element
+ * @file Contains the functions for handling and controlling style of the element bars throughout the PLAID wizard. Element
  * bars are created from the Bootstrap v4 Input Groups and are used to determine the quantity of optional attributes
  * desired in the label.
  *

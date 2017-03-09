@@ -192,7 +192,7 @@ function handleStepAddition(currentIndex, newIndex){
                             {path: path, quantity: val, value: metadata, ns: g_jsonData.namespaces[g_state.nsIndex]},
                             function(data){});
             }
-            //The LDT currently utilizes a starter label as the base of the XML. This starter label
+            //PLAID currently utilizes a starter label as the base of the XML. This starter label
             //contains one instance of all required and optional elements according to the PDS4 standard.
             //Since not all elements on the top level of the XML (corresponding to the 'Product' step with
             //currentIndex = 1, if the user does not choose to include these elements, they need to be removed

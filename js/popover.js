@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * @file Contains the data dictionary for static popovers as well as the functions for creating
- * and controlling the popovers. These popovers show throughout the LDT wizard to provide the
+ * and controlling the popovers. These popovers show throughout the PLAID wizard to provide the
  * user with helpful descriptions to guide their decisions.
  *
  * Creation Date: 6/29/16.

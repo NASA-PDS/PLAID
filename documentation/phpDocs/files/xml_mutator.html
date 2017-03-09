@@ -106,12 +106,12 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">7</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">8</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
                                 </a>
                             </li>
                             <li>
@@ -138,7 +138,7 @@
             <div class="accordion-heading">
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-2053660044" class="accordion-body collapse in">
+            <div id="namespace-685283127" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -566,7 +566,7 @@ the namespace of the node, and the value (if any) to insert in the node.</p></td
             <article class="method">
                 <h3 class=" ">handlePath()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">handlePath(\{string}  <span class="argument">$path</span>, \{string}  <span class="argument">$ns</span>) : array</pre>
+                <pre class="signature" style="margin-right: 54px;">handlePath(\{string}  <span class="argument">$path</span>, \{string}  <span class="argument">$ns</span>,   <span class="argument">$is_discpline_root</span>) : array</pre>
                 <p><em>Helper function to work on the path passed from the front-end and
 put it in the format expected by the backend.</em></p>
                 <p>Note: This is converting the path from following the structure of the reference JSON
@@ -583,6 +583,11 @@ used on the front-end to the structure of the XML document.</p>
                                 <td>\{string}</td>
                                 <td>$ns </td>
                                 <td><p>namespace for the node (or empty if default namespace)</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$is_discpline_root </td>
+                                <td></td>
                             </tr>
                                             </table>
                 
@@ -825,6 +830,56 @@ If the namespaces were left in all the time, then these searches would break.</p
         </aside>
     </div>
 
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_prependDisciplineRootNode" name="method_prependDisciplineRootNode" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">prependDisciplineRootNode()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">prependDisciplineRootNode(\{string}  <span class="argument">$filtArr</span>, \{string}  <span class="argument">$ns</span>) : array</pre>
+                <p><em>Helper function for prepending namespace root node for discipline nodes</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\{string}</td>
+                                <td>$filtArr </td>
+                                <td><p>Array of attribute/class to be added</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>\{string}</td>
+                                <td>$ns </td>
+                                <td><p>namespace of attribute/class</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">xml_mutator.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
                             
         </div>
     </section>
@@ -875,9 +930,7 @@ If the namespaces were left in all the time, then these searches would break.</p
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on 
-Warning: date_default_timezone_get(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected the timezone 'UTC' for now, but please set date.timezone to select your timezone. in /usr/local/pear/share/pear/phpDocumentor/vendor/twig/twig/lib/Twig/Extension/Core.php on line 89
-August 18th, 2016 at 16:05.
+                    on March 9th, 2017 at 21:15.
                 </section>
             </section>
         </section>

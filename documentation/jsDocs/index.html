@@ -42,31 +42,6 @@
 
 
 
-    <section>
-        <article><h1>APPS Label Design Tool (LDT)</h1><h5>Mentor: Stirling Algermissen</h5><h5>Interns: Michael Kim, Trevor Morse, Wyatt Thompson</h5><hr>
-<h2>Description:</h2><p>The APPS LDT is a web GUI to help create PDS4 compliant labels. The core of the LDT is a wizard that walks the user through a sequential process of creating a label. Behind the scenes, the LDT interacts with a MySQL database for storing the user's information and progress through the wizard as well as the actual XML of the label.</p>
-<h2>Deployment:</h2><ol>
-<li></li>
-<li></li>
-<li></li>
-</ol>
-<h2>How the LDT constructs PDS4 labels:</h2><p>####Preparation</p>
-<p>Inside of the LDT is the overall PDS4 JSON. This JSON is generated from the schema, which defines the structure and necessary content of a label. After the user selects the product type for their label, the LDT starts creating a new JSON that is a subset of the overall PDS4 JSON. In this new JSON, objects are stored in a hierarchy relating to the structure of the label's XML. The LDT uses the data stored in this new JSON to dynamically create the wizard's content and guide the user through the entire process of creating a PDS4-compliant label.</p>
-<p>####Wizard</p>
-<p>After the initial set of steps has been dynamically created from the JSON for the selected product type, the LDT handles a variety of tasks behind the scenes as the user progresses through the wizard. </p>
-<p>First, it generates any subsequent steps according to the user's decisions. This is again accomplished by referencing the JSON formed after the user selects the product type. For example, if the user chooses to include an element that has sub-elements, a new step must be created to allow the user to choose which of the sub-elements to include in the label.</p>
-<p>Second, it updates the XML based on the user's decisions and stores that XML in the database. In order to accurately place the new XML in the label, the path for the PDS4-attribute is stored in the ID of the HTML element. The path was stored in the ID when the step's content was dynamically created from the JSON data. This path is passed to the backend and used to locate where to place the new element in the XML. Prior to running the XPath query on the backend, the path is parsed so that it maps to the XML structure.</p>
-<ul>
-<li>HTML ID: <code>id=&quot;0/Identification_Area/1/logical_identifier&quot;</code></li>
-<li>Corresponding XML path: <code>Identification_Area/logical_identifier</code></li>
-</ul>
-<p>Third, it captures the user's progress in the wizard and saves it to the database for future loading. This information is stored in a JSON that sits in a column of the label’s table. Upon reloading the wizard, this JSON is used to restore the user’s progress for the selected label.</p>
-<p>####Completion</p>
-<p>Once the user has completed the process of constructing the label, the LDT presents a preview and the option to export. The preview and file export are both accomplished by getting the XML from the database and either displaying it in the webpage or sending it as a downloaded file.</p>
-<h2>LDT Flow Diagram:</h2><p><img src="resources/ldt_flow.png" alt="LDT Flow" title="LDT Flow Diagram"></p>
-<h2>MySql Database Diagram:</h2><p><img src="resources/db_diagram.png" alt="DB Diagram" title="DB Diagram"></p></article>
-    </section>
-
 
 
 
@@ -79,322 +54,7 @@
 
 <header>
     
-        <h2>config/config.js</h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description">Contains global objects and lists that are referenced throughout
-the project. This file provides a central place for tracking this data.
-
-Creation Date: 7/7/16.</div>
-        
-
-        
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-author">Author:</dt>
-    <dd class="tag-author">
-        <ul>
-            <li>Trevor Morse</li>
-        
-            <li>Michael Kim</li>
-        </ul>
-    </dd>
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config_config.js.html">config/config.js</a>, <a href="config_config.js.html#line1">line 1</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
-
-
-
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>config/infobar_config.js</h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description">Contains the content to be displayed in the info bars throughout the LDT.
-The general format is to use the name of the step or page as the key within the object.
-
-Creation Date: 7/27/16.</div>
-        
-
-        
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-author">Author:</dt>
-    <dd class="tag-author">
-        <ul>
-            <li>Trevor Morse</li>
-        
-            <li>Michael Kim</li>
-        </ul>
-    </dd>
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config_infobar_config.js.html">config/infobar_config.js</a>, <a href="config_infobar_config.js.html#line1">line 1</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
-
-
-
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>config/pop_up_config.js</h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description">An isolated location to store configurations for the pop-up windows used throughout the LDT. The main intent
-of this file is to interact closely with the generatePopUp method found in pop_up.js, supplying it with
-the content and functions it requires to dynamically construct unique pop-ups for any given situation.
-
-Note: Many yesFunctions will redirect the window upon click in order to navigate the user to the next process.
-Note: The generatePopUp method does not need to use objects from this file to create pop-ups, the Objects can be
-      constructed anywhere. This comes in handy when a pop-up calls for content or functions that cannot be
-      defined statically.
-
-Creation Date: 7/25/16.</div>
-        
-
-        
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-author">Author:</dt>
-    <dd class="tag-author">
-        <ul>
-            <li>Michael Kim</li>
-        
-            <li>Trevor Morse</li>
-        </ul>
-    </dd>
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config_pop_up_config.js.html">config/pop_up_config.js</a>, <a href="config_pop_up_config.js.html#line1">line 1</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
-
-
-
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>js/dashboard.js</h2>
+        <h2>dashboard.js</h2>
         
     
 </header>
@@ -436,6 +96,8 @@ Creation Date: 8/10/16.</div>
             <li>Trevor Morse</li>
         
             <li>Michael Kim</li>
+        
+            <li>Stirling Algermissen</li>
         </ul>
     </dd>
     
@@ -449,7 +111,7 @@ Creation Date: 8/10/16.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="js_dashboard.js.html">js/dashboard.js</a>, <a href="js_dashboard.js.html#line1">line 1</a>
+        <a href="dashboard.js.html">dashboard.js</a>, <a href="dashboard.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -496,7 +158,7 @@ Creation Date: 8/10/16.</div>
 
 <header>
     
-        <h2>js/discipline_nodes.js</h2>
+        <h2>discipline_nodes.js</h2>
         
     
 </header>
@@ -506,14 +168,14 @@ Creation Date: 8/10/16.</div>
     
         
             <div class="description">Contains the functions for handling the selection of discipline nodes
-within the LDT wizard.
+within the PLAID wizard.
 
 Note: Currently, the Geometry node is the only one supported. This is because the JSONs
 for the other nodes are not yet available at this time. Once they are, their corresponding
-JSON files will need to be included in the config directory and pointed at in the <a href="global.html#filePaths">filePaths</a>
+JSON files will need to be included in the config directory and pointed at in the filePaths
 object. The data-id attributes of the discipline node elements in wizard.php will also need to
 be updated to contain the identifier for the node within the JSON. After that the code will need
-to be modified to update the jsonData.currNS to the namespace of the current discipline node
+to be modified to update the g_state.currNS to the namespace of the current discipline node
 as the user progresses through them in the wizard.
 
 Creation Date: 7/15/16.</div>
@@ -547,6 +209,8 @@ Creation Date: 7/15/16.</div>
             <li>Trevor Morse</li>
         
             <li>Michael Kim</li>
+        
+            <li>Stirling Algermissen</li>
         </ul>
     </dd>
     
@@ -560,7 +224,7 @@ Creation Date: 7/15/16.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="js_discipline_nodes.js.html">js/discipline_nodes.js</a>, <a href="js_discipline_nodes.js.html#line1">line 1</a>
+        <a href="discipline_nodes.js.html">discipline_nodes.js</a>, <a href="discipline_nodes.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -607,7 +271,7 @@ Creation Date: 7/15/16.</div>
 
 <header>
     
-        <h2>js/element_bar.js</h2>
+        <h2>element_bar.js</h2>
         
     
 </header>
@@ -616,7 +280,7 @@ Creation Date: 7/15/16.</div>
     <div class="container-overview">
     
         
-            <div class="description">Contains the functions for handling and controlling style of the element bars throughout the LDT wizard. Element
+            <div class="description">Contains the functions for handling and controlling style of the element bars throughout the PLAID wizard. Element
 bars are created from the Bootstrap v4 Input Groups and are used to determine the quantity of optional attributes
 desired in the label.
 
@@ -651,6 +315,8 @@ Creation Date: 7/15/16.</div>
             <li>Michael Kim</li>
         
             <li>Trevor Morse</li>
+        
+            <li>Stirling Algermissen</li>
         </ul>
     </dd>
     
@@ -664,7 +330,7 @@ Creation Date: 7/15/16.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="js_element_bar.js.html">js/element_bar.js</a>, <a href="js_element_bar.js.html#line1">line 1</a>
+        <a href="element_bar.js.html">element_bar.js</a>, <a href="element_bar.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -711,7 +377,7 @@ Creation Date: 7/15/16.</div>
 
 <header>
     
-        <h2>js/init_steps.js</h2>
+        <h2>init_steps.js</h2>
         
     
 </header>
@@ -756,6 +422,8 @@ Creation Date: 6/16/16.</div>
             <li>Trevor Morse</li>
         
             <li>Michael Kim</li>
+        
+            <li>Stirling Algermissen</li>
         </ul>
     </dd>
     
@@ -769,7 +437,7 @@ Creation Date: 6/16/16.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="js_init_steps.js.html">js/init_steps.js</a>, <a href="js_init_steps.js.html#line1">line 1</a>
+        <a href="init_steps.js.html">init_steps.js</a>, <a href="init_steps.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -816,7 +484,7 @@ Creation Date: 6/16/16.</div>
 
 <header>
     
-        <h2>js/main.js</h2>
+        <h2>main.js</h2>
         
     
 </header>
@@ -859,6 +527,8 @@ Creation Date: 6/17/16.</div>
             <li>Trevor Morse</li>
         
             <li>Michael Kim</li>
+        
+            <li>Stirling Algermissen</li>
         </ul>
     </dd>
     
@@ -872,7 +542,7 @@ Creation Date: 6/17/16.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="js_main.js.html">js/main.js</a>, <a href="js_main.js.html#line1">line 1</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -919,7 +589,7 @@ Creation Date: 6/17/16.</div>
 
 <header>
     
-        <h2>js/mission_specifics.js</h2>
+        <h2>mission_specifics.js</h2>
         
     
 </header>
@@ -965,6 +635,8 @@ Creation Date: 7/15/16.</div>
             <li>Michael Kim</li>
         
             <li>Trevor Morse</li>
+        
+            <li>Stirling Algermissen</li>
         </ul>
     </dd>
     
@@ -978,7 +650,7 @@ Creation Date: 7/15/16.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="js_mission_specifics.js.html">js/mission_specifics.js</a>, <a href="js_mission_specifics.js.html#line1">line 1</a>
+        <a href="mission_specifics.js.html">mission_specifics.js</a>, <a href="mission_specifics.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -1025,7 +697,7 @@ Creation Date: 7/15/16.</div>
 
 <header>
     
-        <h2>js/parse_json.js</h2>
+        <h2>parse_json.js</h2>
         
     
 </header>
@@ -1068,6 +740,8 @@ Creation Date: 7/5/16.</div>
             <li>Trevor Morse</li>
         
             <li>Michael Kim</li>
+        
+            <li>Stirling Algermissen</li>
         </ul>
     </dd>
     
@@ -1081,7 +755,7 @@ Creation Date: 7/5/16.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="js_parse_json.js.html">js/parse_json.js</a>, <a href="js_parse_json.js.html#line1">line 1</a>
+        <a href="parse_json.js.html">parse_json.js</a>, <a href="parse_json.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -1128,7 +802,7 @@ Creation Date: 7/5/16.</div>
 
 <header>
     
-        <h2>js/pop_up.js</h2>
+        <h2>pop_up.js</h2>
         
     
 </header>
@@ -1137,7 +811,7 @@ Creation Date: 7/5/16.</div>
     <div class="container-overview">
     
         
-            <div class="description">Contains the functions for checking, activating, and showing pop-ups throughout the LDT wizard.
+            <div class="description">Contains the functions for checking, activating, and showing pop-ups throughout the PLAID wizard.
 The functions work closely with the flow set by the init_steps.js class because in order for pop-ups to disrupt and cancel
 a step change in the wizard, it must return false within the onStepChanging event.
 
@@ -1172,6 +846,8 @@ Creation Date: 7/25/16.</div>
             <li>Michael Kim</li>
         
             <li>Trevor Morse</li>
+        
+            <li>Stirling Algermissen</li>
         </ul>
     </dd>
     
@@ -1185,7 +861,7 @@ Creation Date: 7/25/16.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="js_pop_up.js.html">js/pop_up.js</a>, <a href="js_pop_up.js.html#line1">line 1</a>
+        <a href="pop_up.js.html">pop_up.js</a>, <a href="pop_up.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -1232,7 +908,7 @@ Creation Date: 7/25/16.</div>
 
 <header>
     
-        <h2>js/popover.js</h2>
+        <h2>popover.js</h2>
         
     
 </header>
@@ -1242,7 +918,7 @@ Creation Date: 7/25/16.</div>
     
         
             <div class="description">Contains the data dictionary for static popovers as well as the functions for creating
-and controlling the popovers. These popovers show throughout the LDT wizard to provide the
+and controlling the popovers. These popovers show throughout the PLAID wizard to provide the
 user with helpful descriptions to guide their decisions.
 
 Creation Date: 6/29/16.</div>
@@ -1276,6 +952,8 @@ Creation Date: 6/29/16.</div>
             <li>Trevor Morse</li>
         
             <li>Michael Kim</li>
+        
+            <li>Stirling Algermissen</li>
         </ul>
     </dd>
     
@@ -1289,7 +967,7 @@ Creation Date: 6/29/16.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="js_popover.js.html">js/popover.js</a>, <a href="js_popover.js.html#line1">line 1</a>
+        <a href="popover.js.html">popover.js</a>, <a href="popover.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -1336,7 +1014,7 @@ Creation Date: 6/29/16.</div>
 
 <header>
     
-        <h2>js/progress.js</h2>
+        <h2>progress.js</h2>
         
     
 </header>
@@ -1346,7 +1024,7 @@ Creation Date: 6/29/16.</div>
     
         
             <div class="description">Contains functions for storing and loading progress as well as handling when the
-user traverses backwards in the LDT wizard. This file references the progress data from
+user traverses backwards in the PLAID wizard. This file references the progress data from
 the database when storing, loading, and comparing the user's progress.
 
 Creation Date: 8/10/16.</div>
@@ -1377,6 +1055,8 @@ Creation Date: 8/10/16.</div>
     <dt class="tag-author">Author:</dt>
     <dd class="tag-author">
         <ul>
+            <li>Stirling Algermissen</li>
+        
             <li>Trevor Morse</li>
         
             <li>Michael Kim</li>
@@ -1393,7 +1073,7 @@ Creation Date: 8/10/16.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="js_progress.js.html">js/progress.js</a>, <a href="js_progress.js.html#line1">line 1</a>
+        <a href="progress.js.html">progress.js</a>, <a href="progress.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -1440,7 +1120,7 @@ Creation Date: 8/10/16.</div>
 
 <header>
     
-        <h2>js/setup.js</h2>
+        <h2>setup.js</h2>
         
     
 </header>
@@ -1449,7 +1129,7 @@ Creation Date: 8/10/16.</div>
     <div class="container-overview">
     
         
-            <div class="description">Contains the calls to initialize the LDT wizard and control its height.
+            <div class="description">Contains the calls to initialize the PLAID wizard and control its height.
 
 Creation Date: 6/17/16.</div>
         
@@ -1482,6 +1162,8 @@ Creation Date: 6/17/16.</div>
             <li>Trevor Morse</li>
         
             <li>Michael Kim</li>
+        
+            <li>Stirling Algermissen</li>
         </ul>
     </dd>
     
@@ -1495,7 +1177,7 @@ Creation Date: 6/17/16.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="js_setup.js.html">js/setup.js</a>, <a href="js_setup.js.html#line1">line 1</a>
+        <a href="setup.js.html">setup.js</a>, <a href="setup.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -1538,13 +1220,13 @@ Creation Date: 6/17/16.</div>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addMissionSpecificsActionBar">addMissionSpecificsActionBar</a></li><li><a href="global.html#addPopover">addPopover</a></li><li><a href="global.html#areDifferentDisciplineNodes">areDifferentDisciplineNodes</a></li><li><a href="global.html#areDifferentMissionSpecifics">areDifferentMissionSpecifics</a></li><li><a href="global.html#areDifferentOptionalNodes">areDifferentOptionalNodes</a></li><li><a href="global.html#assignObjectPath">assignObjectPath</a></li><li><a href="global.html#backendCall">backendCall</a></li><li><a href="global.html#captureSelection">captureSelection</a></li><li><a href="global.html#captureValue">captureValue</a></li><li><a href="global.html#checkFilename">checkFilename</a></li><li><a href="global.html#clearActiveElements">clearActiveElements</a></li><li><a href="global.html#createAttribute">createAttribute</a></li><li><a href="global.html#createAttributeGroup">createAttributeGroup</a></li><li><a href="global.html#createChoiceGroup">createChoiceGroup</a></li><li><a href="global.html#createControlButton">createControlButton</a></li><li><a href="global.html#createCounterInput">createCounterInput</a></li><li><a href="global.html#createElementBar">createElementBar</a></li><li><a href="global.html#createLabel">createLabel</a></li><li><a href="global.html#createLabelEntry">createLabelEntry</a></li><li><a href="global.html#createValueInput">createValueInput</a></li><li><a href="global.html#decreaseCounter">decreaseCounter</a></li><li><a href="global.html#deleteLabel">deleteLabel</a></li><li><a href="global.html#determineRequirements">determineRequirements</a></li><li><a href="global.html#dict">dict</a></li><li><a href="global.html#discNodesSelection">discNodesSelection</a></li><li><a href="global.html#editLabel">editLabel</a></li><li><a href="global.html#filePaths">filePaths</a></li><li><a href="global.html#generateAddAttributePage">generateAddAttributePage</a></li><li><a href="global.html#generateAddGroupPage">generateAddGroupPage</a></li><li><a href="global.html#generateButtonColumn">generateButtonColumn</a></li><li><a href="global.html#generateButtonRow">generateButtonRow</a></li><li><a href="global.html#generateCheckbox">generateCheckbox</a></li><li><a href="global.html#generateCheckboxForm">generateCheckboxForm</a></li><li><a href="global.html#generateContent">generateContent</a></li><li><a href="global.html#generateDropdown">generateDropdown</a></li><li><a href="global.html#generateDropdownSelect">generateDropdownSelect</a></li><li><a href="global.html#generateFieldset">generateFieldset</a></li><li><a href="global.html#generateFinalPreview">generateFinalPreview</a></li><li><a href="global.html#generateHomepage">generateHomepage</a></li><li><a href="global.html#generateOption">generateOption</a></li><li><a href="global.html#generatePopUp">generatePopUp</a></li><li><a href="global.html#generatePreview">generatePreview</a></li><li><a href="global.html#generateRemovePage">generateRemovePage</a></li><li><a href="global.html#generateTree">generateTree</a></li><li><a href="global.html#getAssociations">getAssociations</a></li><li><a href="global.html#getElement">getElement</a></li><li><a href="global.html#getJSON">getJSON</a></li><li><a href="global.html#getLevelOfAssociations">getLevelOfAssociations</a></li><li><a href="global.html#getMinMax">getMinMax</a></li><li><a href="global.html#getNodeJsonFilename">getNodeJsonFilename</a></li><li><a href="global.html#getObjectFromPath">getObjectFromPath</a></li><li><a href="global.html#handleBackwardsProgress">handleBackwardsProgress</a></li><li><a href="global.html#handleBackwardsTraversalPopup">handleBackwardsTraversalPopup</a></li><li><a href="global.html#handleCheckbox">handleCheckbox</a></li><li><a href="global.html#handleExportStep">handleExportStep</a></li><li><a href="global.html#handleMissionSpecificsStep">handleMissionSpecificsStep</a></li><li><a href="global.html#handleProductOrNode">handleProductOrNode</a></li><li><a href="global.html#handleSaveButton">handleSaveButton</a></li><li><a href="global.html#handleStepAddition">handleStepAddition</a></li><li><a href="global.html#increaseCounter">increaseCounter</a></li><li><a href="global.html#initPopovers">initPopovers</a></li><li><a href="global.html#initWizard">initWizard</a></li><li><a href="global.html#insertCheckmark">insertCheckmark</a></li><li><a href="global.html#invalidElementsInJSON">invalidElementsInJSON</a></li><li><a href="global.html#isLoading">isLoading</a></li><li><a href="global.html#isValidLabelNameInput">isValidLabelNameInput</a></li><li><a href="global.html#isValidMSInput">isValidMSInput</a></li><li><a href="global.html#jsonData">jsonData</a></li><li><a href="global.html#loadAllProgress">loadAllProgress</a></li><li><a href="global.html#loadBuilder">loadBuilder</a></li><li><a href="global.html#loadDisciplineNodes">loadDisciplineNodes</a></li><li><a href="global.html#loadJSON">loadJSON</a></li><li><a href="global.html#loadLabelName">loadLabelName</a></li><li><a href="global.html#loadMissionSpecifics">loadMissionSpecifics</a></li><li><a href="global.html#loadMissionSpecificsData">loadMissionSpecificsData</a></li><li><a href="global.html#loadOptionalNode">loadOptionalNode</a></li><li><a href="global.html#loadProductType">loadProductType</a></li><li><a href="global.html#loadProgress">loadProgress</a></li><li><a href="global.html#loadProgressData">loadProgressData</a></li><li><a href="global.html#matchWizardHeight">matchWizardHeight</a></li><li><a href="global.html#missionSpecifics">missionSpecifics</a></li><li><a href="global.html#mutatePage">mutatePage</a></li><li><a href="global.html#prepJqId">prepJqId</a></li><li><a href="global.html#preventInput">preventInput</a></li><li><a href="global.html#previewDescription">previewDescription</a></li><li><a href="global.html#progressData">progressData</a></li><li><a href="global.html#refreshGroupChildren">refreshGroupChildren</a></li><li><a href="global.html#releaseValue">releaseValue</a></li><li><a href="global.html#removeFromMissionSpecifics">removeFromMissionSpecifics</a></li><li><a href="global.html#removePopovers">removePopovers</a></li><li><a href="global.html#resetMissionSpecificsBuilder">resetMissionSpecificsBuilder</a></li><li><a href="global.html#revertStepClass">revertStepClass</a></li><li><a href="global.html#setChoiceFieldStyle">setChoiceFieldStyle</a></li><li><a href="global.html#setOneElementBarStyle">setOneElementBarStyle</a></li><li><a href="global.html#showBackwardsTraversalPopUp">showBackwardsTraversalPopUp</a></li><li><a href="global.html#showPopUp">showPopUp</a></li><li><a href="global.html#storeBuilder">storeBuilder</a></li><li><a href="global.html#storeDisciplineNodes">storeDisciplineNodes</a></li><li><a href="global.html#storeMissionSpecifics">storeMissionSpecifics</a></li><li><a href="global.html#storeOptionalNodes">storeOptionalNodes</a></li><li><a href="global.html#storeProductType">storeProductType</a></li><li><a href="global.html#storeProgress">storeProgress</a></li><li><a href="global.html#updateActionBar">updateActionBar</a></li><li><a href="global.html#updateActionBarHandlers">updateActionBarHandlers</a></li><li><a href="global.html#updatePopUp">updatePopUp</a></li><li><a href="global.html#validateInput">validateInput</a></li><li><a href="global.html#wizardData">wizardData</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addMissionSpecificsActionBar">addMissionSpecificsActionBar</a></li><li><a href="global.html#addPopover">addPopover</a></li><li><a href="global.html#areDifferentDisciplineNodes">areDifferentDisciplineNodes</a></li><li><a href="global.html#areDifferentMissionSpecifics">areDifferentMissionSpecifics</a></li><li><a href="global.html#areDifferentOptionalNodes">areDifferentOptionalNodes</a></li><li><a href="global.html#assignObjectPath">assignObjectPath</a></li><li><a href="global.html#backendCall">backendCall</a></li><li><a href="global.html#captureSelection">captureSelection</a></li><li><a href="global.html#captureValue">captureValue</a></li><li><a href="global.html#checkFilename">checkFilename</a></li><li><a href="global.html#clearActiveElements">clearActiveElements</a></li><li><a href="global.html#createAttribute">createAttribute</a></li><li><a href="global.html#createAttributeGroup">createAttributeGroup</a></li><li><a href="global.html#createChoiceGroup">createChoiceGroup</a></li><li><a href="global.html#createControlButton">createControlButton</a></li><li><a href="global.html#createCounterInput">createCounterInput</a></li><li><a href="global.html#createElementBar">createElementBar</a></li><li><a href="global.html#createLabel">createLabel</a></li><li><a href="global.html#createLabelEntry">createLabelEntry</a></li><li><a href="global.html#createValueInput">createValueInput</a></li><li><a href="global.html#decreaseCounter">decreaseCounter</a></li><li><a href="global.html#deleteLabel">deleteLabel</a></li><li><a href="global.html#determineRequirements">determineRequirements</a></li><li><a href="global.html#dict">dict</a></li><li><a href="global.html#discNodesSelection">discNodesSelection</a></li><li><a href="global.html#editLabel">editLabel</a></li><li><a href="global.html#generateAddAttributePage">generateAddAttributePage</a></li><li><a href="global.html#generateAddGroupPage">generateAddGroupPage</a></li><li><a href="global.html#generateButtonColumn">generateButtonColumn</a></li><li><a href="global.html#generateButtonRow">generateButtonRow</a></li><li><a href="global.html#generateCheckbox">generateCheckbox</a></li><li><a href="global.html#generateCheckboxForm">generateCheckboxForm</a></li><li><a href="global.html#generateContent">generateContent</a></li><li><a href="global.html#generateDropdown">generateDropdown</a></li><li><a href="global.html#generateDropdownSelect">generateDropdownSelect</a></li><li><a href="global.html#generateFieldset">generateFieldset</a></li><li><a href="global.html#generateFinalPreview">generateFinalPreview</a></li><li><a href="global.html#generateHomepage">generateHomepage</a></li><li><a href="global.html#generateOption">generateOption</a></li><li><a href="global.html#generatePopUp">generatePopUp</a></li><li><a href="global.html#generatePreview">generatePreview</a></li><li><a href="global.html#generateRemovePage">generateRemovePage</a></li><li><a href="global.html#generateTree">generateTree</a></li><li><a href="global.html#getAssociations">getAssociations</a></li><li><a href="global.html#getElementFromDict">getElementFromDict</a></li><li><a href="global.html#getJSON">getJSON</a></li><li><a href="global.html#getLevelOfAssociations">getLevelOfAssociations</a></li><li><a href="global.html#getMinMax">getMinMax</a></li><li><a href="global.html#getNodeJsonFilename">getNodeJsonFilename</a></li><li><a href="global.html#getObjectFromPath">getObjectFromPath</a></li><li><a href="global.html#handleBackwardsProgress">handleBackwardsProgress</a></li><li><a href="global.html#handleBackwardsTraversalPopup">handleBackwardsTraversalPopup</a></li><li><a href="global.html#handleCheckbox">handleCheckbox</a></li><li><a href="global.html#handleExportStep">handleExportStep</a></li><li><a href="global.html#handleMissionSpecificsStep">handleMissionSpecificsStep</a></li><li><a href="global.html#handleSaveButton">handleSaveButton</a></li><li><a href="global.html#handleStepAddition">handleStepAddition</a></li><li><a href="global.html#increaseCounter">increaseCounter</a></li><li><a href="global.html#initPopovers">initPopovers</a></li><li><a href="global.html#initWizard">initWizard</a></li><li><a href="global.html#insertCheckmark">insertCheckmark</a></li><li><a href="global.html#isValidLabelNameInput">isValidLabelNameInput</a></li><li><a href="global.html#isValidMSInput">isValidMSInput</a></li><li><a href="global.html#loadAllProgress">loadAllProgress</a></li><li><a href="global.html#loadBuilder">loadBuilder</a></li><li><a href="global.html#loadDisciplineNodes">loadDisciplineNodes</a></li><li><a href="global.html#loadJSON">loadJSON</a></li><li><a href="global.html#loadMissionSpecifics">loadMissionSpecifics</a></li><li><a href="global.html#loadOptionalNode">loadOptionalNode</a></li><li><a href="global.html#loadProductType">loadProductType</a></li><li><a href="global.html#loadProgress">loadProgress</a></li><li><a href="global.html#matchWizardHeight">matchWizardHeight</a></li><li><a href="global.html#mutatePage">mutatePage</a></li><li><a href="global.html#prepJqId">prepJqId</a></li><li><a href="global.html#preventInput">preventInput</a></li><li><a href="global.html#previewDescription">previewDescription</a></li><li><a href="global.html#refreshGroupChildren">refreshGroupChildren</a></li><li><a href="global.html#releaseValue">releaseValue</a></li><li><a href="global.html#removeFromMissionSpecifics">removeFromMissionSpecifics</a></li><li><a href="global.html#removePopovers">removePopovers</a></li><li><a href="global.html#resetMissionSpecificsBuilder">resetMissionSpecificsBuilder</a></li><li><a href="global.html#revertStepClass">revertStepClass</a></li><li><a href="global.html#setChoiceFieldStyle">setChoiceFieldStyle</a></li><li><a href="global.html#setOneElementBarStyle">setOneElementBarStyle</a></li><li><a href="global.html#showBackwardsTraversalPopUp">showBackwardsTraversalPopUp</a></li><li><a href="global.html#showPopUp">showPopUp</a></li><li><a href="global.html#storeBuilder">storeBuilder</a></li><li><a href="global.html#storeDisciplineNodes">storeDisciplineNodes</a></li><li><a href="global.html#storeMissionSpecifics">storeMissionSpecifics</a></li><li><a href="global.html#storeOptionalNodes">storeOptionalNodes</a></li><li><a href="global.html#storeProductType">storeProductType</a></li><li><a href="global.html#storeProgress">storeProgress</a></li><li><a href="global.html#updateActionBar">updateActionBar</a></li><li><a href="global.html#updateActionBarHandlers">updateActionBarHandlers</a></li><li><a href="global.html#updatePopUp">updatePopUp</a></li><li><a href="global.html#validateInput">validateInput</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Aug 18 2016 09:02:35 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Mar 09 2017 12:59:27 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

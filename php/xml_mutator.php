@@ -15,7 +15,7 @@
  * limitations under the License.
  *
  * @file Contains the functions for modifying the XML of the label according to the user's
- * progression through the LDT wizard. These functions utilize the DOMDocument class from
+ * progression through the PLAID wizard. These functions utilize the DOMDocument class from
  * PHP to interact with the XML.
  *
  * Creation Date: 7/26/16

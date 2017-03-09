@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * @file Contains functions for storing and loading progress as well as handling when the
- * user traverses backwards in the LDT wizard. This file references the progress data from
+ * user traverses backwards in the PLAID wizard. This file references the progress data from
  * the database when storing, loading, and comparing the user's progress.
  *
  * Creation Date: 8/10/16.

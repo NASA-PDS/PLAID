@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @file Contains the functions for checking, activating, and showing pop-ups throughout the LDT wizard.
+ * @file Contains the functions for checking, activating, and showing pop-ups throughout the PLAID wizard.
  * The functions work closely with the flow set by the init_steps.js class because in order for pop-ups to disrupt and cancel
  * a step change in the wizard, it must return false within the onStepChanging event.
  *

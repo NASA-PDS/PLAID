@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @file Contains the calls to initialize the LDT wizard and control its height.
+ * @file Contains the calls to initialize the PLAID wizard and control its height.
  *
  * Creation Date: 6/17/16.
  *
