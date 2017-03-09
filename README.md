@@ -55,7 +55,7 @@ Once the user has completed the process of constructing the label, PLAID present
 PLAID Flow Diagram:
 -----------------
 
-![PLAID Flow](resources/PLAID_flow.png "PLAID Flow Diagram")
+![PLAID Flow](resources/plaid_flow.png "PLAID Flow Diagram")
 
 MySql Database Diagram:
 -----------------------
