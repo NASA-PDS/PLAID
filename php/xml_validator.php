@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @file Holds the functions for validating the label being generated in the LDT against its respective PDS4
+ * @file Holds the functions for validating the label being generated in the PLAID against its respective PDS4
  * schema. It achieves this using the schemaValidate method found in the DOMDocument object from PHP.
  *
  * Creation Date: 8/1/16
