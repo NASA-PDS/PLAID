@@ -23,7 +23,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Label Design Tool</title>
+    <title>PDS Label Assistant for Interactive Design (PLAID)</title>
     <meta charset="utf-8">
     <meta http-equiv="cache-control" content="max-age=0" />
     <meta http-equiv="cache-control" content="no-cache" />
@@ -61,7 +61,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
 <body>
     <nav class="navbar navbar-dark no-border-radius" style="background-color: #2184be;">
         <div class="nav navbar-nav">
-            <a class="navbar-brand">Label Design Tool</a>
+            <a class="navbar-brand">PDS Label Assistant for Interactive Design (PLAID)</a>
             <li class="nav-item pull-xs-right">
                 <a class="wizardExitButton nav-link" href="dashboard.php">Exit</a>
             </li>

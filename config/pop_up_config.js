@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  *
- * @file An isolated location to store configurations for the pop-up windows used throughout the LDT. The main intent
+ * @file An isolated location to store configurations for the pop-up windows used throughout PLAID. The main intent
  * of this file is to interact closely with the generatePopUp method found in pop_up.js, supplying it with
  * the content and functions it requires to dynamically construct unique pop-ups for any given situation.
  *
@@ -111,7 +111,7 @@ var popUpData = {
         noText : "",
         yesText : "OK",
         /**
-         * Hides the pop-up once the user agrees to the warning of backwards traversal in the LDT wizard
+         * Hides the pop-up once the user agrees to the warning of backwards traversal in the PLAID wizard
          */
         yesFunction : function() {
             var wrapper = $("#wizard-p-" + popUpData.currentStep.toString());
@@ -129,7 +129,7 @@ var popUpData = {
         id : "createNewLabel",
         title : "Create New Label",
         content : "<div>Please enter a name for your new label:</div>" +
-        "<input id='labelNameInput' class='form-control' type='text' placeholder='Ex. Mars 2020 Label' id='example-text-input'>",
+        "<input id='labelNameInput' class='form-control' type='text' placeholder='Ex. My Mission Label' id='example-text-input'>",
         noText: "Cancel",
         yesText: "Submit",
         /**

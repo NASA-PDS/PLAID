@@ -24,7 +24,7 @@
  */
 /**
  * This object is for storing the paths to the various JSON files for PDS4 and
- * discipline nodes. These JSONs control the dynamic creation of content in the LDT.
+ * discipline nodes. These JSONs control the dynamic creation of content in PLAID.
  * @type {{PDS_JSON: string, CART_JSON: string, DISP_JSON: string, GEOM_JSON: string, IMG_JSON: string, PART_JSON: string, RMS_JSON: string, BOD_JSON: string, SPECT_JSON: string, WAV_JSON: string}}
  */
 var filePaths = {
@@ -107,7 +107,7 @@ var g_state = {
 };
 
 /**
- * This object contains information related to the LDT wizard. Referencing this object
+ * This object contains information related to the PLAID wizard. Referencing this object
  * helps with control of the wizard.
  * @type {{currentStep: number, newStep: number, maxStep: number, numWarnings: number, mainSteps: Array}}
  */
@@ -126,12 +126,12 @@ var wizardData = {
 var missionSpecifics = [];
 /**
  * This is initialized as a list but is formed as a JSON. It is for storing
- * data related to the user's progress throughout the LDT wizard.
+ * data related to the user's progress throughout the PLAID wizard.
  * @type {Array}
  */
 var progressData = [];
 /**
- * This variable denotes whether the LDT is in a loading phase or not.
+ * This variable denotes whether PLAID is in a loading phase or not.
  * @type {boolean}
  */
 var isLoading = false;
