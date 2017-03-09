@@ -4,7 +4,7 @@
 
 Description:
 ------------
-The APPS PLAID is a web GUI to help create PDS4 compliant labels. The core of the PLAID is a wizard that walks the user through a sequential process of creating a label. Behind the scenes, the PLAID interacts with a MySQL database for storing the user's information and progress through the wizard as well as the actual XML of the label.
+The APPS PLAID is a web GUI to help create PDS4 compliant labels. The core of PLAID is a wizard that walks the user through a sequential process of creating a label. Behind the scenes, PLAID interacts with a MySQL database for storing the user's information and progress through the wizard as well as the actual XML of the label.
 
 Deployment:
 -----------
@@ -33,7 +33,7 @@ How PLAID constructs PDS4 labels:
 
 ####Preparation
 
-Inside of PLAID is the overall PDS4 JSON. This JSON is generated from the schema, which defines the structure and necessary content of a label. After the user selects the product type for their label, PLAID starts creating a new JSON that is a subset of the overall PDS4 JSON. In this new JSON, objects are stored in a hierarchy relating to the structure of the label's XML. The PLAID uses the data stored in this new JSON to dynamically create the wizard's content and guide the user through the entire process of creating a PDS4-compliant label.
+Inside of PLAID is the overall PDS4 JSON. This JSON is generated from the schema, which defines the structure and necessary content of a label. After the user selects the product type for their label, PLAID starts creating a new JSON that is a subset of the overall PDS4 JSON. In this new JSON, objects are stored in a hierarchy relating to the structure of the label's XML.PLAID uses the data stored in this new JSON to dynamically create the wizard's content and guide the user through the entire process of creating a PDS4-compliant label.
 
 ####Wizard
 
