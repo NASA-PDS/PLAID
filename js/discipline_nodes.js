@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * @file Contains the functions for handling the selection of discipline nodes
- * within the LDT wizard.
+ * within the PLAID wizard.
  *
  * Note: Currently, the Geometry node is the only one supported. This is because the JSONs
  * for the other nodes are not yet available at this time. Once they are, their corresponding

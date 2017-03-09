@@ -1,0 +1,9 @@
+<?php
+
+define (DB_USER, "dev");
+define (DB_PORT, "4306");
+define (DB_PASSWORD, "!miplDev8");
+define (DB_DATABASE, "apps");
+define (DB_HOST, "miplapps2.jpl.nasa.gov");
+
+?>

@@ -16,7 +16,7 @@
  *
  * @file Contains the various functions for interacting with the database. Most of these
  * functions execute a particular query to insert, update, or select data related to the
- * LDT wizard in the database.
+ * PLAID wizard in the database.
  *
  * Note: This is setup to interact with a MySQL database with three tables: user, label, and link.
  *
@@ -125,7 +125,7 @@ function getLabelInfo(){
  * it to the user in the link table.
  *
  * Note: $data will need to be updated in future once multiple product types are supported
- * in the LDT. Currently, observational is the only supported product type.
+ * in PLAID. Currently, observational is the only supported product type.
  *
  * @param {Object} $args object containing the name of the label inputted by the user
  */
