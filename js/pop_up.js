@@ -82,16 +82,6 @@ function showPopUp(currentStep, newStep) {
     return true;
 }
 
-/**
- * Sets the pop-up to be shown as the backwards traversal one, and then calls the display method
- *
- * @param {number} currentStep A number representing the index of the wizard
- */
-function showBackwardsTraversalPopUp(currentStep) {
-    var wrapper = $("#wizard-p-" + currentStep.toString());
-    $(wrapper).attr("pop-up", "backwardsTraversal");
-    showPopUp(currentStep, popUpData.newStep);
-}
 
 /**
  * Dynamically generate the Bootstrap (v4) modal given the information derived from the pop_up_config.js file
@@ -102,13 +92,17 @@ function showBackwardsTraversalPopUp(currentStep) {
  *
  * @param {Object} popUpObj An Object that holds all of the information and functions to be used in this pop-up
  */
-function generatePopUp(popUpObj) {
+function generatePopUp(popUpObj, codemirror_type, large) {
     var modal = document.createElement("div");
     modal.id = popUpObj['id'];
     modal.className = "modal fade hide";
 
     var modalDialog = document.createElement("div");
-    modalDialog.className = "modal-dialog";
+    if(typeof(large) != 'undefined') {
+        modalDialog.className = "modal-dialog modal-lg";
+    } else {
+        modalDialog.className = "modal-dialog";
+    }
     modalDialog.setAttribute("role", "document");
 
     var modalContent = document.createElement("div");
@@ -128,7 +122,7 @@ function generatePopUp(popUpObj) {
 
     var modalBodyContent = document.createElement("p");
     if(typeof popUpObj['content'] === "object")
-        modalBodyContent.appendChild(popUpObj['content'])
+        modalBodyContent.appendChild(popUpObj['content']);
     else
         modalBodyContent.innerHTML = popUpObj['content'];
     modalBody.appendChild(modalBodyContent);
@@ -164,6 +158,27 @@ function generatePopUp(popUpObj) {
     modal.appendChild(modalDialog);
 
     $('body').append(modal);
+    if(typeof(codemirror_type) != 'undefined') {
+        var codemirror_preview = CodeMirror.fromTextArea(popUpObj['content'], {
+            mode: codemirror_type,
+            lineNumbers: true,
+            height: "auto",
+            readOnly: "true",
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+
+        });
+       $("#" + popUpObj['id']).on('show.bs.modal', function (e) {
+           codemirror_preview.setSize(null, "800px");
+           codemirror_preview.refresh();
+       });
+
+        $("#" + popUpObj['id']).on('shown.bs.modal', function (e) {
+            codemirror_preview.setSize(null, "800px");
+
+            codemirror_preview.refresh();// refresh codemirror on render
+        })
+    }
     $("#" + popUpObj['id'] + ' .hide').show();
     $("#" + popUpObj['id']).modal({
         "backdrop" : "static"

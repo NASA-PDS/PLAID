@@ -34,6 +34,9 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <script src="thirdparty/js/jquery.steps.min.js"></script>
     <script src="thirdparty/js/tree.jquery.js"></script>
     <script src="thirdparty/js/codemirror.js"></script>
+    <script src="thirdparty/js/foldcode.js"></script>
+    <script src="thirdparty/js/foldgutter.js"></script>
+    <script src="thirdparty/js/xml-fold.js"></script>
     <script src="thirdparty/js/xml.js"></script>
     <script src="config/config.js"></script>
     <script src="config/infobar_config.js"></script>
@@ -48,6 +51,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <script src="js/pop_up.js"></script>
     <script src="js/progress.js"></script>
     <link href="thirdparty/css/codemirror.css" rel="stylesheet">
+    <link href="thirdparty/css/foldgutter.css" rel="stylesheet">
 
     <link href="thirdparty/css/jquery.steps.css" rel="stylesheet">
     <link href="thirdparty/css/jqtree.css" rel="stylesheet">
@@ -252,15 +256,20 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
             <h3>Export</h3>
             <section id="export">
                 <div id="finalPreview"></div>
-                <form id="exportForm" onsubmit="return checkFilename();" action="php/export_template.php" method="post">
-                    <fieldset>
+                <form id="exportForm" onsubmit="return checkFilename();" class="form-inline" action="php/export_template.php" method="post">
                         <span class="spacer"></span>
-                        <p style="display: inline;">Filename:</p>
-                        <input id="exportInput" name="filename" type="text" placeholder="label_template.xml" style="display: inline;">
+                        <div class="input-group">
+                            <div class="input-group-addon">Filename:</div>
+                            <input id="exportInput" class="form-control" name="filename" type="text" placeholder="label_template.xml">
+                        </div>
+
                         <span class="spacer"></span>
-                        <input id="exportButton" class="btn" type="submit" value="Export">
-                    </fieldset>
+
+                        <button id="exportButton" class="btn btn-warning" type="submit">Export</button>
+                    <button id="submitButton" class="btn btn-primary">Submit to PDS for review</button>
                 </form>
+
+
             </section>
         </div>
         <div id="sidebar">

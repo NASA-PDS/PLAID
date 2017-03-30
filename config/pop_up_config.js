@@ -102,34 +102,15 @@ var popUpData = {
             $('#invalidChoice').modal('hide');
         }
     },
-    // When a user navigates backwards, this pop-up gives a warning that progress will be lost upon changes
-    backwardsTraversal : {
-        id : "backwardsTraversal",
-        title : "Warning",
-        content : "<div>Making a change to a previous step will delete <b>all</b> progress beyond that point.</div><br>" +
-        "<div>You are safe to navigate through the different steps without making any changes, however.</div>",
-        noText : "",
-        yesText : "OK",
-        /**
-         * Hides the pop-up once the user agrees to the warning of backwards traversal in the PLAID wizard
-         */
-        yesFunction : function() {
-            var wrapper = $("#wizard-p-" + popUpData.currentStep.toString());
-            $(wrapper).removeAttr("pop-up");
-            $('#backwardsTraversal').modal('hide');
-            $('#backwardsTraversal').on('hidden.bs.modal', function () {
-                $("body .modal.fade.hide").remove();
-                $("body .modal-backdrop.fade.in").remove();
-            })
-        }
-    },
     // When a user attempts to create a new label from the dashboard, this pop-up forces the user to give the label
     // a name before proceeding
     createNewLabel : {
         id : "createNewLabel",
         title : "Create New Label",
-        content : "<div>Please enter a name for your new label:</div>" +
-        "<input id='labelNameInput' class='form-control' type='text' placeholder='Ex. My Mission Label' id='example-text-input'>",
+        content : "<form><div class='form-group'><label for='labelNameInput'>Please enter a name for your new label:</label>" +
+        "<input id='labelNameInput' class='form-control' type='text' placeholder='Ex. My Mission Label' id='example-text-input'></div>" +
+        "<div class='form-group'><label for='core_schema_version_select'>Please select a PDS4 schema version:</label>" +
+        "<select class='form-control' id='core_schema_versions_select'></select></div></form>",
         noText: "Cancel",
         yesText: "Submit",
         /**
@@ -143,10 +124,13 @@ var popUpData = {
                     url: "php/interact_db.php",
                     data: {
                         function: "storeNewLabel",
-                        labelName: $("#labelNameInput").val()
+                        labelName: $("#labelNameInput").val(),
+                        version: parseInt($("#core_schema_versions_select").val())
                     }
-                }).always(function() {
-                    window.location = "wizard.php";
+                }).success(function() {
+                    window.location = "wizard.php?version=" + $("#core_schema_versions_select").val();
+                }).fail(function() {
+                    alert("Unable to create label");
                 });
             }
         }

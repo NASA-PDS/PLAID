@@ -418,7 +418,7 @@
 			}
 			else
 			{
-				var $p = $w.prev()
+				var $p = $w.prev();
 				var e = $p.contents().eq( -1 )[ 0 ];
 
 				if ( typeof e != 'undefined' )

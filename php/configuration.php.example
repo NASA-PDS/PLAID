@@ -1,4 +1,7 @@
 <?php
+/*
+Rename this file to configuration.php after filling out the sections below.
+*/
 
 define (DB_USER, "mysql_user");
 define (DB_PASSWORD, "mysql_password");

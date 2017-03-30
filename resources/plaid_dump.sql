@@ -1,8 +1,8 @@
 CREATE DATABASE  IF NOT EXISTS `apps` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `apps`;
--- MySQL dump 10.13  Distrib 5.7.12, for osx10.9 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.19, for osx10.7 (i386)
 --
--- Host: miplapps2.jpl.nasa.gov    Database: apps
+-- Host: miplapps2    Database: apps
 -- ------------------------------------------------------
 -- Server version	5.6.31
 
@@ -32,10 +32,11 @@ CREATE TABLE `label` (
   `label_xml` blob NOT NULL,
   `mission_specifics` blob,
   `progress_data` blob,
+  `schema_version` int(11) DEFAULT NULL,
   `is_deleted` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=189 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,6 +74,10 @@ CREATE TABLE `user` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping routines for database 'apps'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -83,4 +88,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-18 12:57:44
+-- Dump completed on 2017-03-30 16:25:45

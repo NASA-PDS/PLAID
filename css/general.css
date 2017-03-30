@@ -36,16 +36,7 @@ td {
     height: 50%;
     padding: 1rem;
 }
-#exportButton {
-    background-color: #72C342;
-    color: white;
-    display: inline;
-    font-size: 0.8rem;
-}
-#exportInput {
-    display: inline;
-    font-size: 0.8rem;
-}
+
 #finalPreview {
     height: 98%;
 }

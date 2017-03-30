@@ -81,7 +81,7 @@ function insertUser($args){
 function verifyUser($args){
     global $LINK;
     global $HASHER;
-    $handle = $LINK->prepare('select id,password from user where email=?');
+    $handle = $LINK->prepare('select id,password,full_name,organization from user where email=?');
     $handle->bindValue(1, $args['email']);
 
     $handle->execute();
@@ -93,6 +93,9 @@ function verifyUser($args){
         header("Location: ../dashboard.php");
         $_SESSION['login'] = true;
         $_SESSION['user_id'] = $result[0]->id;
+        $_SESSION['email'] = $args['email'];
+        $_SESSION['full_name'] = $result[0]->full_name;
+        $_SESSION['organization'] = $result[0]->organization;
     }
     else{
         header("Location: ../index.html");
@@ -110,7 +113,7 @@ function getLabelInfo(){
     global $LINK;
     session_start();
     if(isset($_SESSION['user_id'])){
-        $handle = $LINK->prepare('select link.user_id, label.id, label.creation, label.last_modified, label.name from link inner JOIN label ON link.label_id=label.id where link.user_id=? and label.is_deleted=0 order by label.last_modified desc;');
+        $handle = $LINK->prepare('select link.user_id, label.id, label.creation, label.last_modified, label.name, label.schema_version from link inner JOIN label ON link.label_id=label.id where link.user_id=? and label.is_deleted=0 order by label.last_modified desc;');
         $handle->bindValue(1, $_SESSION['user_id'], PDO::PARAM_INT);
         $handle->execute();
 
@@ -400,9 +403,10 @@ function storeNewLabel($args){
 //     </File_Area_Observational_Supplemental>
 // </Product_Observational>';
     session_start();
-    $handle = $LINK->prepare('INSERT INTO label SET creation=now(),last_modified=now(),name=?,label_xml=?');
+    $handle = $LINK->prepare('INSERT INTO label SET creation=now(),last_modified=now(),name=?,label_xml=?,schema_version=?');
     $handle->bindValue(1, $args['labelName']);
     $handle->bindValue(2, $data);
+    $handle->bindValue(3, $args['version']);
     $handle->execute();
 
     $handle = $LINK->prepare('INSERT INTO link SET user_id=?,label_id=?');

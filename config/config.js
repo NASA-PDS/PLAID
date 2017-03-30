@@ -22,13 +22,63 @@
  * @author Michael Kim
  * @author Stirling Algermissen
  */
+
+
+
+var default_schema = 1700;
+var filePaths, g_dictInfo; // set when label is loaded
+
+var node_contact_info = {
+    cart: {
+        node_name: "Cartography and Imaging Sciences Node",
+        name: "Lisa Gaddis",
+        email: "lgaddis@usgs.gov"
+    },
+    atmosphere: {
+        node_name: "Planetary Atmospheres Node",
+        name: "Nancy Chanover",
+        email: "nchanove@nmsu.edu"
+    },
+    ppi: {
+        node_name: "Planetary Plasma Interactions Node",
+        name: "Raymond Walker",
+        email: "rwalker@igpp.ucla.edu"
+    },
+    rsn: {
+        node_name: "Radio Science Node",
+        name: "Richard A. Simpson",
+        email: "rsimpson@magellan.stanford.edu"
+    },
+    geo: {
+        node_name: "Geosciences Node",
+        name: "Raymond Arvidson",
+        email: "arvidson@wunder.wustl.edu"
+    },
+    rms: {
+        node_name: "Ring-Moon Systems Node",
+        name: "Mark Showalter",
+        email: "mshowalter@seti.org"
+    },
+    sbn : {
+        node_name: "Small Bodies Node",
+        name: "Michael F. A'Hearn",
+        email: "ma@astro.umd.edu"
+    },
+    test : {
+        node_name: "PLAID Support",
+        name: "Stirling Algermissen",
+        email: "stirling.s.algermissen@jpl.nasa.gov"
+    }
+
+};
+
 /**
  * This object is for storing the paths to the various JSON files for PDS4 and
  * discipline nodes. These JSONs control the dynamic creation of content in PLAID.
  * @type {{PDS_JSON: string, CART_JSON: string, DISP_JSON: string, GEOM_JSON: string, IMG_JSON: string, PART_JSON: string, RMS_JSON: string, BOD_JSON: string, SPECT_JSON: string, WAV_JSON: string}}
  */
-var filePaths = {
-    PDS_JSON: "config/PDS4_PDS_JSON_1700.json",
+var filePaths_1700 = {
+    PDS_JSON: "config/PDS4_PDS_JSON_1800_DOM.JSON",
     CART_JSON: "config/cart_1700.json",
     DISP_JSON: "config/geom_disp_rings_1700.json",
     GEOM_JSON: "config/input-PDS4_GEOM_1600_1300_GEOM_1300.JSON",
@@ -44,7 +94,7 @@ var filePaths = {
  * A dictionary of information specific to each namespace/dictionary.
  * Details TBD.
  */
-var g_dictInfo = {
+var g_dictInfo_1700 = {
     pds: {
         name: 'Label Root',
         path: "config/PDS4_PDS_JSON_1700.json"
@@ -79,18 +129,27 @@ var g_dictInfo = {
         base_class: '0001_NASA_PDS_1.rings.Rings',
         path: "config/geom_disp_rings_1700.json"
     }
-}
+};
 
+var core_schema_versions = {
+    1700: {
+        name: "Version v1 (1.7.0.0) - September 30, 2016",
+        filePaths: filePaths_1700,
+        g_dictInfo: g_dictInfo_1700
+    }
+
+};
 /**
  * This object stores data related to the JSONs being referenced. It helps with
  * searching and quick reference of the JSON data.
  * @type {{refObj: {}, pds4Obj: {}, searchObj: {}, nodes: Array, currNS: string, namespaces: Array, currNode: string}}
  */
+
 var g_jsonData = {
     refObj: {},
     searchObj: {},
     nodes: {},
-    namespaces: []
+    namespaces: [],
 };
 
 /**
@@ -104,6 +163,7 @@ var g_jsonData = {
 var g_state = {
     currNS: "",         // maps to g_jsonData.namespaces[]
     nsIndex: 0,     // maps to g_jsonData.namespaces indexes
+    loading: false
 };
 
 /**
@@ -116,7 +176,9 @@ var wizardData = {
     newStep: 0,
     maxStep: 0,
     numWarnings: 0,
-    mainSteps: []
+    mainSteps: [],
+    allSteps: [],
+    stepPaths: []
 };
 /**
  * This list is for storing the user created Mission Specifics content. It will
