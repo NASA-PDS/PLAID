@@ -33,6 +33,19 @@ $(document).ready(function() {
             }
         });
     }, refreshTime );
+
+    var schemaVersion = getParameterByName("version");
+    if(schemaVersion === null) {
+        schemaVersion = default_schema;
+    }
+
+// Set when label is created
+    filePaths = core_schema_versions[schemaVersion]["filePaths"];
+    g_dictInfo = core_schema_versions[schemaVersion]["g_dictInfo"];
+
+    setupClickHandlers();
+
+
     $(".list-group-item:not(.yesButton):not(.noButton)").each(function(){
         $(this).click(captureSelection);
     });
@@ -43,12 +56,16 @@ $(document).ready(function() {
     });
     $(".labelPreviewButton").click(function(){
         backendCall("php/preview_template.php", null, {}, function(data){
-            var wrapperDiv = document.createElement("div");
+            var wrapperDiv = document.createElement("textarea");
             wrapperDiv.className = "preview popup";
             wrapperDiv.textContent = data;
+            $(wrapperDiv).css("height", "800px");
+
             popUpData['preview']['content'] = wrapperDiv;
+
+            generatePopUp(popUpData['preview'], "xml", true);
         });
-        generatePopUp(popUpData['preview']);
+
     });
     $("ul[role='menu']").hide();
     addMissionSpecificsActionBar();
@@ -102,10 +119,10 @@ $(document).ready(function() {
                 if (typeof progressData != "undefined" &&
                     progressData != null &&
                     progressData.length > 0) {
-                    isLoading = true;
+                    g_state.loading = true;
                     //    - Call load
                     loadAllProgress();
-                    isLoading = false;
+                    g_state.loading = false;
 
                 }
             }
@@ -265,15 +282,11 @@ function checkFilename(){
     var regex = new RegExp("^[a-zA-Z][a-zA-Z0-9_-]+.xml$");
     if ($(input).val().match(regex)){
         $(input).removeClass("error");
-        if (!$(input).hasClass("submitted")){
-            $(input).addClass("submitted");
-            $("#exportForm").submit();
-        }
-        else
-            return false;
+        $("#exportForm").submit();
     }
     else{
         $(input).addClass("error");
+        alert("Please use .xml extenion. For example: filename.xml");
         return false;
     }
 }
@@ -299,8 +312,10 @@ function handleExportStep(newIndex){
         $("#finalPreview", nextSection).append(preview[0]);
         var codemirror_editor = CodeMirror.fromTextArea(preview[1], {
             mode: "xml",
-            lineNumbers: true
-        })
+            lineNumbers: true,
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+        });
         $(".CodeMirror").css("height", "93%");
         setTimeout(function() {
             codemirror_editor.refresh();
@@ -353,5 +368,126 @@ function backendCall(file, funcName, args, callback){
             Data: args
         },
         success: callback
+    });
+}
+/**
+ * Generate a unique id for a class/attribute, for tracking removal
+ */
+function guid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+}
+/**
+ * Given a step in the tool, determines the difference between the index in
+ * wizardData.stepPaths and the wizard's actual steps
+ * @param {string} file name of the PHP file
+ * @param {string} funcName name of the function to execute in the PHP
+ * @param {Object} args object containing any arguments for the function
+ * @param {Function} callback function to execute upon return
+ */
+function getStepOffset(insertion_index) {
+    // Need to determine if we're past discipline node section
+    var offset = 2;
+    var done = 0;
+    for(var t = 0; t < wizardData.stepPaths.length && done == 0; t++) {
+        var value = wizardData.stepPaths[t];
+        if(value.indexOf("plaid_discipline_node:") != -1) {
+            if(insertion_index > t) { // inserting an element past the discipline node section..
+                offset = offset + 1;
+                done = 1;
+            }
+        }
+    }
+    return offset;
+}
+
+/**
+ * This function parses URL parameters
+ */
+function getParameterByName(name, url) {
+    if (!url) {
+        url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+/*
+ * Static click handlers are setup here.
+ */
+function setupClickHandlers() {
+
+    $("#submitButton").on("click", function(event) {
+        event.preventDefault();
+        var label = $(".CodeMirror", "#finalPreview")[0].CodeMirror.getValue();
+        var option_string = "";
+        for(var pds_node in node_contact_info) {
+            option_string += "<option value='" + pds_node + "'>" + node_contact_info[pds_node]["node_name"] + "</option>";
+        }
+
+        var sendLabelPopUp = {};
+        sendLabelPopUp['id'] = 'exportLabelToPDS';
+        sendLabelPopUp['title'] = 'Send PDS4 Label to PDS Node';
+        sendLabelPopUp['content'] = '<form method="post">'+
+            '<div class="form-group ">'+
+            '<label class="control-label " for="pds_node_select">'+
+            'Select a PDS Node to send label to:'+
+            '</label>'+
+            '<select class="select form-control" id="pds_node_select" name="pds_node_select">'+
+            option_string +
+            '</select>'+
+            '</div>'+
+            '<div class="form-group ">'+
+            '<label class="control-label " for="comments">'+
+            'Comments for PDS Node:'+
+            '</label>'+
+            '<textarea class="form-control" cols="40" id="comments" name="comments" rows="10"></textarea>'+
+            '</div>'+
+            '<div class="form-group">'+
+            '</div>'+
+            '</form>';
+        sendLabelPopUp['noText'] = 'Cancel';
+        sendLabelPopUp['noFunction'] = function () {
+            $('#exportLabelToPDS').modal('hide');
+        };
+        sendLabelPopUp['yesText'] = 'Send to PDS';
+        sendLabelPopUp['yesFunction'] = function () {
+            $.ajax({
+                type: "post",
+                url: "php/send_template.php",
+                data: {
+                    pds_node: $("#pds_node_select").val(),
+                    pds_node_rep_name: node_contact_info[$("#pds_node_select").val()]["name"],
+                    pds_node_email: node_contact_info[$("#pds_node_select").val()]["email"],
+                    comments: $("#comments").val()
+                }
+            }).done(function(data) {
+
+                if(parseInt(data) == 0) {
+                    alert("Label sent successfully!");
+                } else {
+                    alert("There was an error sending your label.")
+                }
+            }).fail(function() {
+                alert("There was an error sending your label.")
+            });
+
+            $('#exportLabelToPDS').modal('hide');
+            $('#exportLabelToPDS').on('hidden.bs.modal', function () {
+                $("body .modal.fade.hide").remove();
+                $("body .modal-backdrop.fade.in").remove();
+            });
+        };
+        generatePopUp(sendLabelPopUp);
+        return false;
     });
 }

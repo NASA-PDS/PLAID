@@ -53,6 +53,11 @@ function getNode($path, $ns){
     if (isNonDefaultNamespace($ns))
         $xpath->registerNamespace($ns, "http://pds.nasa.gov/pds4/$ns/v1");
     $query = "//" . $path;
+    if($path == "/") {
+        print "resetting path";
+        $query = "/*"; // select root node
+    }
+
     return $xpath->query($query);
 }
 /**
@@ -66,12 +71,15 @@ function addNode($args){
     $quantity = $args["quantity"];
     $ns = $args["ns"];
     list($nodeName, $nodePath) = handlePath($nodePath, $ns, isset($args["root_discipline_node"]));
+
+
     if (isNonDefaultNamespace($ns)){
         // make sure discipline root node exists
         $nodeName = $ns.":".$nodeName;
     }
     $nodes = getNode($nodePath, $ns);
-    print_r($nodes);
+    print $nodePath;
+    print $nodeName;
     if($nodes->length == 0 && isNonDefaultNamespace($ns)) {
         // Create ns root node
         $root_discipline_node = prependDisciplineRootNode(array(), $ns);
@@ -83,21 +91,59 @@ function addNode($args){
             $nodes = getNode($nodePath, $ns);
         }
     }
-    foreach($nodes as $node){
-        for ($x = 0; $x < $quantity; $x++){
 
+
+
+    if($nodes->length == 0 && substr_count($nodePath, "/") > 1 && !isNonDefaultNamespace($ns)) {
+        http_response_code(500); // Couldn't find parent node
+    }
+
+
+    foreach($nodes as $parent_node){
+
+        // Check parent node children to see if the node we're going to add is already there -
+        // In this case we want to insert the new node before the node of the same name, to maintain
+        // order. Also, we want to duplicate that node's children, if it has any.
+        $node_to_insert_before = NULL;
+        $node_has_children = false;
+        $total_instances_of_node = 0;
+        if($parent_node->hasChildNodes()) {
+            if($parent_node->childNodes->length > 1) {
+                foreach ($parent_node->childNodes as $child_node)  {
+                    if($child_node->nodeName == $nodeName) {
+                        $total_instances_of_node++;
+                        $node_to_insert_before = $child_node;
+                        $node_has_children = $node_to_insert_before->hasChildNodes();
+                    }
+                }
+            }
+        }
+
+        for ($x = $total_instances_of_node; $x < $quantity; $x++){
             if (isNonDefaultNamespace($ns)) {
-
                 $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $nodeName);
             } else {
                 $newNode = $DOC->createElement($nodeName);
             }
+
             addNodeValue($newNode, $args["value"]);
-            $node->appendChild($newNode);
+            var_dump($node_to_insert_before);
+
+           if(is_null($node_to_insert_before)) {
+                $parent_node->appendChild($newNode);
+
+                // SOMETHING WRONG WITH CODE BELOW - used to clon an already added class when more are added later
+
+           } else {
+                if($node_has_children) {
+                    $parent_node->insertBefore($node_to_insert_before->cloneNode(true), $node_to_insert_before);
+                } else {
+                    $parent_node->insertBefore($newNode, $node_to_insert_before);
+                }
+           }
         }
     }
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
-    print_r($args);
     updateLabelXML($args);
 }
 
@@ -165,6 +211,33 @@ function removeNode($args){
     updateLabelXML($args);
 }
 /**
+ * Remove class from the overall document.
+ * @param {object} $args object containing the path to the node and its namespace (if any)
+ */
+function removeClass($args){
+    global $DOC;
+    $ns = $args["ns"];
+
+    list($nodeName, $parentPath) = handlePath($args["path"], $ns);
+    $nodes = getNode($parentPath."/".$nodeName, $ns);
+
+    $n_to_remove = $args["number_to_remove"];
+    if(!isset($args["number_to_remove"])) {
+        foreach($nodes as $node){
+            $node->parentNode->removeChild($node);
+        }
+    } else {
+        for($i = 0; $i < $n_to_remove && $i < $nodes->length; $i++) {
+            $node = $nodes->item($i);
+            $node->parentNode->removeChild($node);
+        }
+    }
+    $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
+    updateLabelXML($args);
+}
+
+
+/**
  * Clear out all child nodes of the target to prepare for adding in new children.
  * @param {object} $args object containing the path to the node and its namespace (if any)
  */
@@ -216,6 +289,9 @@ function handlePath($path, $ns, $is_discpline_root){
     }
     else {
         $path = implode("/", $filtArr);
+        if($path == "") {
+            $path = "/"; // set root when appropriate
+        }
     }
     return array($nodeName, $path);
 }

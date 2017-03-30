@@ -129,9 +129,27 @@ function setDisciplineDict(nodeName, nodeId) {
             // handleProductOrNode(outerObj, innerObj, type);
 
             var assocList = childObj["associationList"];
+
+
             g_jsonData.refObj = {};
+
+            // Grab the generalization
+            for(var k = 0; k < assocList.length; k++) {
+                if(assocList[k]["association"]["assocType"] == "parent_of") {
+                    var generalization = assocList.splice(k, 1)[0];//["association"]["attributeId"][0];
+                    // first see if the parent exists
+                  //  var findParent = g_jsonData.generalization.first(function(node) {
+                    //    return node.model.id == generalization;
+                    //});
+                    //if(findParent) {
+
+                    //}
+
+                }
+            }
+
             //get initial associations for creating main steps
-            getAssociations(parentObj, assocList, g_jsonData.refObj);
+            getAssociations(parentObj, childObj, g_jsonData.refObj);
             //get next two levels of associations for creating element-bars and
             //displaying subelement information in the popovers
             getLevelOfAssociations(parentObj, g_jsonData.refObj, true);
@@ -175,8 +193,16 @@ function setDisciplineDict(nodeName, nodeId) {
 
         var assocList = objectToReturn["associationList"];
         g_jsonData.refObj = {};
+
+        // Grab the generalization
+        for(var k = 0; k < assocList.length; k++) {
+            if(assocList[k]["association"]["assocType"] == "parent_of") {
+                objectToReturn.generalization = assocList.splice(k, 1)[0];
+            }
+        }
+
         //get initial associations for creating main steps
-        getAssociations(parentObj, assocList, g_jsonData.refObj);
+        getAssociations(parentObj, objectToReturn, g_jsonData.refObj);
         //get next two levels of associations for creating element-bars and
         //displaying subelement information in the popovers
         getLevelOfAssociations(parentObj, g_jsonData.refObj, true);
@@ -211,12 +237,17 @@ function setDisciplineDict(nodeName, nodeId) {
 * @param {Array} associationList list of association objects to search for
 * @param {Object} currObj object to store each child element in, maintaining relations
 */
-function getAssociations(object, associationList, currObj){
+function getAssociations(object, nodeObj, currObj){
+    var associationList = nodeObj["associationList"];
     for (var index in associationList){
         var child = associationList[index]["association"];
         var isAttr = (child["isAttribute"] === "true");
         var identifiers = [], title = "";
         currObj[index] = [];
+
+
+      //  if(child["identifier"].startsWith())
+
         if (isAttr){
             identifiers = child["attributeIdentifier"];
             if (identifiers === undefined) { identifiers = child["attributeId"]; }
@@ -225,8 +256,7 @@ function getAssociations(object, associationList, currObj){
                 currObj[index][title] = getElementFromDict(object, "attribute", "attributeDictionary", identifiers[attIndex]);
                 determineRequirements(child, currObj[index][title]);
             }
-        }
-        else{
+        } else {
             identifiers = child["classIdentifier"];
             if (identifiers === undefined) { identifiers = child["classId"]; }
             for (var clIndex in identifiers){
@@ -254,7 +284,15 @@ function getLevelOfAssociations(searchObj, nextObjs, exeTwice){
     for (var index in nextObjs){
         for (var key in nextObjs[index]){
             var currObj = nextObjs[index][key];
-            getAssociations(searchObj, currObj["associationList"], currObj["next"]);
+            if(typeof currObj["associationList"] != 'undefined') {
+                for (var k = 0; k < currObj["associationList"].length; k++) {
+                    if (currObj["associationList"][k]["association"]["assocType"] == "parent_of") {
+                        currObj.generalization = currObj["associationList"].splice(k, 1)[0];
+                    }
+                }
+            }
+
+            getAssociations(searchObj, currObj, currObj["next"]);
             assignObjectPath(index, currObj, currObj["next"]);
             if (exeTwice) {
                 getLevelOfAssociations(searchObj, currObj["next"], false);
@@ -283,7 +321,9 @@ function assignObjectPath(startingIndex, currObject, children){
         for (var key in children[index]){
             if (children[index][key]){
                 if (!children[index][key]["isRequired"]) { currObject["allChildrenRequired"] = false; }
-                children[index][key]["path"] = path + "/" + index.toString() + "/" + children[index][key]["title"];
+                if(typeof children[index][key]["path"] == 'undefined') { // is there a better check here? seems like we only want to update when the base of the path matches.
+                    children[index][key]["path"] = path + "/" + index.toString() + "/" + children[index][key]["title"];
+                }
             }
         }
     }
@@ -336,6 +376,6 @@ function determineRequirements(assocMention, assocDetails){
         var max = assocMention["maximumCardinality"];
         assocDetails["range"] = min + "-" + max;
         assocDetails["isRequired"] = (min === max);
-	assocDetails["classOrder"] = assocMention["classOrder"];
+        assocDetails["classOrder"] = assocMention["classOrder"];
     }
 }

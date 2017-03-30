@@ -75,10 +75,26 @@ function initWizard(wizard) {
             }
             if (progressData === null)
                 progressData = [];
-            if (!isLoading && currentIndex < progressData.length){
-                return handleBackwardsProgress(currentIndex);
+            if (!g_state.loading && currentIndex < progressData.length){
+
+                // when a class from a previous page is removed, handle recursive removal
+                // of that page and skip the addition steps below
+                var classRemoved = false;
+                switch (progressData[currentIndex]['step']){
+                    case 'discipline_nodes':
+                        classRemoved = areDifferentDisciplineNodes(progressData[currentIndex]);
+                        break;
+                    case 'optional_nodes':
+                        classRemoved = areDifferentOptionalNodes(progressData[currentIndex]);
+                        break;
+                }
+                if(classRemoved) {
+                    console.log("skipping step addition");
+                    // Something was removed, skip addition steps
+                    return;
+                }
             }
-            if (currentIndex < newIndex){
+            if (newIndex > currentIndex){
                 // TODO - we should do a check here to figure out what
                 // page we are on and determine where to go from there
                 handleStepAddition(currentIndex, newIndex);
@@ -92,21 +108,31 @@ function initWizard(wizard) {
         },
         onStepChanged: function (event, currentIndex, priorIndex) {
             wizardData.currentStep = currentIndex;
-            if (currentIndex > priorIndex){
-                var priorStepHeading = $("#wizard-t-" + priorIndex.toString());
-                var priorStepTitle = (/[A-Za-z].+/.exec(priorStepHeading.text())[0].replace(/ /g, "_"));
-                insertCheckmark(priorStepHeading);
 
-                var currStepHeading = $("#wizard-t-" + currentIndex.toString());
-                //parse the step title from the overall step element (in the left sidebar)
-                var currStepTitle = (/[A-Za-z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
-                prepXML(currStepTitle, true); // XML validation disabled until integrated into tool
+            var stepContent = $("#wizard-p-" + priorIndex);
+            //progressObj['step_path'] = $(".optional-section", stepContent).attr("step_path");
+            if(g_state.loading && typeof $(".optional-section", stepContent).attr("no_save_data") != 'undefined') {
 
-                if((typeof progressData != "undefined" || progressData != null) &&
-                    priorIndex+1 > progressData.length)
-                    storeProgress(priorIndex, priorStepTitle);
+            } else {
+                if (currentIndex > priorIndex) {
+                    var priorStepHeading = $("#wizard-t-" + priorIndex.toString());
+                    var priorStepTitle = (/[A-Za-z].+/.exec(priorStepHeading.text())[0].replace(/ /g, "_"));
+                    insertCheckmark(priorStepHeading);
+
+                    var currStepHeading = $("#wizard-t-" + currentIndex.toString());
+                    //parse the step title from the overall step element (in the left sidebar)
+                    var currStepTitle = (/[A-Za-z].+/.exec(currStepHeading.text())[0].replace(/ /g, "_"));
+                    prepXML(currStepTitle, false); // XML validation disabled until integrated into tool
+
+                    if ((typeof progressData != "undefined" || progressData != null) && !g_state.loading) {
+                        // need to only call storeprogress when appropriate
+                        storeProgress(priorIndex, priorStepTitle, (priorIndex + 1 > progressData.length));
+                    }
+                }
             }
-            handleBackwardsTraversalPopup(currentIndex);
+            if (currentIndex >= wizardData.maxStep) {
+                wizardData.maxStep = currentIndex;
+            }
             resetMissionSpecificsBuilder(priorIndex);
             $("#help").empty();
             previewDescription();
@@ -156,55 +182,67 @@ function matchWizardHeight(wizardContent, wizardActions, sidebar, stepsBar){
  */
 function handleStepAddition(currentIndex, newIndex){
     var insertionIndex = newIndex;
+
+
     var currSection = $("#wizard-p-" + currentIndex.toString());
     var hasRun = false;
     if ($(".optional-section", currSection).length > 0){
-        $(".element-bar:not(.stepAdded)", currSection).each(function(){
-            var val = $(".element-bar-counter", this).val();
-            var metadata = $(".element-bar-input", this).val();
-            var path = $(this).attr("data-path");
-            var currObj = getObjectFromPath(path, g_jsonData.refObj);
-            // TODO -   this val check doesn't seem good enough.
-            //          the else if is intended to handle the initial
-            //          IM ingestion. everything else should fall under here
-            if (val !== "0"){
-                if (currentIndex === 1){
-                    wizardData.mainSteps.push(currObj['title']);
-                    if (!hasRun){
-                        prepXML(currObj['title'], false); // XML validation disabled until integrated into tool
-                        hasRun = true;
+        $(".element-bar", currSection).each(function(barIndex, value){
+            if(!$(this).hasClass("stepAdded")) {
+                var val = $(".element-bar-counter", this).val();
+                var metadata = $(".element-bar-input", this).val();
+                var path = $(this).attr("data-path");
+
+                var currObj = getObjectFromPath(path, g_jsonData.refObj);
+                // TODO -   this val check doesn't seem good enough.
+                //          the else if is intended to handle the initial
+                //          IM ingestion. everything else should fall under here
+                if (val !== "0") {
+
+                    if (currentIndex === 1) {
+                        wizardData.mainSteps.push(currObj['title']);
+
+                        if (!hasRun) {
+                            prepXML(currObj['title'], false); // XML validation disabled until integrated into tool
+                            hasRun = true;
+                        }
                     }
+
+
+                    //- if the "next" property is defined, then it is a class with children (not an attribute) so
+                    //  a step should be added
+                    //- if the "title" property equals "Mission_Area" or
+                    //- if the "title" property equals "Discipline_Area, then it is a special section handled later in the
+                    //  tool and a step should not be added
+                    if (currObj['next'] !== undefined && currObj['title'] !== "Mission_Area" && currObj['title'] !== "Discipline_Area") {
+
+
+
+                        insertStep($("#wizard"), insertionIndex, currObj);
+
+
+                        wizardData.stepPaths.splice(insertionIndex - getStepOffset(insertionIndex), 0, currObj['path']);
+                        insertionIndex += 1;
+                        wizardData.allSteps.push(currObj['title']);
+
+
+                    }
+                    $(this).addClass("stepAdded");
+                    if (typeof $(this).attr("data-path-corrected") != 'undefined') {
+                        path = $(this).attr("data-path-corrected"); // some attributes/classes are generic and need to apply to the current class
+                    }
+                    backendCall("php/xml_mutator.php",
+                        "addNode",
+                        {path: path, quantity: val, value: metadata, ns: g_jsonData.namespaces[g_state.nsIndex]},
+                        function (data) {
+                        });
                 }
-                //- if the "next" property is defined, then it is a class with children (not an attribute) so
-                //  a step should be added
-                //- if the "title" property equals "Mission_Area" or
-                //- if the "title" property equals "Discipline_Area, then it is a special section handled later in the
-                //  tool and a step should not be added
-                if (currObj['next'] !== undefined &&
-                    currObj['title'] !== "Mission_Area" &&
-                    currObj['title'] !== "Discipline_Area"){
-                    insertStep($("#wizard"), insertionIndex, currObj);
-                    insertionIndex +=1;
-                }
-                $(this).addClass("stepAdded");
-                backendCall("php/xml_mutator.php",
-                            "addNode",
-                            {path: path, quantity: val, value: metadata, ns: g_jsonData.namespaces[g_state.nsIndex]},
-                            function(data){});
             }
-            //PLAID currently utilizes a starter label as the base of the XML. This starter label
-            //contains one instance of all required and optional elements according to the PDS4 standard.
-            //Since not all elements on the top level of the XML (corresponding to the 'Product' step with
-            //currentIndex = 1, if the user does not choose to include these elements, they need to be removed
-            //from the XML.
-            else if (currentIndex === 1 && val === "0"){
-                backendCall("php/xml_mutator.php",
-                    "removeNode",
-                    {path: currObj['path'], ns: ""},
-                    function(data){});
-            }
+
         });
+
     }
+
 }
 /*
 * Insert a step into the wizard at the specified index with content
@@ -214,15 +252,16 @@ function handleStepAddition(currentIndex, newIndex){
 * @param {Object} dataObj object containing the PDS data to generate content from
  */
 function insertStep(wizard, index, dataObj){
-    revertStepClass(index);
-
+    if(index > wizardData.maxStep) {
+       revertStepClass(index);
+    }
     // Get the node name from the g_dictInfo global
     var nodeName = g_dictInfo[g_jsonData.namespaces[g_state.nsIndex]].name;
     var title = (dataObj["title"] ? dataObj["title"].replace(/_/g, " ") : nodeName);
     var data = (dataObj["next"] ? dataObj["next"] : dataObj);
     wizard.steps("insert", index, {
         title: title,
-        content: generateContent(title, data)
+        content: generateContent(title, data, dataObj)
     });
 }
 /**
@@ -233,8 +272,13 @@ function insertStep(wizard, index, dataObj){
 * @param {Object} dataObj object containing the PDS data to generate content from
 * @return {Element} section
  */
-function generateContent(sectionTitle, dataObj){
+function generateContent(sectionTitle, dataObj, parentObj){
+    var parentPath = parentObj["path"];
+    if(sectionTitle == g_dictInfo["pds"]["name"]) {
+        parentPath = g_dictInfo["pds"]["name"];
+    }
     var section = document.createElement("div");
+    $(section).attr("step_path", parentPath);
     section.className = "optional-section";
     var question = document.createElement("p");
     question.className = "question";
@@ -242,21 +286,21 @@ function generateContent(sectionTitle, dataObj){
     section.appendChild(question);
     var subsection = document.createElement("div");
     subsection.className = "data-section";
-    // need to sort before iterating through - TODO - clean this up
+    // need to sort before iterating through
     var indexArray = [];
     var indexLookup = $.map(dataObj, function(value, index) {
-	    return [value];
-	});
+        return [value];
+    });
     var dataArray = $.map(dataObj, function(value, index) {
-	    return [value];
-	});
+        return [value];
+    });
     dataArray.sort(function(a, b) {
-	    return a[Object.keys(a)[0]].classOrder - b[Object.keys(b)[0]].classOrder;
-	});
+        return a[Object.keys(a)[0]].classOrder - b[Object.keys(b)[0]].classOrder;
+    });
 
     $.each(dataArray, function(key, value) {
-	    indexArray.push(indexLookup.indexOf(value));
-	});
+        indexArray.push(indexLookup.indexOf(value));
+    });
 
     for (var curIndex in indexArray){
         var index = indexArray[curIndex];
@@ -269,8 +313,16 @@ function generateContent(sectionTitle, dataObj){
         key = "";
         for (key in dataObj[index]){
             var currObj = dataObj[index][key];
+            if(typeof currObj["associationList"] != 'undefined') {
+                for (var k = 0; k < currObj["associationList"].length; k++) {
+                    if (currObj["associationList"][k]["association"]["assocType"] == "parent_of") {
+                        currObj.generalization = currObj["associationList"].splice(k, 1)[0];
+                    }
+                }
+            }
+
             //get immediate associations for creating next steps/element-bars
-            getAssociations(g_jsonData.searchObj, currObj["associationList"], currObj["next"]);
+            getAssociations(g_jsonData.searchObj, currObj, currObj["next"]);
 
             // TODO: I think this is where we will need to add the node top-level path
             assignObjectPath(index, currObj, currObj["next"]);
@@ -278,14 +330,14 @@ function generateContent(sectionTitle, dataObj){
             //need to get one more level of associations for displaying sub-elements in the popovers
             getLevelOfAssociations(g_jsonData.searchObj, currObj["next"], false);
             if ($.inArray(currObj["title"], invalidElementsInJSON) !== -1){
-                continue;
+
             }
             else if (dataObj[index].length === 1){
                 if (currObj["title"] === "Mission_Area" ||
                     currObj["title"] === "Discipline_Area"){
                     currObj["range"] = "1-1";
                 }
-                subsection.appendChild(createElementBar(currObj, createLabel, false));
+                subsection.appendChild(createElementBar(currObj, createLabel, false, parentPath));
             }
             else {
                 var range = currObj["range"].split("-");
@@ -294,7 +346,7 @@ function generateContent(sectionTitle, dataObj){
                 }
                 range[0] = (range[0] === "0" ? range[0] : (parseInt(range[0], 10) - 1).toString());
                 currObj["range"] =  range[0] + "-" + range[1];
-                choicegroup.appendChild(createElementBar(currObj, createLabel, true));
+                choicegroup.appendChild(createElementBar(currObj, createLabel, true, parentPath));
                 flag = true;
             }
         }
@@ -310,7 +362,7 @@ function generateContent(sectionTitle, dataObj){
 * @param {bool} isChoice denotes whether this element-bar is in a choice group or not
 * @return {Element} elementBar
  */
-function createElementBar(dataObj, genLabel, isChoice){
+function createElementBar(dataObj, genLabel, isChoice, parentPath){
     var elementBar = document.createElement("div");
     elementBar.className = "input-group element-bar";
 
@@ -324,7 +376,14 @@ function createElementBar(dataObj, genLabel, isChoice){
 
     // Set the data path. This is the traversal path through the JSON
     elementBar.setAttribute('data-path', dataObj["path"]);
+    if(!dataObj["path"].startsWith(parentPath) && typeof parentPath != 'undefined' && parentPath != g_dictInfo["pds"]["name"]) {
+        console.log("Need to correct " + dataObj["path"] + " with parent " + parentPath);
+        var arrayPath = dataObj["path"].split("/");
+        parentPath = parentPath + "/" + arrayPath[arrayPath.length-2] + "/" + arrayPath[arrayPath.length-1];
+        console.log("Corrected path: " + parentPath);
+        elementBar.setAttribute('data-path-corrected', parentPath);
 
+    }
     var label = genLabel(dataObj["title"], isChoice);
     elementBar.appendChild(label);
 
@@ -339,6 +398,8 @@ function createElementBar(dataObj, genLabel, isChoice){
     var plusBtn = createControlButton("plus");
 
     var counter = createCounterInput(dataObj);
+
+
     if ($(counter).prop("value") === $(counter).prop("max")){
         $("button", plusBtn).prop("disabled", true);
     }
@@ -482,23 +543,7 @@ function createChoiceGroup(min, max) {
     cg.appendChild(label);
     return cg;
 }
-/**
- * Show a pop-up warning the user traversing backwards and making a change will cause a loss of all progress
- * NOTE: Pop-up should only show once whenever a user visits a previous step after making forward progress
- * @param {number} currentIndex number representing the current step of the wizard
- */
-function handleBackwardsTraversalPopup(currentIndex) {
-    // If the current index is past the previously recorded max, update the max to match the current
-    if (currentIndex >= wizardData.maxStep) {
-        wizardData.maxStep = currentIndex;
-        wizardData.numWarnings = 0;
-    }
-    // If the current index is behind the max and there has yet to be a warning pop-up, show the pop-up
-    else if (currentIndex < wizardData.maxStep && wizardData.numWarnings === 0) {
-        showBackwardsTraversalPopUp(currentIndex);
-        wizardData.numWarnings = 1;
-    }
-}
+
 /**
  * When steps are added to the wizard, the step that was originally going to be
  * navigated to next loses the disabled class. That class controls the styling
@@ -534,16 +579,17 @@ function prepXML(sectionHeading, isValidating){
                         {},
                         function(data){});
 
-
-            backendCall("php/xml_mutator.php",
-                "removeRootAttrs",
-                {namespaces: g_jsonData.namespaces},
-                function(data){});
         }
+        backendCall("php/xml_mutator.php",
+            "removeRootAttrs",
+            {namespaces: g_jsonData.namespaces},
+            function(data){});
+        /*
         backendCall("php/xml_mutator.php",
             "removeAllChildNodes",
             {path: sectionHeading, ns: ""},
             function(data){});
+            */
     }
 }
 /**

@@ -30,3 +30,4 @@ $(window).resize(function(){
         $(".infoBar")[0], $("div.steps")[0]);
 });
 initWizard($("#wizard"));
+wizardData.stepIds = [];

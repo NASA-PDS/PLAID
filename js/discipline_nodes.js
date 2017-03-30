@@ -37,7 +37,8 @@
 function discNodesSelection(currentIndex){
     var currSection = $("#wizard-p-" + currentIndex.toString());
     if ($(".checkbox-group", currSection).length > 0){
-        wizardData.mainSteps = [];
+        //wizardData.mainSteps = [];
+
 
         // Let's loop through all of those discipline node steps that have not been
         // added as a step and have the box checked to be added
@@ -56,6 +57,8 @@ function discNodesSelection(currentIndex){
             // not later on in the setDisciplineDict function.
             g_jsonData.nodes[nodeName] = getJSON(getNodeJsonFilename(nodeName));
             wizardData.mainSteps.push(nodeName);
+
+            wizardData.stepPaths.push("plaid_discipline_node:" + nodeName);
 
             setDisciplineDict(nodeName, nodeId);
 

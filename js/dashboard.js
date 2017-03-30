@@ -41,7 +41,18 @@ $(document).ready(function(){
 
     $("#createNewLabelButton").click(function() {
         $('#labelNameInput').removeClass('error');
+        $("#core_schema_versions_select").empty();
+
         generatePopUp(popUpData['createNewLabel']);
+        for (var schema in core_schema_versions) {
+            if (core_schema_versions.hasOwnProperty(schema)) {
+                var schema_info = core_schema_versions[schema];
+                var schema_option = document.createElement("option");
+                $(schema_option).text(schema_info["name"]);
+                $(schema_option).attr("value", schema);
+                $("#core_schema_versions_select").append(schema_option);
+            }
+        }
     });
 });
 /**
@@ -53,7 +64,7 @@ function createLabelEntry(labelData){
     var labelCard = document.createElement("div");
     labelCard.className = "card card-block labelCard";
     labelCard.id = "label-" + labelData["id"];
-
+    $(labelCard).attr("version", labelData["schema_version"]);
     var title = document.createElement("h4");
     title.className = "card-title";
     title.textContent = labelData["name"];
@@ -80,8 +91,18 @@ function createLabelEntry(labelData){
     updateTime.textContent = labelData["last_modified"];
     time2.appendChild(updateTime);
 
+    var schemaVersion = document.createElement("div");
+    var versionLabel = document.createElement("span");
+    versionLabel.innerHTML = "<b>PDS4 Version: </b>";
+    schemaVersion.appendChild(versionLabel);
+    var versionNumber = document.createElement("span");
+    versionNumber.className = "version";
+    versionNumber.textContent = core_schema_versions[parseInt(labelData["schema_version"])]["name"];
+    schemaVersion.appendChild(versionNumber);
+
     content.appendChild(time1);
     content.appendChild(time2);
+    content.appendChild(schemaVersion);
     labelCard.appendChild(content);
 
     var btnGrp = document.createElement("div");
@@ -156,7 +177,7 @@ function editLabel(){
             label_id: labelID
         },
         success: function(data) {
-            window.location = "wizard.php";
+            window.location = "wizard.php?version=" + labelCard.attr("version");
         }
     });
 }

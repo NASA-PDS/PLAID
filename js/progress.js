@@ -29,33 +29,61 @@
  * @param {number} priorIndex index of the step that was just completed
  * @param {string} stepType often corresponds to the title of the step
  */
-function storeProgress(priorIndex, stepType){
+function storeProgress(priorIndex, stepType, splice){
     priorIndex = priorIndex.toString();
     var currObj = {};
+    var saveToProgressData = false;
     //form an object with data for the step that was just completed
     switch (stepType.toLowerCase()){
         case "product_type":
             storeProductType(priorIndex, currObj);
+            var found = 0;
+            for(var i = 0; i < progressData.length && found == 0; i++) {
+                var currentStep = progressData[i];
+                if(currentStep['step'] == 'product_type') {
+                    // overwrite existing product_type always
+                    progressData.splice(i, 1, currObj);
+                    found = 1;
+                }
+            }
+            if(found == 0) {
+                progressData.push(currObj);
+            }
             break;
         case "discipline_nodes":
             storeDisciplineNodes(priorIndex, currObj);
+            progressData.push(currObj); //FIXME
             break;
         case "discipline_dictionaries":
             storeDisciplineNodes(priorIndex, currObj);
+            progressData.push(currObj); //FIXME
             break;
         case "mission_specifics":
             storeMissionSpecifics(priorIndex, currObj);
+            progressData.push(currObj); //FIXME
             break;
         case "builder":
             storeBuilder(currObj);
+            progressData.push(currObj); //FIXME
             break;
         default:
             storeOptionalNodes(priorIndex, currObj);
+            var found = 0;
+            for(var i = 0; i < progressData.length && found == 0; i++) {
+                var currentStep = progressData[i];
+                if(currentStep['step_path'] == currObj['step_path']) {
+                    // overwrite optional node when it already exists
+                    progressData.splice(i, 1, currObj);
+                    found = 1;
+                }
+            }
+            if(found == 0) {
+                progressData.push(currObj);
+            }
             break;
     }
-    //store values that were adjusted by the user
-    //push the object onto the progress array
-    progressData.push(currObj);
+ //determine whether this is a new step or updating an existing step.
+
     //update the progress field in the database
     $.ajax({
         type: "post",
@@ -106,6 +134,7 @@ function storeOptionalNodes(priorIndex, progressObj){
     progressObj['selection'] = [];
 
     var stepContent = $("#wizard-p-" + priorIndex);
+    progressObj['step_path'] = $(".optional-section", stepContent).attr("step_path");
     progressObj['containsChoice'] = ($(".choice-field", stepContent).length > 0);
     $(".element-bar", stepContent).each(function(){
         var element = {
@@ -201,35 +230,58 @@ function loadProductType(dataObj){
  */
 function loadOptionalNode(dataObj){
     var stepContent = $("section.current");
-    for (var index in dataObj['selection']){
-        var currObj = dataObj['selection'][index];
-        var elementBar = $(prepJqId(currObj['id']), stepContent);
-        var value = currObj['num'];
-        //since choice-fields have disabled counter forms, we must mimic the user
-        //pressing the plus button instead of inserting the value directly
-        if (dataObj['containsChoice']){
-            var counter = $(".element-bar-counter", elementBar);
-            var initVal = parseInt($(counter).val(), 10);
-            //this conditional handles a bug when the user wants to revert changes within
-            //a choice field. It resets the values to 0 before proceeding.
-            if ($(counter).parents(".choice-field").length > 0 && initVal !== 0){
-                while ($(counter).val() !== "0")
-                    $(".element-bar-minus", elementBar).click();
+    var noSaveData = false;
+    var current_step_path = $(".optional-section", stepContent).attr("step_path");
+    if(typeof dataObj['step_path'] != 'undefined' && typeof current_step_path != 'undefined') {
+        if(current_step_path != dataObj['step_path']) {
+            var found = 0;
+            // The current dataObj is not for the current step. Find the actual dataObj in progressData.
+            // TODO - consider namespace collisions
+            for(var i = 0; i < progressData.length && found == 0; i++) {
+                if(typeof progressData[i]["step_path"] != 'undefined') {
+                    if(progressData[i]["step_path"] == current_step_path) {
+                        dataObj = progressData[i];
+                        found = 1;
+                    }
+                }
             }
-            for (var x = initVal; x < value; x++)
-                $(".element-bar-plus", elementBar).click();
+            if(found == 0) {
+                noSaveData = true;
+                $(".optional-section", stepContent).attr("no_save_data", "true");
+            }
         }
-        //if there is no choice-field though, go ahead and insert the value
-        else
-            $(".element-bar-counter", elementBar).val(value);
-        if (currObj['val'] !== undefined && currObj['val'] !== "")
-            $(".element-bar-input", elementBar).val(currObj['val']);
-        //need to call this function to reset the properties of the element bar
-        //after the adjustments have been made to load the progress
-        setOneElementBarStyle($(".element-bar-counter", elementBar));
     }
-    if (dataObj['containsChoice'])
-        setChoiceFieldStyle($(".choice-field", stepContent));
+    if(!noSaveData) {
+        for (var index in dataObj['selection']) {
+            var currObj = dataObj['selection'][index];
+            var elementBar = $(prepJqId(currObj['id']), stepContent);
+            var value = currObj['num'];
+            //since choice-fields have disabled counter forms, we must mimic the user
+            //pressing the plus button instead of inserting the value directly
+            if (dataObj['containsChoice']) {
+                var counter = $(".element-bar-counter", elementBar);
+                var initVal = parseInt($(counter).val(), 10);
+                //this conditional handles a bug when the user wants to revert changes within
+                //a choice field. It resets the values to 0 before proceeding.
+                if ($(counter).parents(".choice-field").length > 0 && initVal !== 0) {
+                    while ($(counter).val() !== "0")
+                        $(".element-bar-minus", elementBar).click();
+                }
+                for (var x = initVal; x < value; x++)
+                    $(".element-bar-plus", elementBar).click();
+            }
+            //if there is no choice-field though, go ahead and insert the value
+            else
+                $(".element-bar-counter", elementBar).val(value);
+            if (currObj['val'] !== undefined && currObj['val'] !== "")
+                $(".element-bar-input", elementBar).val(currObj['val']);
+            //need to call this function to reset the properties of the element bar
+            //after the adjustments have been made to load the progress
+            setOneElementBarStyle($(".element-bar-counter", elementBar));
+        }
+        if (dataObj['containsChoice'])
+            setChoiceFieldStyle($(".choice-field", stepContent));
+    }
     $("#wizard").steps("next");
 }
 /**
@@ -270,37 +322,7 @@ function loadMissionSpecifics(dataObj) {
 function loadBuilder() {
     $("table.missionSpecificsActionBar button.save").click();
 }
-/**
- * Check to see if the user has made a change. If so, display a popup and react accordingly
- * to the user's selection. If they choose to keep the changes, the progress after that point will
- * be cleared and the page will be reloaded. If they choose to revert, then their changes will
- * be reverted, and they will be taken to the next step.
- * @param {number} currIndex index of the current step
- * @returns {boolean} indicates whether to continue to the next step or not
- */
-function handleBackwardsProgress(currIndex){
-    var isChanged = false;
-    //compare against the progress data for the current index
-    switch (progressData[currIndex]['step']){
-        case 'discipline_nodes':
-            isChanged = areDifferentDisciplineNodes(progressData[currIndex]);
-            break;
-        case 'optional_nodes':
-            isChanged = areDifferentOptionalNodes(progressData[currIndex]);
-            break;
-        case 'mission_specifics':
-            isChanged = areDifferentMissionSpecifics(progressData[currIndex]);
-            break;
-    }
-    //if there is a difference in selections between what is stored in the progress data and what
-    //is currently in the content of the step
-    if (isChanged) {
-        generatePopUp(popUpData["deleteProgress"]);
-        return false;
-    }
-    else
-        return true;
-}
+
 /**
  * Loop through the checkboxes to check if:
  * - The total number checked is different than before
@@ -311,17 +333,15 @@ function handleBackwardsProgress(currIndex){
 function areDifferentDisciplineNodes(dataObj){
     var stepContent = $("section.current");
     var areDifferent = false;
-    if ($('input:checked', stepContent).length !== dataObj['selection'].length) {
-        areDifferent = true;
-    } else {
-        dataObj['selection'].map(function(element) {
-            var node = $("span.discNode[data-id='" + element + "']", stepContent);
-            if (!$(node).siblings("input").prop('checked')) {
-                areDifferent = true;
-            }
-
-        });
-    }
+  //  if ($('input:checked', stepContent).length !== dataObj['selection'].length) {
+    //    areDifferent = true;
+    //} else
+    dataObj['selection'].map(function(element) {
+        var node = $("span.discNode[data-id='" + element + "']", stepContent);
+        if (!$(node).siblings("input").prop('checked')) {
+            areDifferent = true;
+        }
+    });
     return areDifferent;
 }
 /**
@@ -331,13 +351,146 @@ function areDifferentDisciplineNodes(dataObj){
  */
 function areDifferentOptionalNodes(dataObj){
     var stepContent = $("section.current");
+    // verify current dataObj is correct
+    if($(".optional-section", stepContent).attr("step_path") != dataObj["step_path"]) {
+        // find the right dataObj
+        var found = false;
+        for(var i = 0; i < progressData.length && !found; i++) {
+            if(progressData[i]["step_path"] == dataObj["step_path"]) {
+                dataObj = progressData[i];
+                found = true;
+            }
+        }
+        if(!found) {
+            // this element hasn't been set in the first place.
+            alert("haven't set this item, so no change.");
+            return;
+        }
+    }
     for (var index in dataObj['selection']){
         var currObj = dataObj['selection'][index];
         var elementBar = $(prepJqId(currObj['id']), stepContent);
+        if(elementBar.length == 0) {
+            console.log("Current progressData Obj does not match current step");
+            console.log($(".optional-section", stepContent).attr("step_path"));
+            console.log(dataObj["step_path"]);
+        }
         var newNum = $(".element-bar-counter", elementBar).val();
         var newVal = $(".element-bar-input", elementBar).val();
-        if (newNum !== currObj['num'] || newVal !== currObj['val'])
-            return true;
+        var pathToUse = currObj['id'];
+        if (typeof $(elementBar).attr("data-path-corrected") != 'undefined') { // if we have a path that needs correcting, use that
+            pathToUse = $(elementBar).attr("data-path-corrected");
+        }
+
+        if (newNum < currObj['num']) {
+        console.log("something was removed from " + currObj.id);
+            if (newNum != 0) {
+                // An element was removed, but not entirely. Keep the step in the tool, but remove some of it from the label
+                var num_to_remove = currObj['num'] - newNum;
+                backendCall("php/xml_mutator.php",
+                    "removeClass",
+                    {path: pathToUse, ns: "", number_to_remove: num_to_remove},
+                    function (data) {});
+                currObj['num'] = newNum;
+
+            } else {
+                // An element has been removed
+                // TODO - there's an issue with how the index of a class to remove is looked up. elements can be added
+                // before an already added element, so the index is off. Best solution - iterate through the steps and find
+                // element to remove manually.
+                $(elementBar).removeClass("stepAdded");
+                var stepIndexesToRemove = [];
+                if (wizardData.stepPaths.indexOf(currObj.id) != -1) {
+                    // This is a class (potentially more than 1) and we need to remove it from the set of steps
+                    // find all child steps as well - everything must go
+                    $.each(wizardData.stepPaths, function (key, value) {
+                        if (value.startsWith(currObj.id)) {
+                            stepIndexesToRemove.push(key);
+                        }
+                    });
+
+                    // find additional steps
+                    // Currently, this doesn't actually do anything.
+                    // If a user adds multiple classes, multiple steps DO NOT get added
+                    // TODO - do we want when a users adds multiple of the same class to have multiple steps in the tool?
+
+                    /*
+                     stepIndexesToRemove.push(wizardData.stepPaths.indexOf(currObj.id));
+
+                     var removed = 1;
+                     var search = wizardData.stepPaths.indexOf(currObj.id);
+                     while(search != -1 && removed < stepsToRemove) {
+                     search = wizardData.stepPaths.indexOf(currObj.id, search+1);
+                     if(search != -1) {
+                     stepIndexesToRemove.push(wizardData.stepPaths.indexOf(currObj.id, search));
+                     removed++;
+                     }
+                     }
+                     */
+
+
+                }
+                stepIndexesToRemove.reverse();
+
+                console.log("step indexes to remove:");
+                console.log(stepIndexesToRemove);
+                console.log("from");
+                console.log(wizardData.stepPaths);
+
+                $.each(stepIndexesToRemove, function (key, value) {
+                    var offset = getStepOffset(value); // there is an offset between the steps in the wizard and stepPaths
+                    $("#wizard").steps('remove', Number(value) + offset);
+                    wizardData.stepPaths.splice(value, 1);         // aren't tracked in wizardData
+                    wizardData.mainSteps.splice(value, 1);
+                    progressData.splice(value + offset, 1);
+                });
+
+
+
+                currObj['num'] = newNum;
+
+                $.ajax({
+                    type: "post",
+                    url: "php/interact_db.php",
+                    data: {
+                        function: "storeProgressData",
+                        progressJson: JSON.stringify(progressData)
+                    }
+                });
+
+                backendCall("php/xml_mutator.php",
+                    "removeAllChildNodes",
+                    {path: pathToUse, ns: g_jsonData.namespaces[g_state.nsIndex]},
+                    function (data) {
+                    });
+                backendCall("php/xml_mutator.php",
+                    "removeClass",
+                    {path: pathToUse, ns: g_jsonData.namespaces[g_state.nsIndex]},
+                    function (data) {
+                    });
+            }
+        } else if (newNum > currObj['num'] && currObj['num'] != 0) {
+            // Some amount of element was added. Usually this would trigger a new step, but in this case, that step
+            // has already been added, so we just want to add aditional elements. We check to make sure
+            // that the previous number of elements is non zero - if it's zero, that's a new step.
+            var num_to_add = newNum - currObj['num'];
+            currObj['num'] = newNum;
+            $.ajax({
+                type: "post",
+                url: "php/interact_db.php",
+                data: {
+                    function: "storeProgressData",
+                    progressJson: JSON.stringify(progressData)
+                }
+            });
+
+            backendCall("php/xml_mutator.php",
+                "addNode",
+                {path: pathToUse, quantity: newNum, value: newVal, ns: g_jsonData.namespaces[g_state.nsIndex]},
+                function(data){});
+
+        }
+
     }
     return false;
 }

@@ -43,7 +43,7 @@ var htmlConfig = {
   allowUnquoted: true,
   allowMissing: true,
   caseFold: true
-}
+};
 
 var xmlConfig = {
   autoSelfClosers: {},
@@ -53,12 +53,12 @@ var xmlConfig = {
   allowUnquoted: false,
   allowMissing: false,
   caseFold: false
-}
+};
 
 CodeMirror.defineMode("xml", function(editorConf, config_) {
-  var indentUnit = editorConf.indentUnit
-  var config = {}
-  var defaults = config_.htmlMode ? htmlConfig : xmlConfig
+  var indentUnit = editorConf.indentUnit;
+  var config = {};
+  var defaults = config_.htmlMode ? htmlConfig : xmlConfig;
   for (var prop in defaults) config[prop] = defaults[prop]
   for (var prop in config_) config[prop] = config_[prop]
 
@@ -304,8 +304,8 @@ CodeMirror.defineMode("xml", function(editorConf, config_) {
                    state: baseState,
                    indented: baseIndent || 0,
                    tagName: null, tagStart: null,
-                   context: null}
-      if (baseIndent != null) state.baseIndent = baseIndent
+                   context: null};
+      if (baseIndent != null) state.baseIndent = baseIndent;
       return state
     },
 

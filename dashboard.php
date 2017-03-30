@@ -34,6 +34,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="config/pop_up_config.js"></script>
     <script src="config/infobar_config.js"></script>
+    <script src="config/config.js"></script>
     <script src="js/popover.js"></script>
     <script src="js/pop_up.js"></script>
     <script src="js/dashboard.js"></script>
