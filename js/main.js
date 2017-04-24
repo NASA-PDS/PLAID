@@ -64,6 +64,16 @@ $(document).ready(function() {
             popUpData['preview']['content'] = wrapperDiv;
 
             generatePopUp(popUpData['preview'], "xml", true);
+
+            var preview_download_button = document.createElement("button");
+            $(".preview-download").remove();
+            $(preview_download_button).addClass("btn btn-primary preview-download");
+            $(preview_download_button).on("click", function () {
+                download($(".modal-body").find(".CodeMirror")[0].CodeMirror.getValue(), "label_preview.xml", "text/xml")
+            });
+
+            $(preview_download_button).text("Download Label");
+            $(".modal-footer").prepend(preview_download_button);
         });
 
     });

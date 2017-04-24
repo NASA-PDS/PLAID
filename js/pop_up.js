@@ -91,6 +91,8 @@ function showPopUp(currentStep, newStep) {
  * These objects are accessed to populate the generated pop-up with content and functionality.
  *
  * @param {Object} popUpObj An Object that holds all of the information and functions to be used in this pop-up
+ * @param {String} codemirror_type If you are using a codemirror instance what type of text is being displayed
+ * @param {Boolean} large Whether the modal should be large or not
  */
 function generatePopUp(popUpObj, codemirror_type, large) {
     var modal = document.createElement("div");

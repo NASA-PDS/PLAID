@@ -40,6 +40,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <script src="thirdparty/js/xml.js"></script>
     <script src="config/config.js"></script>
     <script src="config/infobar_config.js"></script>
+    <script src="thirdparty/js/download.min.js"></script>
     <script src="js/main.js"></script>
     <script src="config/pop_up_config.js"></script>
     <script src="js/element_bar.js"></script>
