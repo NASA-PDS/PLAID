@@ -61,18 +61,78 @@ catch(\PDOException $ex){
 function insertUser($args){
     global $LINK;
     global $HASHER;
-    $handle = $LINK->prepare('INSERT INTO user SET email=?,password=?,full_name=?,organization=?');
-    $index = 1;
-    foreach($args as $key=>$value){
-        if ($key === "password"){
-            $handle->bindValue($index++, $HASHER->HashPassword($value));
+    //  TODO:  Validate the form entries:  e-mail address in correct format xxx@xxx.xxx, not a duplicate of an existing user,
+    //  to avoid a crash on SQL non-unique key error
+
+    $password = $args['password'];
+    $verifyPassword = $args['verifyPassword'];
+    //  Check that the two passwords are the same
+    if ($password === $verifyPassword) {
+
+        //  Create a hash value to be associated with this user, for validation
+        $hash = md5( rand(0,1000) ); // Generate random 32 character hash and assign it to a local variable.
+        // Example output: f4552671f8909587cf485ea990207f3b
+
+        $handle = $LINK->prepare("INSERT INTO user SET email=?,password=?,full_name=?,organization=?,activation_hash=?, active=0");
+        ///$index = 1;
+        ///foreach($args as $key=>$value){
+        ///    if ($key === "password"){
+        ///        $handle->bindValue($index++, $HASHER->HashPassword($value));
+        ///    }
+        ///    else if ($key !== "function"){
+        ///        $handle->bindValue($index++, $value);
+        ///    }
+        ///}
+        $handle->bindValue(1, $args['email']);
+        //  Encrypt the password
+        $hashedPassword = $HASHER->HashPassword($password);
+        $handle->bindValue(2, $hashedPassword);
+        $handle->bindValue(3, $args['full_name']);
+        $handle->bindValue(4, $args['organization']);
+        $handle->bindValue(5, $hash);
+
+        $handle->execute();
+
+        //  Send an e-mail message to the given e-mail address with a link to validate the account
+        $email_addr = $args['email'];
+        $to = $email_addr; // Send the email to the given e-mail address
+        $subject = "PLAID Signup Verification"; // Give the e-mail message a subject
+        ///$short_test_message = 'Message Line 1';
+        $message = '
+     
+    Thanks for signing up!
+    Your account has been created.  You can login with the following credentials after you have activated your account by pressing the url below.
+     
+    ------------------------
+    Username: '.$email_addr.'
+    Password: the password that you specified when you signed up
+    ------------------------
+     
+    Please click this link to activate your account:
+    http://localhost/myapp/php/verify_email_address.php?email='.$email_addr.'&hash='.$hash.'
+     
+    '; // Our message above including the link
+
+        ///$headers = 'From:PLAID_Admin@jpl.nasa.gov' . '\r\n'; // Set from headers
+        $headers = "From: Michael.L.Munn@jpl.nasa.gov"; // Set from headers
+        $mail_return_value = mail($to, $subject, $message, $headers); // Send our email
+        ///echo "mail return value = " $mail_return_value
+        //  IF the mail call had an error
+        if ($mail_return_value == FALSE) {
+            //  Go to the User Creation Failure page
+            header("Location: ../user_creation_failure.html");
         }
-        else if ($key !== "function"){
-            $handle->bindValue($index++, $value);
+        else {
+            //  Go to the User Creation Success page
+           header("Location: ../user_creation_success.html");
         }
+    } else {        //  Else the two passwords are NOT the same
+        //  Enable the use of Session variables
+        session_start();
+        //  Return to the Sign Up page with an error
+        $_SESSION['error_code'] = 20;
+        header("Location: ../signup.php");
     }
-    $handle->execute();
-    header("Location: ../dashboard.php");
 }
 /**
  * Verify that the user exists in the database and entered the correct password.
@@ -81,7 +141,7 @@ function insertUser($args){
 function verifyUser($args){
     global $LINK;
     global $HASHER;
-    $handle = $LINK->prepare('select id,password,full_name,organization from user where email=?');
+    $handle = $LINK->prepare('select id,password,full_name,organization, active, activation_hash from user where email=?');
     $handle->bindValue(1, $args['email']);
 
     $handle->execute();
@@ -90,16 +150,135 @@ function verifyUser($args){
     session_start();
     if (count($result) === 1 &&
         $HASHER->CheckPassword($args['password'], $result[0]->password)){
-        header("Location: ../dashboard.php");
-        $_SESSION['login'] = true;
-        $_SESSION['user_id'] = $result[0]->id;
-        $_SESSION['email'] = $args['email'];
-        $_SESSION['full_name'] = $result[0]->full_name;
-        $_SESSION['organization'] = $result[0]->organization;
+        //  IF the account is active
+        if ($result[0]->active == 1) {
+            header("Location: ../dashboard.php");
+            $_SESSION['login'] = true;
+            $_SESSION['user_id'] = $result[0]->id;
+            $_SESSION['email'] = $args['email'];
+            $_SESSION['full_name'] = $result[0]->full_name;
+            $_SESSION['organization'] = $result[0]->organization;
+        } else {    //  Else the account is inactive
+            $_SESSION['login'] = true;
+            $_SESSION['error_code'] = 2;
+            $_SESSION['inactive_email'] = $args['email'];
+            $_SESSION['hash'] = $result[0]->activation_hash;
+            //  Return to the Login page with an error message
+            header("Location: ../index.php");
+
+        }
     }
     else{
-        header("Location: ../index.html");
+        //  Invalid username/password combination, so return to the Login page w/ an error message
+        header("Location: ../index.php");
         $_SESSION['login'] = true;
+        $_SESSION['error_code'] = 1;
+    }
+
+}
+
+/**
+ * Send an e-mail to the user with a link to Reset Password.
+ * @param {Object} $args object containing the user's email address
+ */
+function sendLinkToResetPassword($args){
+    global $LINK;
+    global $HASHER;
+    $handle = $LINK->prepare('select id from user where email=?');
+    $handle->bindValue(1, $args['email']);
+
+    $handle->execute();
+    $result = $handle->fetchAll(\PDO::FETCH_OBJ);
+
+    //  Enable the use of Session variables
+    session_start();
+    if (count($result) === 1){
+        //  Create a hash value to be associated with this user, for validation
+        $hash = md5( rand(0,1000) ); // Generate random 32 character hash and assign it to a local variable.
+        // Example output: f4552671f8909587cf485ea990207f3b
+
+        ///$handle = $LINK->prepare("UPDATE user SET activation_hash='".$hash."' where email=?");
+        $handle = $LINK->prepare("UPDATE user SET activation_hash=? where email=?");
+        $handle->bindValue(1, $hash);
+        $handle->bindValue(2, $args['email']);
+        $handle->execute();
+
+        //  Send an e-mail message to the given e-mail address with a link to reset the account password
+        $email_addr = $args['email'];
+        $to = $email_addr; // Send the email to the given e-mail address
+        $subject = "PLAID Password Reset"; // Give the e-mail message a subject
+        ///$short_test_message = 'Message Line 1';
+        $message = '
+ 
+You can login with the following credentials after you have reset your PLAID password by pressing the url below.
+ 
+------------------------
+Username: '.$email_addr.'
+------------------------
+ 
+Please click this link to reset your PLAID password:
+http://localhost/myapp/php/reset_password.php?email='.$email_addr.'&hash='.$hash.'
+ 
+'; // Our message above including the link
+
+        ///$headers = 'From:PLAID_admin@jpl.nasa.gov' . '\r\n'; // Set from headers
+        $headers = "From: Michael.L.Munn@jpl.nasa.gov"; // Set from headers
+        $mail_return_value = mail($to, $subject, $message, $headers); // Send our email
+        ///echo "mail return value = " $mail_return_value
+        //  IF the mail call had an error
+        if ($mail_return_value == FALSE) {
+            //  Go to the Send Link to Reset Password Failure page
+            header("Location: ../send_link_to_reset_password_failure.html");
+        }
+        else {
+            //  Go to the Send Link to Reset Password Success page
+            header("Location: ../send_link_to_reset_password_success.html");
+        }
+
+    } else {
+        //  Invalid email address, so return to the Send Link to Reset Password page w/ an error message
+        header("Location: send_link_to_reset_password.php");
+        $_SESSION['login'] = true;
+        $_SESSION['error_code'] = 10;
+        $_SESSION['invalid_email'] = $args['email'];
+    }
+
+}
+
+/**
+ * Reset the Password.
+ * @param {Object} $args object containing the user's password and verified password
+ */
+function resetPassword($args){
+    global $LINK;
+    global $HASHER;
+    //  Enable the use of Session variables
+    session_start();
+    //  Get the email address from the Session variable
+    $email = $_SESSION['email'];
+    //  Get the passwords from the form arguments
+    $password = $args[password];
+    $verified_password = $args[verifyPassword];
+    //  Check that the password and verified password are the same
+    if ($password === $verified_password) {
+        //  Encrypt the password
+        $hashed_password = $HASHER->HashPassword($password);
+        //  Store the password into the User table
+        $handle = $LINK->prepare("UPDATE user SET password=? where email=?");
+        $handle->bindValue(1, $hashed_password);
+        $handle->bindValue(2, $email);
+        $handle->execute();
+
+        //  Go to the Reset Password Success page
+        header("Location: ../reset_password_success.html");
+
+    } else {
+        //  Return to the Reset Password page with an error; need to re-pass the parameters in the URL
+        $_SESSION['error_code'] = 20;
+        //  Get the hash from the Session variable
+        $hash = $_SESSION['hash'];
+        header("Location: reset_password.php?email=".$email."&hash=".$hash);
+
     }
 
 }

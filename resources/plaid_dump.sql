@@ -69,6 +69,8 @@ CREATE TABLE `user` (
   `password` varchar(255) NOT NULL,
   `full_name` varchar(50) NOT NULL,
   `organization` varchar(50) DEFAULT NULL,
+  `activation_hash` varchar(32) NOT NULL COMMENT 'The hash value to be passed during activation to verify that they came from the e-mail link.',
+  `active` int(1) NOT NULL DEFAULT '0' COMMENT 'True if the user has been verified',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `id_UNIQUE` (`id`)
