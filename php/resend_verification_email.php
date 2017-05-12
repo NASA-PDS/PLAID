@@ -23,6 +23,24 @@ $hash = $_SESSION['hash'];
 //  Send an e-mail message to the given e-mail address with a link to validate the account
 $to = $inactive_email; // Send the email to the given e-mail address
 $subject = "PLAID Signup Verification"; // Give the e-mail message a subject
+
+//  Build the URL for the Link
+$http = (isset($_SERVER['HTTPS']) ? "https" : "http");
+$host = $_SERVER[HTTP_HOST];
+$uri = $_SERVER['REQUEST_URI'];
+///echo 'http = '.$http.'<br>';
+///echo 'host = '.$host.'<br>';
+///echo 'uri = '.$uri.'<br>';
+//  Remove the filename from the URI
+//  Find the last slash in the URI
+$last_slash_pos = strrpos($uri, '/');
+//  Get everything up to and including the last slash
+$uri_sans_filename = substr($uri, 0, $last_slash_pos+1);
+//  Build the Link to Activate the account
+///http://localhost/myapp/php/verify_email_address.php?email='.$inactive_email.'&hash='.$hash.'
+$activation_link = $http. '://' .$host . $uri_sans_filename . 'verify_email_address.php?email='.$inactive_email.'&hash='.$hash;
+///echo 'activation_link = '.$activation_link.'<br>';
+
 ///$short_test_message = 'Message Line 1';
 $message = '
  
@@ -34,11 +52,11 @@ Username: '.$inactive_email.'
 Password: the password that you specified when you signed up
 ------------------------
  
-Please click this link to activate your account:
-http://localhost/myapp/php/verify_email_address.php?email='.$inactive_email.'&hash='.$hash.'
+Please click this link to activate your account:  ' . $activation_link . '
  
-'; // Our message above including the link
+'; // Our message above including the activation link
 
+/***********************************************************************************************/
 ///$headers = 'From:PLAID_admin@jpl.nasa.gov' . '\r\n'; // Set from headers
 $headers = "From: Michael.L.Munn@jpl.nasa.gov"; // Set from headers
 $mail_return_value = mail($to, $subject, $message, $headers); // Send our email
@@ -51,6 +69,7 @@ else {
     echo '<h3 class="form-signup-heading">Verification E-mail Re-sent</h3>';
     echo "Please verify your e-mail address by clicking on the activation link in the e-mail message that has been sent to your e-mail account.";
 }
+/***********************************************************************************************/
 
 //  TODO:  Re-send the Verification E-mail using PHPMailer???
 /***********************************************************************************************

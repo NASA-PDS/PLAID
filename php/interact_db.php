@@ -97,6 +97,24 @@ function insertUser($args){
         $email_addr = $args['email'];
         $to = $email_addr; // Send the email to the given e-mail address
         $subject = "PLAID Signup Verification"; // Give the e-mail message a subject
+
+        //  Build the URL for the Link
+        $http = (isset($_SERVER['HTTPS']) ? "https" : "http");
+        $host = $_SERVER[HTTP_HOST];
+        $uri = $_SERVER['REQUEST_URI'];
+        ///echo 'http = '.$http.'<br>';
+        ///echo 'host = '.$host.'<br>';
+        ///echo 'uri = '.$uri.'<br>';
+        //  Remove the filename from the URI
+        //  Find the last slash in the URI
+        $last_slash_pos = strrpos($uri, '/');
+        //  Get everything up to and including the last slash
+        $uri_sans_filename = substr($uri, 0, $last_slash_pos+1);
+        //  Build the Link to Activate the account
+        ///http://localhost/myapp/php/verify_email_address.php?email='.$inactive_email.'&hash='.$hash.'
+        $activation_link = $http. '://' .$host . $uri_sans_filename . 'verify_email_address.php?email='.$email_addr.'&hash='.$hash;
+        ///echo 'activation_link = '.$activation_link.'<br>';
+
         ///$short_test_message = 'Message Line 1';
         $message = '
      
@@ -108,8 +126,7 @@ function insertUser($args){
     Password: the password that you specified when you signed up
     ------------------------
      
-    Please click this link to activate your account:
-    http://localhost/myapp/php/verify_email_address.php?email='.$email_addr.'&hash='.$hash.'
+    Please click this link to activate your account:  ' . $activation_link . '
      
     '; // Our message above including the link
 
@@ -207,6 +224,24 @@ function sendLinkToResetPassword($args){
         $email_addr = $args['email'];
         $to = $email_addr; // Send the email to the given e-mail address
         $subject = "PLAID Password Reset"; // Give the e-mail message a subject
+
+        //  Build the URL for the Link
+        $http = (isset($_SERVER['HTTPS']) ? "https" : "http");
+        $host = $_SERVER[HTTP_HOST];
+        $uri = $_SERVER['REQUEST_URI'];
+        ///echo 'http = '.$http.'<br>';
+        ///echo 'host = '.$host.'<br>';
+        ///echo 'uri = '.$uri.'<br>';
+        //  Remove the filename from the URI
+        //  Find the last slash in the URI
+        $last_slash_pos = strrpos($uri, '/');
+        //  Get everything up to and including the last slash
+        $uri_sans_filename = substr($uri, 0, $last_slash_pos+1);
+        //  Build the Link to Activate the account
+        ///http://localhost/myapp/php/reset_password.php?email='.$inactive_email.'&hash='.$hash.'
+        $activation_link = $http. '://' .$host . $uri_sans_filename . 'reset_password.php?email='.$email_addr.'&hash='.$hash;
+        ///echo 'activation_link = '.$activation_link.'<br>';
+
         ///$short_test_message = 'Message Line 1';
         $message = '
  
@@ -216,8 +251,7 @@ You can login with the following credentials after you have reset your PLAID pas
 Username: '.$email_addr.'
 ------------------------
  
-Please click this link to reset your PLAID password:
-http://localhost/myapp/php/reset_password.php?email='.$email_addr.'&hash='.$hash.'
+Please click this link to reset your PLAID password:  ' . $activation_link . '
  
 '; // Our message above including the link
 
