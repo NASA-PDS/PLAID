@@ -44,12 +44,14 @@
         //  IF the email and hash parameters are in the URL
         if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && !empty($_GET['hash'])){
             // Verify data
-            $email = mysql_escape_string($_GET['email']); // Set email variable
-            $hash = mysql_escape_string($_GET['hash']); // Set hash variable
+            $email =$_GET['email']; // Set email variable
+            $hash = $_GET['hash']; // Set hash variable
+
             //  Check that the given e-mail address and hash are in the User table
             $handle = $LINK->prepare('select id, active from user where email=? and activation_hash=?');
             $handle->bindValue(1, $email);
             $handle->bindValue(2, $hash);
+
 
             $handle->execute();
             $result = $handle->fetchAll(\PDO::FETCH_OBJ);
@@ -67,7 +69,7 @@
 
                     echo '<div class="statusmsg">Your PLAID account has been activated, you can now login.</div>';
                     echo '<div class="statusmsg">&nbsp;</div>';
-                    echo '<div class="statusmsg"><a href="http://localhost/myapp/index.php">Link to Login Page</a></div>';
+                    echo '<div class="statusmsg"><a href="../index.php">Link to Login Page</a></div>';
                 } else {
                     echo '<div class="statusmsg">You already have activated your PLAID account.</div>';
                 }
