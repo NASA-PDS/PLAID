@@ -185,7 +185,19 @@ function storeBuilder(progressObj){
  * Traverse the progress data array and load the data for each step accordingly.
  */
 function loadAllProgress(){
-    progressData.map(loadProgress);
+    ///progressData.map(loadProgress);
+    //  Allow steps that were entered out of order to be re-loaded successfully
+    // Loop until all the items in the progressData array have been loaded into a step
+    //  The data is actually loaded in order by step, not by the order in the progressData array
+    //  So if the step is not found in the progressData array, do not increment the load count
+    var loadedCount = 0;
+    while (loadedCount < progressData.length) {
+        isLoaded = loadProgress(progressData[loadedCount]);
+        //  IF data was successfully loaded into the current step
+        if (isLoaded) {
+            loadedCount++;
+        }
+    }
 }
 /**
  * Load the progress for the current step using the specified object data.
@@ -194,21 +206,22 @@ function loadAllProgress(){
 function loadProgress(stepObj){
     switch(stepObj['step']){
         case 'product_type':
-            loadProductType(stepObj);
+            isLoaded = loadProductType(stepObj);
             break;
         case 'discipline_nodes':
-            loadDisciplineNodes(stepObj);
+            isLoaded = loadDisciplineNodes(stepObj);
             break;
         case 'optional_nodes':
-            loadOptionalNode(stepObj);
+            isLoaded = loadOptionalNode(stepObj);
             break;
         case 'mission_specifics':
-            loadMissionSpecifics(stepObj);
+            isLoaded = loadMissionSpecifics(stepObj);
             break;
         case 'builder':
-            loadBuilder();
+            isLoaded = loadBuilder();
             break;
     }
+    return isLoaded;
 }
 /**
  * Using the data stored in the progress object, load the user's prior selection
@@ -219,6 +232,7 @@ function loadProductType(dataObj){
     var select = $("section.current button span[data-id='" + dataObj['selection'] + "']");
     $(select).addClass("active");
     $(select).click();
+    return true;
 }
 /**
  * Using the data stored in the progress object, load the user's prior selections
@@ -231,6 +245,7 @@ function loadProductType(dataObj){
 function loadOptionalNode(dataObj){
     var stepContent = $("section.current");
     var noSaveData = false;
+    var isLoaded = false;
     var current_step_path = $(".optional-section", stepContent).attr("step_path");
     if(typeof dataObj['step_path'] != 'undefined' && typeof current_step_path != 'undefined') {
         if(current_step_path != dataObj['step_path']) {
@@ -252,6 +267,7 @@ function loadOptionalNode(dataObj){
         }
     }
     if(!noSaveData) {
+        isLoaded = true;
         for (var index in dataObj['selection']) {
             var currObj = dataObj['selection'][index];
             var elementBar = $(prepJqId(currObj['id']), stepContent);
@@ -283,6 +299,7 @@ function loadOptionalNode(dataObj){
             setChoiceFieldStyle($(".choice-field", stepContent));
     }
     $("#wizard").steps("next");
+    return isLoaded;
 }
 /**
  * Helper function to escape characters in a jQuery id selector string.
@@ -304,6 +321,7 @@ function loadDisciplineNodes(dataObj){
        $(node).siblings("input").prop('checked', true);
     });
     $("#wizard").steps("next");
+    return true;
 }
 /**
  * Make the same decision stored from the user's progress on the Mission Specifics
@@ -313,6 +331,7 @@ function loadDisciplineNodes(dataObj){
 function loadMissionSpecifics(dataObj) {
     var stepContent = $("section.current");
     $("." + dataObj["selection"], stepContent).click();
+    return true;
 }
 /**
  * Mimic the user's progression through the Builder step.
@@ -321,6 +340,7 @@ function loadMissionSpecifics(dataObj) {
  */
 function loadBuilder() {
     $("table.missionSpecificsActionBar button.save").click();
+    return true;
 }
 
 /**
