@@ -69,12 +69,14 @@ function storeProgress(priorIndex, stepType, splice){
         default:
             storeOptionalNodes(priorIndex, currObj);
             var found = 0;
-            for(var i = 0; i < progressData.length && found == 0; i++) {
-                var currentStep = progressData[i];
-                if(currentStep['step_path'] == currObj['step_path']) {
-                    // overwrite optional node when it already exists
-                    progressData.splice(i, 1, currObj);
-                    found = 1;
+            if(typeof currObj['step_path'] != 'undefined') {
+                for (var i = 0; i < progressData.length && found == 0; i++) {
+                    var currentStep = progressData[i];
+                    if (currentStep['step_path'] == currObj['step_path']) {
+                        // overwrite optional node when it already exists
+                        progressData.splice(i, 1, currObj);
+                        found = 1;
+                    }
                 }
             }
             if(found == 0) {

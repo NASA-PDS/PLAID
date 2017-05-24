@@ -25,7 +25,7 @@
 
 
 
-var default_schema = 1700;
+var default_schema = 1800;
 var filePaths, g_dictInfo; // set when label is loaded
 
 var node_contact_info = {
@@ -77,8 +77,24 @@ var node_contact_info = {
  * discipline nodes. These JSONs control the dynamic creation of content in PLAID.
  * @type {{PDS_JSON: string, CART_JSON: string, DISP_JSON: string, GEOM_JSON: string, IMG_JSON: string, PART_JSON: string, RMS_JSON: string, BOD_JSON: string, SPECT_JSON: string, WAV_JSON: string}}
  */
+
+var filePaths_1800 = {
+    PDS_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+    CART_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+    DISP_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+    GEOM_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+    IMG_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+    PART_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+    RMS_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+    BOD_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+    SPECT_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+    WAV_JSON: "config/PDS4_PDS_JSON_1800.JSON"
+};
+
+
+
 var filePaths_1700 = {
-    PDS_JSON: "config/PDS4_PDS_JSON_1800_DOM.JSON",
+    PDS_JSON: "config/PDS4_PDS_JSON_1700.JSON",
     CART_JSON: "config/cart_1700.json",
     DISP_JSON: "config/geom_disp_rings_1700.json",
     GEOM_JSON: "config/input-PDS4_GEOM_1600_1300_GEOM_1300.JSON",
@@ -90,53 +106,155 @@ var filePaths_1700 = {
     WAV_JSON: ""
 };
 
+var filePaths_1600 = {
+    PDS_JSON: "config/PDS4_PDS_JSON_1600.JSON",
+    CART_JSON: "config/PDS4_PDS_JSON_1600.JSON",
+    DISP_JSON: "config/PDS4_PDS_JSON_1600.JSON",
+    GEOM_JSON: "config/PDS4_PDS_JSON_1600.JSON",
+    IMG_JSON: "config/PDS4_PDS_JSON_1600.JSON",
+    PART_JSON: "config/PDS4_PDS_JSON_1600.JSON",
+    RMS_JSON: "config/PDS4_PDS_JSON_1600.JSON",
+    BOD_JSON: "config/PDS4_PDS_JSON_1600.JSON",
+    SPECT_JSON: "config/PDS4_PDS_JSON_1600.JSON",
+    WAV_JSON: "config/PDS4_PDS_JSON_1600.JSON"
+}
+
+
+
 /**
  * A dictionary of information specific to each namespace/dictionary.
  * Details TBD.
  */
-var g_dictInfo_1700 = {
+var g_dictInfo_1600 = {
     pds: {
         name: 'Label Root',
-        path: "config/PDS4_PDS_JSON_1700.json"
+        path: filePaths_1600["PDS_JSON"]
     },
     img: {
         ns: 'img',
         name: 'imaging',
         base_class: '0001_NASA_PDS_1.img.Imaging',
-        path: "config/PDS4_IMG_1700.JSON"
+        path: filePaths_1600["IMG_JSON"]
     },
     geom: {
         ns: 'geom',
         name: 'geometry',
         base_class: '0001_NASA_PDS_1.geom.Geometry',
-        path: "config/input-PDS4_GEOM_1600_1300_GEOM_1300.JSON"
+        path: filePaths_1600["GEOM_JSON"]
     },
     cart: {
         ns: 'cart',
         name: 'cartography',
         base_class: '0001_NASA_PDS_1.cart.Cartogrpahy',
-        path: "config/cart_1700.json"
+        path: filePaths_1600["CART_JSON"]
     },
     disp: {
         ns: 'disp',
         name: 'display',
         base_class: '0001_NASA_PDS_1.disp.Display',
-        path: "config/geom_disp_rings_1700.json"
+        path: filePaths_1600["DISP_JSON"]
     },
     rings: {
         ns: 'rings',
         name: 'rings',
         base_class: '0001_NASA_PDS_1.rings.Rings',
-        path: "config/geom_disp_rings_1700.json"
+        path: filePaths_1600["RMS_JSON"]
     }
 };
 
+
+var g_dictInfo_1700 = {
+    pds: {
+        name: 'Label Root',
+        path: filePaths_1700["PDS_JSON"]
+    },
+    img: {
+        ns: 'img',
+        name: 'imaging',
+        base_class: '0001_NASA_PDS_1.img.Imaging',
+        path: filePaths_1700["IMG_JSON"]
+    },
+    geom: {
+        ns: 'geom',
+        name: 'geometry',
+        base_class: '0001_NASA_PDS_1.geom.Geometry',
+        path: filePaths_1700["GEOM_JSON"]
+    },
+    cart: {
+        ns: 'cart',
+        name: 'cartography',
+        base_class: '0001_NASA_PDS_1.cart.Cartogrpahy',
+        path: filePaths_1700["CART_JSON"]
+    },
+    disp: {
+        ns: 'disp',
+        name: 'display',
+        base_class: '0001_NASA_PDS_1.disp.Display',
+        path: filePaths_1700["DISP_JSON"]
+    },
+    rings: {
+        ns: 'rings',
+        name: 'rings',
+        base_class: '0001_NASA_PDS_1.rings.Rings',
+        path: filePaths_1700["RMS_JSON"]
+    }
+};
+
+var g_dictInfo_1800 = {
+    pds: {
+        name: 'Label Root',
+        path: filePaths_1800["PDS_JSON"]
+    },
+    img: {
+        ns: 'img',
+        name: 'imaging',
+        base_class: '0001_NASA_PDS_1.img.Imaging',
+        path: filePaths_1800["IMG_JSON"]
+    },
+    geom: {
+        ns: 'geom',
+        name: 'geometry',
+        base_class: '0001_NASA_PDS_1.geom.Geometry',
+        path: filePaths_1800["GEOM_JSON"]
+    },
+    cart: {
+        ns: 'cart',
+        name: 'cartography',
+        base_class: '0001_NASA_PDS_1.cart.Cartogrpahy',
+        path: filePaths_1800["CART_JSON"]
+    },
+    disp: {
+        ns: 'disp',
+        name: 'display',
+        base_class: '0001_NASA_PDS_1.disp.Display',
+        path: filePaths_1800["DISP_JSON"]
+    },
+    rings: {
+        ns: 'rings',
+        name: 'rings',
+        base_class: '0001_NASA_PDS_1.rings.Rings',
+        path: filePaths_1800["RMS_JSON"]
+    }
+};
+// ordering for core_schema_versions below is from last to first
+var schema_list_order = [1800, 1700, 1600];
+
 var core_schema_versions = {
+    1800: {
+        name: "Version v1 (1.8.0.0) - March 31, 2017",
+        filePaths: filePaths_1800,
+        g_dictInfo: g_dictInfo_1800
+    },
+    1600: {
+        name: "Version v1 (1.6.0.0) - March 31, 2016",
+        filePaths: filePaths_1600,
+        g_dictInfo: g_dictInfo_1600
+    },
     1700: {
         name: "Version v1 (1.7.0.0) - September 30, 2016",
         filePaths: filePaths_1700,
         g_dictInfo: g_dictInfo_1700
-    }
+    },
 
 };
 /**

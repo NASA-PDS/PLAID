@@ -44,7 +44,8 @@ $(document).ready(function(){
         $("#core_schema_versions_select").empty();
 
         generatePopUp(popUpData['createNewLabel']);
-        for (var schema in core_schema_versions) {
+        for (var i = 0; i < schema_list_order.length; i++) {
+            var schema = schema_list_order[i];
             if (core_schema_versions.hasOwnProperty(schema)) {
                 var schema_info = core_schema_versions[schema];
                 var schema_option = document.createElement("option");
