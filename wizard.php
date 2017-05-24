@@ -87,9 +87,9 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                 <table class="list-group">
                     <tr class="label-item">
                         <td>
-                            <button class="list-group-item disabled" disabled>
-                                <i class="fa fa-list fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Context">Context</span>
+                            <button class="list-group-item">
+                                <i class="fa fa-binoculars fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Observational">Observational</span>
                             </button>
                         </td>
                     </tr>
@@ -101,6 +101,15 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             </button>
                         </td>
                     </tr>
+                    <!--
+                    <tr class="label-item">
+                        <td>
+                            <button class="list-group-item disabled" disabled>
+                                <i class="fa fa-list fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Context">Context</span>
+                            </button>
+                        </td>
+                    </tr>
                     <tr class="label-item">
                         <td>
                             <button class="list-group-item disabled" disabled>
@@ -109,14 +118,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             </button>
                         </td>
                     </tr>
-                    <tr class="label-item">
-                        <td>
-                            <button class="list-group-item">
-                                <i class="fa fa-binoculars fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Observational">Observational</span>
-                            </button>
-                        </td>
-                    </tr>
+
                     <tr class="label-item">
                         <td>
                             <button class="list-group-item disabled" disabled>
@@ -125,6 +127,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             </button>
                         </td>
                     </tr>
+                    -->
                 </table>
             </section>
 
