@@ -191,6 +191,10 @@ function handleStepAddition(currentIndex, newIndex){
             if(!$(this).hasClass("stepAdded")) {
                 var val = $(".element-bar-counter", this).val();
                 var metadata = $(".element-bar-input", this).val();
+                if($(".selectpicker", this).length != 0) {
+                    metadata = $(".selectpicker", this).val();
+                }
+
                 var path = $(this).attr("data-path");
 
                 var currObj = getObjectFromPath(path, g_jsonData.refObj);
@@ -263,6 +267,7 @@ function insertStep(wizard, index, dataObj){
         title: title,
         content: generateContent(title, data, dataObj)
     });
+    $(".selectpicker").selectpicker("render"); // select pickers need to rendered after being appended;
 }
 /**
 * Generate the content section for a new step in the wizard. This function also gets the
@@ -390,7 +395,7 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
     if (dataObj['next'] === undefined){
         $(elementBar).addClass("valueElementBar");
         $(label).addClass("hasInput");
-        var input = createValueInput();
+        var input = createValueInput(dataObj);
         elementBar.appendChild(input);
     }
     var minusBtn = createControlButton("minus");
@@ -443,12 +448,39 @@ function createLabel(text, isChoice){
  * Create an input form for metadata within the label elements.
  * @returns {Element}
  */
-function createValueInput(){
-    var input = document.createElement("input");
-    input.className = "form-control element-bar-input";
-    input.type = "text";
-    input.placeholder = "Enter value (optional)";
-    return input;
+function createValueInput(dataObj){
+    if(typeof(dataObj.PermissibleValueList) != 'undefined') {
+        // Make dropdown with permissible values
+        var permissibleSelect = document.createElement("select");
+        $(permissibleSelect).attr("data-width", "36.5%");
+        $(permissibleSelect).attr("data-container", "body");
+        $(permissibleSelect).attr("title", "Choose a value");
+        $(permissibleSelect).addClass("selectpicker");
+
+
+        for(var i = 0; i< dataObj.PermissibleValueList.length; i++) {
+            var current_value = dataObj.PermissibleValueList[i].PermissibleValue;
+            var permissibleOption = document.createElement("option");
+            $(permissibleOption).text(current_value.value);
+            //$(permissibleOption).attr("data-subtext", current_value.valueMeaning); -disabled until bootstrap is stable
+            $(permissibleSelect).append(permissibleOption);
+            $(permissibleOption).attr("name", current_value.text);
+            $(permissibleOption).popover({
+                container: "body",
+                title: "Definition",
+                content: current_value.valueMeaning,
+                trigger: "hover",
+                selector: true
+            });
+        }
+        return permissibleSelect;
+    } else {
+        var input = document.createElement("input");
+        input.className = "form-control element-bar-input";
+        input.type = "text";
+        input.placeholder = "Enter value (optional)";
+        return input;
+    }
 }
 /**
 * Create a plus or minus button for controlling the form in an element-bar.

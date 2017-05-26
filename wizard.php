@@ -41,6 +41,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <script src="config/config.js"></script>
     <script src="config/infobar_config.js"></script>
     <script src="thirdparty/js/download.min.js"></script>
+    <script src="thirdparty/js/bootstrap-select.min.js"></script>
     <script src="js/main.js"></script>
     <script src="config/pop_up_config.js"></script>
     <script src="js/element_bar.js"></script>
@@ -57,6 +58,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <link href="thirdparty/css/jquery.steps.css" rel="stylesheet">
     <link href="thirdparty/css/jqtree.css" rel="stylesheet">
     <link href="thirdparty/css/bootstrap.css" rel="stylesheet">
+    <link href="thirdparty/css/bootstrap-select.min.css" rel="stylesheet">
     <link href="css/general.css" rel="stylesheet">
     <link href="css/mission_specifics.css" rel="stylesheet">
     <link href="css/pop_up.css" rel="stylesheet">
