@@ -41,6 +41,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <script src="config/config.js"></script>
     <script src="config/infobar_config.js"></script>
     <script src="thirdparty/js/download.min.js"></script>
+    <script src="thirdparty/js/bootstrap-select.min.js"></script>
     <script src="js/main.js"></script>
     <script src="config/pop_up_config.js"></script>
     <script src="js/element_bar.js"></script>
@@ -57,6 +58,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <link href="thirdparty/css/jquery.steps.css" rel="stylesheet">
     <link href="thirdparty/css/jqtree.css" rel="stylesheet">
     <link href="thirdparty/css/bootstrap.css" rel="stylesheet">
+    <link href="thirdparty/css/bootstrap-select.min.css" rel="stylesheet">
     <link href="css/general.css" rel="stylesheet">
     <link href="css/mission_specifics.css" rel="stylesheet">
     <link href="css/pop_up.css" rel="stylesheet">
@@ -87,9 +89,9 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                 <table class="list-group">
                     <tr class="label-item">
                         <td>
-                            <button class="list-group-item disabled" disabled>
-                                <i class="fa fa-list fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Context">Context</span>
+                            <button class="list-group-item">
+                                <i class="fa fa-binoculars fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Observational">Observational</span>
                             </button>
                         </td>
                     </tr>
@@ -101,6 +103,15 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             </button>
                         </td>
                     </tr>
+                    <!--
+                    <tr class="label-item">
+                        <td>
+                            <button class="list-group-item disabled" disabled>
+                                <i class="fa fa-list fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Context">Context</span>
+                            </button>
+                        </td>
+                    </tr>
                     <tr class="label-item">
                         <td>
                             <button class="list-group-item disabled" disabled>
@@ -109,14 +120,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             </button>
                         </td>
                     </tr>
-                    <tr class="label-item">
-                        <td>
-                            <button class="list-group-item">
-                                <i class="fa fa-binoculars fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Observational">Observational</span>
-                            </button>
-                        </td>
-                    </tr>
+
                     <tr class="label-item">
                         <td>
                             <button class="list-group-item disabled" disabled>
@@ -125,6 +129,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             </button>
                         </td>
                     </tr>
+                    -->
                 </table>
             </section>
 
