@@ -348,6 +348,9 @@ function getObjectFromPath(path, refObj){
         // dictionary. Need to switch to another node dictionary.
         if ( currObj === undefined ) {
             g_state.nsIndex++;
+            if(g_state.nsIndex > g_jsonData.namespaces.length) {
+                g_state.nsIndex = 0;
+            }
 
             // nextDiscDict = g_jsonData.namespaces[g_state.nsIndex];
             // g_dictInfo is an associative array...
