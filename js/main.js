@@ -33,6 +33,11 @@ $(document).ready(function() {
             }
         });
     }, refreshTime );
+    // Fix for bootstrap v4 popovers not coming back after a "hide" call
+    $('body').on('hidden.bs.popover', function (e) {
+        $(e.target).data("bs.popover")._activeTrigger.click = false;
+        $(e.target).data("bs.popover")._activeTrigger.hover = false;
+    });
 
     var schemaVersion = getParameterByName("version");
     if(schemaVersion === null) {
@@ -150,6 +155,7 @@ function captureSelection(){
     clearActiveElements();
     $(element).addClass("active");
     var selection = $(".productType", element).attr("data-id");
+
     // g_jsonData.searchObj = g_jsonData.pds4Obj;
     // getElementFromDict(g_jsonData.searchObj, "product", "classDictionary", selection);
     //  Store the selected Data Dictionary Node Name & Identifier
@@ -159,6 +165,7 @@ function captureSelection(){
     var dataDictNodeInfo = {nodeName: "pds", identifier: selection};
     g_jsonData.dataDictNodeInfo.splice(g_state.nsIndex, 0, dataDictNodeInfo);
     setDisciplineDict("pds", selection);
+    g_dictInfo["pds"]["base_class"] = selection;
     insertStep($("#wizard"), wizardData.currentStep+1, g_jsonData.refObj);
     //auto-advance to the next step after capturing the user's product selection
     $("#wizard").steps("next");
@@ -218,6 +225,7 @@ function increaseCounter(){
         }
         $(this).parent().siblings(".element-bar-label").removeClass("zero-instances");
         $(this).parent().siblings(".element-bar-input").prop('disabled', false);
+        $(this).parent().siblings(".selectpicker").prop('disabled', false);
         $(this).parent().siblings(".element-bar-button").children(".element-bar-minus").prop('disabled', false);
     }
     if (newVal === counterMax){
@@ -271,6 +279,10 @@ function decreaseCounter(){
     if (newVal === 0){
         $(this).parent().siblings(".element-bar-label").addClass("zero-instances");
         $(this).parent().siblings(".element-bar-input").prop('disabled', true);
+        if($(this).parent().siblings(".selectpicker").length != 0) {
+            $(this).parent().siblings(".selectpicker").prop('disabled', true);
+            $(this).parent().siblings(".selectpicker").selectpicker('refresh');
+        }
     }
 }
 /**
@@ -441,7 +453,6 @@ function getParameterByName(name, url) {
  * Static click handlers are setup here.
  */
 function setupClickHandlers() {
-
     $("#submitButton").on("click", function(event) {
         event.preventDefault();
         var label = $(".CodeMirror", "#finalPreview")[0].CodeMirror.getValue();

@@ -68,6 +68,7 @@ td {
     width: 75% !important;
     padding-top: 1rem;
     border-radius: 0.3rem;
+    overflow: visible;
 }
 #wizard .actions {
     width: 65%;
@@ -88,6 +89,7 @@ td {
 }
 #wrapper #wizard .content.clearfix {
     height: 90%;
+    overflow: visible;
     min-height: 35rem;
 }
 #wrapper #wizard .steps.clearfix {
@@ -136,7 +138,7 @@ td {
 }
 .data-section {
     height: inherit;
-    overflow: auto;
+    overflow: visible;
 }
 .element-bar {
     padding: 0.3rem;
@@ -268,4 +270,7 @@ div.steps {
 }
 .zero-instances {
     opacity: 0.3;
+}
+.current {
+    overflow: auto;
 }
