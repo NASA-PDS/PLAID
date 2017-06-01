@@ -122,6 +122,11 @@ function setDisciplineDict(nodeName, nodeId) {
             // if ( !== currNS) {
                 g_state.nsIndex = 1;
                 g_jsonData.namespaces.splice(g_state.nsIndex, 0, newNS);
+                var dataDictNodeInfo = {nodeName: nodeName, identifier: nodeId};
+                //  Store the given Data Dictionary Node Name & Identifier
+                //  You'll need it if the user goes back to a previous data dictionary like 'pds',
+                //  and then goes forward to a step that uses this one.
+                g_jsonData.dataDictNodeInfo.splice(g_state.nsIndex, 0, dataDictNodeInfo);
             }
 
             // g_state.currNode = g_jsonData.namespaces[g_state.nsIndex];
@@ -187,6 +192,10 @@ function setDisciplineDict(nodeName, nodeId) {
             if (g_jsonData.namespaces.indexOf(nodeNS) == -1) {
                 g_state.nsIndex = 1;
                 g_jsonData.namespaces.splice(g_state.nsIndex, 0, nodeNS);
+                //  Store the selected Data Dictionary Identifier
+                //  You'll need it if the user goes back to a step that uses the old one,
+                //  and then goes forward to a step that uses this one.
+                g_jsonData.dataDictIdentifier.splice(g_state.nsIndex, 0, nodeId);
             }
         }
 
@@ -347,13 +356,21 @@ function getObjectFromPath(path, refObj){
         // If currObj is undefined, we can assume there is more to traverse through, but we are not in the right
         // dictionary. Need to switch to another node dictionary.
         if ( currObj === undefined ) {
-            g_state.nsIndex++;
-
-            // nextDiscDict = g_jsonData.namespaces[g_state.nsIndex];
+            //  Keep the index from going out of bounds on the g_jsonData.namespaces array by mod'ing it
+            ///g_state.nsIndex++;
+            g_state.nsIndex = (g_state.nsIndex + 1) % g_jsonData.namespaces.length;
+            //nextDiscDict = g_jsonData.namespaces[g_state.nsIndex];
             // g_dictInfo is an associative array...
-            nextDictInfo = g_dictInfo[g_jsonData.namespaces[g_state.nsIndex]];
+            //  The g_dictInfo for 'pds' doesn't have any 'base_class' attribute,
+            //  and the name 'Label Root' is not the name of the node (it's 'pds')
+            ///nextDictInfo = g_dictInfo[g_jsonData.namespaces[g_state.nsIndex]];
+            //  Get the stored Data Dictionary Node Name & Identifier
+            var nextDictNodeInfo = g_jsonData.dataDictNodeInfo[g_state.nsIndex];
+            var nextDictNodeName = nextDictNodeInfo["nodeName"];
+            var nextDictIdentifier = nextDictNodeInfo["identifier"];
 
-            setDisciplineDict(nextDictInfo['name'], nextDictInfo['base_class']);
+            ///setDisciplineDict(nextDictInfo['name'], nextDictInfo['base_class']);
+            setDisciplineDict(nextDictNodeName, nextDictIdentifier);
             return getObjectFromPath(path, g_jsonData.refObj);
         }
         if (index < elementKeys.length-1 && isNaN(elementKeys[index])) {

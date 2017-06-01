@@ -152,6 +152,12 @@ function captureSelection(){
     var selection = $(".productType", element).attr("data-id");
     // g_jsonData.searchObj = g_jsonData.pds4Obj;
     // getElementFromDict(g_jsonData.searchObj, "product", "classDictionary", selection);
+    //  Store the selected Data Dictionary Node Name & Identifier
+    //  You'll need them if the user goes to another data dictionary like cartography,
+    //  and then comes back to a step that uses this one.
+    //  Place the two pieces of info into a struct
+    var dataDictNodeInfo = {nodeName: "pds", identifier: selection};
+    g_jsonData.dataDictNodeInfo.splice(g_state.nsIndex, 0, dataDictNodeInfo);
     setDisciplineDict("pds", selection);
     insertStep($("#wizard"), wizardData.currentStep+1, g_jsonData.refObj);
     //auto-advance to the next step after capturing the user's product selection

@@ -260,7 +260,8 @@ var core_schema_versions = {
 /**
  * This object stores data related to the JSONs being referenced. It helps with
  * searching and quick reference of the JSON data.
- * @type {{refObj: {}, pds4Obj: {}, searchObj: {}, nodes: Array, currNS: string, namespaces: Array, currNode: string}}
+ * @type {{refObj: {}, pds4Obj: {}, searchObj: {}, nodes: Array, currNS: string, namespaces: Array, currNode: string,
+ * dataDictNodeInfo: Array}}
  */
 
 var g_jsonData = {
@@ -268,6 +269,7 @@ var g_jsonData = {
     searchObj: {},
     nodes: {},
     namespaces: [],
+    dataDictNodeInfo: []
 };
 
 /**

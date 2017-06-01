@@ -85,14 +85,15 @@ function storeProgress(priorIndex, stepType, splice){
             break;
     }
  //determine whether this is a new step or updating an existing step.
-
+    //  Look at the stringified progress data first
+    var stringifiedProgressData = JSON.stringify(progressData);
     //update the progress field in the database
     $.ajax({
         type: "post",
         url: "php/interact_db.php",
         data: {
             function: "storeProgressData",
-            progressJson: JSON.stringify(progressData)
+            progressJson: stringifiedProgressData
         }
     });
 }
