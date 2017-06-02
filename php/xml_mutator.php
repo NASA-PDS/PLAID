@@ -80,6 +80,28 @@ function addNode($args){
     $nodes = getNode($nodePath, $ns);
     print $nodePath;
     print $nodeName;
+
+
+    // Only change the node(s) value below
+    if(isset($args["value_only"])) {
+        foreach($nodes as $parent_node) {
+            if ($parent_node->hasChildNodes()) {
+                if ($parent_node->childNodes->length > 1) {
+                    foreach ($parent_node->childNodes as $child_node) {
+                        if ($child_node->nodeName == $nodeName) {
+                            $child_node->nodeValue = $args["value"];
+
+                        }
+                    }
+                }
+            }
+        }
+        $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
+        updateLabelXML($args);
+        return;
+    }
+
+
     if($nodes->length == 0 && isNonDefaultNamespace($ns)) {
         // Create ns root node
         $root_discipline_node = prependDisciplineRootNode(array(), $ns);
