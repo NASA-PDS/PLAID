@@ -143,8 +143,13 @@ function storeOptionalNodes(priorIndex, progressObj){
         var element = {
             id: $(this).attr('data-path'),
             num: $(".element-bar-counter", this).val(),
-            val: $(".element-bar-input", this).val()
+            val: ""
         };
+        if($(".element-bar-input", this).length != 0) {
+            element["val"] = $(".element-bar-input", this).val();
+        } else if($(".selectpicker", this).length != 0) {
+            element["val"] = $(".selectpicker", this).val();
+        }
         progressObj['selection'].push(element);
     });
 }
@@ -292,8 +297,10 @@ function loadOptionalNode(dataObj){
             //if there is no choice-field though, go ahead and insert the value
             else
                 $(".element-bar-counter", elementBar).val(value);
-            if (currObj['val'] !== undefined && currObj['val'] !== "")
+            if (currObj['val'] !== undefined && currObj['val'] !== "") {
+                $(".selectpicker", elementBar).selectpicker("val", currObj['val']);
                 $(".element-bar-input", elementBar).val(currObj['val']);
+            }
             //need to call this function to reset the properties of the element bar
             //after the adjustments have been made to load the progress
             setOneElementBarStyle($(".element-bar-counter", elementBar));
@@ -399,7 +406,14 @@ function areDifferentOptionalNodes(dataObj){
             console.log(dataObj["step_path"]);
         }
         var newNum = $(".element-bar-counter", elementBar).val();
-        var newVal = $(".element-bar-input", elementBar).val();
+        var newVal = "";
+
+
+        if($(".element-bar-input", elementBar).length != 0) {
+            newVal = $(".element-bar-input", elementBar).val();
+        } else if($(".selectpicker", elementBar).length != 0) {
+            newVal = $(".selectpicker", elementBar).val();
+        }
         var pathToUse = currObj['id'];
         if (typeof $(elementBar).attr("data-path-corrected") != 'undefined') { // if we have a path that needs correcting, use that
             pathToUse = $(elementBar).attr("data-path-corrected");
@@ -512,8 +526,16 @@ function areDifferentOptionalNodes(dataObj){
                 {path: pathToUse, quantity: newNum, value: newVal, ns: g_jsonData.namespaces[g_state.nsIndex]},
                 function(data){});
 
+        } else {
+            // No elements were added or removed... but did any of the actual values change?
+            if(currObj['val'] != newVal) {
+                // Update value
+                backendCall("php/xml_mutator.php",
+                    "addNode",
+                    {path: pathToUse, quantity: newNum, value: newVal, ns: g_jsonData.namespaces[g_state.nsIndex], value_only: "true"},
+                    function(data){});
+            }
         }
-
     }
     return false;
 }
