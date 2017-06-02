@@ -192,10 +192,11 @@ function setDisciplineDict(nodeName, nodeId) {
             if (g_jsonData.namespaces.indexOf(nodeNS) == -1) {
                 g_state.nsIndex = 1;
                 g_jsonData.namespaces.splice(g_state.nsIndex, 0, nodeNS);
-                //  Store the selected Data Dictionary Identifier
+                //  Store the given Data Dictionary Node Name & Identifier
                 //  You'll need it if the user goes back to a step that uses the old one,
                 //  and then goes forward to a step that uses this one.
-                g_jsonData.dataDictIdentifier.splice(g_state.nsIndex, 0, nodeId);
+                var dataDictNodeInfo = {nodeName: nodeName, identifier: nodeId};
+                g_jsonData.dataDictNodeInfo.splice(g_state.nsIndex, 0, dataDictNodeInfo);
             }
         }
 
@@ -361,8 +362,7 @@ function getObjectFromPath(path, refObj){
             g_state.nsIndex = (g_state.nsIndex + 1) % g_jsonData.namespaces.length;
             //nextDiscDict = g_jsonData.namespaces[g_state.nsIndex];
             // g_dictInfo is an associative array...
-            //  The g_dictInfo for 'pds' doesn't have any 'base_class' attribute,
-            //  and the name 'Label Root' is not the name of the node (it's 'pds')
+            //  The g_dictInfo for 'pds' has the name 'Label Root', which is not the name of the node (it's 'pds')
             ///nextDictInfo = g_dictInfo[g_jsonData.namespaces[g_state.nsIndex]];
             //  Get the stored Data Dictionary Node Name & Identifier
             var nextDictNodeInfo = g_jsonData.dataDictNodeInfo[g_state.nsIndex];
