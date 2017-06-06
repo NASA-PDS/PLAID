@@ -425,7 +425,7 @@ function getStepOffset(insertion_index) {
     for(var t = 0; t < wizardData.stepPaths.length && done == 0; t++) {
         var value = wizardData.stepPaths[t];
         if(value.indexOf("plaid_discipline_node:") != -1) {
-            if(insertion_index > t) { // inserting an element past the discipline node section..
+            if(insertion_index >= t) { // inserting an element past the discipline node section..
                 offset = offset + 1;
                 done = 1;
             }

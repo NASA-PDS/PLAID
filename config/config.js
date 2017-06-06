@@ -82,8 +82,8 @@ var filePaths_1800 = {
     PDS_JSON: "config/PDS4_PDS_JSON_1800.JSON",
     CART_JSON: "config/PDS4_PDS_JSON_1800.JSON",
     DISP_JSON: "config/PDS4_PDS_JSON_1800.JSON",
-    GEOM_JSON: "config/PDS4_PDS_JSON_1800.JSON",
-    IMG_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+    GEOM_JSON: "config/PDS4_GEOM_1700_1401.json",
+    IMG_JSON: "config/PDS4_IMG_1800.JSON",
     PART_JSON: "config/PDS4_PDS_JSON_1800.JSON",
     RMS_JSON: "config/PDS4_PDS_JSON_1800.JSON",
     BOD_JSON: "config/PDS4_PDS_JSON_1800.JSON",
@@ -97,7 +97,7 @@ var filePaths_1700 = {
     PDS_JSON: "config/PDS4_PDS_JSON_1700.JSON",
     CART_JSON: "config/cart_1700.json",
     DISP_JSON: "config/geom_disp_rings_1700.json",
-    GEOM_JSON: "config/input-PDS4_GEOM_1600_1300_GEOM_1300.JSON",
+    GEOM_JSON: "config/PDS4_GEOM_1700_1401.json",
     IMG_JSON: "config/PDS4_IMG_1700.JSON",
     PART_JSON: "",
     RMS_JSON: "config/geom_disp_rings_1700.json",
@@ -146,7 +146,7 @@ var g_dictInfo_1600 = {
     cart: {
         ns: 'cart',
         name: 'cartography',
-        base_class: '0001_NASA_PDS_1.cart.Cartogrpahy',
+        base_class: '0001_NASA_PDS_1.cart.Cartography',
         path: filePaths_1600["CART_JSON"]
     },
     disp: {
@@ -185,7 +185,7 @@ var g_dictInfo_1700 = {
     cart: {
         ns: 'cart',
         name: 'cartography',
-        base_class: '0001_NASA_PDS_1.cart.Cartogrpahy',
+        base_class: '0001_NASA_PDS_1.cart.Cartography',
         path: filePaths_1700["CART_JSON"]
     },
     disp: {
@@ -223,7 +223,7 @@ var g_dictInfo_1800 = {
     cart: {
         ns: 'cart',
         name: 'cartography',
-        base_class: '0001_NASA_PDS_1.cart.Cartogrpahy',
+        base_class: '0001_NASA_PDS_1.cart.Cartography',
         path: filePaths_1800["CART_JSON"]
     },
     disp: {
