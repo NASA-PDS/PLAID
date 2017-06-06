@@ -108,7 +108,7 @@ function addNode($args){
         if(count($root_discipline_node) == 1) {
             $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $root_discipline_node[0]);
             $discipline_area = getNode("Observation_Area/Discipline_Area", "");
-            $discipline_area = $discipline_area[0];
+            $discipline_area = $discipline_area->item(0);
             $discipline_area->appendChild($newNode);
             $nodes = getNode($nodePath, $ns);
         }
