@@ -144,7 +144,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                                     <input type="checkbox">
                                     <span class="spacer"></span>
                                     <i class="fa fa-map fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="0001_NASA_PDS_1.cart.Cartography">Cartography</span>
+                                    <span class="discNode" ns="cart" data-id="0001_NASA_PDS_1.cart.Cartography" step_path="plaid_discipline_node:cartography">Cartography</span>
                                 </div>
                             </td>
                         </tr>
@@ -154,7 +154,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                                     <input type="checkbox">
                                     <span class="spacer"></span>
                                     <i class="fa fa-desktop fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="0001_NASA_PDS_1.disp.Display">Display</span>
+                                    <span class="discNode" ns="disp" data-id="0001_NASA_PDS_1.disp.Display" step_path="plaid_discipline_node:display">Display</span>
                                 </div>
                             </td>
                         </tr>
@@ -164,7 +164,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                                     <input type="checkbox">
                                     <span class="spacer"></span>
                                     <i class="fa fa-space-shuttle fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="0001_NASA_PDS_1.geom.Geometry">Geometry</span>
+                                    <span class="discNode" ns="geom" data-id="0001_NASA_PDS_1.geom.Geometry" step_path="plaid_discipline_node:geometry">Geometry</span>
                                 </div>
                             </td>
                         </tr>
@@ -174,7 +174,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                                     <input type="checkbox">
                                     <span class="spacer"></span>
                                     <i class="fa fa-image fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="0001_NASA_PDS_1.img.Imaging">Imaging</span>
+                                    <span class="discNode" ns="img" data-id="0001_NASA_PDS_1.img.Imaging" step_path="plaid_discipline_node:imaging">Imaging</span>
                                 </div>
                             </td>
                         </tr>
@@ -184,7 +184,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                                     <input type="checkbox" disabled>
                                     <span class="spacer"></span>
                                     <i class="fa fa-sun-o fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="">Plasma Particle</span>
+                                    <span class="discNode" ns="ppi" data-id="">Plasma Particle</span>
                                 </div>
                             </td>
                         </tr>
@@ -194,7 +194,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                                     <input type="checkbox">
                                     <span class="spacer"></span>
                                     <i class="fa fa-circle fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="0001_NASA_PDS_1.rings.Rings">Ring-Moon Systems</span>
+                                    <span class="discNode" ns="rings" data-id="0001_NASA_PDS_1.rings.Rings" step_path="plaid_discipline_node:rings">Ring-Moon Systems</span>
                                 </div>
                             </td>
                         </tr>
