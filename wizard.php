@@ -95,41 +95,41 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             </button>
                         </td>
                     </tr>
-                    <tr class="label-item">
-                        <td>
-                            <button class="list-group-item">
-                                <i class="fa fa-file-o fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Document">Document</span>
-                            </button>
-                        </td>
-                    </tr>
                     <!--
-                    <tr class="label-item">
-                        <td>
-                            <button class="list-group-item disabled" disabled>
-                                <i class="fa fa-list fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Context">Context</span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="label-item">
-                        <td>
-                            <button class="list-group-item disabled" disabled>
-                                <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_File_Text">File Text</span>
-                            </button>
-                        </td>
-                    </tr>
+<tr class="label-item">
+    <td>
+        <button class="list-group-item">
+            <i class="fa fa-file-o fa-fw" aria-hidden="true"></i>
+            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Document">Document</span>
+        </button>
+    </td>
+</tr>
+<tr class="label-item">
+    <td>
+        <button class="list-group-item disabled" disabled>
+            <i class="fa fa-list fa-fw" aria-hidden="true"></i>
+            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Context">Context</span>
+        </button>
+    </td>
+</tr>
+<tr class="label-item">
+    <td>
+        <button class="list-group-item disabled" disabled>
+            <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_File_Text">File Text</span>
+        </button>
+    </td>
+</tr>
 
-                    <tr class="label-item">
-                        <td>
-                            <button class="list-group-item disabled" disabled>
-                                <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Thumbnail">Thumbnail</span>
-                            </button>
-                        </td>
-                    </tr>
-                    -->
+<tr class="label-item">
+    <td>
+        <button class="list-group-item disabled" disabled>
+            <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
+            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Thumbnail">Thumbnail</span>
+        </button>
+    </td>
+</tr>
+-->
                 </table>
             </section>
 
@@ -191,7 +191,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox">
+                                    <input type="checkbox" disabled>
                                     <span class="spacer"></span>
                                     <i class="fa fa-circle fa-fw" aria-hidden="true"></i>
                                     <span class="discNode" ns="rings" data-id="0001_NASA_PDS_1.rings.Rings" step_path="plaid_discipline_node:rings">Ring-Moon Systems</span>
