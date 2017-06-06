@@ -81,7 +81,7 @@ function initWizard(wizard) {
                 // of that page and skip the addition steps below
                 var classRemoved = false;
                 switch (progressData[currentIndex]['step']){
-                    case 'discipline_nodes':
+                    case 'discipline_dictionaries':
                         classRemoved = areDifferentDisciplineNodes(progressData[currentIndex]);
                         break;
                     case 'optional_nodes':
@@ -222,7 +222,7 @@ function handleStepAddition(currentIndex, newIndex){
 
 
 
-                        insertStep($("#wizard"), insertionIndex, currObj);
+                        insertStep($("#wizard"), insertionIndex, currObj, g_jsonData.namespaces[g_state.nsIndex]);
 
 
                         wizardData.stepPaths.splice(insertionIndex - getStepOffset(insertionIndex), 0, currObj['path']);
@@ -255,7 +255,7 @@ function handleStepAddition(currentIndex, newIndex){
 * @param {Number} index zero-based position indicating where in the wizard to insert the step
 * @param {Object} dataObj object containing the PDS data to generate content from
  */
-function insertStep(wizard, index, dataObj){
+function insertStep(wizard, index, dataObj, ns){
     if(index > wizardData.maxStep) {
        revertStepClass(index);
     }
@@ -265,7 +265,7 @@ function insertStep(wizard, index, dataObj){
     var data = (dataObj["next"] ? dataObj["next"] : dataObj);
     wizard.steps("insert", index, {
         title: title,
-        content: generateContent(title, data, dataObj)
+        content: generateContent(title, data, dataObj, ns)
     });
     $(".selectpicker").selectpicker("render"); // select pickers need to rendered after being appended;
 }
@@ -277,12 +277,13 @@ function insertStep(wizard, index, dataObj){
 * @param {Object} dataObj object containing the PDS data to generate content from
 * @return {Element} section
  */
-function generateContent(sectionTitle, dataObj, parentObj){
+function generateContent(sectionTitle, dataObj, parentObj,ns){
     var parentPath = parentObj["path"];
     if(sectionTitle == g_dictInfo["pds"]["name"]) {
         parentPath = g_dictInfo["pds"]["name"];
     }
     var section = document.createElement("div");
+    $(section).attr("namespace", ns);
     $(section).attr("step_path", parentPath);
     section.className = "optional-section";
     var question = document.createElement("p");
@@ -304,6 +305,7 @@ function generateContent(sectionTitle, dataObj, parentObj){
     });
 
     $.each(dataArray, function(key, value) {
+
         indexArray.push(indexLookup.indexOf(value));
     });
 

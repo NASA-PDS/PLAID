@@ -50,13 +50,20 @@ function storeProgress(priorIndex, stepType, splice){
                 progressData.push(currObj);
             }
             break;
-        case "discipline_nodes":
-            storeDisciplineNodes(priorIndex, currObj);
-            progressData.push(currObj); //FIXME
-            break;
         case "discipline_dictionaries":
             storeDisciplineNodes(priorIndex, currObj);
-            progressData.push(currObj); //FIXME
+            var found = 0;
+            for(var i = 0; i < progressData.length && found == 0; i++) {
+                var currentStep = progressData[i];
+                if(currentStep['step'] == 'discipline_dictionaries') {
+                    // overwrite existing discipline_node always
+                    progressData.splice(i, 1, currObj);
+                    found = 1;
+                }
+            }
+            if(found == 0) {
+                progressData.push(currObj);
+            }
             break;
         case "mission_specifics":
             storeMissionSpecifics(priorIndex, currObj);
@@ -114,7 +121,7 @@ function storeProductType(priorIndex, progressObj){
  * @param {Object} progressObj object containing the user's progress data
  */
 function storeDisciplineNodes(priorIndex, progressObj){
-    progressObj['step'] = "discipline_nodes";
+    progressObj['step'] = "discipline_dictionaries";
     progressObj['type'] = "checkbox";
     progressObj['selection'] = [];
 
@@ -138,6 +145,7 @@ function storeOptionalNodes(priorIndex, progressObj){
 
     var stepContent = $("#wizard-p-" + priorIndex);
     progressObj['step_path'] = $(".optional-section", stepContent).attr("step_path");
+    progressObj['namespace'] = $(".optional-section", stepContent).attr("namespace");
     progressObj['containsChoice'] = ($(".choice-field", stepContent).length > 0);
     $(".element-bar", stepContent).each(function(){
         var element = {
@@ -216,7 +224,7 @@ function loadProgress(stepObj){
         case 'product_type':
             isLoaded = loadProductType(stepObj);
             break;
-        case 'discipline_nodes':
+        case 'discipline_dictionaries':
             isLoaded = loadDisciplineNodes(stepObj);
             break;
         case 'optional_nodes':
@@ -362,17 +370,102 @@ function loadBuilder() {
  */
 function areDifferentDisciplineNodes(dataObj){
     var stepContent = $("section.current");
-    var areDifferent = false;
   //  if ($('input:checked', stepContent).length !== dataObj['selection'].length) {
     //    areDifferent = true;
     //} else
+    var nodesToRemove = [];
+    var namespacesToRemove = [];
     dataObj['selection'].map(function(element) {
         var node = $("span.discNode[data-id='" + element + "']", stepContent);
         if (!$(node).siblings("input").prop('checked')) {
-            areDifferent = true;
+            // a Discipline dictionary was removed. Need to remove all children of that dictionary
+            namespacesToRemove.push($(node).attr("ns"));
+          $.each(progressData, function(key, value){
+                if(typeof value.namespace != 'undefined'){
+                    if(value.namespace == $(node).attr("ns")) {
+                        nodesToRemove.push(value);
+                    }
+                }
+          });
         }
     });
-    return areDifferent;
+
+    nodesToRemove.reverse();
+
+    $.each(nodesToRemove, function(key, value) {
+        // Lookup location in wizardData
+        var found = 0;
+        // check if it's a discipline node starting page
+        if(typeof value.step_path == 'undefined' && typeof value.namespace != 'undefined') {
+            // determine wizardData step path
+            var dictKeys = Object.keys(g_dictInfo);
+            for(var i = 0; i < dictKeys.length; i++) {
+                var key = dictKeys[i];
+                var dict = g_dictInfo[key];
+                if(key == value.namespace) {
+                    // The code below removes inital step of the namespace being removed
+                    var searchPath = "plaid_discipline_node:" + dict.name;
+                    $.each(wizardData.stepPaths, function(wizkey, wizvalue) {
+                        if(wizvalue == searchPath) {
+                            found = 1;
+                            var offset = getStepOffset(wizkey); // there is an offset between the steps in the wizard and stepPaths
+                            $("#wizard").steps('remove', Number(wizkey) + offset);
+                            wizardData.stepPaths.splice(wizkey, 1);         // aren't tracked in wizardData
+                            wizardData.mainSteps.splice(wizkey, 1);
+                            progressData.splice(wizkey + offset, 1);
+                        }
+                    })
+                }
+            }
+        }
+        if(found == 0) {
+            // the code below removes all children steps of the root of that namepsace
+            $.each(wizardData.stepPaths, function(wizkey, wizvalue) {
+                if(wizvalue == value.step_path) {
+                    found = 1;
+                    var offset = getStepOffset(wizkey); // there is an offset between the steps in the wizard and stepPaths
+                    $("#wizard").steps('remove', Number(wizkey) + offset);
+                    wizardData.stepPaths.splice(wizkey, 1);         // aren't tracked in wizardData
+                    wizardData.mainSteps.splice(wizkey, 1);
+                    progressData.splice(wizkey + offset, 1);
+
+                    backendCall("php/xml_mutator.php",
+                        "removeAllChildNodes",
+                        {path: value.step_path, ns: value.namespace},
+                        function (data) {
+                        });
+                    backendCall("php/xml_mutator.php",
+                        "removeClass",
+                        {path: value.step_path, ns: value.namespace},
+                        function (data) {
+                        });
+
+                }
+            });
+        }
+        if(found == 0) {
+            console.log("could not find wizardSteps removal index for:" );
+            console.log(value);
+        } else {
+            // last step - remove the root discipline node
+            for(var i = 0; i < namespacesToRemove.length; i++) {
+                backendCall("php/xml_mutator.php",
+                    "removeClass",
+                    {path: "0", ns: namespacesToRemove[i]},
+                    function (data) {
+                    });
+            }
+        }
+    });
+    $.ajax({
+        type: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "storeProgressData",
+            progressJson: JSON.stringify(progressData)
+        }
+    });
+    return false;
 }
 /**
  * Loop through the element-bar values and check for differences.
@@ -386,14 +479,13 @@ function areDifferentOptionalNodes(dataObj){
         // find the right dataObj
         var found = false;
         for(var i = 0; i < progressData.length && !found; i++) {
-            if(progressData[i]["step_path"] == dataObj["step_path"]) {
+            if(progressData[i]["step_path"] == dataObj["step_path"] && typeof progressData[i]["step_path"] != 'undefined') {
                 dataObj = progressData[i];
                 found = true;
             }
         }
         if(!found) {
             // this element hasn't been set in the first place.
-            alert("haven't set this item, so no change.");
             return;
         }
     }

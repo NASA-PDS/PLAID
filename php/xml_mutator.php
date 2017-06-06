@@ -80,7 +80,7 @@ function addNode($args){
     $nodes = getNode($nodePath, $ns);
     print $nodePath;
     print $nodeName;
-
+    print $nodes->length;
 
     // Only change the node(s) value below
     if(isset($args["value_only"])) {
@@ -120,9 +120,11 @@ function addNode($args){
         http_response_code(500); // Couldn't find parent node
     }
 
-
     foreach($nodes as $parent_node){
-
+        if($parent_node == null) {
+            echo "Parent node is null";
+            return;
+        }
         // Check parent node children to see if the node we're going to add is already there -
         // In this case we want to insert the new node before the node of the same name, to maintain
         // order. Also, we want to duplicate that node's children, if it has any.
@@ -130,8 +132,11 @@ function addNode($args){
         $node_has_children = false;
         $total_instances_of_node = 0;
         if($parent_node->hasChildNodes()) {
-            if($parent_node->childNodes->length > 1) {
+            if($parent_node->childNodes->length >= 1) {
                 foreach ($parent_node->childNodes as $child_node)  {
+                    var_dump($child_node->nodeName);
+                    var_dump($nodeName);
+
                     if($child_node->nodeName == $nodeName) {
                         $total_instances_of_node++;
                         $node_to_insert_before = $child_node;
@@ -140,7 +145,7 @@ function addNode($args){
                 }
             }
         }
-
+        print "\ntotal instances of node $total_instances_of_node\n";
         for ($x = $total_instances_of_node; $x < $quantity; $x++){
             if (isNonDefaultNamespace($ns)) {
                 $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $nodeName);
@@ -240,8 +245,12 @@ function removeClass($args){
     global $DOC;
     $ns = $args["ns"];
 
-    list($nodeName, $parentPath) = handlePath($args["path"], $ns);
-    $nodes = getNode($parentPath."/".$nodeName, $ns);
+    list($nodeName, $parentPath) = handlePath($args["path"], $ns, false, true);
+    $getNodePath = $parentPath;
+    if($nodeName != null) {
+        $getNodePath = $getNodePath."/".$nodeName;
+    }
+    $nodes = getNode($getNodePath, $ns);
 
     $n_to_remove = $args["number_to_remove"];
     if(!isset($args["number_to_remove"])) {
@@ -258,7 +267,6 @@ function removeClass($args){
     updateLabelXML($args);
 }
 
-
 /**
  * Clear out all child nodes of the target to prepare for adding in new children.
  * @param {object} $args object containing the path to the node and its namespace (if any)
@@ -266,7 +274,7 @@ function removeClass($args){
 function removeAllChildNodes($args){
     global $DOC;
     $ns = $args["ns"];
-    list($nodeName, $parentPath) = handlePath($args["path"], $ns);
+    list($nodeName, $parentPath) = handlePath($args["path"], $ns, false, true);
     $nodes = getNode($parentPath."/".$nodeName, $ns);
     foreach ($nodes as $node){
         while ($node->hasChildNodes()){
@@ -288,12 +296,16 @@ function removeAllChildNodes($args){
  * @param {string} $ns namespace for the node (or empty if default namespace)
  * @return array name of the node and the path to its parent (in backend structure)
  */
-function handlePath($path, $ns, $is_discpline_root){
+function handlePath($path, $ns, $is_discpline_root, $removing_node){
     $arr = explode("/", $path);
     //have to call array_values to reset indices of the array after filtering
     $filtArr = array_values(array_filter($arr, isNaN));
     $nodeName = array_pop($filtArr);
     if (isNonDefaultNamespace($ns)){
+        if($removing_node && $nodeName != "") {
+            // need namepsace prepended when looking up node
+            $nodeName = $ns . ":" . $nodeName;
+        }
         for ($i = 0; $i < count($filtArr); $i++){
             if (!empty($filtArr[$i]))
                 $filtArr[$i] = $ns.":".$filtArr[$i];
