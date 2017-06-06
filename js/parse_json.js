@@ -345,39 +345,95 @@ function assignObjectPath(startingIndex, currObject, children){
  */
 function getObjectFromPath(path, refObj){
     var elementKeys = path.split("/");
-    var currObj = refObj;
-    var nextDictInfo = {};
-    for (var index in elementKeys){
-        try {
-            currObj = currObj[elementKeys[index]];
-        } catch(e){
-            return;
+    
+    var objectPointer;
+    var wrongDict = 0;
+    var dictCounter = 0;
+    var totalDictionaries = g_jsonData.namespaces.length;
+
+    for(dictCounter; dictCounter < totalDictionaries; dictCounter++) {
+        for (var pathElementIndex = 0; pathElementIndex < elementKeys.length && wrongDict == 0; pathElementIndex = pathElementIndex + 2) {
+            if (typeof objectPointer != 'undefined') {
+                refObj = objectPointer["next"];
+            }
+
+            var itemValue = elementKeys[pathElementIndex];
+            var itemName = elementKeys[pathElementIndex + 1];
+
+            if (typeof refObj[itemValue] != 'undefined') {
+                if (typeof refObj[itemValue][itemName] != 'undefined') {
+
+                    objectPointer = refObj[itemValue][itemName];
+                    // the get level of associations below doesn't need to be called every time -
+                    // this could be optimized to only be called when objectPointer["next"] is an empty list
+                    getLevelOfAssociations(g_jsonData.searchObj, objectPointer["next"], false);
+                } else {
+                    wrongDict = 1;
+                }
+            } else {
+                wrongDict = 1;
+            }
         }
 
+        if (wrongDict == 1) {
+            // We couldn't find the element we were looking for, switch dictionary
+            g_state.nsIndex = (g_state.nsIndex + 1) % g_jsonData.namespaces.length;
+            var nextDictNodeInfo = g_jsonData.dataDictNodeInfo[g_state.nsIndex];
+            var nextDictNodeName = nextDictNodeInfo["nodeName"];
+            var nextDictIdentifier = nextDictNodeInfo["identifier"];
+            setDisciplineDict(nextDictNodeName, nextDictIdentifier);
+            refObj = g_jsonData.refObj;
+            wrongDict = 0;
+        } else {
+            return objectPointer;
+        }
+    }
+    
+    return null;
+    /*
+
+    var elementKeys = path.split("/");
+    var currObj = refObj;
+    var nextDictInfo = {};
+    for (var index in elementKeys) {
+        try {
+            currObj = currObj[elementKeys[index]];
+        } catch (e) {
+            return;
+        }
+        if (currObj === undefined) {
+            // try again
+            currObj = currObj[index][elementKeys[index]];
+        }
+
+         if (index < elementKeys.length-1 && isNaN(elementKeys[index])) {
+         currObj = currObj["next"];
+         }
+
+    }
         // If currObj is undefined, we can assume there is more to traverse through, but we are not in the right
         // dictionary. Need to switch to another node dictionary.
-        if ( currObj === undefined ) {
+    if ( currObj === undefined ) {
             //  Keep the index from going out of bounds on the g_jsonData.namespaces array by mod'ing it
             ///g_state.nsIndex++;
-            g_state.nsIndex = (g_state.nsIndex + 1) % g_jsonData.namespaces.length;
+        g_state.nsIndex = (g_state.nsIndex + 1) % g_jsonData.namespaces.length;
             //nextDiscDict = g_jsonData.namespaces[g_state.nsIndex];
             // g_dictInfo is an associative array...
             //  The g_dictInfo for 'pds' has the name 'Label Root', which is not the name of the node (it's 'pds')
             ///nextDictInfo = g_dictInfo[g_jsonData.namespaces[g_state.nsIndex]];
             //  Get the stored Data Dictionary Node Name & Identifier
-            var nextDictNodeInfo = g_jsonData.dataDictNodeInfo[g_state.nsIndex];
-            var nextDictNodeName = nextDictNodeInfo["nodeName"];
-            var nextDictIdentifier = nextDictNodeInfo["identifier"];
+        var nextDictNodeInfo = g_jsonData.dataDictNodeInfo[g_state.nsIndex];
+        var nextDictNodeName = nextDictNodeInfo["nodeName"];
+        var nextDictIdentifier = nextDictNodeInfo["identifier"];
 
             ///setDisciplineDict(nextDictInfo['name'], nextDictInfo['base_class']);
-            setDisciplineDict(nextDictNodeName, nextDictIdentifier);
-            return getObjectFromPath(path, g_jsonData.refObj);
-        }
-        if (index < elementKeys.length-1 && isNaN(elementKeys[index])) {
-            currObj = currObj["next"];
-        }
+        setDisciplineDict(nextDictNodeName, nextDictIdentifier);
+        return getObjectFromPath(path, g_jsonData.refObj);
     }
+
+
     return currObj;
+    */
 }
 
 /**
