@@ -299,6 +299,7 @@ function removeAllChildNodes($args){
 function handlePath($path, $ns, $is_discpline_root, $removing_node){
     $arr = explode("/", $path);
     //have to call array_values to reset indices of the array after filtering
+    //have to call array_values to reset indices of the array after filtering
     $filtArr = array_values(array_filter($arr, isNaN));
     $nodeName = array_pop($filtArr);
     if (isNonDefaultNamespace($ns)){
