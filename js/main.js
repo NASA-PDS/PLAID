@@ -60,7 +60,9 @@ $(document).ready(function() {
         $("#wizard").steps("next");
     });
     $(".labelPreviewButton").click(function(){
-        backendCall("php/preview_template.php", null, {}, function(data){
+        backendCall("php/preview_template.php", null, {
+            namespaces: g_jsonData.namespaces
+        }, function(data){
             var wrapperDiv = document.createElement("textarea");
             wrapperDiv.className = "preview popup";
             wrapperDiv.textContent = data;
@@ -327,27 +329,44 @@ function handleExportStep(newIndex){
     var nextSection = $("#wizard-p-" + newIndex.toString());
     var isExportStep = $(nextSection).find("form#exportForm").length > 0;
     var hasNoPreview = !$(nextSection).find(".finalPreview").length > 0;
-    if (isExportStep && hasNoPreview){
-        backendCall("php/xml_mutator.php",
-            "addRootAttrs",
-            {namespaces: g_jsonData.namespaces},
-            function(data){});
-        backendCall("php/xml_mutator.php",
-            "formatDoc",
-            {},
-            function(data){});
-        var preview = generateFinalPreview();
-        $("#finalPreview", nextSection).append(preview[0]);
-        var codemirror_editor = CodeMirror.fromTextArea(preview[1], {
-            mode: "xml",
-            lineNumbers: true,
-            foldGutter: true,
-            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
-        });
-        $(".CodeMirror").css("height", "93%");
-        setTimeout(function() {
-            codemirror_editor.refresh();
-        }, 100);
+    if (isExportStep){
+        if(hasNoPreview) {
+            /*
+             backendCall("php/xml_mutator.php",
+             "addRootAttrs",
+             {namespaces: g_jsonData.namespaces},
+             function(data){});
+
+             backendCall("php/xml_mutator.php",
+             "formatDoc",
+             {},
+             function(data){}); */
+            var preview = generateFinalPreview(g_jsonData.namespaces);
+            $("#finalPreview", nextSection).append(preview[0]);
+            var codemirror_editor = CodeMirror.fromTextArea(preview[1], {
+                mode: "xml",
+                lineNumbers: true,
+                foldGutter: true,
+                gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+            });
+            $(".CodeMirror").css("height", "93%");
+            setTimeout(function () {
+                codemirror_editor.refresh();
+            }, 100);
+        } else {
+            // regenerate preview
+            backendCall("php/preview_template.php", null, {
+                namespaces: g_jsonData.namespaces
+            }, function(data){
+                $.each($(".CodeMirror"), function(key, mirror) {
+                    mirror.CodeMirror.setValue(data);
+                    setTimeout(function() {
+                        mirror.CodeMirror.refresh();
+                    },1);
+                });
+            });
+
+        }
     }
 }
 /**
@@ -355,7 +374,7 @@ function handleExportStep(newIndex){
  * to the backend to read the contents of the label template file.
  * @returns {Element}
  */
-function generateFinalPreview() {
+function generateFinalPreview(namespaces) {
     var previewContainer = document.createElement("div");
     previewContainer.className = "finalPreview previewContainer";
 
@@ -371,7 +390,9 @@ function generateFinalPreview() {
     cardBlock.className = "";
     card.appendChild(cardBlock);
 
-    backendCall("php/preview_template.php", null, {}, function(data){
+    backendCall("php/preview_template.php", null, {
+        namespaces: namespaces
+    }, function(data){
         $(cardBlock).text(data);
     });
 
