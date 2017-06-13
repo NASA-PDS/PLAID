@@ -86,7 +86,9 @@ function addNode($args){
     if(isset($args["value_only"])) {
         foreach($nodes as $parent_node) {
             if ($parent_node->hasChildNodes()) {
-                if ($parent_node->childNodes->length > 1) {
+                //  The updated value will now be set even if there is only 1 attribute w/ a non-zero quantity on the page
+                ///if ($parent_node->childNodes->length > 1) {
+                if ($parent_node->childNodes->length >= 1) {
                     foreach ($parent_node->childNodes as $child_node) {
                         if ($child_node->nodeName == $nodeName) {
                             $child_node->nodeValue = $args["value"];
