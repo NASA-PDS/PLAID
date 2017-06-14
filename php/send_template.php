@@ -25,12 +25,34 @@
  */
 require "../thirdparty/php/PHPMailerAutoload.php";
 require_once("interact_db.php");
+require_once("xml_mutator.php");
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $filename = "Sample_Label.xml";
 
+    $namespaces = $_POST["namespaces"];
+
+
+    $DOC = readInXML(getLabelXML());
+    $root = $DOC->documentElement;
+    foreach ($namespaces as $ns){
+        if ($ns === "pds") {
+            $root->setAttribute("xmlns", "http://pds.nasa.gov/pds4/$ns/v1");
+        } else {
+            $root->setAttribute("xmlns:$ns", "http://pds.nasa.gov/pds4/$ns/v1");
+        }
+    }
+    $tempXml = $DOC->saveXML(NULL, LIBXML_NOEMPTYTAG);
+    $root->removeAttributeNS("http://pds.nasa.gov/pds4/pds/v1", "");
+    $discAreaDom = getNode("Observation_Area/Discipline_Area", "")->item(0);
+    $discAreaStr = $DOC->saveXML($discAreaDom);
+    $discAreaStr = preg_replace("/\sxmlns:.*=\"http:\/\/pds.nasa.gov\/pds4\/.*\/v1\"/", "", $discAreaStr);
+    $modFile = preg_replace("/<Discipline_Area>.*<\/Discipline_Area>/s", $discAreaStr, $tempXml);
+
     $tmp_file = tempnam(sys_get_temp_dir(), 'Sample_Label');
     $handle = fopen($tmp_file, "w");
-    fwrite($handle, getLabelXML());
+    fwrite($handle, $modFile);
     fclose($handle);
 
 

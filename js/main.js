@@ -319,6 +319,7 @@ function checkFilename(){
         alert("Please use .xml extenion. For example: filename.xml");
         return false;
     }
+    return true;
 }
 /**
  * Determine whether or not the user is transitioning to the final step in the wizard.
@@ -327,7 +328,7 @@ function checkFilename(){
  */
 function handleExportStep(newIndex){
     var nextSection = $("#wizard-p-" + newIndex.toString());
-    var isExportStep = $(nextSection).find("form#exportForm").length > 0;
+    var isExportStep = $(nextSection).find(".exportForm").length > 0;
     var hasNoPreview = !$(nextSection).find(".finalPreview").length > 0;
     if (isExportStep){
         if(hasNoPreview) {
@@ -474,6 +475,13 @@ function getParameterByName(name, url) {
  * Static click handlers are setup here.
  */
 function setupClickHandlers() {
+    $("#exportButton").on("click", function(event) {
+        if(checkFilename()) {
+            var label = $(".CodeMirror", "#finalPreview")[0].CodeMirror.getValue();
+            download(label, $("#exportInput").val(), "text/xml");
+        }
+    });
+
     $("#submitButton").on("click", function(event) {
         event.preventDefault();
         var label = $(".CodeMirror", "#finalPreview")[0].CodeMirror.getValue();
@@ -516,7 +524,8 @@ function setupClickHandlers() {
                     pds_node: $("#pds_node_select").val(),
                     pds_node_rep_name: node_contact_info[$("#pds_node_select").val()]["name"],
                     pds_node_email: node_contact_info[$("#pds_node_select").val()]["email"],
-                    comments: $("#comments").val()
+                    comments: $("#comments").val(),
+                    namespaces: g_jsonData.namespaces
                 }
             }).done(function(data) {
 
