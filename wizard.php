@@ -262,20 +262,25 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
             <h3>Export</h3>
             <section id="export">
                 <div id="finalPreview"></div>
-                <form id="exportForm" onsubmit="return checkFilename();" class="form-inline" action="php/export_template.php" method="post">
+                <div class="exportForm">
                         <span class="spacer"></span>
-                        <div class="input-group">
-                            <div class="input-group-addon">Filename:</div>
-                            <input id="exportInput" class="form-control" name="filename" type="text" placeholder="label_template.xml">
+                        <div class="input-group" role="group">
+                            <span class="input-group-addon" style="width:auto !important;">Filename:</span>
+
+                                <input id="exportInput" class="form-control" name="filename" type="text" placeholder="label_template.xml">
+                            <span class="input-group-btn">
+                                <button id="exportButton" class="btn btn-warning" type="submit">Export</button>
+                            </span>
+                            <span class="input-group-btn">
+                            <button id="submitButton" class="btn btn-primary">Submit to PDS for review</button>
+                            </span>
                         </div>
 
                         <span class="spacer"></span>
 
-                        <button id="exportButton" class="btn btn-warning" type="submit">Export</button>
-                    <button id="submitButton" class="btn btn-primary">Submit to PDS for review</button>
-                </form>
 
 
+                </div>
             </section>
         </div>
         <div id="sidebar">
