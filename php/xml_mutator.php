@@ -198,9 +198,17 @@ function addCustomNodes($args){
     $data = $args["json"];
     $path = "Observation_Area/Mission_Area";
     $parentNode = getNode($path, "")->item(0);
+
+    //  Remove all of the child nodes that are already in the parent node
+    while ($parentNode->firstChild) {
+        $parentNode->removeChild($parentNode->firstChild);
+    }
+
     foreach ($data as $node){
         addNodeWithComment($parentNode, $node["name"], $node["description"]);
-        if ($node["isGroup"]){
+        //  The isGroup boolean has been JSON stringified
+        ///if ($node["isGroup"]){
+        if ($node["isGroup"] == "true"){
             foreach ($node["children"] as $child){
                 $groupNode = getNode($path."/".$node["name"], "")->item(0);
                 addNodeWithComment($groupNode, $child["name"], $child["description"]);
