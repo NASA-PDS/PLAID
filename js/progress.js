@@ -479,7 +479,9 @@ function areDifferentOptionalNodes(dataObj){
         // find the right dataObj
         var found = false;
         for(var i = 0; i < progressData.length && !found; i++) {
-            if(progressData[i]["step_path"] == dataObj["step_path"] && typeof progressData[i]["step_path"] != 'undefined') {
+            //  IF the progressData path = the current step's path
+            ///if(progressData[i]["step_path"] == dataObj["step_path"] && typeof progressData[i]["step_path"] != 'undefined') {
+            if(progressData[i]["step_path"] == $(".optional-section", stepContent).attr("step_path") && typeof progressData[i]["step_path"] != 'undefined') {
                 dataObj = progressData[i];
                 found = true;
             }
