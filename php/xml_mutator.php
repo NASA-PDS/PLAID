@@ -143,6 +143,8 @@ function addNode($args){
                         $total_instances_of_node++;
                         $node_to_insert_before = $child_node;
                         $node_has_children = $node_to_insert_before->hasChildNodes();
+                        //  Update the value of this node
+                        $child_node->nodeValue = $args["value"];
                     }
                 }
             }
