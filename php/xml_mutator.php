@@ -270,9 +270,16 @@ function removeClass($args){
             $node->parentNode->removeChild($node);
         }
     } else {
-        for($i = 0; $i < $n_to_remove && $i < $nodes->length; $i++) {
+        //  For each node with the given node path
+        for($i = 0; $i < $nodes->length; $i++) {
             $node = $nodes->item($i);
-            $node->parentNode->removeChild($node);
+            //  Update the value of the node
+            $node->nodeValue = $args["value"];
+            //  IF the node should be removed
+            if ($i < $n_to_remove) {
+                //  Remove the node
+                $node->parentNode->removeChild($node);
+            }
         }
     }
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
