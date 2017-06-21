@@ -91,8 +91,10 @@ function addNode($args){
                 if ($parent_node->childNodes->length >= 1) {
                     foreach ($parent_node->childNodes as $child_node) {
                         if ($child_node->nodeName == $nodeName) {
-                            $child_node->nodeValue = $args["value"];
-
+                            //  Update the text value of this node
+                            //  Setting the nodeValue attribute wipes out the child nodes of this node
+                            ///$child_node->nodeValue = $args["value"];
+                            updateNodeValue($child_node, $args["value"]);
                         }
                     }
                 }
@@ -143,8 +145,10 @@ function addNode($args){
                         $total_instances_of_node++;
                         $node_to_insert_before = $child_node;
                         $node_has_children = $node_to_insert_before->hasChildNodes();
-                        //  Update the value of this node
-                        $child_node->nodeValue = $args["value"];
+                        //  Update the text value of this node
+                        //  Setting the nodeValue attribute wipes out the child nodes of this node
+                        ///$child_node->nodeValue = $args["value"];
+                        updateNodeValue($child_node, $args["value"]);
                     }
                 }
             }
@@ -163,11 +167,12 @@ function addNode($args){
            if(is_null($node_to_insert_before)) {
                 $parent_node->appendChild($newNode);
 
-                // SOMETHING WRONG WITH CODE BELOW - used to clon an already added class when more are added later
+                // SOMETHING WRONG WITH CODE BELOW - used to clone an already added class when more are added later
 
            } else {
                 if($node_has_children) {
-                    $parent_node->insertBefore($node_to_insert_before->cloneNode(true), $node_to_insert_before);
+                    $node_cloned = $node_to_insert_before->cloneNode(true);
+                    $parent_node->insertBefore($node_cloned, $node_to_insert_before);
                 } else {
                     $parent_node->insertBefore($newNode, $node_to_insert_before);
                 }
@@ -190,6 +195,30 @@ function addNodeValue($node, $value){
         $node->appendChild($valNode);
     }
 }
+
+/**
+ * Update the given node's text value.
+ * If a value is included, add it to the specified node.
+ * @param {DOMNode} $node to add the value to
+ * @param {string} $value to set into the node
+ */
+function updateNodeValue($node, $value){
+    global $DOC;
+    $found = false;
+    foreach ($node->childNodes as $child_node) {
+        //  IF child node is a Text node
+        if ($child_node->nodeName === "#text") {
+            $child_node->nodeValue = $value;
+            $found = true;
+            break;
+        }
+    }
+    //  IF No Text node found
+    if (! $found) {
+        addNodeValue($node, $value);
+    }
+}
+
 /**
  * Add custom nodes from the mission specifics JSON passed in from the front-end.
  * Note: only handles adding custom nodes within the Mission_Area node of the document.
@@ -273,8 +302,8 @@ function removeClass($args){
         //  For each node with the given node path
         for($i = 0; $i < $nodes->length; $i++) {
             $node = $nodes->item($i);
-            //  Update the value of the node
-            $node->nodeValue = $args["value"];
+            //  Update the text value of this node
+            updateNodeValue($node, $args["value"]);
             //  IF the node should be removed
             if ($i < $n_to_remove) {
                 //  Remove the node

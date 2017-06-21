@@ -520,7 +520,7 @@ function areDifferentOptionalNodes(dataObj){
                 var num_to_remove = currObj['num'] - newNum;
                 backendCall("php/xml_mutator.php",
                     "removeClass",
-                    {path: pathToUse, ns: "", number_to_remove: num_to_remove},
+                    {path: pathToUse, ns: "", number_to_remove: num_to_remove, value: newVal},
                     function (data) {});
                 currObj['num'] = newNum;
 
