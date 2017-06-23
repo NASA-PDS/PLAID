@@ -29,39 +29,39 @@
  * @param {number} priorIndex index of the step that was just completed
  * @param {string} stepType often corresponds to the title of the step
  */
-function storeProgress(priorIndex, stepType, splice){
+function storeProgress(priorIndex, stepType, splice) {
     priorIndex = priorIndex.toString();
     var currObj = {};
     var saveToProgressData = false;
     //form an object with data for the step that was just completed
-    switch (stepType.toLowerCase()){
+    switch (stepType.toLowerCase()) {
         case "product_type":
             storeProductType(priorIndex, currObj);
             var found = 0;
-            for(var i = 0; i < progressData.length && found == 0; i++) {
+            for (var i = 0; i < progressData.length && found == 0; i++) {
                 var currentStep = progressData[i];
-                if(currentStep['step'] == 'product_type') {
+                if (currentStep['step'] == 'product_type') {
                     // overwrite existing product_type always
                     progressData.splice(i, 1, currObj);
                     found = 1;
                 }
             }
-            if(found == 0) {
+            if (found == 0) {
                 progressData.push(currObj);
             }
             break;
         case "discipline_dictionaries":
             storeDisciplineNodes(priorIndex, currObj);
             var found = 0;
-            for(var i = 0; i < progressData.length && found == 0; i++) {
+            for (var i = 0; i < progressData.length && found == 0; i++) {
                 var currentStep = progressData[i];
-                if(currentStep['step'] == 'discipline_dictionaries') {
+                if (currentStep['step'] == 'discipline_dictionaries') {
                     // overwrite existing discipline_node always
                     progressData.splice(i, 1, currObj);
                     found = 1;
                 }
             }
-            if(found == 0) {
+            if (found == 0) {
                 progressData.push(currObj);
             }
             break;
@@ -76,22 +76,22 @@ function storeProgress(priorIndex, stepType, splice){
         default:
             storeOptionalNodes(priorIndex, currObj);
             var found = 0;
-            if(typeof currObj['step_path'] != 'undefined') {
+            if (typeof currObj['step_path'] != 'undefined') {
                 for (var i = 0; i < progressData.length && found == 0; i++) {
                     var currentStep = progressData[i];
-                    if (currentStep['step_path'] == currObj['step_path']) {
+                    if (currentStep['step_path'] == currObj['step_path'] && currentStep['iteration'] == currObj['iteration']) {
                         // overwrite optional node when it already exists
                         progressData.splice(i, 1, currObj);
                         found = 1;
                     }
                 }
             }
-            if(found == 0) {
+            if (found == 0) {
                 progressData.push(currObj);
             }
             break;
     }
- //determine whether this is a new step or updating an existing step.
+    //determine whether this is a new step or updating an existing step.
     //  Look at the stringified progress data first
     var stringifiedProgressData = JSON.stringify(progressData);
     //update the progress field in the database
@@ -110,7 +110,7 @@ function storeProgress(priorIndex, stepType, splice){
  * @param {string} priorIndex index of the step that was just completed
  * @param {Object} progressObj object containing the user's progress data
  */
-function storeProductType(priorIndex, progressObj){
+function storeProductType(priorIndex, progressObj) {
     progressObj['step'] = "product_type";
     progressObj['type'] = "button";
     progressObj['selection'] = $("#wizard-p-" + priorIndex + " button.active span").attr("data-id");
@@ -120,13 +120,13 @@ function storeProductType(priorIndex, progressObj){
  * @param {string} priorIndex index of the step that was just completed
  * @param {Object} progressObj object containing the user's progress data
  */
-function storeDisciplineNodes(priorIndex, progressObj){
+function storeDisciplineNodes(priorIndex, progressObj) {
     progressObj['step'] = "discipline_dictionaries";
     progressObj['type'] = "checkbox";
     progressObj['selection'] = [];
 
     var stepContent = $("#wizard-p-" + priorIndex);
-    $("input:checked", stepContent).each(function(){
+    $("input:checked", stepContent).each(function () {
         var dataId = $(this).siblings("span.discNode").attr("data-id");
         progressObj['selection'].push(dataId);
     });
@@ -138,24 +138,24 @@ function storeDisciplineNodes(priorIndex, progressObj){
  * @param {string} priorIndex index of the step that was just completed
  * @param {Object} progressObj object containing the user's progress data
  */
-function storeOptionalNodes(priorIndex, progressObj){
+function storeOptionalNodes(priorIndex, progressObj) {
     progressObj['step'] = "optional_nodes";
     progressObj['type'] = "element-bar";
     progressObj['selection'] = [];
-
     var stepContent = $("#wizard-p-" + priorIndex);
+    progressObj['iteration'] = $(".optional-section", stepContent).attr("iteration");
     progressObj['step_path'] = $(".optional-section", stepContent).attr("step_path");
     progressObj['namespace'] = $(".optional-section", stepContent).attr("namespace");
     progressObj['containsChoice'] = ($(".choice-field", stepContent).length > 0);
-    $(".element-bar", stepContent).each(function(){
+    $(".element-bar", stepContent).each(function () {
         var element = {
             id: $(this).attr('data-path'),
             num: $(".element-bar-counter", this).val(),
             val: ""
         };
-        if($(".element-bar-input", this).length != 0) {
+        if ($(".element-bar-input", this).length != 0) {
             element["val"] = $(".element-bar-input", this).val();
-        } else if($(".selectpicker", this).length != 0) {
+        } else if ($(".selectpicker", this).length != 0) {
             element["val"] = $(".selectpicker", this).val();
         }
         progressObj['selection'].push(element);
@@ -166,7 +166,7 @@ function storeOptionalNodes(priorIndex, progressObj){
  * @param {string} priorIndex index of the step that was just completed
  * @param {Object} progressObj object containing the user's progress data
  */
-function storeMissionSpecifics(priorIndex, progressObj){
+function storeMissionSpecifics(priorIndex, progressObj) {
     progressObj['step'] = "mission_specifics";
     progressObj['type'] = "button";
 
@@ -183,7 +183,7 @@ function storeMissionSpecifics(priorIndex, progressObj){
  * data, this function just writes that data out as a string-ified JSON to the db.
  * @param {Object} progressObj object containing the user's progress data
  */
-function storeBuilder(progressObj){
+function storeBuilder(progressObj) {
     progressObj['step'] = "builder";
     progressObj['type'] = "builder";
     progressObj['completed'] = true;
@@ -200,7 +200,7 @@ function storeBuilder(progressObj){
 /**
  * Traverse the progress data array and load the data for each step accordingly.
  */
-function loadAllProgress(){
+function loadAllProgress() {
     ///progressData.map(loadProgress);
     //  Allow steps that were entered out of order to be re-loaded successfully
     // Loop until all the items in the progressData array have been loaded into a step
@@ -219,8 +219,8 @@ function loadAllProgress(){
  * Load the progress for the current step using the specified object data.
  * @param {Object} stepObj progress data object for the given step
  */
-function loadProgress(stepObj){
-    switch(stepObj['step']){
+function loadProgress(stepObj) {
+    switch (stepObj['step']) {
         case 'product_type':
             isLoaded = loadProductType(stepObj);
             break;
@@ -244,7 +244,7 @@ function loadProgress(stepObj){
  * of the product type.
  * @param {Object} dataObj progress data object for the given step
  */
-function loadProductType(dataObj){
+function loadProductType(dataObj) {
     var select = $("section.current button span[data-id='" + dataObj['selection'] + "']");
     $(select).addClass("active");
     $(select).click();
@@ -258,31 +258,31 @@ function loadProductType(dataObj){
  * to load the progress by clicking the plus/minus buttons rather than directly inserting the value.
  * @param {Object} dataObj progress data object for the given step
  */
-function loadOptionalNode(dataObj){
+function loadOptionalNode(dataObj) {
     var stepContent = $("section.current");
     var noSaveData = false;
     var isLoaded = false;
     var current_step_path = $(".optional-section", stepContent).attr("step_path");
-    if(typeof dataObj['step_path'] != 'undefined' && typeof current_step_path != 'undefined') {
-        if(current_step_path != dataObj['step_path']) {
+    if (typeof dataObj['step_path'] != 'undefined' && typeof current_step_path != 'undefined') {
+        if (current_step_path != dataObj['step_path']) {
             var found = 0;
             // The current dataObj is not for the current step. Find the actual dataObj in progressData.
             // TODO - consider namespace collisions
-            for(var i = 0; i < progressData.length && found == 0; i++) {
-                if(typeof progressData[i]["step_path"] != 'undefined') {
-                    if(progressData[i]["step_path"] == current_step_path) {
+            for (var i = 0; i < progressData.length && found == 0; i++) {
+                if (typeof progressData[i]["step_path"] != 'undefined') {
+                    if (progressData[i]["step_path"] == current_step_path) {
                         dataObj = progressData[i];
                         found = 1;
                     }
                 }
             }
-            if(found == 0) {
+            if (found == 0) {
                 noSaveData = true;
                 $(".optional-section", stepContent).attr("no_save_data", "true");
             }
         }
     }
-    if(!noSaveData) {
+    if (!noSaveData) {
         isLoaded = true;
         for (var index in dataObj['selection']) {
             var currObj = dataObj['selection'][index];
@@ -325,18 +325,18 @@ function loadOptionalNode(dataObj){
  * @returns {string} modified jQuery selector
  */
 function prepJqId(id) {
-    return "[data-path='" + id.replace( /(:|\.|\[|\]|,|\/)/g, "\\$1" ) + "']";
+    return "[data-path='" + id.replace(/(:|\.|\[|\]|,|\/)/g, "\\$1") + "']";
 }
 /**
  * Using the data stored in the progress object, check the boxes that the user
  * selected on the Discipline Nodes step.
  * @param {Object} dataObj progress data object for the given step
  */
-function loadDisciplineNodes(dataObj){
+function loadDisciplineNodes(dataObj) {
     var stepContent = $("section.current");
-    dataObj['selection'].map(function(element){
-       var node = $("span.discNode[data-id='" + element + "']", stepContent);
-       $(node).siblings("input").prop('checked', true);
+    dataObj['selection'].map(function (element) {
+        var node = $("span.discNode[data-id='" + element + "']", stepContent);
+        $(node).siblings("input").prop('checked', true);
     });
     $("#wizard").steps("next");
     return true;
@@ -368,45 +368,45 @@ function loadBuilder() {
  * @param {object} dataObj the progressData at the current step
  * @returns {boolean}
  */
-function areDifferentDisciplineNodes(dataObj){
+function areDifferentDisciplineNodes(dataObj) {
     var stepContent = $("section.current");
-  //  if ($('input:checked', stepContent).length !== dataObj['selection'].length) {
+    //  if ($('input:checked', stepContent).length !== dataObj['selection'].length) {
     //    areDifferent = true;
     //} else
     var nodesToRemove = [];
     var namespacesToRemove = [];
-    dataObj['selection'].map(function(element) {
+    dataObj['selection'].map(function (element) {
         var node = $("span.discNode[data-id='" + element + "']", stepContent);
         if (!$(node).siblings("input").prop('checked')) {
             // a Discipline dictionary was removed. Need to remove all children of that dictionary
             namespacesToRemove.push($(node).attr("ns"));
-          $.each(progressData, function(key, value){
-                if(typeof value.namespace != 'undefined'){
-                    if(value.namespace == $(node).attr("ns")) {
+            $.each(progressData, function (key, value) {
+                if (typeof value.namespace != 'undefined') {
+                    if (value.namespace == $(node).attr("ns")) {
                         nodesToRemove.push(value);
                     }
                 }
-          });
+            });
         }
     });
 
     nodesToRemove.reverse();
 
-    $.each(nodesToRemove, function(key, value) {
+    $.each(nodesToRemove, function (key, value) {
         // Lookup location in wizardData
         var found = 0;
         // check if it's a discipline node starting page
-        if(typeof value.step_path == 'undefined' && typeof value.namespace != 'undefined') {
+        if (typeof value.step_path == 'undefined' && typeof value.namespace != 'undefined') {
             // determine wizardData step path
             var dictKeys = Object.keys(g_dictInfo);
-            for(var i = 0; i < dictKeys.length; i++) {
+            for (var i = 0; i < dictKeys.length; i++) {
                 var key = dictKeys[i];
                 var dict = g_dictInfo[key];
-                if(key == value.namespace) {
+                if (key == value.namespace) {
                     // The code below removes inital step of the namespace being removed
                     var searchPath = "plaid_discipline_node:" + dict.name;
-                    $.each(wizardData.stepPaths, function(wizkey, wizvalue) {
-                        if(wizvalue == searchPath) {
+                    $.each(wizardData.stepPaths, function (wizkey, wizvalue) {
+                        if (wizvalue == searchPath) {
                             found = 1;
                             var offset = getStepOffset(wizkey); // there is an offset between the steps in the wizard and stepPaths
                             $("#wizard").steps('remove', Number(wizkey) + offset);
@@ -418,10 +418,10 @@ function areDifferentDisciplineNodes(dataObj){
                 }
             }
         }
-        if(found == 0) {
+        if (found == 0) {
             // the code below removes all children steps of the root of that namepsace
-            $.each(wizardData.stepPaths, function(wizkey, wizvalue) {
-                if(wizvalue == value.step_path) {
+            $.each(wizardData.stepPaths, function (wizkey, wizvalue) {
+                if (wizvalue == value.step_path) {
                     found = 1;
                     var offset = getStepOffset(wizkey); // there is an offset between the steps in the wizard and stepPaths
                     $("#wizard").steps('remove', Number(wizkey) + offset);
@@ -443,12 +443,12 @@ function areDifferentDisciplineNodes(dataObj){
                 }
             });
         }
-        if(found == 0) {
-            console.log("could not find wizardSteps removal index for:" );
+        if (found == 0) {
+            console.log("could not find wizardSteps removal index for:");
             console.log(value);
         } else {
             // last step - remove the root discipline node
-            for(var i = 0; i < namespacesToRemove.length; i++) {
+            for (var i = 0; i < namespacesToRemove.length; i++) {
                 backendCall("php/xml_mutator.php",
                     "removeClass",
                     {path: "0", ns: namespacesToRemove[i]},
@@ -472,29 +472,30 @@ function areDifferentDisciplineNodes(dataObj){
  * @param {object} dataObj the progressData at the current step
  * @returns {boolean}
  */
-function areDifferentOptionalNodes(dataObj){
+function areDifferentOptionalNodes(dataObj) {
     var stepContent = $("section.current");
+    var parentIteration = $(".optional-section", stepContent).attr("iteration");
     // verify current dataObj is correct
-    if($(".optional-section", stepContent).attr("step_path") != dataObj["step_path"]) {
+    if ($(".optional-section", stepContent).attr("step_path") != dataObj["step_path"]) {
         // find the right dataObj
         var found = false;
-        for(var i = 0; i < progressData.length && !found; i++) {
+        for (var i = 0; i < progressData.length && !found; i++) {
             //  IF the progressData path = the current step's path
             ///if(progressData[i]["step_path"] == dataObj["step_path"] && typeof progressData[i]["step_path"] != 'undefined') {
-            if(progressData[i]["step_path"] == $(".optional-section", stepContent).attr("step_path") && typeof progressData[i]["step_path"] != 'undefined') {
+            if (progressData[i]["step_path"] == $(".optional-section", stepContent).attr("step_path") && typeof progressData[i]["step_path"] != 'undefined' && progressData[i]["iteration"] == parentIteration) {
                 dataObj = progressData[i];
                 found = true;
             }
         }
-        if(!found) {
+        if (!found) {
             // this element hasn't been set in the first place.
             return;
         }
     }
-    for (var index in dataObj['selection']){
+    for (var index in dataObj['selection']) {
         var currObj = dataObj['selection'][index];
         var elementBar = $(prepJqId(currObj['id']), stepContent);
-        if(elementBar.length == 0) {
+        if (elementBar.length == 0) {
             console.log("Current progressData Obj does not match current step");
             console.log($(".optional-section", stepContent).attr("step_path"));
             console.log(dataObj["step_path"]);
@@ -503,9 +504,9 @@ function areDifferentOptionalNodes(dataObj){
         var newVal = "";
 
 
-        if($(".element-bar-input", elementBar).length != 0) {
+        if ($(".element-bar-input", elementBar).length != 0) {
             newVal = $(".element-bar-input", elementBar).val();
-        } else if($(".selectpicker", elementBar).length != 0) {
+        } else if ($(".selectpicker", elementBar).length != 0) {
             newVal = $(".selectpicker", elementBar).val();
         }
         var pathToUse = currObj['id'];
@@ -514,92 +515,67 @@ function areDifferentOptionalNodes(dataObj){
         }
 
         if (newNum < currObj['num']) {
-        console.log("something was removed from " + currObj.id);
-            if (newNum != 0) {
-                // An element was removed, but not entirely. Keep the step in the tool, but remove some of it from the label
-                var num_to_remove = currObj['num'] - newNum;
-                backendCall("php/xml_mutator.php",
-                    "removeClass",
-                    {path: pathToUse, ns: "", number_to_remove: num_to_remove},
-                    function (data) {});
-                currObj['num'] = newNum;
+            console.log("something was removed from " + currObj.id);
 
-            } else {
-                // An element has been removed
-                // TODO - there's an issue with how the index of a class to remove is looked up. elements can be added
-                // before an already added element, so the index is off. Best solution - iterate through the steps and find
-                // element to remove manually.
-                $(elementBar).removeClass("stepAdded");
-                var stepIndexesToRemove = [];
-                if (wizardData.stepPaths.indexOf(currObj.id) != -1) {
-                    // This is a class (potentially more than 1) and we need to remove it from the set of steps
-                    // find all child steps as well - everything must go
-                    $.each(wizardData.stepPaths, function (key, value) {
-                        if (value.startsWith(currObj.id)) {
-                            stepIndexesToRemove.push(key);
+            //$(elementBar).removeClass("stepAdded");
+            var stepIndexesToRemove = [];
+            var numberToRemove = currObj['num'] - newNum;
+            for(var i = 0; i < wizardData.stepPaths.length; i++) {
+                if(wizardData.stepPaths[i].replace(/\[.*?\]/g, "").startsWith(currObj.id))  { // strip brackets, compare saves steps to current
+                    // There's a match - need to gather all children elements of this.
+                    if(stepIndexesToRemove.length < numberToRemove) {
+                        stepIndexesToRemove.push(i);
+                        backendCall("php/xml_mutator.php",
+                            "removeAllChildNodes",
+                            {path: wizardData.stepPaths[i], ns: g_jsonData.namespaces[g_state.nsIndex]},
+                            function (data) {
+                            });
+                        backendCall("php/xml_mutator.php",
+                            "removeClass",
+                            {path: wizardData.stepPaths[i], ns: g_jsonData.namespaces[g_state.nsIndex]},
+                            function (data) {
+                            });
+                        for(var k = i+1; k < wizardData.stepPaths.length; k++) {
+                            // note the check below does not strip brackets - we only want to remove children
+                            // that are specific to this parent element, which is specified by the brackets in currObj.id
+                            if(wizardData.stepPaths[k].startsWith(wizardData.stepPaths[i])) {
+                                stepIndexesToRemove.push(k);
+                            }
                         }
-                    });
-
-                    // find additional steps
-                    // Currently, this doesn't actually do anything.
-                    // If a user adds multiple classes, multiple steps DO NOT get added
-                    // TODO - do we want when a users adds multiple of the same class to have multiple steps in the tool?
-
-                    /*
-                     stepIndexesToRemove.push(wizardData.stepPaths.indexOf(currObj.id));
-
-                     var removed = 1;
-                     var search = wizardData.stepPaths.indexOf(currObj.id);
-                     while(search != -1 && removed < stepsToRemove) {
-                     search = wizardData.stepPaths.indexOf(currObj.id, search+1);
-                     if(search != -1) {
-                     stepIndexesToRemove.push(wizardData.stepPaths.indexOf(currObj.id, search));
-                     removed++;
-                     }
-                     }
-                     */
-
-
-                }
-                stepIndexesToRemove.reverse();
-
-                console.log("step indexes to remove:");
-                console.log(stepIndexesToRemove);
-                console.log("from");
-                console.log(wizardData.stepPaths);
-
-                $.each(stepIndexesToRemove, function (key, value) {
-                    var offset = getStepOffset(value); // there is an offset between the steps in the wizard and stepPaths
-                    $("#wizard").steps('remove', Number(value) + offset);
-                    wizardData.stepPaths.splice(value, 1);         // aren't tracked in wizardData
-                    wizardData.mainSteps.splice(value, 1);
-                    progressData.splice(value + offset, 1);
-                });
-
-
-
-                currObj['num'] = newNum;
-
-                $.ajax({
-                    type: "post",
-                    url: "php/interact_db.php",
-                    data: {
-                        function: "storeProgressData",
-                        progressJson: JSON.stringify(progressData)
                     }
-                });
+                }
 
-                backendCall("php/xml_mutator.php",
-                    "removeAllChildNodes",
-                    {path: pathToUse, ns: g_jsonData.namespaces[g_state.nsIndex]},
-                    function (data) {
-                    });
-                backendCall("php/xml_mutator.php",
-                    "removeClass",
-                    {path: pathToUse, ns: g_jsonData.namespaces[g_state.nsIndex]},
-                    function (data) {
-                    });
             }
+
+            stepIndexesToRemove.reverse();
+
+            console.log("step indexes to remove:");
+            console.log(stepIndexesToRemove);
+            console.log("from");
+            console.log(wizardData.stepPaths);
+
+            $.each(stepIndexesToRemove, function (key, value) {
+                var offset = getStepOffset(value); // there is an offset between the steps in the wizard and stepPaths
+                $("#wizard").steps('remove', Number(value) + offset);
+                wizardData.stepPaths.splice(value, 1);         // aren't tracked in wizardData
+                wizardData.mainSteps.splice(value, 1);
+                progressData.splice(value + offset, 1);
+            });
+
+
+            currObj['num'] = newNum;
+
+            $.ajax({
+                type: "post",
+                url: "php/interact_db.php",
+                data: {
+                    function: "storeProgressData",
+                    progressJson: JSON.stringify(progressData)
+                }
+            });
+
+
+
         } else if (newNum > currObj['num'] && currObj['num'] != 0) {
             // Some amount of element was added. Usually this would trigger a new step, but in this case, that step
             // has already been added, so we just want to add aditional elements. We check to make sure
@@ -617,17 +593,30 @@ function areDifferentOptionalNodes(dataObj){
 
             backendCall("php/xml_mutator.php",
                 "addNode",
-                {path: pathToUse, quantity: newNum, value: newVal, ns: g_jsonData.namespaces[g_state.nsIndex]},
-                function(data){});
+                {
+                    path: pathToUse,
+                    quantity: newNum,
+                    value: newVal,
+                    ns: g_jsonData.namespaces[g_state.nsIndex],
+                },
+                function (data) {
+                });
 
         } else {
             // No elements were added or removed... but did any of the actual values change?
-            if(currObj['val'] != newVal) {
+            if (currObj['val'] != newVal) {
                 // Update value
                 backendCall("php/xml_mutator.php",
                     "addNode",
-                    {path: pathToUse, quantity: newNum, value: newVal, ns: g_jsonData.namespaces[g_state.nsIndex], value_only: "true"},
-                    function(data){});
+                    {
+                        path: pathToUse,
+                        quantity: newNum,
+                        value: newVal,
+                        ns: g_jsonData.namespaces[g_state.nsIndex],
+                        value_only: "true",
+                    },
+                    function (data) {
+                    });
             }
         }
     }
@@ -639,10 +628,10 @@ function areDifferentOptionalNodes(dataObj){
  * @param {object} dataObj - The progressData at the current step
  * @returns {boolean}
  */
-function areDifferentMissionSpecifics(dataObj){
+function areDifferentMissionSpecifics(dataObj) {
     var stepContent = $("section.current");
     var selection = $("button.active", stepContent);
-    if (!$(selection).hasClass(dataObj['selection'])){
+    if (!$(selection).hasClass(dataObj['selection'])) {
         missionSpecifics = [];
         storeBuilder({});
         return true;
