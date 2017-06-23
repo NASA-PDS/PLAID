@@ -515,7 +515,17 @@ function areDifferentOptionalNodes(dataObj) {
         }
 
         if (newNum < currObj['num']) {
-            console.log("something was removed from " + currObj.id);
+           console.log("something was removed from " + currObj.id);
+          /* 
+            if (newNum != 0) {
+                // An element was removed, but not entirely. Keep the step in the tool, but remove some of it from the label
+                var num_to_remove = currObj['num'] - newNum;
+                backendCall("php/xml_mutator.php",
+                    "removeClass",
+                    {path: pathToUse, ns: "", number_to_remove: num_to_remove, value: newVal},
+                    function (data) {});
+                currObj['num'] = newNum;
+              */
 
             //$(elementBar).removeClass("stepAdded");
             var stepIndexesToRemove = [];
