@@ -344,6 +344,8 @@ function assignObjectPath(startingIndex, currObject, children){
  * @returns {g_jsonData.refObj|{}}
  */
 function getObjectFromPath(path, refObj){
+
+    path = path.replace(/\[.*?\]/g, ""); // remove brackets for lookup
     var elementKeys = path.split("/");
     
     var objectPointer;
