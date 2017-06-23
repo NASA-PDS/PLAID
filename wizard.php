@@ -95,41 +95,41 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             </button>
                         </td>
                     </tr>
-                    <tr class="label-item">
-                        <td>
-                            <button class="list-group-item">
-                                <i class="fa fa-file-o fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Document">Document</span>
-                            </button>
-                        </td>
-                    </tr>
                     <!--
-                    <tr class="label-item">
-                        <td>
-                            <button class="list-group-item disabled" disabled>
-                                <i class="fa fa-list fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Context">Context</span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="label-item">
-                        <td>
-                            <button class="list-group-item disabled" disabled>
-                                <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_File_Text">File Text</span>
-                            </button>
-                        </td>
-                    </tr>
+<tr class="label-item">
+    <td>
+        <button class="list-group-item">
+            <i class="fa fa-file-o fa-fw" aria-hidden="true"></i>
+            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Document">Document</span>
+        </button>
+    </td>
+</tr>
+<tr class="label-item">
+    <td>
+        <button class="list-group-item disabled" disabled>
+            <i class="fa fa-list fa-fw" aria-hidden="true"></i>
+            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Context">Context</span>
+        </button>
+    </td>
+</tr>
+<tr class="label-item">
+    <td>
+        <button class="list-group-item disabled" disabled>
+            <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_File_Text">File Text</span>
+        </button>
+    </td>
+</tr>
 
-                    <tr class="label-item">
-                        <td>
-                            <button class="list-group-item disabled" disabled>
-                                <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Thumbnail">Thumbnail</span>
-                            </button>
-                        </td>
-                    </tr>
-                    -->
+<tr class="label-item">
+    <td>
+        <button class="list-group-item disabled" disabled>
+            <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
+            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Thumbnail">Thumbnail</span>
+        </button>
+    </td>
+</tr>
+-->
                 </table>
             </section>
 
@@ -144,7 +144,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                                     <input type="checkbox">
                                     <span class="spacer"></span>
                                     <i class="fa fa-map fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="0001_NASA_PDS_1.cart.Cartography">Cartography</span>
+                                    <span class="discNode" ns="cart" data-id="0001_NASA_PDS_1.cart.Cartography" step_path="plaid_discipline_node:cartography">Cartography</span>
                                 </div>
                             </td>
                         </tr>
@@ -154,7 +154,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                                     <input type="checkbox">
                                     <span class="spacer"></span>
                                     <i class="fa fa-desktop fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="0001_NASA_PDS_1.disp.Display">Display</span>
+                                    <span class="discNode" ns="disp" data-id="0001_NASA_PDS_1.disp.Display" step_path="plaid_discipline_node:display">Display</span>
                                 </div>
                             </td>
                         </tr>
@@ -164,7 +164,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                                     <input type="checkbox">
                                     <span class="spacer"></span>
                                     <i class="fa fa-space-shuttle fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="0001_NASA_PDS_1.geom.Geometry">Geometry</span>
+                                    <span class="discNode" ns="geom" data-id="0001_NASA_PDS_1.geom.Geometry" step_path="plaid_discipline_node:geometry">Geometry</span>
                                 </div>
                             </td>
                         </tr>
@@ -174,7 +174,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                                     <input type="checkbox">
                                     <span class="spacer"></span>
                                     <i class="fa fa-image fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="0001_NASA_PDS_1.img.Imaging">Imaging</span>
+                                    <span class="discNode" ns="img" data-id="0001_NASA_PDS_1.img.Imaging" step_path="plaid_discipline_node:imaging">Imaging</span>
                                 </div>
                             </td>
                         </tr>
@@ -184,17 +184,17 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                                     <input type="checkbox" disabled>
                                     <span class="spacer"></span>
                                     <i class="fa fa-sun-o fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="">Plasma Particle</span>
+                                    <span class="discNode" ns="ppi" data-id="">Plasma Particle</span>
                                 </div>
                             </td>
                         </tr>
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox">
+                                    <input type="checkbox" disabled>
                                     <span class="spacer"></span>
                                     <i class="fa fa-circle fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="0001_NASA_PDS_1.rings.Rings">Ring-Moon Systems</span>
+                                    <span class="discNode" ns="rings" data-id="0001_NASA_PDS_1.rings.Rings" step_path="plaid_discipline_node:rings">Ring-Moon Systems</span>
                                 </div>
                             </td>
                         </tr>
@@ -262,20 +262,25 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
             <h3>Export</h3>
             <section id="export">
                 <div id="finalPreview"></div>
-                <form id="exportForm" onsubmit="return checkFilename();" class="form-inline" action="php/export_template.php" method="post">
+                <div class="exportForm">
                         <span class="spacer"></span>
-                        <div class="input-group">
-                            <div class="input-group-addon">Filename:</div>
-                            <input id="exportInput" class="form-control" name="filename" type="text" placeholder="label_template.xml">
+                        <div class="input-group" role="group">
+                            <span class="input-group-addon" style="width:auto !important;">Filename:</span>
+
+                                <input id="exportInput" class="form-control" name="filename" type="text" placeholder="label_template.xml">
+                            <span class="input-group-btn">
+                                <button id="exportButton" class="btn btn-warning" type="submit">Export</button>
+                            </span>
+                            <span class="input-group-btn">
+                            <button id="submitButton" class="btn btn-primary">Submit to PDS for review</button>
+                            </span>
                         </div>
 
                         <span class="spacer"></span>
 
-                        <button id="exportButton" class="btn btn-warning" type="submit">Export</button>
-                    <button id="submitButton" class="btn btn-primary">Submit to PDS for review</button>
-                </form>
 
 
+                </div>
             </section>
         </div>
         <div id="sidebar">

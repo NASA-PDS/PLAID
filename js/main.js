@@ -60,7 +60,9 @@ $(document).ready(function() {
         $("#wizard").steps("next");
     });
     $(".labelPreviewButton").click(function(){
-        backendCall("php/preview_template.php", null, {}, function(data){
+        backendCall("php/preview_template.php", null, {
+            namespaces: g_jsonData.namespaces
+        }, function(data){
             var wrapperDiv = document.createElement("textarea");
             wrapperDiv.className = "preview popup";
             wrapperDiv.textContent = data;
@@ -158,6 +160,12 @@ function captureSelection(){
 
     // g_jsonData.searchObj = g_jsonData.pds4Obj;
     // getElementFromDict(g_jsonData.searchObj, "product", "classDictionary", selection);
+    //  Store the selected Data Dictionary Node Name & Identifier
+    //  You'll need them if the user goes to another data dictionary like cartography,
+    //  and then comes back to a step that uses this one.
+    //  Place the two pieces of info into a struct
+    var dataDictNodeInfo = {nodeName: "pds", identifier: selection};
+    g_jsonData.dataDictNodeInfo.splice(g_state.nsIndex, 0, dataDictNodeInfo);
     setDisciplineDict("pds", selection);
     g_dictInfo["pds"]["base_class"] = selection;
     insertStep($("#wizard"), wizardData.currentStep+1, g_jsonData.refObj);
@@ -311,6 +319,7 @@ function checkFilename(){
         alert("Please use .xml extenion. For example: filename.xml");
         return false;
     }
+    return true;
 }
 /**
  * Determine whether or not the user is transitioning to the final step in the wizard.
@@ -319,29 +328,46 @@ function checkFilename(){
  */
 function handleExportStep(newIndex){
     var nextSection = $("#wizard-p-" + newIndex.toString());
-    var isExportStep = $(nextSection).find("form#exportForm").length > 0;
+    var isExportStep = $(nextSection).find(".exportForm").length > 0;
     var hasNoPreview = !$(nextSection).find(".finalPreview").length > 0;
-    if (isExportStep && hasNoPreview){
-        backendCall("php/xml_mutator.php",
-            "addRootAttrs",
-            {namespaces: g_jsonData.namespaces},
-            function(data){});
-        backendCall("php/xml_mutator.php",
-            "formatDoc",
-            {},
-            function(data){});
-        var preview = generateFinalPreview();
-        $("#finalPreview", nextSection).append(preview[0]);
-        var codemirror_editor = CodeMirror.fromTextArea(preview[1], {
-            mode: "xml",
-            lineNumbers: true,
-            foldGutter: true,
-            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
-        });
-        $(".CodeMirror").css("height", "93%");
-        setTimeout(function() {
-            codemirror_editor.refresh();
-        }, 100);
+    if (isExportStep){
+        if(hasNoPreview) {
+            /*
+             backendCall("php/xml_mutator.php",
+             "addRootAttrs",
+             {namespaces: g_jsonData.namespaces},
+             function(data){});
+
+             backendCall("php/xml_mutator.php",
+             "formatDoc",
+             {},
+             function(data){}); */
+            var preview = generateFinalPreview(g_jsonData.namespaces);
+            $("#finalPreview", nextSection).append(preview[0]);
+            var codemirror_editor = CodeMirror.fromTextArea(preview[1], {
+                mode: "xml",
+                lineNumbers: true,
+                foldGutter: true,
+                gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+            });
+            $(".CodeMirror").css("height", "93%");
+            setTimeout(function () {
+                codemirror_editor.refresh();
+            }, 100);
+        } else {
+            // regenerate preview
+            backendCall("php/preview_template.php", null, {
+                namespaces: g_jsonData.namespaces
+            }, function(data){
+                $.each($(".CodeMirror"), function(key, mirror) {
+                    mirror.CodeMirror.setValue(data);
+                    setTimeout(function() {
+                        mirror.CodeMirror.refresh();
+                    },1);
+                });
+            });
+
+        }
     }
 }
 /**
@@ -349,7 +375,7 @@ function handleExportStep(newIndex){
  * to the backend to read the contents of the label template file.
  * @returns {Element}
  */
-function generateFinalPreview() {
+function generateFinalPreview(namespaces) {
     var previewContainer = document.createElement("div");
     previewContainer.className = "finalPreview previewContainer";
 
@@ -365,7 +391,9 @@ function generateFinalPreview() {
     cardBlock.className = "";
     card.appendChild(cardBlock);
 
-    backendCall("php/preview_template.php", null, {}, function(data){
+    backendCall("php/preview_template.php", null, {
+        namespaces: namespaces
+    }, function(data){
         $(cardBlock).text(data);
     });
 
@@ -419,7 +447,7 @@ function getStepOffset(insertion_index) {
     for(var t = 0; t < wizardData.stepPaths.length && done == 0; t++) {
         var value = wizardData.stepPaths[t];
         if(value.indexOf("plaid_discipline_node:") != -1) {
-            if(insertion_index > t) { // inserting an element past the discipline node section..
+            if(insertion_index >= t) { // inserting an element past the discipline node section..
                 offset = offset + 1;
                 done = 1;
             }
@@ -447,6 +475,13 @@ function getParameterByName(name, url) {
  * Static click handlers are setup here.
  */
 function setupClickHandlers() {
+    $("#exportButton").on("click", function(event) {
+        if(checkFilename()) {
+            var label = $(".CodeMirror", "#finalPreview")[0].CodeMirror.getValue();
+            download(label, $("#exportInput").val(), "text/xml");
+        }
+    });
+
     $("#submitButton").on("click", function(event) {
         event.preventDefault();
         var label = $(".CodeMirror", "#finalPreview")[0].CodeMirror.getValue();
@@ -489,7 +524,8 @@ function setupClickHandlers() {
                     pds_node: $("#pds_node_select").val(),
                     pds_node_rep_name: node_contact_info[$("#pds_node_select").val()]["name"],
                     pds_node_email: node_contact_info[$("#pds_node_select").val()]["email"],
-                    comments: $("#comments").val()
+                    comments: $("#comments").val(),
+                    namespaces: g_jsonData.namespaces
                 }
             }).done(function(data) {
 
