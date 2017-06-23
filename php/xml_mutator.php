@@ -70,7 +70,7 @@ function addNode($args){
     $nodePath = $args["path"];
     $quantity = $args["quantity"];
     $ns = $args["ns"];
-    list($nodeName, $nodePath) = handlePath($nodePath, $ns, isset($args["root_discipline_node"]));
+    list($nodeName, $nodePath) = handlePath($nodePath, $ns, isset($args["root_discipline_node"]), false);
 
 
     if (isNonDefaultNamespace($ns)){
@@ -80,17 +80,21 @@ function addNode($args){
     $nodes = getNode($nodePath, $ns);
     print $nodePath;
     print $nodeName;
-
+    print $nodes->length;
 
     // Only change the node(s) value below
     if(isset($args["value_only"])) {
         foreach($nodes as $parent_node) {
             if ($parent_node->hasChildNodes()) {
-                if ($parent_node->childNodes->length > 1) {
+                //  The updated value will now be set even if there is only 1 attribute w/ a non-zero quantity on the page
+                ///if ($parent_node->childNodes->length > 1) {
+                if ($parent_node->childNodes->length >= 1) {
                     foreach ($parent_node->childNodes as $child_node) {
                         if ($child_node->nodeName == $nodeName) {
-                            $child_node->nodeValue = $args["value"];
-
+                            //  Update the text value of this node
+                            //  Setting the nodeValue attribute wipes out the child nodes of this node
+                            ///$child_node->nodeValue = $args["value"];
+                            updateNodeValue($child_node, $args["value"]);
                         }
                     }
                 }
@@ -108,7 +112,7 @@ function addNode($args){
         if(count($root_discipline_node) == 1) {
             $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $root_discipline_node[0]);
             $discipline_area = getNode("Observation_Area/Discipline_Area", "");
-            $discipline_area = $discipline_area[0];
+            $discipline_area = $discipline_area->item(0);
             $discipline_area->appendChild($newNode);
             $nodes = getNode($nodePath, $ns);
         }
@@ -120,9 +124,11 @@ function addNode($args){
         http_response_code(500); // Couldn't find parent node
     }
 
-
     foreach($nodes as $parent_node){
-
+        if($parent_node == null) {
+            echo "Parent node is null";
+            return;
+        }
         // Check parent node children to see if the node we're going to add is already there -
         // In this case we want to insert the new node before the node of the same name, to maintain
         // order. Also, we want to duplicate that node's children, if it has any.
@@ -130,17 +136,24 @@ function addNode($args){
         $node_has_children = false;
         $total_instances_of_node = 0;
         if($parent_node->hasChildNodes()) {
-            if($parent_node->childNodes->length > 1) {
+            if($parent_node->childNodes->length >= 1) {
                 foreach ($parent_node->childNodes as $child_node)  {
+                    var_dump($child_node->nodeName);
+                    var_dump($nodeName);
+
                     if($child_node->nodeName == $nodeName) {
                         $total_instances_of_node++;
                         $node_to_insert_before = $child_node;
                         $node_has_children = $node_to_insert_before->hasChildNodes();
+                        //  Update the text value of this node
+                        //  Setting the nodeValue attribute wipes out the child nodes of this node
+                        ///$child_node->nodeValue = $args["value"];
+                        updateNodeValue($child_node, $args["value"]);
                     }
                 }
             }
         }
-
+        print "\ntotal instances of node $total_instances_of_node\n";
         for ($x = $total_instances_of_node; $x < $quantity; $x++){
             if (isNonDefaultNamespace($ns)) {
                 $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $nodeName);
@@ -154,11 +167,12 @@ function addNode($args){
            if(is_null($node_to_insert_before)) {
                 $parent_node->appendChild($newNode);
 
-                // SOMETHING WRONG WITH CODE BELOW - used to clon an already added class when more are added later
+                // SOMETHING WRONG WITH CODE BELOW - used to clone an already added class when more are added later
 
            } else {
                 if($node_has_children) {
-                    $parent_node->insertBefore($node_to_insert_before->cloneNode(true), $node_to_insert_before);
+                    $node_cloned = $node_to_insert_before->cloneNode(true);
+                    $parent_node->insertBefore($node_cloned, $node_to_insert_before);
                 } else {
                     $parent_node->insertBefore($newNode, $node_to_insert_before);
                 }
@@ -181,6 +195,30 @@ function addNodeValue($node, $value){
         $node->appendChild($valNode);
     }
 }
+
+/**
+ * Update the given node's text value.
+ * If a value is included, add it to the specified node.
+ * @param {DOMNode} $node to add the value to
+ * @param {string} $value to set into the node
+ */
+function updateNodeValue($node, $value){
+    global $DOC;
+    $found = false;
+    foreach ($node->childNodes as $child_node) {
+        //  IF child node is a Text node
+        if ($child_node->nodeName === "#text") {
+            $child_node->nodeValue = $value;
+            $found = true;
+            break;
+        }
+    }
+    //  IF No Text node found
+    if (! $found) {
+        addNodeValue($node, $value);
+    }
+}
+
 /**
  * Add custom nodes from the mission specifics JSON passed in from the front-end.
  * Note: only handles adding custom nodes within the Mission_Area node of the document.
@@ -191,9 +229,17 @@ function addCustomNodes($args){
     $data = $args["json"];
     $path = "Observation_Area/Mission_Area";
     $parentNode = getNode($path, "")->item(0);
+
+    //  Remove all of the child nodes that are already in the parent node
+    while ($parentNode->firstChild) {
+        $parentNode->removeChild($parentNode->firstChild);
+    }
+
     foreach ($data as $node){
         addNodeWithComment($parentNode, $node["name"], $node["description"]);
-        if ($node["isGroup"]){
+        //  The isGroup boolean has been JSON stringified
+        ///if ($node["isGroup"]){
+        if ($node["isGroup"] == "true"){
             foreach ($node["children"] as $child){
                 $groupNode = getNode($path."/".$node["name"], "")->item(0);
                 addNodeWithComment($groupNode, $child["name"], $child["description"]);
@@ -240,8 +286,12 @@ function removeClass($args){
     global $DOC;
     $ns = $args["ns"];
 
-    list($nodeName, $parentPath) = handlePath($args["path"], $ns);
-    $nodes = getNode($parentPath."/".$nodeName, $ns);
+    list($nodeName, $parentPath) = handlePath($args["path"], $ns, false, true);
+    $getNodePath = $parentPath;
+    if($nodeName != null) {
+        $getNodePath = $getNodePath."/".$nodeName;
+    }
+    $nodes = getNode($getNodePath, $ns);
 
     $n_to_remove = $args["number_to_remove"];
     if(!isset($args["number_to_remove"])) {
@@ -249,15 +299,21 @@ function removeClass($args){
             $node->parentNode->removeChild($node);
         }
     } else {
-        for($i = 0; $i < $n_to_remove && $i < $nodes->length; $i++) {
+        //  For each node with the given node path
+        for($i = 0; $i < $nodes->length; $i++) {
             $node = $nodes->item($i);
-            $node->parentNode->removeChild($node);
+            //  Update the text value of this node
+            updateNodeValue($node, $args["value"]);
+            //  IF the node should be removed
+            if ($i < $n_to_remove) {
+                //  Remove the node
+                $node->parentNode->removeChild($node);
+            }
         }
     }
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
 }
-
 
 /**
  * Clear out all child nodes of the target to prepare for adding in new children.
@@ -266,7 +322,7 @@ function removeClass($args){
 function removeAllChildNodes($args){
     global $DOC;
     $ns = $args["ns"];
-    list($nodeName, $parentPath) = handlePath($args["path"], $ns);
+    list($nodeName, $parentPath) = handlePath($args["path"], $ns, false, true);
     $nodes = getNode($parentPath."/".$nodeName, $ns);
     foreach ($nodes as $node){
         while ($node->hasChildNodes()){
@@ -286,14 +342,20 @@ function removeAllChildNodes($args){
  * used on the front-end to the structure of the XML document.
  * @param {string} $path path to the node (in front-end structure)
  * @param {string} $ns namespace for the node (or empty if default namespace)
+ * @param {string} $is_discipline_root set to true when addding the root node of a discipline dictionary
+ * @param {string} $removing_node set to true when the path will be used to remove node(s)
  * @return array name of the node and the path to its parent (in backend structure)
  */
-function handlePath($path, $ns, $is_discpline_root){
+function handlePath($path, $ns, $is_discpline_root, $removing_node){
     $arr = explode("/", $path);
     //have to call array_values to reset indices of the array after filtering
     $filtArr = array_values(array_filter($arr, isNaN));
     $nodeName = array_pop($filtArr);
     if (isNonDefaultNamespace($ns)){
+        if($removing_node && $nodeName != "") {
+            // need namepsace prepended when looking up node
+            $nodeName = $ns . ":" . $nodeName;
+        }
         for ($i = 0; $i < count($filtArr); $i++){
             if (!empty($filtArr[$i]))
                 $filtArr[$i] = $ns.":".$filtArr[$i];

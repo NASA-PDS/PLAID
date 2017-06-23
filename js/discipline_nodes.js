@@ -59,12 +59,12 @@ function discNodesSelection(currentIndex){
             wizardData.mainSteps.push(nodeName);
 
             wizardData.stepPaths.push("plaid_discipline_node:" + nodeName);
-
             setDisciplineDict(nodeName, nodeId);
+
 
             // Add this discipline node as a step. We go in reverse order because we basically add
             // each node step right after the current step
-            insertStep($("#wizard"), wizardData.currentStep+1, g_jsonData.refObj);
+            insertStep($("#wizard"), wizardData.currentStep+1, g_jsonData.refObj, span.attr("ns"));
 
             $(this).addClass("stepAdded");
         });
