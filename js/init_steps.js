@@ -187,6 +187,7 @@ function handleStepAddition(currentIndex, newIndex){
     var currSection = $("#wizard-p-" + currentIndex.toString());
     var hasRun = false;
     if ($(".optional-section", currSection).length > 0){
+        var parentObj = $(".optional-section", currSection);
         $(".element-bar", currSection).each(function(barIndex, value){
             if(!$(this).hasClass("stepAdded")) {
                 var val = $(".element-bar-counter", this).val();
@@ -198,6 +199,12 @@ function handleStepAddition(currentIndex, newIndex){
                 var path = $(this).attr("data-path");
 
                 var currObj = getObjectFromPath(path, g_jsonData.refObj);
+
+                if (typeof $(this).attr("data-path-corrected") != 'undefined') {
+                    currObj["path"] = $(this).attr("data-path-corrected");
+                }
+
+
                 // TODO -   this val check doesn't seem good enough.
                 //          the else if is intended to handle the initial
                 //          IM ingestion. everything else should fall under here
@@ -222,13 +229,13 @@ function handleStepAddition(currentIndex, newIndex){
 
 
 
-                        insertStep($("#wizard"), insertionIndex, currObj, g_jsonData.namespaces[g_state.nsIndex]);
+                        insertStep($("#wizard"), insertionIndex, currObj, g_jsonData.namespaces[g_state.nsIndex], val);
 
-
-                        wizardData.stepPaths.splice(insertionIndex - getStepOffset(insertionIndex), 0, currObj['path']);
-                        insertionIndex += 1;
-                        wizardData.allSteps.push(currObj['title']);
-
+                        for(var i = 1; i <= val; i++) {
+                            wizardData.stepPaths.splice(insertionIndex - getStepOffset(insertionIndex), 0, currObj['path'] + "[" + i + "]");
+                            insertionIndex += 1;
+                            wizardData.allSteps.push(currObj['title']);
+                        }
 
                     }
                     $(this).addClass("stepAdded");
@@ -255,7 +262,7 @@ function handleStepAddition(currentIndex, newIndex){
 * @param {Number} index zero-based position indicating where in the wizard to insert the step
 * @param {Object} dataObj object containing the PDS data to generate content from
  */
-function insertStep(wizard, index, dataObj, ns){
+function insertStep(wizard, index, dataObj, ns, quantity){
     if(index > wizardData.maxStep) {
        revertStepClass(index);
     }
@@ -263,10 +270,21 @@ function insertStep(wizard, index, dataObj, ns){
     var nodeName = g_dictInfo[g_jsonData.namespaces[g_state.nsIndex]].name;
     var title = (dataObj["title"] ? dataObj["title"].replace(/_/g, " ") : nodeName);
     var data = (dataObj["next"] ? dataObj["next"] : dataObj);
-    wizard.steps("insert", index, {
-        title: title,
-        content: generateContent(title, data, dataObj, ns)
-    });
+
+    if(quantity > 1) {
+        for(var i = quantity; i > 0; i--) {
+            wizard.steps("insert", index, {
+                title: title + " #" + i,
+                content: generateContent(title, data, dataObj, ns, i, quantity)
+            });
+        }
+    } else {
+        wizard.steps("insert", index, {
+            title: title,
+            content: generateContent(title, data, dataObj, ns, 1, quantity)
+        });
+    }
+
     $(".selectpicker").selectpicker("render"); // select pickers need to rendered after being appended;
 }
 /**
@@ -275,11 +293,16 @@ function insertStep(wizard, index, dataObj, ns){
 * is sequential because the JSON is too large to parse all at once.
 * @param {string} sectionTitle title of the current section from object data
 * @param {Object} dataObj object containing the PDS data to generate content from
+ *@param {Object} parentObj parent class of the dataObj
+ *@param {String} namespace of dataObj
+ *@param {number} iteration of this object - if a users adds 3 of the same class this indicates which the current is
+ *@param {number} total iterations of this object
 * @return {Element} section
  */
-function generateContent(sectionTitle, dataObj, parentObj,ns){
+function generateContent(sectionTitle, dataObj, parentObj,ns, iteration, quantity){
+
     var parentPath = parentObj["path"];
-    if(sectionTitle == g_dictInfo["pds"]["name"]) {
+    if(sectionTitle == g_dictInfo["pds"]["name"]) { // TODO - FIX WHEN LABEL ROOT has a [1] prepended - this is just looking for "LABEL ROOT"
         parentPath = g_dictInfo["pds"]["name"];
     }
     var section = document.createElement("div");
@@ -289,6 +312,22 @@ function generateContent(sectionTitle, dataObj, parentObj,ns){
     var question = document.createElement("p");
     question.className = "question";
     question.innerHTML = "What elements do you want to keep in '" + sectionTitle.charAt(0).toUpperCase() + sectionTitle.slice(1) + "'?";
+    if(quantity > 1) {
+        // This is one of many appended classes. Label each one with a number
+        question.innerHTML = "What elements do you want to keep in '" + sectionTitle.charAt(0).toUpperCase() + sectionTitle.slice(1) + "' #" + iteration + "?";
+        $(section).attr("iteration", iteration);
+        if(sectionTitle != g_dictInfo["pds"]["name"]) {
+            parentPath = parentPath + "[" + iteration + "]";
+        }
+
+    } else {
+        if(sectionTitle != g_dictInfo["pds"]["name"]) {
+            parentPath = parentPath + "[1]";
+        }
+        $(section).attr("iteration", 1);
+    }
+
+
     section.appendChild(question);
     var subsection = document.createElement("div");
     subsection.className = "data-section";

@@ -70,7 +70,7 @@ function addNode($args){
     $nodePath = $args["path"];
     $quantity = $args["quantity"];
     $ns = $args["ns"];
-    list($nodeName, $nodePath) = handlePath($nodePath, $ns, isset($args["root_discipline_node"]));
+    list($nodeName, $nodePath) = handlePath($nodePath, $ns, isset($args["root_discipline_node"]), false);
 
 
     if (isNonDefaultNamespace($ns)){
@@ -342,6 +342,8 @@ function removeAllChildNodes($args){
  * used on the front-end to the structure of the XML document.
  * @param {string} $path path to the node (in front-end structure)
  * @param {string} $ns namespace for the node (or empty if default namespace)
+ * @param {string} $is_discipline_root set to true when addding the root node of a discipline dictionary
+ * @param {string} $removing_node set to true when the path will be used to remove node(s)
  * @return array name of the node and the path to its parent (in backend structure)
  */
 function handlePath($path, $ns, $is_discpline_root, $removing_node){
