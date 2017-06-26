@@ -331,3 +331,34 @@ var invalidElementsInJSON = [
   "Physical_Object",
   "Digital_Object"
 ];
+
+/**
+ * This boolean is for storing whether we are currently in Basic Mode or Advanced Mode.
+ * Don't initialize it, because then it will get re-initialized here when the page is reloaded.
+ * @type {boolean}
+ */
+var g_isBasicMode/* = false*/;
+
+/**
+ * This list is for specifying the data paths of elements that should only be shown in Advanced Mode.
+ * @type {string[]}
+ */
+var advancedModeElementDataPaths = [
+    "0/Identification_Area/0/logical_identifier"
+];
+
+/**
+ * This list is for specifying the data paths of elements that have been deprecated, and should be hidden.
+ * @type {string[]}
+ */
+var deprecatedElementDataPaths = [
+    "0/Identification_Area/1/version_id"
+];
+
+/**
+ * This list is for specifying the data paths of elements that are recommended, and should be highlighted.
+ * @type {string[]}
+ */
+var recommendedElementDataPaths = [
+    "0/Identification_Area/2/title"
+];
