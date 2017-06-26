@@ -425,6 +425,32 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
 
     addPopover(elementBar, dataObj, $(counter).prop("min"), $(counter).prop("max"));
 
+    //  IF in Basic Mode
+    if (g_isBasicMode) {
+        //  IF this element has a data path that is contained in the advancedModeElementDataPaths config array
+        if (advancedModeElementDataPaths.includes(dataObj["path"])) {
+            //  Hide the element when in Basic mode
+            ///elementBar.style.display = "none";
+            //  Hide the element when in Basic mode, but leave an empty line where it should be
+            elementBar.style.visibility = "hidden";
+        }
+    }
+
+    //  IF this element has a data path that is contained in the deprecatedElementDataPaths config array
+    if (deprecatedElementDataPaths.includes(dataObj["path"])) {
+        //  Hide the element when it's deprecated
+        ///elementBar.style.display = "none";
+        //  Hide the element when it's deprecated, but leave an empty line where it should be
+        elementBar.style.visibility = "hidden";
+    }
+
+    //  IF this element has a data path that is contained in the recommendedElementDataPaths config array
+    if (recommendedElementDataPaths.includes(dataObj["path"])) {
+        //  Highlight the element when it's recommended
+        ///elementBar.style.boxShadow = "10px 20px 30px blue";
+        elementBar.style.boxShadow = "0 0 10px #00F5FF";
+    }
+
     return elementBar;
 }
 /**
@@ -633,4 +659,31 @@ function prepXML(sectionHeading, isValidating){
 function insertCheckmark(stepHeading){
     var number = $(".number", stepHeading)[0];
     number.innerHTML = "<i class=\"fa fa-check fa-fw\" aria-hidden=\"true\"></i>";
+}
+
+/**
+ * Called when the user has toggled the Basic Mode toggle button.
+ */
+function basicModeToggled(isBasicMode){
+    console.log("Basic Mode = " + isBasicMode);
+    //  Store the value into a global
+    g_isBasicMode = isBasicMode;
+    //  Get all of the element bars
+    var elementBarList = document.getElementsByClassName("input-group element-bar");
+    for (var i=0; i < elementBarList.length; i++) {
+        var dataPath = elementBarList[i].getAttribute("data-path");
+        //  IF the dataPath is in the advanced list
+        if (advancedModeElementDataPaths.includes(dataPath)) {
+            //  IF in Basic Mode
+            if (isBasicMode) {
+                //  Hide the element
+                ///elementBar.style.display = "none";
+                //  Hide the element, but leave an empty line where it should be
+                elementBarList[i].style.visibility = "hidden";
+            } else {
+                //  Show the element
+                elementBarList[i].style.visibility = "visible";
+            }
+        }
+    }
 }
