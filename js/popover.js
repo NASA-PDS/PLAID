@@ -76,7 +76,7 @@ function initPopovers(){
 * @param {string} min info from element denoting minimum occurrences of the object
 * @param {string} max info from element denoting maximum occurrences of the object
  */
-function addPopover(element, data, min, max){
+function addPopover(element, data, min, max, isRecommended){
     if (max === "9999999999"){ max = "unbounded"; }
     var title = data["title"].replace(/_/g, " ");
     var description = "";
@@ -85,6 +85,7 @@ function addPopover(element, data, min, max){
         description = data["description"];
     }
     else {
+        if(isRecommended){title += " (Recommended)";}else{title += " (Optional)";}
         title += " (Optional)";
         min = "<b>Min Occurrences: " + min + "</b><br/>";
         max = "<b>Max Occurrences: " + max + "</b><br/>";

@@ -331,3 +331,11 @@ var invalidElementsInJSON = [
   "Physical_Object",
   "Digital_Object"
 ];
+/**
+ * This list is for storing the recommended items that are specified by Kate
+ * @type {string[]}
+ */
+var recommendedList = [
+    "1/Observation_Area/4/Observing_System/2/Observing_System_Component",
+    "1/Observation_Area/5/Target_Identification/2/type"
+];

@@ -462,6 +462,14 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
 
     elementBar.appendChild(plusBtn);
 
+    var isRecommended = false;
+    recommendedList.forEach(function(path) {
+        if(path === dataObj['path']){
+            elementBar.style.cssText = 'box-shadow: 0 0 5px #00F5FF;';
+            isRecommended = true;
+        }
+    });
+
     addPopover(elementBar, dataObj, $(counter).prop("min"), $(counter).prop("max"));
 
     return elementBar;
