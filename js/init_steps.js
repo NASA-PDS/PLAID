@@ -465,7 +465,7 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
     var isRecommended = false;
     recommendedList.forEach(function(path) {
         if(path === dataObj['path']){
-            elementBar.style.cssText = 'box-shadow: 0 0 5px #00F5FF;';
+            elementBar.style.cssText = 'box-shadow: 0 0 10px #00F5FF;';
             isRecommended = true;
         }
     });
