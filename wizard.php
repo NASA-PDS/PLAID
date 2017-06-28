@@ -42,6 +42,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <script src="config/infobar_config.js"></script>
     <script src="thirdparty/js/download.min.js"></script>
     <script src="thirdparty/js/bootstrap-select.min.js"></script>
+    <script src="thirdparty/js/bootstrap-toggle.min.js"></script>
     <script src="js/main.js"></script>
     <script src="config/pop_up_config.js"></script>
     <script src="js/element_bar.js"></script>
@@ -59,6 +60,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <link href="thirdparty/css/jqtree.css" rel="stylesheet">
     <link href="thirdparty/css/bootstrap.css" rel="stylesheet">
     <link href="thirdparty/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="thirdparty/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link href="css/general.css" rel="stylesheet">
     <link href="css/mission_specifics.css" rel="stylesheet">
     <link href="css/pop_up.css" rel="stylesheet">
@@ -78,8 +80,23 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
             <li class="nav-item pull-xs-right">
                 <p class="labelNameNav navbar-brand m-b-0"></p>
             </li>
+            <li class="nav-item pull-xs-right">
+                <!-- Basic/Advanced Mode Toggle button defaulted to Basic (On) -->
+                <p><label>Mode: &nbsp;<input id="basic_mode_toggle" type="checkbox" checked data-toggle="toggle" data-on="Basic" data-off="Advanced"></label></p>
+            </li>
         </div>
     </nav>
+    <script>
+        $(function() {
+            //  Called when the basic mode toggle changes
+            $('#basic_mode_toggle').change(function() {
+                //  Get the toggle button's value
+                var isBasicMode = $(this).prop('checked');
+                //  Call an external JavaScript method, and pass the toggle button's value
+                basicModeToggled(isBasicMode);
+            })
+        })
+    </script>
     <div id="wrapper">
         <div id="wizard">
 
