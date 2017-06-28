@@ -85,8 +85,9 @@ function addPopover(element, data, min, max, isRecommended){
         description = data["description"];
     }
     else {
-        if(isRecommended){title += " (Recommended)";}else{title += " (Optional)";}
-        title += " (Optional)";
+        if (isRecommended){title += " (Recommended)";}
+        else{title += " (Optional)";}
+
         min = "<b>Min Occurrences: " + min + "</b><br/>";
         max = "<b>Max Occurrences: " + max + "</b><br/>";
         description = min + max + data["description"];
