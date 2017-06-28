@@ -331,6 +331,7 @@ var invalidElementsInJSON = [
   "Physical_Object",
   "Digital_Object"
 ];
+
 /**
  * This list is for storing the recommended items that are specified by Kate
  * @type {string[]}
@@ -339,3 +340,32 @@ var recommendedList = [
     "1/Observation_Area/4/Observing_System/2/Observing_System_Component",
     "1/Observation_Area/5/Target_Identification/2/type"
 ];
+
+
+/**
+ * This boolean is for storing whether we are currently in Basic Mode or Advanced Mode.
+ * It will get re-initialized here when the page is reloaded.  Default to Basic Mode.
+ * @type {boolean}
+ */
+var g_isBasicMode = true;
+
+/**
+ * This list is for specifying the data paths of elements that should only be shown in Advanced Mode.
+ * @type {string[]}
+ */
+var advancedModeElementDataPaths = [
+    "0/Identification_Area/0/logical_identifier",
+    "0/Identification_Area/3/information_model_version",
+    "1/Observation_Area/0/comment"
+];
+
+/**
+ * This list is for specifying the data paths of elements that have been deprecated, and should be hidden.
+ * @type {string[]}
+ */
+var deprecatedElementDataPaths = [
+    "0/Identification_Area/1/version_id",
+    "0/Identification_Area/5/Alias_List",
+    "1/Observation_Area/2/Investigation_Area"
+];
+

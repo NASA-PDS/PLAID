@@ -110,7 +110,8 @@ var popUpData = {
         content : "<form><div class='form-group'><label for='labelNameInput'>Please enter a name for your new label:</label>" +
         "<input id='labelNameInput' class='form-control' type='text' placeholder='Ex. My Mission Label' id='example-text-input'></div>" +
         "<div class='form-group'><label for='core_schema_version_select'>Please select a PDS4 schema version:</label>" +
-        "<select class='form-control' id='core_schema_versions_select'></select></div></form>",
+        "<select class='form-control' id='core_schema_versions_select'></select></div>" +
+        "<div class='form-group'><label>Mode: &nbsp;</label><input id='basic_mode_create_toggle' type='checkbox' checked data-toggle='toggle' data-on='Basic' data-off='Advanced' data-width='120'></div></form>",
         noText: "Cancel",
         yesText: "Submit",
         /**
@@ -128,7 +129,7 @@ var popUpData = {
                         version: parseInt($("#core_schema_versions_select").val())
                     }
                 }).success(function() {
-                    window.location = "wizard.php?version=" + $("#core_schema_versions_select").val();
+                    window.location = "wizard.php?version=" + $("#core_schema_versions_select").val() + "&basicMode=" + $("#basic_mode_create_toggle").is(":checked");
                 }).fail(function() {
                     alert("Unable to create label");
                 });
