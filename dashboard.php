@@ -75,4 +75,6 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
 </body>
 <script src="thirdparty/js/tether.min.js"></script>
 <script src="thirdparty/js/bootstrap.min.js"></script>
+<script src="thirdparty/js/bootstrap-toggle.min.js"></script>
+<link href="thirdparty/css/bootstrap-toggle.min.css" rel="stylesheet">
 </html>
