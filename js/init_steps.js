@@ -470,7 +470,7 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
         }
     });
 
-    addPopover(elementBar, dataObj, $(counter).prop("min"), $(counter).prop("max"));
+    addPopover(elementBar, dataObj, $(counter).prop("min"), $(counter).prop("max"), isRecommended);
 
     return elementBar;
 }
