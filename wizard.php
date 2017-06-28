@@ -81,19 +81,17 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                 <p class="labelNameNav navbar-brand m-b-0"></p>
             </li>
             <li class="nav-item pull-xs-right">
-                <p><label>Basic Mode: <input id="basic_mode_toggle" type="checkbox" data-toggle="toggle"></label></p>
+                <!-- Basic/Advanced Mode Toggle button defaulted to Basic (On) -->
+                <p><label>Mode: &nbsp;<input id="basic_mode_toggle" type="checkbox" checked data-toggle="toggle" data-on="Basic" data-off="Advanced"></label></p>
             </li>
         </div>
     </nav>
-    <div id="console-event"></div>
     <script>
         $(function() {
             //  Called when the basic mode toggle changes
             $('#basic_mode_toggle').change(function() {
                 //  Get the toggle button's value
                 var isBasicMode = $(this).prop('checked');
-                //  Write the toggle's value to the div tag w/ id of console-event
-                ///$('#console-event').html('Toggle: ' + isBasicMode)
                 //  Call an external JavaScript method, and pass the toggle button's value
                 basicModeToggled(isBasicMode);
             })

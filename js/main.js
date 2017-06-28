@@ -44,7 +44,23 @@ $(document).ready(function() {
         schemaVersion = default_schema;
     }
 
-// Set when label is created
+    //  Get the Basic Mode from the URL parameter, which is passed if creating, but not if editing
+    var basicModeToggle = getParameterByName("basicMode");
+    if (basicModeToggle == "false") {
+        g_isBasicMode = false;
+    }
+    else if (basicModeToggle == "true") {
+        g_isBasicMode = true;
+    }
+
+    //  Set the Basic Mode Toggle's value
+    if (g_isBasicMode) {
+        $("#basic_mode_toggle").bootstrapToggle('on');
+    } else {
+        $("#basic_mode_toggle").bootstrapToggle('off');
+    }
+
+    // Set when label is created
     filePaths = core_schema_versions[schemaVersion]["filePaths"];
     g_dictInfo = core_schema_versions[schemaVersion]["g_dictInfo"];
 

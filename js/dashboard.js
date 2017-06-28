@@ -44,6 +44,11 @@ $(document).ready(function(){
         $("#core_schema_versions_select").empty();
 
         generatePopUp(popUpData['createNewLabel']);
+
+        //  Invoke the Bootstrap Toggle programmatically,
+        //  because it doesn't work the regular way when specified in a config file string
+        $('#basic_mode_create_toggle').bootstrapToggle();
+
         for (var i = 0; i < schema_list_order.length; i++) {
             var schema = schema_list_order[i];
             if (core_schema_versions.hasOwnProperty(schema)) {
