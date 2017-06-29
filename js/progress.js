@@ -516,23 +516,15 @@ function areDifferentOptionalNodes(dataObj) {
 
         if (newNum < currObj['num']) {
            console.log("something was removed from " + currObj.id);
-          /* 
-            if (newNum != 0) {
-                // An element was removed, but not entirely. Keep the step in the tool, but remove some of it from the label
-                var num_to_remove = currObj['num'] - newNum;
-                backendCall("php/xml_mutator.php",
-                    "removeClass",
-                    {path: pathToUse, ns: "", number_to_remove: num_to_remove, value: newVal},
-                    function (data) {});
-                currObj['num'] = newNum;
-              */
 
             //$(elementBar).removeClass("stepAdded");
             var stepIndexesToRemove = [];
             var numberToRemove = currObj['num'] - newNum;
+            var isStepFound = false;
             for(var i = 0; i < wizardData.stepPaths.length; i++) {
                 if(wizardData.stepPaths[i].replace(/\[.*?\]/g, "").startsWith(currObj.id))  { // strip brackets, compare saves steps to current
                     // There's a match - need to gather all children elements of this.
+                    isStepFound = true;
                     if(stepIndexesToRemove.length < numberToRemove) {
                         stepIndexesToRemove.push(i);
                         backendCall("php/xml_mutator.php",
@@ -555,6 +547,25 @@ function areDifferentOptionalNodes(dataObj) {
                     }
                 }
 
+            }
+
+            //  IF NO Step was found
+            if (! isStepFound) {
+                //  It must be a simple attribute rather than a step
+                // Remove the given number of instances from the label, and update the value of the remaining instances
+                backendCall("php/xml_mutator.php",
+                    "removeClass",
+                    {path: pathToUse, ns: "", number_to_remove: numberToRemove, value: newVal},
+                    function (data) {
+                    });
+                currObj['num'] = newNum;
+                //  IF ALL of the element instances were removed
+                if (newNum == 0) {
+                    // An element has been removed entirely
+                    // Remove the stepAdded from the elementBar's classList
+                    // That way init_steps.js:handleStepAddition() will add it in the future
+                    $(elementBar).removeClass("stepAdded");
+                }
             }
 
             stepIndexesToRemove.reverse();
