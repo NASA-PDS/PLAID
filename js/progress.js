@@ -517,7 +517,6 @@ function areDifferentOptionalNodes(dataObj) {
         if (newNum < currObj['num']) {
            console.log("something was removed from " + currObj.id);
 
-            //$(elementBar).removeClass("stepAdded");
             var stepIndexesToRemove = [];
             var numberToRemove = currObj['num'] - newNum;
             var isStepFound = false;
@@ -527,6 +526,8 @@ function areDifferentOptionalNodes(dataObj) {
                     isStepFound = true;
                     if(stepIndexesToRemove.length < numberToRemove) {
                         stepIndexesToRemove.push(i);
+                        //  Remove the 'stepAdded' attribute from the elementBar, so the step will be re-added if they increment the count later
+                        $(elementBar).removeClass("stepAdded");
                         backendCall("php/xml_mutator.php",
                             "removeAllChildNodes",
                             {path: wizardData.stepPaths[i], ns: g_jsonData.namespaces[g_state.nsIndex]},
