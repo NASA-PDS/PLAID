@@ -30,6 +30,18 @@
  * Note: Several aspects of the wizard are controlled within functions called in the
  * onStepChanging and onStepChanged methods of the wizard's settings object.
  */
+const IDENTIFICATION_AREA_PRODUCT_CLASS_DROPDOWN_ID = "0001_NASA_PDS_1.pds.Identification_Area.pds.product_class";
+const PRODUCT_TYPE_OBSERVATIONAL_ID = "0001_NASA_PDS_1.pds.Product_Observational",
+      PRODUCT_TYPE_DOCUMENT_ID = "0001_NASA_PDS_1.pds.Product_Document",
+      PRODUCT_TYPE_CONTEXT_ID = "0001_NASA_PDS_1.pds.Product_Context",
+      PRODUCT_TYPE_FILE_TEXT_ID = "0001_NASA_PDS_1.pds.Product_File_Text",
+      PRODUCT_TYPE_THUMBNAIL_ID = "0001_NASA_PDS_1.pds.Product_Thumbnail";
+const PRODUCT_CLASS_OBSERVATIONAL = "Product_Observational",
+      PRODUCT_CLASS_DOCUMENT = "Product_Document",
+      PRODUCT_CLASS_CONTEXT = "Product_Context",
+      PRODUCT_CLASS_FILE_TEXT = "Product_File_Text",
+      PRODUCT_CLASS_THUMBNAIL = "Product_Thumbnail";
+
 function initWizard(wizard) {
     var settings = {
         /* Appearance */
@@ -541,6 +553,10 @@ function createValueInput(dataObj){
                 selector: true
             });
         }
+
+        //  Default certain dropdown lists to a particular value
+        defaultDropdownValue(permissibleSelect, dataObj['identifier']);
+
         return permissibleSelect;
     } else {
         var input = document.createElement("input");
@@ -549,6 +565,42 @@ function createValueInput(dataObj){
         input.placeholder = "Enter value (optional)";
         return input;
     }
+}
+/**
+ * Default certain dropdown lists to a particular value.
+ * @param {object} selectElement - the dropdown list element
+ * @param {string} dropdownId - the ID of the dropdown list element
+ */
+function defaultDropdownValue(selectElement, dropdownId){
+    //  Default the Identification Area step's Product Class dropdown list,
+    //  based on the Product Type selected in the 1st step.
+    //  IF this dropdown is the Identification Area step's Product Class dropdown list
+    if (dropdownId === IDENTIFICATION_AREA_PRODUCT_CLASS_DROPDOWN_ID) {
+        //  Switch based on the Product Type that was selected in the 1st step
+        switch (progressData[0].selection) {
+            //  IF the selected Product Type is 'Observational'
+            case PRODUCT_TYPE_OBSERVATIONAL_ID:
+                //  Default the Product Class dropdown's value to "Product_Observational"
+                $(selectElement).val(PRODUCT_CLASS_OBSERVATIONAL);
+                break;
+            case PRODUCT_TYPE_DOCUMENT_ID:
+                //  Default the Product Class dropdown's value to "Product_Document"
+                $(selectElement).val(PRODUCT_CLASS_DOCUMENT);
+                break;
+            case PRODUCT_TYPE_CONTEXT_ID:
+                //  Default the Product Class dropdown's value to "Product_Context"
+                $(selectElement).val(PRODUCT_CLASS_CONTEXT);
+                break;
+            case PRODUCT_TYPE_FILE_TEXT_ID:
+                //  Default the Product Class dropdown's value to "Product_File_Text"
+                $(selectElement).val(PRODUCT_CLASS_FILE_TEXT);
+                break;
+            case PRODUCT_TYPE_THUMBNAIL_ID:
+                //  Default the Product Class dropdown's value to "Product_Thumbnail"
+                $(selectElement).val(PRODUCT_CLASS_THUMBNAIL);
+                break;
+        }
+    }           //  end IF the Identification Area step's Product Class dropdown list
 }
 /**
 * Create a plus or minus button for controlling the form in an element-bar.
