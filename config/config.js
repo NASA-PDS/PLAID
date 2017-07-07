@@ -354,9 +354,10 @@ var g_isBasicMode = true;
  * @type {string[]}
  */
 var advancedModeElementDataPaths = [
-    "0/Identification_Area/0/logical_identifier",
-    "0/Identification_Area/3/information_model_version",
-    "1/Observation_Area/0/comment"
+    ///"0/Identification_Area/0/logical_identifier",
+    ///"0/Identification_Area/3/information_model_version",
+    "0/Identification_Area/6/Citation_Information",
+    "1/Observation_Area/6/Mission_Area"
 ];
 
 /**
@@ -364,7 +365,7 @@ var advancedModeElementDataPaths = [
  * @type {string[]}
  */
 var deprecatedElementDataPaths = [
-    "0/Identification_Area/1/version_id",
+    ///"0/Identification_Area/1/version_id",
     "0/Identification_Area/5/Alias_List",
     "1/Observation_Area/2/Investigation_Area"
 ];
