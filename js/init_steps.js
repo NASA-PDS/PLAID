@@ -493,21 +493,20 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
 
     //  IF in Basic Mode
     if (g_isBasicMode) {
-        //  IF this element has a data path that is contained in the advancedModeElementDataPaths config array
-        if (advancedModeElementDataPaths.includes(dataObj["path"])) {
-            //  Hide the element completely when in Basic mode
-            ///elementBar.style.display = "none";
-            //  Hide the element when in Basic mode, but leave an empty row where it should be
-            elementBar.style.visibility = "hidden";
-        }
+        //  Show/Hide the element bar based on the Mode and whether it is in the Advanced Mode Element config list
+        showHideAdvancedElementBar(elementBar);
     }
 
-    //  IF this element has a data path that is contained in the deprecatedElementDataPaths config array
-    if (deprecatedElementDataPaths.includes(dataObj["path"])) {
-        //  Hide the element completely when it's deprecated
-        ///elementBar.style.display = "none";
-        //  Hide the element when it's deprecated, but leave an empty line where it should be
-        elementBar.style.visibility = "hidden";
+    //  For each item in the deprecatedElementDataPaths config array
+    for (var i=0; i < deprecatedElementDataPaths.length; i++) {
+        //  IF this element has a data path that matches a regular expression in the deprecatedElementDataPaths config array
+        if (dataObj["path"].match(deprecatedElementDataPaths[i])) {
+            //  Hide the element completely when it's deprecated
+            ///elementBar.style.display = "none";
+            //  Hide the element when it's deprecated, but leave an empty line where it should be
+            elementBar.style.visibility = "hidden";
+            break;  //  break out of For loop
+        }
     }
 
     return elementBar;
@@ -787,22 +786,34 @@ function basicModeToggled(isBasicMode){
     ///console.log("Basic Mode = " + isBasicMode);
     //  Store the value into a global
     g_isBasicMode = isBasicMode;
-    //  Get all of the element bars
+    //  Get all of the element bars in the entire document
     var elementBarList = document.getElementsByClassName("input-group element-bar");
-    for (var i=0; i < elementBarList.length; i++) {
-        var dataPath = elementBarList[i].getAttribute("data-path");
-        //  IF the dataPath is in the advanced list
-        if (advancedModeElementDataPaths.includes(dataPath)) {
+    for (var e=0; e < elementBarList.length; e++) {
+        //  Show/Hide the element bar based on the Mode and whether it is in the Advanced Mode Element config list
+        showHideAdvancedElementBar(elementBarList[e]);
+    }
+}
+
+/**
+ * Show/Hide the given element bar based on the Mode and whether it is in the Advanced Mode Element config list.
+ */
+function showHideAdvancedElementBar(elementBar) {
+    var dataPath = elementBar.getAttribute("data-path");
+
+    //  For each item in the advancedModeElementDataPaths config array
+    for (var a = 0; a < advancedModeElementDataPaths.length; a++) {
+        //  IF this element has a data path that matches a regular expression in the advancedModeElementDataPaths config array
+        if (dataPath.match(advancedModeElementDataPaths[a])) {
             //  IF in Basic Mode
-            if (isBasicMode) {
+            if (g_isBasicMode) {
                 //  Hide the element completely
-                ///elementBarList[i].style.display = "none";
+                ///elementBar.style.display = "none";
                 //  Hide the element, but leave an empty row where it should be
-                elementBarList[i].style.visibility = "hidden";
+                elementBar.style.visibility = "hidden";
             } else {
                 //  Show the element
-                ///elementBarList[i].style.display = "inline";         //  "block";
-                elementBarList[i].style.visibility = "visible";
+                ///elementBar.style.display = "inline";         //  "block";
+                elementBar.style.visibility = "visible";
             }
         }
     }

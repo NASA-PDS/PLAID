@@ -350,14 +350,16 @@ var recommendedList = [
 var g_isBasicMode = true;
 
 /**
- * This list is for specifying the data paths of elements that should only be shown in Advanced Mode.
+ * This list is for specifying the data paths of elements that should only be shown in Advanced Mode,
+ * as regular expressions.
  * @type {string[]}
  */
 var advancedModeElementDataPaths = [
-    ///"0/Identification_Area/0/logical_identifier",
-    ///"0/Identification_Area/3/information_model_version",
-    "0/Identification_Area/6/Citation_Information",
-    "1/Observation_Area/6/Mission_Area"
+    // "0/Identification_Area/6/Citation_Information",
+    //  Match any digit, escape the slash so it interprets it as an actual slash
+    "[0-9]\/Identification_Area\/\[0-9]+\/Citation_Information$",
+    // "1/Observation_Area/6/Mission_Area"
+    "[0-9]\/Observation_Area\/[0-9]+\/Mission_Area$"
 ];
 
 /**
@@ -365,8 +367,12 @@ var advancedModeElementDataPaths = [
  * @type {string[]}
  */
 var deprecatedElementDataPaths = [
-    ///"0/Identification_Area/1/version_id",
-    "0/Identification_Area/5/Alias_List",
-    "1/Observation_Area/2/Investigation_Area"
+    //"0/Identification_Area/5/Alias_List",
+    //  Match any digit, escape the slash so it interprets it as an actual slash
+    "[0-9]\/Identification_Area\/[0-9]+\/Alias_List$",
+    //"1/Observation_Area/2/Investigation_Area"
+    //  Match any digit, escape the slash so it interprets it as an actual slash, $ so it doesn't match
+    //  "1/Observation_Area/2/Investigation_Area/0/name"
+    "[0-9]\/Observation_Area\/[0-9]+\/Investigation_Area$"
 ];
 
