@@ -30,25 +30,6 @@
  * Note: Several aspects of the wizard are controlled within functions called in the
  * onStepChanging and onStepChanged methods of the wizard's settings object.
  */
-const IDENTIFICATION_AREA_PRODUCT_CLASS_DROPDOWN_ID = "0001_NASA_PDS_1.pds.Identification_Area.pds.product_class";
-const IDENTIFICATION_AREA_INFO_MODEL_VERSION_DROPDOWN_ID = "0001_NASA_PDS_1.pds.Identification_Area.pds.information_model_version";
-const PRODUCT_TYPE_OBSERVATIONAL_ID = "0001_NASA_PDS_1.pds.Product_Observational",
-      PRODUCT_TYPE_DOCUMENT_ID = "0001_NASA_PDS_1.pds.Product_Document",
-      PRODUCT_TYPE_CONTEXT_ID = "0001_NASA_PDS_1.pds.Product_Context",
-      PRODUCT_TYPE_FILE_TEXT_ID = "0001_NASA_PDS_1.pds.Product_File_Text",
-      PRODUCT_TYPE_THUMBNAIL_ID = "0001_NASA_PDS_1.pds.Product_Thumbnail";
-const PRODUCT_CLASS_OBSERVATIONAL = "Product_Observational",
-      PRODUCT_CLASS_DOCUMENT = "Product_Document",
-      PRODUCT_CLASS_CONTEXT = "Product_Context",
-      PRODUCT_CLASS_FILE_TEXT = "Product_File_Text",
-      PRODUCT_CLASS_THUMBNAIL = "Product_Thumbnail";
-const SCHEMA_VERSION_1800 = "1800",
-      SCHEMA_VERSION_1700 = "1700",
-      SCHEMA_VERSION_1600 = "1600";
-const SCHEMA_VERSION_DOTTED_1800 = "1.8.0.0",
-      SCHEMA_VERSION_DOTTED_1700 = "1.7.0.0",
-      SCHEMA_VERSION_DOTTED_1600 = "1.6.0.0";
-
 function initWizard(wizard) {
     var settings = {
         /* Appearance */
@@ -99,6 +80,7 @@ function initWizard(wizard) {
                 // when a class from a previous page is removed, handle recursive removal
                 // of that page and skip the addition steps below
                 var classRemoved = false;
+                // console.log('*** ',progressData[currentIndex]['step']);
                 switch (progressData[currentIndex]['step']){
                     case 'discipline_dictionaries':
                         classRemoved = areDifferentDisciplineNodes(progressData[currentIndex]);
@@ -114,9 +96,22 @@ function initWizard(wizard) {
                 }
             }
             if (newIndex > currentIndex){
+
+                // +++++++++++ tmp begin ++++++++++++
+                var indentLevel = 0;
+                if(typeof(progressData[currentIndex]) != "undefined" && progressData[currentIndex]['step']=='optional_nodes'){
+                    pathParts = progressData[currentIndex]['step_path'].split('/');
+                    indentLevel = pathParts.length>2?pathParts.length:0;
+                }else if(typeof(progressData[currentIndex]) != "undefined" && progressData[currentIndex]['step']=='builder'){
+                    indentlevel = 1;
+                }
+
                 // TODO - we should do a check here to figure out what
                 // page we are on and determine where to go from there
-                handleStepAddition(currentIndex, newIndex);
+                handleStepAddition(currentIndex, newIndex, indentLevel, progressData[currentIndex]);
+                // +++++++++++ tmp end ++++++++++++
+
+
                 handleMissionSpecificsStep(currentIndex, newIndex);
                 handleExportStep(newIndex);
                 discNodesSelection(currentIndex);
@@ -146,6 +141,19 @@ function initWizard(wizard) {
                     if ((typeof progressData != "undefined" || progressData != null) && !g_state.loading) {
                         // need to only call storeprogress when appropriate
                         storeProgress(priorIndex, priorStepTitle, (priorIndex + 1 > progressData.length));
+                        //+++++++++ tmp b
+                        if (currentIndex > priorIndex){
+
+                            var indentLevel = 0;
+                            if(typeof(progressData[priorIndex]) != "undefined" && progressData[priorIndex]['step']=='optional_nodes'){
+                                pathParts = progressData[priorIndex]['step_path'].split('/');
+                                indentLevel = pathParts.length>2?pathParts.length:0;
+                            }else if(typeof(progressData[priorIndex]) != "undefined" && progressData[priorIndex]['step']=='builder'){
+                                indentlevel = 1;
+                            }
+                            handleStepAddition(priorIndex, currentIndex, indentLevel, progressData[priorIndex]);
+                        }
+                        //++++++++++ tmp e
                     }
                 }
             }
@@ -156,6 +164,7 @@ function initWizard(wizard) {
             $("#help").empty();
             previewDescription();
             $("#help").fadeIn(400);
+
         },
         onCanceled: function (event) { },
         onFinishing: function (event, currentIndex) { return true; },
@@ -163,6 +172,8 @@ function initWizard(wizard) {
             insertCheckmark($("#wizard-t-" + currentIndex.toString()));
 
             window.location = "dashboard.php";
+
+            window.location.reload(false);
         },
 
         /* Labels */
@@ -176,6 +187,7 @@ function initWizard(wizard) {
             loading: "Loading ..."
         }
     };
+    // window.location.replace(location)
     wizard.steps(settings);
 }
 /**
@@ -192,16 +204,22 @@ function matchWizardHeight(wizardContent, wizardActions, sidebar, stepsBar){
     $(stepsBar).css("height", $(wizardContent).height() + $(wizardActions).height());
 }
 /**
-* Handles the dynamic creation of new steps populated with data from the product
-* object created from the PDS4 JSON. This function looks up the corresponding object
-* for each element bar in a step, checks if the user opted to add that object,
-* and adds a new step accordingly.
-* @param {number} currentIndex for the current step in the wizard
-* @param {number} newIndex for the next step in the wizard
+ * Handles the dynamic creation of new steps populated with data from the product
+ * object created from the PDS4 JSON. This function looks up the corresponding object
+ * for each element bar in a step, checks if the user opted to add that object,
+ * and adds a new step accordingly.
+ * @param {number} currentIndex for the current step in the wizard
+ * @param {number} newIndex for the next step in the wizard
  */
-function handleStepAddition(currentIndex, newIndex){
+function handleStepAddition(currentIndex, newIndex, indentation, stepObj){
     var insertionIndex = newIndex;
 
+
+    // Indent step-link-list-items to show step hierarchy
+    if(typeof(stepObj) != "undefined" && stepObj['step']=='optional_nodes') {
+        // $('#wizard-t-' + currentIndex).parent().css('padding-left', stepObj['step_path'].split('/').length * 10 );
+        $('#wizard-t-' + currentIndex).parent().css('padding-left', stepObj['step_path'].split('/').length * 10 );
+    }
 
     var currSection = $("#wizard-p-" + currentIndex.toString());
     var hasRun = false;
@@ -246,8 +264,6 @@ function handleStepAddition(currentIndex, newIndex){
                     //  tool and a step should not be added
                     if (currObj['next'] !== undefined && currObj['title'] !== "Mission_Area" && currObj['title'] !== "Discipline_Area") {
 
-
-
                         insertStep($("#wizard"), insertionIndex, currObj, g_jsonData.namespaces[g_state.nsIndex], val);
 
                         for(var i = 1; i <= val; i++) {
@@ -275,15 +291,16 @@ function handleStepAddition(currentIndex, newIndex){
 
 }
 /*
-* Insert a step into the wizard at the specified index with content
-* generated from the specified data object.
-* @param {Object} wizard
-* @param {Number} index zero-based position indicating where in the wizard to insert the step
-* @param {Object} dataObj object containing the PDS data to generate content from
+ * Insert a step into the wizard at the specified index with content
+ * generated from the specified data object.
+ * @param {Object} wizard
+ * @param {Number} index zero-based position indicating where in the wizard to insert the step
+ * @param {Object} dataObj object containing the PDS data to generate content from
  */
 function insertStep(wizard, index, dataObj, ns, quantity){
+
     if(index > wizardData.maxStep) {
-       revertStepClass(index);
+        revertStepClass(index);
     }
     // Get the node name from the g_dictInfo global
     var nodeName = g_dictInfo[g_jsonData.namespaces[g_state.nsIndex]].name;
@@ -307,16 +324,16 @@ function insertStep(wizard, index, dataObj, ns, quantity){
     $(".selectpicker").selectpicker("render"); // select pickers need to rendered after being appended;
 }
 /**
-* Generate the content section for a new step in the wizard. This function also gets the
-* next level of associations for future reference in the data object. This data storing
-* is sequential because the JSON is too large to parse all at once.
-* @param {string} sectionTitle title of the current section from object data
-* @param {Object} dataObj object containing the PDS data to generate content from
+ * Generate the content section for a new step in the wizard. This function also gets the
+ * next level of associations for future reference in the data object. This data storing
+ * is sequential because the JSON is too large to parse all at once.
+ * @param {string} sectionTitle title of the current section from object data
+ * @param {Object} dataObj object containing the PDS data to generate content from
  *@param {Object} parentObj parent class of the dataObj
  *@param {String} namespace of dataObj
  *@param {number} iteration of this object - if a users adds 3 of the same class this indicates which the current is
  *@param {number} total iterations of this object
-* @return {Element} section
+ * @return {Element} section
  */
 function generateContent(sectionTitle, dataObj, parentObj,ns, iteration, quantity){
 
@@ -421,11 +438,11 @@ function generateContent(sectionTitle, dataObj, parentObj,ns, iteration, quantit
     return section;
 }
 /**
-* Create an element-bar populated with data from the specified object.
-* @param {object} dataObj object containing the information for the element-bar
-* @param {function} genLabel function to create the label portion of the element-bar
-* @param {bool} isChoice denotes whether this element-bar is in a choice group or not
-* @return {Element} elementBar
+ * Create an element-bar populated with data from the specified object.
+ * @param {object} dataObj object containing the information for the element-bar
+ * @param {function} genLabel function to create the label portion of the element-bar
+ * @param {bool} isChoice denotes whether this element-bar is in a choice group or not
+ * @return {Element} elementBar
  */
 function createElementBar(dataObj, genLabel, isChoice, parentPath){
     var elementBar = document.createElement("div");
@@ -442,10 +459,10 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
     // Set the data path. This is the traversal path through the JSON
     elementBar.setAttribute('data-path', dataObj["path"]);
     if(!dataObj["path"].startsWith(parentPath) && typeof parentPath != 'undefined' && parentPath != g_dictInfo["pds"]["name"]) {
-        console.log("Need to correct " + dataObj["path"] + " with parent " + parentPath);
+        // console.log("Need to correct " + dataObj["path"] + " with parent " + parentPath);
         var arrayPath = dataObj["path"].split("/");
         parentPath = parentPath + "/" + arrayPath[arrayPath.length-2] + "/" + arrayPath[arrayPath.length-1];
-        console.log("Corrected path: " + parentPath);
+        // console.log("Corrected path: " + parentPath);
         elementBar.setAttribute('data-path-corrected', parentPath);
 
     }
@@ -493,20 +510,21 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
 
     //  IF in Basic Mode
     if (g_isBasicMode) {
-        //  Show/Hide the element bar based on the Mode and whether it is in the Advanced Mode Element config list
-        showHideAdvancedElementBar(elementBar);
+        //  IF this element has a data path that is contained in the advancedModeElementDataPaths config array
+        if (advancedModeElementDataPaths.includes(dataObj["path"])) {
+            //  Hide the element completely when in Basic mode
+            ///elementBar.style.display = "none";
+            //  Hide the element when in Basic mode, but leave an empty row where it should be
+            elementBar.style.visibility = "hidden";
+        }
     }
 
-    //  For each item in the deprecatedElementDataPaths config array
-    for (var i=0; i < deprecatedElementDataPaths.length; i++) {
-        //  IF this element has a data path that matches a regular expression in the deprecatedElementDataPaths config array
-        if (dataObj["path"].match(deprecatedElementDataPaths[i])) {
-            //  Hide the element completely when it's deprecated
-            ///elementBar.style.display = "none";
-            //  Hide the element when it's deprecated, but leave an empty line where it should be
-            elementBar.style.visibility = "hidden";
-            break;  //  break out of For loop
-        }
+    //  IF this element has a data path that is contained in the deprecatedElementDataPaths config array
+    if (deprecatedElementDataPaths.includes(dataObj["path"])) {
+        //  Hide the element completely when it's deprecated
+        ///elementBar.style.display = "none";
+        //  Hide the element when it's deprecated, but leave an empty line where it should be
+        elementBar.style.visibility = "hidden";
     }
 
     return elementBar;
@@ -559,10 +577,6 @@ function createValueInput(dataObj){
                 selector: true
             });
         }
-
-        //  Default certain dropdown lists to a particular value
-        defaultDropdownValue(permissibleSelect, dataObj['identifier']);
-
         return permissibleSelect;
     } else {
         var input = document.createElement("input");
@@ -573,65 +587,9 @@ function createValueInput(dataObj){
     }
 }
 /**
- * Default certain dropdown lists to a particular value.
- * @param {object} selectElement - the dropdown list element
- * @param {string} dropdownId - the ID of the dropdown list element
- */
-function defaultDropdownValue(selectElement, dropdownId){
-    //  Default the Identification Area step's Product Class dropdown list,
-    //  based on the Product Type selected in the 1st step.
-    //  IF this dropdown is the Identification Area step's Product Class dropdown list
-    if (dropdownId === IDENTIFICATION_AREA_PRODUCT_CLASS_DROPDOWN_ID) {
-        //  Switch based on the Product Type that was selected in the 1st step
-        switch (progressData[0].selection) {
-            //  IF the selected Product Type is 'Observational'
-            case PRODUCT_TYPE_OBSERVATIONAL_ID:
-                //  Default the Product Class dropdown's value to "Product_Observational"
-                $(selectElement).val(PRODUCT_CLASS_OBSERVATIONAL);
-                break;
-            case PRODUCT_TYPE_DOCUMENT_ID:
-                //  Default the Product Class dropdown's value to "Product_Document"
-                $(selectElement).val(PRODUCT_CLASS_DOCUMENT);
-                break;
-            case PRODUCT_TYPE_CONTEXT_ID:
-                //  Default the Product Class dropdown's value to "Product_Context"
-                $(selectElement).val(PRODUCT_CLASS_CONTEXT);
-                break;
-            case PRODUCT_TYPE_FILE_TEXT_ID:
-                //  Default the Product Class dropdown's value to "Product_File_Text"
-                $(selectElement).val(PRODUCT_CLASS_FILE_TEXT);
-                break;
-            case PRODUCT_TYPE_THUMBNAIL_ID:
-                //  Default the Product Class dropdown's value to "Product_Thumbnail"
-                $(selectElement).val(PRODUCT_CLASS_THUMBNAIL);
-                break;
-        }
-    } else if (dropdownId === IDENTIFICATION_AREA_INFO_MODEL_VERSION_DROPDOWN_ID) {
-        //  IF this dropdown is the Identification Area step's Information Model Version dropdown list
-        //  Switch based on the Version that was selected in the Creation dialog, and placed in the URL
-        var schemaVersion = getParameterByName("version");
-
-        switch (schemaVersion) {
-            //  IF the selected Schema version is '1.8.0.0'
-            case SCHEMA_VERSION_1800:
-                //  Default the Information Model Version dropdown's value to "1.8.0.0"
-                $(selectElement).val(SCHEMA_VERSION_DOTTED_1800);
-                break;
-            case SCHEMA_VERSION_1700:
-                //  Default the Information Model Version dropdown's value to "1.7.0.0"
-                $(selectElement).val(SCHEMA_VERSION_DOTTED_1700);
-                break;
-            case SCHEMA_VERSION_1600:
-                //  Default the Information Model Version dropdown's value to "1.6.0.0"
-                $(selectElement).val(SCHEMA_VERSION_DOTTED_1600);
-                break;
-        }
-    }           //  end IF the Identification Area step's Information Model Version dropdown list
-}
-/**
-* Create a plus or minus button for controlling the form in an element-bar.
-* @param {string} type ["plus" | "minus"]
-* @return {Element} wrapper
+ * Create a plus or minus button for controlling the form in an element-bar.
+ * @param {string} type ["plus" | "minus"]
+ * @return {Element} wrapper
  */
 function createControlButton(type){
     var btnClass, iconClass, handler;
@@ -752,10 +710,10 @@ function prepXML(sectionHeading, isValidating){
                 "addRootAttrs",
                 {namespaces: g_jsonData.namespaces},
                 function(data){});
-           backendCall("php/xml_validator.php",
-                        "validate",
-                        {},
-                        function(data){});
+            backendCall("php/xml_validator.php",
+                "validate",
+                {},
+                function(data){});
 
         }
         backendCall("php/xml_mutator.php",
@@ -763,11 +721,11 @@ function prepXML(sectionHeading, isValidating){
             {namespaces: g_jsonData.namespaces},
             function(data){});
         /*
-        backendCall("php/xml_mutator.php",
-            "removeAllChildNodes",
-            {path: sectionHeading, ns: ""},
-            function(data){});
-            */
+         backendCall("php/xml_mutator.php",
+         "removeAllChildNodes",
+         {path: sectionHeading, ns: ""},
+         function(data){});
+         */
     }
 }
 /**
@@ -786,34 +744,22 @@ function basicModeToggled(isBasicMode){
     ///console.log("Basic Mode = " + isBasicMode);
     //  Store the value into a global
     g_isBasicMode = isBasicMode;
-    //  Get all of the element bars in the entire document
+    //  Get all of the element bars
     var elementBarList = document.getElementsByClassName("input-group element-bar");
-    for (var e=0; e < elementBarList.length; e++) {
-        //  Show/Hide the element bar based on the Mode and whether it is in the Advanced Mode Element config list
-        showHideAdvancedElementBar(elementBarList[e]);
-    }
-}
-
-/**
- * Show/Hide the given element bar based on the Mode and whether it is in the Advanced Mode Element config list.
- */
-function showHideAdvancedElementBar(elementBar) {
-    var dataPath = elementBar.getAttribute("data-path");
-
-    //  For each item in the advancedModeElementDataPaths config array
-    for (var a = 0; a < advancedModeElementDataPaths.length; a++) {
-        //  IF this element has a data path that matches a regular expression in the advancedModeElementDataPaths config array
-        if (dataPath.match(advancedModeElementDataPaths[a])) {
+    for (var i=0; i < elementBarList.length; i++) {
+        var dataPath = elementBarList[i].getAttribute("data-path");
+        //  IF the dataPath is in the advanced list
+        if (advancedModeElementDataPaths.includes(dataPath)) {
             //  IF in Basic Mode
-            if (g_isBasicMode) {
+            if (isBasicMode) {
                 //  Hide the element completely
-                ///elementBar.style.display = "none";
+                ///elementBarList[i].style.display = "none";
                 //  Hide the element, but leave an empty row where it should be
-                elementBar.style.visibility = "hidden";
+                elementBarList[i].style.visibility = "hidden";
             } else {
                 //  Show the element
-                ///elementBar.style.display = "inline";         //  "block";
-                elementBar.style.visibility = "visible";
+                ///elementBarList[i].style.display = "inline";         //  "block";
+                elementBarList[i].style.visibility = "visible";
             }
         }
     }
