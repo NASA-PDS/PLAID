@@ -334,11 +334,20 @@ var invalidElementsInJSON = [
 
 /**
  * This list is for storing the items that are recommended to be included in the label template
+ *
+ * Match any digit, escape the slash so it interprets it as an actual slash.
+ * $ so it doesn't match:
+ * e.g. "1/Observation_Area/4/Observing_System/2/Observing_System_Component/0/xxxx"
+ *
+ * Currently the list items will match the following data-paths:
+ *  "1/Observation_Area/4/Observing_System/2/Observing_System_Component"
+ *  "1/Observation_Area/5/Target_Identification/2/type"
+ *
  * @type {string[]}
  */
 var recommendedElementDataPaths= [
-    "[0-9]\/Observation_Area\/[0-9]+/Observing_System\/[0-9]+\/Observing_System_Component",
-    "[0-9]\/Observation_Area\/[0-9]+/Target_Identification\/[0-9]+\/type"
+    "[0-9]\/Observation_Area\/[0-9]+/Observing_System\/[0-9]+\/Observing_System_Component$",
+    "[0-9]\/Observation_Area\/[0-9]+/Target_Identification\/[0-9]+\/type$"
 ];
 
 
