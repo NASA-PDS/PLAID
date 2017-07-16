@@ -80,7 +80,6 @@ function initWizard(wizard) {
                 // when a class from a previous page is removed, handle recursive removal
                 // of that page and skip the addition steps below
                 var classRemoved = false;
-                // console.log('*** ',progressData[currentIndex]['step']);
                 switch (progressData[currentIndex]['step']){
                     case 'discipline_dictionaries':
                         classRemoved = areDifferentDisciplineNodes(progressData[currentIndex]);
@@ -97,7 +96,6 @@ function initWizard(wizard) {
             }
             if (newIndex > currentIndex){
 
-                // +++++++++++ tmp begin ++++++++++++
                 var indentLevel = 0;
                 if(typeof(progressData[currentIndex]) != "undefined" && progressData[currentIndex]['step']=='optional_nodes'){
                     pathParts = progressData[currentIndex]['step_path'].split('/');
@@ -109,9 +107,6 @@ function initWizard(wizard) {
                 // TODO - we should do a check here to figure out what
                 // page we are on and determine where to go from there
                 handleStepAddition(currentIndex, newIndex, indentLevel, progressData[currentIndex]);
-                // +++++++++++ tmp end ++++++++++++
-
-
                 handleMissionSpecificsStep(currentIndex, newIndex);
                 handleExportStep(newIndex);
                 discNodesSelection(currentIndex);
@@ -141,7 +136,6 @@ function initWizard(wizard) {
                     if ((typeof progressData != "undefined" || progressData != null) && !g_state.loading) {
                         // need to only call storeprogress when appropriate
                         storeProgress(priorIndex, priorStepTitle, (priorIndex + 1 > progressData.length));
-                        //+++++++++ tmp b
                         if (currentIndex > priorIndex){
 
                             var indentLevel = 0;
@@ -153,7 +147,6 @@ function initWizard(wizard) {
                             }
                             handleStepAddition(priorIndex, currentIndex, indentLevel, progressData[priorIndex]);
                         }
-                        //++++++++++ tmp e
                     }
                 }
             }
@@ -172,8 +165,6 @@ function initWizard(wizard) {
             insertCheckmark($("#wizard-t-" + currentIndex.toString()));
 
             window.location = "dashboard.php";
-
-            window.location.reload(false);
         },
 
         /* Labels */
@@ -498,10 +489,11 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
 
     elementBar.appendChild(plusBtn);
 
+    // Highlight the element bar if this item is in the list of recommendedElementDataPaths
     var isRecommended = false;
-    recommendedList.forEach(function(path) {
-        if(path === dataObj['path']){
-            elementBar.style.cssText = 'box-shadow: 0 0 10px #00F5FF;';
+    recommendedElementDataPaths.forEach(function(path) {
+        if(dataObj["path"].match(path)){
+            elementBar.style.cssText = 'box-shadow: 0 0 15px #00F5FF;';
             isRecommended = true;
         }
     });
@@ -529,6 +521,7 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
 
     return elementBar;
 }
+
 /**
  * Create a span to act as a label with the specified text. If it is inside
  * of a choice group, then there is slightly different formatting.
