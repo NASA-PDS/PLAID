@@ -99,6 +99,7 @@ function initWizard(wizard) {
                 // when a class from a previous page is removed, handle recursive removal
                 // of that page and skip the addition steps below
                 var classRemoved = false;
+                // console.log('*** ',progressData[currentIndex]['step']);
                 switch (progressData[currentIndex]['step']){
                     case 'discipline_dictionaries':
                         classRemoved = areDifferentDisciplineNodes(progressData[currentIndex]);
@@ -114,9 +115,18 @@ function initWizard(wizard) {
                 }
             }
             if (newIndex > currentIndex){
+
+                var indentLevel = 0;
+                if(typeof(progressData[currentIndex]) != "undefined" && progressData[currentIndex]['step']=='optional_nodes'){
+                    pathParts = progressData[currentIndex]['step_path'].split('/');
+                    indentLevel = pathParts.length>2?pathParts.length:0;
+                }else if(typeof(progressData[currentIndex]) != "undefined" && progressData[currentIndex]['step']=='builder'){
+                    indentlevel = 1;
+                }
+
                 // TODO - we should do a check here to figure out what
                 // page we are on and determine where to go from there
-                handleStepAddition(currentIndex, newIndex);
+                handleStepAddition(currentIndex, newIndex, indentLevel, progressData[currentIndex]);
                 handleMissionSpecificsStep(currentIndex, newIndex);
                 handleExportStep(newIndex);
                 discNodesSelection(currentIndex);
@@ -146,6 +156,17 @@ function initWizard(wizard) {
                     if ((typeof progressData != "undefined" || progressData != null) && !g_state.loading) {
                         // need to only call storeprogress when appropriate
                         storeProgress(priorIndex, priorStepTitle, (priorIndex + 1 > progressData.length));
+                        if (currentIndex > priorIndex){
+
+                            var indentLevel = 0;
+                            if(typeof(progressData[priorIndex]) != "undefined" && progressData[priorIndex]['step']=='optional_nodes'){
+                                pathParts = progressData[priorIndex]['step_path'].split('/');
+                                indentLevel = pathParts.length>2?pathParts.length:0;
+                            }else if(typeof(progressData[priorIndex]) != "undefined" && progressData[priorIndex]['step']=='builder'){
+                                indentlevel = 1;
+                            }
+                            handleStepAddition(priorIndex, currentIndex, indentLevel, progressData[priorIndex]);
+                        }
                     }
                 }
             }
@@ -156,6 +177,7 @@ function initWizard(wizard) {
             $("#help").empty();
             previewDescription();
             $("#help").fadeIn(400);
+
         },
         onCanceled: function (event) { },
         onFinishing: function (event, currentIndex) { return true; },
@@ -163,6 +185,8 @@ function initWizard(wizard) {
             insertCheckmark($("#wizard-t-" + currentIndex.toString()));
 
             window.location = "dashboard.php";
+
+            window.location.reload(false);
         },
 
         /* Labels */
@@ -176,6 +200,7 @@ function initWizard(wizard) {
             loading: "Loading ..."
         }
     };
+    // window.location.replace(location)
     wizard.steps(settings);
 }
 /**
@@ -192,16 +217,22 @@ function matchWizardHeight(wizardContent, wizardActions, sidebar, stepsBar){
     $(stepsBar).css("height", $(wizardContent).height() + $(wizardActions).height());
 }
 /**
-* Handles the dynamic creation of new steps populated with data from the product
-* object created from the PDS4 JSON. This function looks up the corresponding object
-* for each element bar in a step, checks if the user opted to add that object,
-* and adds a new step accordingly.
-* @param {number} currentIndex for the current step in the wizard
-* @param {number} newIndex for the next step in the wizard
+ * Handles the dynamic creation of new steps populated with data from the product
+ * object created from the PDS4 JSON. This function looks up the corresponding object
+ * for each element bar in a step, checks if the user opted to add that object,
+ * and adds a new step accordingly.
+ * @param {number} currentIndex for the current step in the wizard
+ * @param {number} newIndex for the next step in the wizard
  */
-function handleStepAddition(currentIndex, newIndex){
+function handleStepAddition(currentIndex, newIndex, indentation, stepObj){
     var insertionIndex = newIndex;
 
+
+    // Indent step-link-list-items to show step hierarchy
+    if(typeof(stepObj) != "undefined" && stepObj['step']=='optional_nodes') {
+        // $('#wizard-t-' + currentIndex).parent().css('padding-left', stepObj['step_path'].split('/').length * 10 );
+        $('#wizard-t-' + currentIndex).parent().css('padding-left', stepObj['step_path'].split('/').length * 10 );
+    }
 
     var currSection = $("#wizard-p-" + currentIndex.toString());
     var hasRun = false;
@@ -246,8 +277,6 @@ function handleStepAddition(currentIndex, newIndex){
                     //  tool and a step should not be added
                     if (currObj['next'] !== undefined && currObj['title'] !== "Mission_Area" && currObj['title'] !== "Discipline_Area") {
 
-
-
                         insertStep($("#wizard"), insertionIndex, currObj, g_jsonData.namespaces[g_state.nsIndex], val);
 
                         for(var i = 1; i <= val; i++) {
@@ -275,15 +304,16 @@ function handleStepAddition(currentIndex, newIndex){
 
 }
 /*
-* Insert a step into the wizard at the specified index with content
-* generated from the specified data object.
-* @param {Object} wizard
-* @param {Number} index zero-based position indicating where in the wizard to insert the step
-* @param {Object} dataObj object containing the PDS data to generate content from
+ * Insert a step into the wizard at the specified index with content
+ * generated from the specified data object.
+ * @param {Object} wizard
+ * @param {Number} index zero-based position indicating where in the wizard to insert the step
+ * @param {Object} dataObj object containing the PDS data to generate content from
  */
 function insertStep(wizard, index, dataObj, ns, quantity){
+
     if(index > wizardData.maxStep) {
-       revertStepClass(index);
+        revertStepClass(index);
     }
     // Get the node name from the g_dictInfo global
     var nodeName = g_dictInfo[g_jsonData.namespaces[g_state.nsIndex]].name;
@@ -307,16 +337,16 @@ function insertStep(wizard, index, dataObj, ns, quantity){
     $(".selectpicker").selectpicker("render"); // select pickers need to rendered after being appended;
 }
 /**
-* Generate the content section for a new step in the wizard. This function also gets the
-* next level of associations for future reference in the data object. This data storing
-* is sequential because the JSON is too large to parse all at once.
-* @param {string} sectionTitle title of the current section from object data
-* @param {Object} dataObj object containing the PDS data to generate content from
+ * Generate the content section for a new step in the wizard. This function also gets the
+ * next level of associations for future reference in the data object. This data storing
+ * is sequential because the JSON is too large to parse all at once.
+ * @param {string} sectionTitle title of the current section from object data
+ * @param {Object} dataObj object containing the PDS data to generate content from
  *@param {Object} parentObj parent class of the dataObj
  *@param {String} namespace of dataObj
  *@param {number} iteration of this object - if a users adds 3 of the same class this indicates which the current is
  *@param {number} total iterations of this object
-* @return {Element} section
+ * @return {Element} section
  */
 function generateContent(sectionTitle, dataObj, parentObj,ns, iteration, quantity){
 
@@ -421,11 +451,11 @@ function generateContent(sectionTitle, dataObj, parentObj,ns, iteration, quantit
     return section;
 }
 /**
-* Create an element-bar populated with data from the specified object.
-* @param {object} dataObj object containing the information for the element-bar
-* @param {function} genLabel function to create the label portion of the element-bar
-* @param {bool} isChoice denotes whether this element-bar is in a choice group or not
-* @return {Element} elementBar
+ * Create an element-bar populated with data from the specified object.
+ * @param {object} dataObj object containing the information for the element-bar
+ * @param {function} genLabel function to create the label portion of the element-bar
+ * @param {bool} isChoice denotes whether this element-bar is in a choice group or not
+ * @return {Element} elementBar
  */
 function createElementBar(dataObj, genLabel, isChoice, parentPath){
     var elementBar = document.createElement("div");
@@ -442,10 +472,10 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
     // Set the data path. This is the traversal path through the JSON
     elementBar.setAttribute('data-path', dataObj["path"]);
     if(!dataObj["path"].startsWith(parentPath) && typeof parentPath != 'undefined' && parentPath != g_dictInfo["pds"]["name"]) {
-        console.log("Need to correct " + dataObj["path"] + " with parent " + parentPath);
+        // console.log("Need to correct " + dataObj["path"] + " with parent " + parentPath);
         var arrayPath = dataObj["path"].split("/");
         parentPath = parentPath + "/" + arrayPath[arrayPath.length-2] + "/" + arrayPath[arrayPath.length-1];
-        console.log("Corrected path: " + parentPath);
+        // console.log("Corrected path: " + parentPath);
         elementBar.setAttribute('data-path-corrected', parentPath);
 
     }
@@ -481,10 +511,11 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
 
     elementBar.appendChild(plusBtn);
 
+    // Highlight the element bar if this item is in the list of recommendedElementDataPaths
     var isRecommended = false;
-    recommendedList.forEach(function(path) {
-        if(path === dataObj['path']){
-            elementBar.style.cssText = 'box-shadow: 0 0 10px #00F5FF;';
+    recommendedElementDataPaths.forEach(function(path) {
+        if(dataObj["path"].match(path)){
+            elementBar.style.cssText = 'box-shadow: 0 0 15px #00F5FF;';
             isRecommended = true;
         }
     });
