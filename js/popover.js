@@ -46,6 +46,10 @@ var dict = {
     spectra: "Contains detail about presenting data in any kind of spectrum",
     wave: "Contains classes that describe the composition of multidimensional wave data consisting of Array (and Array subclass) data objects"
 };
+
+const FORMATION_RULE_TITLE = "<br/><b>Valid Value: </b><br/>";
+const RED_GREEN_EXPLANATION = "<br/><span style='color:red;'>Red</span> is invalid, <span style='color:green;'>green</span> is valid.";
+const FORMATION_RULE_KEYWORD = "formation_rule";
 /**
 * For each element with the class name "label-item", initialize a popover.
 * The title for the popover is formed from the element's inner HTML, while
@@ -92,6 +96,16 @@ function addPopover(element, data, min, max, isRecommended){
         max = "<b>Max Occurrences: " + max + "</b><br/>";
         description = min + max + data["description"];
     }
+
+    //  Get the Formation Rule for this element's Data Type
+    var formationRule = getFormationRule(data["dataTypeId"]);
+    if ((formationRule !== undefined) && (formationRule.length > 0)) {
+        //  Display the formation rule in the Popover
+        description += FORMATION_RULE_TITLE + formationRule;
+        //  Display an explanation of Red and Green colors for validation
+        description += RED_GREEN_EXPLANATION;
+    }
+
     if(data["next"] && !$.isEmptyObject(data["next"])){
         description += "<br/><b>Sub-attributes: </b><br/>";
     }
@@ -130,4 +144,51 @@ function addPopover(element, data, min, max, isRecommended){
 function removePopovers(){
     $(".label-item").popover('hide');
     $(".element-bar").popover('hide');
+}
+/**
+ * Get the Formation Rule for the given Data Type
+ * @param {string} dataTypeId the id of the data type of which to get the formation rule
+ * @param {string} returns the formation rule
+ */
+function getFormationRule(dataTypeId) {
+    var permissibleValMeaning;
+    if (dataTypeId !== undefined) {
+        //  Find the Class Dictionary entry for this Data Type
+        var classDict = g_jsonData.nodes.pds.dataDictionary.classDictionary;
+        for (var c = 0; c < classDict.length; c++) {
+            var classDictEntry = classDict[c].class;
+            if (classDictEntry.identifier === dataTypeId) {
+                //  Get the Formation Rule from the Association List
+                var associationList = classDictEntry.associationList;
+                if (associationList !== undefined) {
+                    for (var a = 0; a < associationList.length; a++) {
+                        var association = associationList[a].association;
+                        if (association.title === FORMATION_RULE_KEYWORD) {
+                            //  Get the Formation Rule
+                            var assocAttributeIdArray = association.attributeId;
+                            if ((assocAttributeIdArray !== undefined) && (assocAttributeIdArray.length > 0)) {
+                                var formationRuleId = assocAttributeIdArray[0];
+                                //  Look up the Formation Rule in the Attribute Dictionary
+                                var attrDict = g_jsonData.nodes.pds.dataDictionary.attributeDictionary;
+                                for (var at = 0; at < attrDict.length; at++) {
+                                    var attrDictEntry = attrDict[at].attribute;
+                                    if (attrDictEntry.identifier === formationRuleId) {
+                                        //  Get the formation rule desc.
+                                        var permissibleValList = attrDictEntry.PermissibleValueList;
+                                        if ((permissibleValList !== undefined) && (permissibleValList.length > 0)) {
+                                            permissibleValMeaning = permissibleValList[0].PermissibleValue.valueMeaning;
+                                        }
+                                        break;  //  out of attrDict loop
+                                    }
+                                }
+                            }
+                            break;  //  out of associationList loop
+                        }
+                    }
+                }
+                break;  //  out of classDict loop
+            }
+        }
+    }
+    return permissibleValMeaning;
 }

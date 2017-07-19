@@ -569,7 +569,69 @@ function createValueInput(dataObj){
         input.className = "form-control element-bar-input";
         input.type = "text";
         input.placeholder = "Enter value (optional)";
+
+        //  Set the Data Type into an input element attribute
+        var dataTypeId = dataObj["dataTypeId"];
+        if (dataTypeId !== undefined) {
+            input.setAttribute('data-type-id', dataTypeId);
+        }
+
+        //  Call a function when the input text control contents are changed by the user
+        ///input.onkeyup = function() { console.log("Text Input control value changed to '" + input.value + "'"); };
+        input.oninput = validateTextInput;
+
         return input;
+    }
+}
+/**
+ * Validate the contents of the Text Input control
+ * Called when the input text control contents are changed by the user.
+ */
+function validateTextInput() {
+    var newValue = this.value;
+    ///console.log("Text Input control value changed to '" + this.value + "'");
+
+    //  Get the Data Type from the text input control's attribute
+    var dataTypeId = $(this).attr("data-type-id");
+
+    if (dataTypeId !== undefined) {
+        //  Find the Data Type Dictionary entry for this Data Type
+        var dataTypeDict = g_jsonData.nodes.pds.dataDictionary.dataTypeDictionary;
+        for (var d=0; d < dataTypeDict.length; d++) {
+            var dataTypeDictEntry = dataTypeDict[d].DataType;
+            if (dataTypeDictEntry.identifier === dataTypeId) {
+                //  Get the Pattern List for this Data Type
+                var patternList = dataTypeDictEntry.patternList;
+                if (patternList !== undefined) {
+                    var isAPatternMatched = false;
+                    for (var p=0; p < patternList.length; p++) {
+                        var patternVal = patternList[p].Pattern.value;
+                        //  Match just this pattern, not this pattern plus anything before or after
+                        var patternWithLimiters = "^" + patternVal + "$";
+                        //  Apply the pattern to the input element's value
+                        //  IF the new value matches the regular expression in the patternList array
+                        ///if (newValue.match("[0-9]")) {    //  IF the input contains a digit
+                        if (newValue.match(patternWithLimiters)) {
+                            isAPatternMatched = true;
+                            break;  //  out of patternList loop
+                        }
+                    }
+                    if (isAPatternMatched) {
+                        this.style.color = "green";
+                    } else {
+                        this.style.color = "red";
+                        //  Get the parent element bar
+                        ///var parentElementBar = this.parentElement;
+                        //  Get the parent element bar's popover
+                        ///var popover = $(parentElementBar).data('popover');
+                        //  Get the contents of the popover
+                        ///var popoverContents = popover.options.content;
+                        ///content.log("Popover contents: " + popoverContents);
+                    }
+                }
+                break;  //  out of dataTypeDict loop
+            }
+        }
     }
 }
 /**
