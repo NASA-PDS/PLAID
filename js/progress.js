@@ -151,13 +151,21 @@ function storeOptionalNodes(priorIndex, progressObj) {
         var element = {
             id: $(this).attr('data-path'),
             num: $(".element-bar-counter", this).val(),
-            val: ""
+            val: "",
+            unit: ""
         };
         if ($(".element-bar-input", this).length != 0) {
             element["val"] = $(".element-bar-input", this).val();
         } else if ($(".selectpicker", this).length != 0) {
             element["val"] = $(".selectpicker", this).val();
         }
+
+        //  TODO: Unit: Get the Unit value from the Unit dropdown list
+        //  Get the element in this elementBar with both selectpicker and unitchooser classes
+        if ($(".selectpicker.unitchooser", this).length != 0) {
+            element["unit"] = $(".selectpicker.unitchooser", this).val();
+        }
+
         progressObj['selection'].push(element);
     });
 }
@@ -309,6 +317,13 @@ function loadOptionalNode(dataObj) {
                 $(".selectpicker", elementBar).selectpicker("val", currObj['val']);
                 $(".element-bar-input", elementBar).val(currObj['val']);
             }
+
+            //  TODO: Unit: Load the Unit value into the Unit dropdown list
+            if (currObj['unit'] !== undefined && currObj['unit'] !== "") {
+                //  Set the element in elementBar with the unitchooser class
+                $(".unitchooser", elementBar).selectpicker("val", currObj['unit']);
+            }
+
             //need to call this function to reset the properties of the element bar
             //after the adjustments have been made to load the progress
             setOneElementBarStyle($(".element-bar-counter", elementBar));
@@ -509,6 +524,14 @@ function areDifferentOptionalNodes(dataObj) {
         } else if ($(".selectpicker", elementBar).length != 0) {
             newVal = $(".selectpicker", elementBar).val();
         }
+
+        //  TODO: Unit: Get the Unit value from the Unit dropdown list
+        var newUnit = "";
+        //  Get the element in elementBar with both selectpicker and unitchooser classes
+        if ($(".selectpicker.unitchooser", elementBar).length != 0) {
+            newUnit = $(".selectpicker.unitchooser", elementBar).val();
+        }
+
         var pathToUse = currObj['id'];
         if (typeof $(elementBar).attr("data-path-corrected") != 'undefined') { // if we have a path that needs correcting, use that
             pathToUse = $(elementBar).attr("data-path-corrected");
@@ -556,7 +579,7 @@ function areDifferentOptionalNodes(dataObj) {
                 // Remove the given number of instances from the label, and update the value of the remaining instances
                 backendCall("php/xml_mutator.php",
                     "removeClass",
-                    {path: pathToUse, ns: "", number_to_remove: numberToRemove, value: newVal},
+                    {path: pathToUse, ns: "", number_to_remove: numberToRemove, value: newVal, unit: newUnit},
                     function (data) {
                     });
                 currObj['num'] = newNum;
@@ -600,7 +623,7 @@ function areDifferentOptionalNodes(dataObj) {
 
         } else if (newNum > currObj['num'] && currObj['num'] != 0) {
             // Some amount of element was added. Usually this would trigger a new step, but in this case, that step
-            // has already been added, so we just want to add aditional elements. We check to make sure
+            // has already been added, so we just want to add additional elements. We check to make sure
             // that the previous number of elements is non zero - if it's zero, that's a new step.
             var num_to_add = newNum - currObj['num'];
             currObj['num'] = newNum;
@@ -619,6 +642,7 @@ function areDifferentOptionalNodes(dataObj) {
                     path: pathToUse,
                     quantity: newNum,
                     value: newVal,
+                    unit: newUnit,
                     ns: g_jsonData.namespaces[g_state.nsIndex],
                 },
                 function (data) {
@@ -626,14 +650,15 @@ function areDifferentOptionalNodes(dataObj) {
 
         } else {
             // No elements were added or removed... but did any of the actual values change?
-            if (currObj['val'] != newVal) {
-                // Update value
+            if ((currObj['val'] != newVal) || (currObj['unit'] != newUnit)) {
+                // Update value and unit
                 backendCall("php/xml_mutator.php",
                     "addNode",
                     {
                         path: pathToUse,
                         quantity: newNum,
                         value: newVal,
+                        unit: newUnit,
                         ns: g_jsonData.namespaces[g_state.nsIndex],
                         value_only: "true",
                     },

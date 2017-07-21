@@ -95,6 +95,12 @@ function addNode($args){
                             //  Setting the nodeValue attribute wipes out the child nodes of this node
                             ///$child_node->nodeValue = $args["value"];
                             updateNodeValue($child_node, $args["value"]);
+                            //  IF a Unit is specified
+                            if (isset($args["unit"]) && (!empty($args["unit"]))) {
+                                //  Update the Unit attribute of the node
+                                $child_node->setAttribute("unit", $args["unit"]);
+                            }
+
                         }
                     }
                 }
@@ -159,6 +165,12 @@ function addNode($args){
                 $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $nodeName);
             } else {
                 $newNode = $DOC->createElement($nodeName);
+            }
+
+            //  IF a Unit is specified
+                if (isset($args["unit"]) && (!empty($args["unit"]))) {
+                //  Add a Unit attribute to the node
+                $newNode->setAttribute("unit", $args["unit"]);
             }
 
             addNodeValue($newNode, $args["value"]);
@@ -304,6 +316,11 @@ function removeClass($args){
             $node = $nodes->item($i);
             //  Update the text value of this node
             updateNodeValue($node, $args["value"]);
+            //  IF a Unit is specified
+            if (isset($args["unit"]) && (!empty($args["unit"]))) {
+                //  Update the Unit attribute of the node
+                $node->setAttribute("unit", $args["unit"]);
+            }
             //  IF the node should be removed
             if ($i < $n_to_remove) {
                 //  Remove the node

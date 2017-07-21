@@ -241,9 +241,17 @@ function handleStepAddition(currentIndex, newIndex, indentation, stepObj){
         $(".element-bar", currSection).each(function(barIndex, value){
             if(!$(this).hasClass("stepAdded")) {
                 var val = $(".element-bar-counter", this).val();
-                var metadata = $(".element-bar-input", this).val();
-                if($(".selectpicker", this).length != 0) {
+                var metadata = "";
+                if ($(".element-bar-input", this).length != 0) {
+                    metadata = $(".element-bar-input", this).val();
+                } else if($(".selectpicker", this).length != 0) {
                     metadata = $(".selectpicker", this).val();
+                }
+                //  TODO: Unit: Get the selected unit value from the Unit dropdown list
+                var unitValue = "";
+                //  Get the element in this elementBar with both the selectpicker and unitchooser classes
+                if ($(".selectpicker.unitchooser", this).length != 0) {
+                    unitValue = $(".selectpicker.unitchooser", this).val();
                 }
 
                 var path = $(this).attr("data-path");
@@ -292,7 +300,7 @@ function handleStepAddition(currentIndex, newIndex, indentation, stepObj){
                     }
                     backendCall("php/xml_mutator.php",
                         "addNode",
-                        {path: path, quantity: val, value: metadata, ns: g_jsonData.namespaces[g_state.nsIndex]},
+                        {path: path, quantity: val, value: metadata, unit: unitValue, ns: g_jsonData.namespaces[g_state.nsIndex]},
                         function (data) {
                         });
                 }
@@ -487,6 +495,12 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
         $(label).addClass("hasInput");
         var input = createValueInput(dataObj);
         elementBar.appendChild(input);
+
+        //  TODO: Unit: Create a Unit dropdown list based on the Unit Id
+        var unitDropdown = createUnitDropdown(dataObj);
+        if (unitDropdown != null) {
+            elementBar.appendChild(unitDropdown);
+        }
     }
     var minusBtn = createControlButton("minus");
     elementBar.appendChild(minusBtn);
@@ -613,6 +627,39 @@ function createValueInput(dataObj){
 
         return input;
     }
+}
+/**
+ * Create a dropdown list for selecting the element's Unit of measure.
+ * @param {object} dataObj - object that contains the Unit Id
+ * @returns {Element}
+ */
+function createUnitDropdown(dataObj){
+    var permissibleSelect = null;
+
+    //  TODO: Unit: Look up the actual Units based on the UnitId in the given data object
+    var unitCSVList = dataObj.unitId;
+    if ((unitCSVList !== undefined) && (unitCSVList !== null) && (unitCSVList !== "null")) {
+        var unitArray = unitCSVList.split(",");
+        if (unitArray.length > 0) {
+            // Make dropdown list with the permissible Units
+            permissibleSelect = document.createElement("select");
+            $(permissibleSelect).attr("data-width", "10.0%");
+            $(permissibleSelect).attr("data-container", "body");
+            $(permissibleSelect).attr("title", "Choose a unit");
+            $(permissibleSelect).addClass("selectpicker");
+            //  Add another class to make it distinct from the Value dropdown list
+            $(permissibleSelect).addClass("unitchooser");
+
+            for (var u=0; u < unitArray.length; u++) {
+                var permissibleOption = document.createElement("option");
+                $(permissibleOption).text(unitArray[u].trim());
+                $(permissibleSelect).append(permissibleOption);
+                $(permissibleOption).attr("name", unitArray[u].trim());
+            }
+        }
+    }
+
+    return permissibleSelect;
 }
 /**
  * Validate the contents of the Text Input control
