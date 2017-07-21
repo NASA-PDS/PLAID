@@ -713,62 +713,6 @@ function validateTextInput() {
     }
 }
 /**
- * Default certain dropdown lists to a particular value.
- * @param {object} selectElement - the dropdown list element
- * @param {string} dropdownId - the ID of the dropdown list element
- */
-function defaultDropdownValue(selectElement, dropdownId){
-    //  Default the Identification Area step's Product Class dropdown list,
-    //  based on the Product Type selected in the 1st step.
-    //  IF this dropdown is the Identification Area step's Product Class dropdown list
-    if (dropdownId === IDENTIFICATION_AREA_PRODUCT_CLASS_DROPDOWN_ID) {
-        //  Switch based on the Product Type that was selected in the 1st step
-        switch (progressData[0].selection) {
-            //  IF the selected Product Type is 'Observational'
-            case PRODUCT_TYPE_OBSERVATIONAL_ID:
-                //  Default the Product Class dropdown's value to "Product_Observational"
-                $(selectElement).val(PRODUCT_CLASS_OBSERVATIONAL);
-                break;
-            case PRODUCT_TYPE_DOCUMENT_ID:
-                //  Default the Product Class dropdown's value to "Product_Document"
-                $(selectElement).val(PRODUCT_CLASS_DOCUMENT);
-                break;
-            case PRODUCT_TYPE_CONTEXT_ID:
-                //  Default the Product Class dropdown's value to "Product_Context"
-                $(selectElement).val(PRODUCT_CLASS_CONTEXT);
-                break;
-            case PRODUCT_TYPE_FILE_TEXT_ID:
-                //  Default the Product Class dropdown's value to "Product_File_Text"
-                $(selectElement).val(PRODUCT_CLASS_FILE_TEXT);
-                break;
-            case PRODUCT_TYPE_THUMBNAIL_ID:
-                //  Default the Product Class dropdown's value to "Product_Thumbnail"
-                $(selectElement).val(PRODUCT_CLASS_THUMBNAIL);
-                break;
-        }
-    } else if (dropdownId === IDENTIFICATION_AREA_INFO_MODEL_VERSION_DROPDOWN_ID) {
-        //  IF this dropdown is the Identification Area step's Information Model Version dropdown list
-        //  Switch based on the Version that was selected in the Creation dialog, and placed in the URL
-        var schemaVersion = getParameterByName("version");
-
-        switch (schemaVersion) {
-            //  IF the selected Schema version is '1.8.0.0'
-            case SCHEMA_VERSION_1800:
-                //  Default the Information Model Version dropdown's value to "1.8.0.0"
-                $(selectElement).val(SCHEMA_VERSION_DOTTED_1800);
-                break;
-            case SCHEMA_VERSION_1700:
-                //  Default the Information Model Version dropdown's value to "1.7.0.0"
-                $(selectElement).val(SCHEMA_VERSION_DOTTED_1700);
-                break;
-            case SCHEMA_VERSION_1600:
-                //  Default the Information Model Version dropdown's value to "1.6.0.0"
-                $(selectElement).val(SCHEMA_VERSION_DOTTED_1600);
-                break;
-        }
-    }           //  end IF the Identification Area step's Information Model Version dropdown list
-}
-/**
 * Create a plus or minus button for controlling the form in an element-bar.
 * @param {string} type ["plus" | "minus"]
 * @return {Element} wrapper
