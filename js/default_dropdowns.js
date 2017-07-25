@@ -20,6 +20,25 @@
  * @author Michael Munn
  */
 
+const IDENTIFICATION_AREA_PRODUCT_CLASS_DROPDOWN_ID = "0001_NASA_PDS_1.pds.Identification_Area.pds.product_class";
+const IDENTIFICATION_AREA_INFO_MODEL_VERSION_DROPDOWN_ID = "0001_NASA_PDS_1.pds.Identification_Area.pds.information_model_version";
+const PRODUCT_TYPE_OBSERVATIONAL_ID = "0001_NASA_PDS_1.pds.Product_Observational",
+    PRODUCT_TYPE_DOCUMENT_ID = "0001_NASA_PDS_1.pds.Product_Document",
+    PRODUCT_TYPE_CONTEXT_ID = "0001_NASA_PDS_1.pds.Product_Context",
+    PRODUCT_TYPE_FILE_TEXT_ID = "0001_NASA_PDS_1.pds.Product_File_Text",
+    PRODUCT_TYPE_THUMBNAIL_ID = "0001_NASA_PDS_1.pds.Product_Thumbnail";
+const PRODUCT_CLASS_OBSERVATIONAL = "Product_Observational",
+    PRODUCT_CLASS_DOCUMENT = "Product_Document",
+    PRODUCT_CLASS_CONTEXT = "Product_Context",
+    PRODUCT_CLASS_FILE_TEXT = "Product_File_Text",
+    PRODUCT_CLASS_THUMBNAIL = "Product_Thumbnail";
+const SCHEMA_VERSION_1800 = "1800",
+    SCHEMA_VERSION_1700 = "1700",
+    SCHEMA_VERSION_1600 = "1600";
+const SCHEMA_VERSION_DOTTED_1800 = "1.8.0.0",
+    SCHEMA_VERSION_DOTTED_1700 = "1.7.0.0",
+    SCHEMA_VERSION_DOTTED_1600 = "1.6.0.0";
+
 /**
  * Default certain dropdown lists to a particular value.
  * @param {object} selectElement - the dropdown list element
@@ -35,8 +54,12 @@ function defaultDropdownValue(selectElement, dropdownId) {
     defaultInfoModelVersionDropdownValue(selectElement, dropdownId);
 
     /**
-     * Add your function calls here, to default a dropdown list to a particular value
+     * Users can add their code into the plug-in function that is called below,
+     * to default dropdown lists to their desired value
+     * Call the JQuery Plug-in in 'thirdparty/js/jquery.default_dropdown_plug-in.js',
+     * into which the user may add code.
      */
+    $(selectElement).defaultDropdownValues(dropdownId);
 
 }
 /**
