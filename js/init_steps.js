@@ -30,25 +30,6 @@
  * Note: Several aspects of the wizard are controlled within functions called in the
  * onStepChanging and onStepChanged methods of the wizard's settings object.
  */
-const IDENTIFICATION_AREA_PRODUCT_CLASS_DROPDOWN_ID = "0001_NASA_PDS_1.pds.Identification_Area.pds.product_class";
-const IDENTIFICATION_AREA_INFO_MODEL_VERSION_DROPDOWN_ID = "0001_NASA_PDS_1.pds.Identification_Area.pds.information_model_version";
-const PRODUCT_TYPE_OBSERVATIONAL_ID = "0001_NASA_PDS_1.pds.Product_Observational",
-      PRODUCT_TYPE_DOCUMENT_ID = "0001_NASA_PDS_1.pds.Product_Document",
-      PRODUCT_TYPE_CONTEXT_ID = "0001_NASA_PDS_1.pds.Product_Context",
-      PRODUCT_TYPE_FILE_TEXT_ID = "0001_NASA_PDS_1.pds.Product_File_Text",
-      PRODUCT_TYPE_THUMBNAIL_ID = "0001_NASA_PDS_1.pds.Product_Thumbnail";
-const PRODUCT_CLASS_OBSERVATIONAL = "Product_Observational",
-      PRODUCT_CLASS_DOCUMENT = "Product_Document",
-      PRODUCT_CLASS_CONTEXT = "Product_Context",
-      PRODUCT_CLASS_FILE_TEXT = "Product_File_Text",
-      PRODUCT_CLASS_THUMBNAIL = "Product_Thumbnail";
-const SCHEMA_VERSION_1800 = "1800",
-      SCHEMA_VERSION_1700 = "1700",
-      SCHEMA_VERSION_1600 = "1600";
-const SCHEMA_VERSION_DOTTED_1800 = "1.8.0.0",
-      SCHEMA_VERSION_DOTTED_1700 = "1.7.0.0",
-      SCHEMA_VERSION_DOTTED_1600 = "1.6.0.0";
-
 function initWizard(wizard) {
     var settings = {
         /* Appearance */
@@ -711,62 +692,6 @@ function validateTextInput() {
             }
         }
     }
-}
-/**
- * Default certain dropdown lists to a particular value.
- * @param {object} selectElement - the dropdown list element
- * @param {string} dropdownId - the ID of the dropdown list element
- */
-function defaultDropdownValue(selectElement, dropdownId){
-    //  Default the Identification Area step's Product Class dropdown list,
-    //  based on the Product Type selected in the 1st step.
-    //  IF this dropdown is the Identification Area step's Product Class dropdown list
-    if (dropdownId === IDENTIFICATION_AREA_PRODUCT_CLASS_DROPDOWN_ID) {
-        //  Switch based on the Product Type that was selected in the 1st step
-        switch (progressData[0].selection) {
-            //  IF the selected Product Type is 'Observational'
-            case PRODUCT_TYPE_OBSERVATIONAL_ID:
-                //  Default the Product Class dropdown's value to "Product_Observational"
-                $(selectElement).val(PRODUCT_CLASS_OBSERVATIONAL);
-                break;
-            case PRODUCT_TYPE_DOCUMENT_ID:
-                //  Default the Product Class dropdown's value to "Product_Document"
-                $(selectElement).val(PRODUCT_CLASS_DOCUMENT);
-                break;
-            case PRODUCT_TYPE_CONTEXT_ID:
-                //  Default the Product Class dropdown's value to "Product_Context"
-                $(selectElement).val(PRODUCT_CLASS_CONTEXT);
-                break;
-            case PRODUCT_TYPE_FILE_TEXT_ID:
-                //  Default the Product Class dropdown's value to "Product_File_Text"
-                $(selectElement).val(PRODUCT_CLASS_FILE_TEXT);
-                break;
-            case PRODUCT_TYPE_THUMBNAIL_ID:
-                //  Default the Product Class dropdown's value to "Product_Thumbnail"
-                $(selectElement).val(PRODUCT_CLASS_THUMBNAIL);
-                break;
-        }
-    } else if (dropdownId === IDENTIFICATION_AREA_INFO_MODEL_VERSION_DROPDOWN_ID) {
-        //  IF this dropdown is the Identification Area step's Information Model Version dropdown list
-        //  Switch based on the Version that was selected in the Creation dialog, and placed in the URL
-        var schemaVersion = getParameterByName("version");
-
-        switch (schemaVersion) {
-            //  IF the selected Schema version is '1.8.0.0'
-            case SCHEMA_VERSION_1800:
-                //  Default the Information Model Version dropdown's value to "1.8.0.0"
-                $(selectElement).val(SCHEMA_VERSION_DOTTED_1800);
-                break;
-            case SCHEMA_VERSION_1700:
-                //  Default the Information Model Version dropdown's value to "1.7.0.0"
-                $(selectElement).val(SCHEMA_VERSION_DOTTED_1700);
-                break;
-            case SCHEMA_VERSION_1600:
-                //  Default the Information Model Version dropdown's value to "1.6.0.0"
-                $(selectElement).val(SCHEMA_VERSION_DOTTED_1600);
-                break;
-        }
-    }           //  end IF the Identification Area step's Information Model Version dropdown list
 }
 /**
 * Create a plus or minus button for controlling the form in an element-bar.

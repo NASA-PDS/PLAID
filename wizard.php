@@ -43,9 +43,12 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <script src="thirdparty/js/download.min.js"></script>
     <script src="thirdparty/js/bootstrap-select.min.js"></script>
     <script src="thirdparty/js/bootstrap-toggle.min.js"></script>
+    <!-- Plug in to allow the user to add code to set the default values for dropdown lists -->
+    <script src="thirdparty/js/jquery.default_dropdown_plug-in.js"></script>
     <script src="js/main.js"></script>
     <script src="config/pop_up_config.js"></script>
     <script src="js/element_bar.js"></script>
+    <script src="js/default_dropdowns.js"></script>
     <script src="js/init_steps.js"></script>
     <script src="js/popover.js"></script>
     <script src="js/parse_json.js"></script>
