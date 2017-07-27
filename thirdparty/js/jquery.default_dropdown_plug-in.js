@@ -21,55 +21,80 @@
  *
  * @author Michael Munn
  */
-const IDENTIFICATION_AREA_INFO_MODEL_VERSION_DROPDOWN_ID_PI = "0001_NASA_PDS_1.pds.Identification_Area.pds.information_model_version";
-const SCHEMA_VERSION_1800_PI = "1800",
-    SCHEMA_VERSION_1700_PI = "1700",
-    SCHEMA_VERSION_1600_PI = "1600";
-const SCHEMA_VERSION_DOTTED_1800_PI = "1.8.0.0",
-    SCHEMA_VERSION_DOTTED_1700_PI = "1.7.0.0",
-    SCHEMA_VERSION_DOTTED_1600_PI = "1.6.0.0";
-const AGENCY_NAME_DROPDOWN_ID = "0001_NASA_PDS_1.pds.Agency.pds.name";
-const JAPAN_AGENCY_NAME = "Japan Aerospace Exploration Agency";
+const INVESTIGATION_AREA_TYPE_DROPDOWN_ID = "0001_NASA_PDS_1.pds.Investigation_Area.pds.type";
+const INVESTIGATION_AREA_MISSION_TYPE = "Mission";
+const OBSERVING_SYSTEM_COMPONENT_TYPE_DROPDOWN_ID = "0001_NASA_PDS_1.pds.Observing_System_Component.pds.type";
+const OBSERVING_SYSTEM_COMPONENT_BALLOON_TYPE = "Balloon";
+const TARGET_IDENTIFICATION_TYPE_DROPDOWN_ID = "0001_NASA_PDS_1.pds.Target_Identification.pds.type";
+const TARGET_IDENTIFICATION_CALIBRATION_TYPE = "Calibration";
 
 jQuery.fn.defaultDropdownValues = function(dropdownId) {
-    ///return this.each(function() {
-    //  IF this dropdown is the Agency step's Name dropdown list
-    if (dropdownId === AGENCY_NAME_DROPDOWN_ID) {
-        console.log('In defaultDropdownValues() plug-in, Dropdown Id = "' + dropdownId + '".');
-        $(this).val(JAPAN_AGENCY_NAME);
-    }
 
-    /**********************************************************************************************/
-    //  IF this dropdown is the Identification Area step's Information Model Version dropdown list
-    if (dropdownId === IDENTIFICATION_AREA_INFO_MODEL_VERSION_DROPDOWN_ID_PI) {
-        console.log('In defaultDropdownValues() plug-in, Dropdown Id = "' + dropdownId + '".');
-        //  Switch based on the Version that was selected in the Creation dialog, and placed in the URL
-        var schemaVersion = getParameterByName("version");
+    /*
+     *  Examples of functions that set the default value of a dropdown list
+     */
+    //  Default the Investigation Area step's Type dropdown list
+    defaultInvestigationAreaTypeDropdownValue(this, dropdownId);
 
-        switch (schemaVersion) {
-            //  IF the selected Schema version is '1.8.0.0'
-            case SCHEMA_VERSION_1800_PI:
-                //  Default the Information Model Version dropdown's value to "1.8.0.0"
-                $(this).val(SCHEMA_VERSION_DOTTED_1800_PI);
-                break;
-            case SCHEMA_VERSION_1700_PI:
-                //  Default the Information Model Version dropdown's value to "1.7.0.0"
-                $(this).val(SCHEMA_VERSION_DOTTED_1700_PI);
-                break;
-            case SCHEMA_VERSION_1600_PI:
-                //  Default the Information Model Version dropdown's value to "1.6.0.0"
-                $(this).val(SCHEMA_VERSION_DOTTED_1600_PI);
-                break;
-        }
-    }           //  end IF the Identification Area step's Information Model Version dropdown list
+    //  Default the Observing System Component step's Type dropdown list
+    defaultObservingSystemComponentTypeDropdownValue(this, dropdownId);
 
-    /**********************************************************************************************/
+    //  Default the Target Identification step's Type dropdown list
+    defaultTargetIdentificationTypeDropdownValue(this, dropdownId);
 
     /*
      * Users can add their code here, to default dropdown lists to their desired value
      */
-    
 
-    ///});
+
     return this;
 };
+
+/**
+ * Default the Investigation Area step's Type dropdown list
+ * @param {object} selectElement - the dropdown list element
+ * @param {string} dropdownId - the ID of the dropdown list element
+ */
+function defaultInvestigationAreaTypeDropdownValue(selectElement, dropdownId) {
+    //  IF this dropdown is the Investigation Area step's Type dropdown list
+    if (dropdownId === INVESTIGATION_AREA_TYPE_DROPDOWN_ID) {
+        console.log('In defaultInvestigationAreaTypeDropdownValue(), Dropdown Id = "' + dropdownId + '".');
+        //  Need to wait until the DOM is loaded before trying to set the selected item
+        setTimeout(function(){
+            $(selectElement).val(INVESTIGATION_AREA_MISSION_TYPE);
+            $(selectElement).trigger("change");
+        }, 0);
+    }
+}
+/**
+ * Default the Observing System Component step's Type dropdown list
+ * @param {object} selectElement - the dropdown list element
+ * @param {string} dropdownId - the ID of the dropdown list element
+ */
+function defaultObservingSystemComponentTypeDropdownValue(selectElement, dropdownId) {
+    //  IF this dropdown is the Observing System Component step's Type dropdown list
+    if (dropdownId === OBSERVING_SYSTEM_COMPONENT_TYPE_DROPDOWN_ID) {
+        console.log('In defaultObservingSystemComponentTypeDropdownValue(), Dropdown Id = "' + dropdownId + '".');
+        //  Need to wait until the DOM is loaded before trying to set the selected item
+        setTimeout(function(){
+            $(selectElement).val(OBSERVING_SYSTEM_COMPONENT_BALLOON_TYPE);
+            $(selectElement).trigger("change");
+        }, 0);
+    }
+}
+/**
+ * Default the Target Identification step's Type dropdown list
+ * @param {object} selectElement - the dropdown list element
+ * @param {string} dropdownId - the ID of the dropdown list element
+ */
+function defaultTargetIdentificationTypeDropdownValue(selectElement, dropdownId) {
+    //  IF this dropdown is the Target Identification step's Type dropdown list
+    if (dropdownId === TARGET_IDENTIFICATION_TYPE_DROPDOWN_ID) {
+        console.log('In defaultTargetIdentificationTypeDropdownValue(), Dropdown Id = "' + dropdownId + '".');
+        //  Need to wait until the DOM is loaded before trying to set the selected item
+        setTimeout(function(){
+            $(selectElement).val(TARGET_IDENTIFICATION_CALIBRATION_TYPE);
+            $(selectElement).trigger("change");
+        }, 0);
+    }
+}

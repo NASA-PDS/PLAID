@@ -71,30 +71,35 @@ function defaultDropdownValue(selectElement, dropdownId) {
 function defaultProductClassDropdownValue(selectElement, dropdownId) {
     //  IF this dropdown is the Identification Area step's Product Class dropdown list
     if (dropdownId === IDENTIFICATION_AREA_PRODUCT_CLASS_DROPDOWN_ID) {
-        //  Switch based on the Product Type that was selected in the 1st step
-        switch (progressData[0].selection) {
-            //  IF the selected Product Type is 'Observational'
-            case PRODUCT_TYPE_OBSERVATIONAL_ID:
-                //  Default the Product Class dropdown's value to "Product_Observational"
-                $(selectElement).val(PRODUCT_CLASS_OBSERVATIONAL);
-                break;
-            case PRODUCT_TYPE_DOCUMENT_ID:
-                //  Default the Product Class dropdown's value to "Product_Document"
-                $(selectElement).val(PRODUCT_CLASS_DOCUMENT);
-                break;
-            case PRODUCT_TYPE_CONTEXT_ID:
-                //  Default the Product Class dropdown's value to "Product_Context"
-                $(selectElement).val(PRODUCT_CLASS_CONTEXT);
-                break;
-            case PRODUCT_TYPE_FILE_TEXT_ID:
-                //  Default the Product Class dropdown's value to "Product_File_Text"
-                $(selectElement).val(PRODUCT_CLASS_FILE_TEXT);
-                break;
-            case PRODUCT_TYPE_THUMBNAIL_ID:
-                //  Default the Product Class dropdown's value to "Product_Thumbnail"
-                $(selectElement).val(PRODUCT_CLASS_THUMBNAIL);
-                break;
-        }
+        //  Need to wait until the DOM is loaded before trying to set the selected item
+        setTimeout(function(){
+            //  Switch based on the Product Type that was selected in the 1st step
+            switch (progressData[0].selection) {
+                //  IF the selected Product Type is 'Observational'
+                case PRODUCT_TYPE_OBSERVATIONAL_ID:
+                    //  Default the Product Class dropdown's value to "Product_Observational"
+                    $(selectElement).val(PRODUCT_CLASS_OBSERVATIONAL);
+                    break;
+                case PRODUCT_TYPE_DOCUMENT_ID:
+                    //  Default the Product Class dropdown's value to "Product_Document"
+                    $(selectElement).val(PRODUCT_CLASS_DOCUMENT);
+                    break;
+                case PRODUCT_TYPE_CONTEXT_ID:
+                    //  Default the Product Class dropdown's value to "Product_Context"
+                    $(selectElement).val(PRODUCT_CLASS_CONTEXT);
+                    break;
+                case PRODUCT_TYPE_FILE_TEXT_ID:
+                    //  Default the Product Class dropdown's value to "Product_File_Text"
+                    $(selectElement).val(PRODUCT_CLASS_FILE_TEXT);
+                    break;
+                case PRODUCT_TYPE_THUMBNAIL_ID:
+                    //  Default the Product Class dropdown's value to "Product_Thumbnail"
+                    $(selectElement).val(PRODUCT_CLASS_THUMBNAIL);
+                    break;
+            }       //  end Switch
+            //  Trigger the onChange event to update the selected item in the dropdown list
+            $(selectElement).trigger("change");
+        }, 0);
     }           //  end IF the Identification Area step's Product Class dropdown list
 }
 /**
@@ -109,20 +114,24 @@ function defaultInfoModelVersionDropdownValue(selectElement, dropdownId) {
         //  Switch based on the Version that was selected in the Creation dialog, and placed in the URL
         var schemaVersion = getParameterByName("version");
 
-        switch (schemaVersion) {
-            //  IF the selected Schema version is '1.8.0.0'
-            case SCHEMA_VERSION_1800:
-                //  Default the Information Model Version dropdown's value to "1.8.0.0"
-                $(selectElement).val(SCHEMA_VERSION_DOTTED_1800);
-                break;
-            case SCHEMA_VERSION_1700:
-                //  Default the Information Model Version dropdown's value to "1.7.0.0"
-                $(selectElement).val(SCHEMA_VERSION_DOTTED_1700);
-                break;
-            case SCHEMA_VERSION_1600:
-                //  Default the Information Model Version dropdown's value to "1.6.0.0"
-                $(selectElement).val(SCHEMA_VERSION_DOTTED_1600);
-                break;
-        }
+        //  Need to wait until the DOM is loaded before trying to set the selected item
+        setTimeout(function(){
+            switch (schemaVersion) {
+                //  IF the selected Schema version is '1.8.0.0'
+                case SCHEMA_VERSION_1800:
+                    //  Default the Information Model Version dropdown's value to "1.8.0.0"
+                    $(selectElement).val(SCHEMA_VERSION_DOTTED_1800);
+                    break;
+                case SCHEMA_VERSION_1700:
+                    //  Default the Information Model Version dropdown's value to "1.7.0.0"
+                    $(selectElement).val(SCHEMA_VERSION_DOTTED_1700);
+                    break;
+                case SCHEMA_VERSION_1600:
+                    //  Default the Information Model Version dropdown's value to "1.6.0.0"
+                    $(selectElement).val(SCHEMA_VERSION_DOTTED_1600);
+                    break;
+            }       //  end Switch
+            $(selectElement).trigger("change");
+        }, 0);
     }           //  end IF the Identification Area step's Information Model Version dropdown list
 }
