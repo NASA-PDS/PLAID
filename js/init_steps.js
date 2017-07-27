@@ -176,7 +176,7 @@ function initWizard(wizard) {
             current: "-> ",
             pagination: "Pagination",
             finish: "Finish",
-            next: "Next",
+            next: "Save & Go To Next",
             previous: "Previous",
             loading: "Loading ..."
         }
