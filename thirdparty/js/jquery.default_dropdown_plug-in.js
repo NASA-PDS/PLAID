@@ -34,13 +34,13 @@ jQuery.fn.defaultDropdownValues = function(dropdownId) {
      *  Examples of functions that set the default value of a dropdown list
      */
     //  Default the Investigation Area step's Type dropdown list
-    defaultInvestigationAreaTypeDropdownValue(this, dropdownId);
+    ///defaultInvestigationAreaTypeDropdownValue(this, dropdownId);
 
     //  Default the Observing System Component step's Type dropdown list
-    defaultObservingSystemComponentTypeDropdownValue(this, dropdownId);
+    ///defaultObservingSystemComponentTypeDropdownValue(this, dropdownId);
 
     //  Default the Target Identification step's Type dropdown list
-    defaultTargetIdentificationTypeDropdownValue(this, dropdownId);
+    ///defaultTargetIdentificationTypeDropdownValue(this, dropdownId);
 
     /*
      * Users can add their code here, to default dropdown lists to their desired value
