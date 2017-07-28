@@ -160,7 +160,7 @@ function storeOptionalNodes(priorIndex, progressObj) {
             element["val"] = $(".selectpicker", this).val();
         }
 
-        //  TODO: Unit: Get the Unit value from the Unit dropdown list
+        //  Get the Unit value from the Unit dropdown list
         //  Get the element in this elementBar with both selectpicker and unitchooser classes
         if ($(".selectpicker.unitchooser", this).length != 0) {
             element["unit"] = $(".selectpicker.unitchooser", this).val();
@@ -318,7 +318,7 @@ function loadOptionalNode(dataObj) {
                 $(".element-bar-input", elementBar).val(currObj['val']);
             }
 
-            //  TODO: Unit: Load the Unit value into the Unit dropdown list
+            //  Load the Unit value into the Unit dropdown list
             if (currObj['unit'] !== undefined && currObj['unit'] !== "") {
                 //  Set the element in elementBar with the unitchooser class
                 $(".unitchooser", elementBar).selectpicker("val", currObj['unit']);
@@ -525,7 +525,7 @@ function areDifferentOptionalNodes(dataObj) {
             newVal = $(".selectpicker", elementBar).val();
         }
 
-        //  TODO: Unit: Get the Unit value from the Unit dropdown list
+        //  Get the Unit value from the Unit dropdown list
         var newUnit = "";
         //  Get the element in elementBar with both selectpicker and unitchooser classes
         if ($(".selectpicker.unitchooser", elementBar).length != 0) {

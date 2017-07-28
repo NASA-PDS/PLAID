@@ -99,6 +99,8 @@ function validateInput() {
 function setOneElementBarStyle(counter) {
     var label = $(counter).siblings(".element-bar-label");
     var metadata = $(counter).siblings(".element-bar-input");
+    //  Get the sibling that is the unitchooser selectpicker's div tag, which contains the 'select' tag
+    var unitchooserDivTagElement = $(counter).siblings(".unitchooser");
     var val = parseInt($(counter).val(), 10);
     var minAndMax = getMinMax(counter);
     var min = minAndMax[0], max = minAndMax[1];
@@ -106,9 +108,15 @@ function setOneElementBarStyle(counter) {
         if (val === 0) {
             $(label).addClass("zero-instances");
             $(metadata).prop('disabled', true);
+            //  Disable the Unit dropdown list by disabling the Unit Chooser div tag's child 'select' tag
+            $('.unitchooser', unitchooserDivTagElement).prop('disabled', true);
+            $('.unitchooser', unitchooserDivTagElement).selectpicker('refresh');
         } else {
             $(label).removeClass("zero-instances");
             $(metadata).prop('disabled', false);
+            //  Enable the Unit dropdown list by enabling the Unit Chooser div tag's child 'select' tag
+            $('.unitchooser', unitchooserDivTagElement).prop('disabled', false);
+            $('.unitchooser', unitchooserDivTagElement).selectpicker('refresh');
         }
     }
     if (min === max) {

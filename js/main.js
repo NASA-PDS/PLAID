@@ -244,6 +244,13 @@ function increaseCounter(){
         $(this).parent().siblings(".element-bar-label").removeClass("zero-instances");
         $(this).parent().siblings(".element-bar-input").prop('disabled', false);
         $(this).parent().siblings(".selectpicker").prop('disabled', false);
+        //  Enable the Unit dropdown list
+        //  Get the sibling that is the unitchooser selectpicker's div tag, which contains the 'select' tag
+        var unitchooserDivTagElement = $(this).parent().siblings(".unitchooser");
+        //  Enable the div tag's child 'select' tag
+        $('.unitchooser', unitchooserDivTagElement).prop('disabled', false);
+        $('.unitchooser', unitchooserDivTagElement).selectpicker('refresh');
+
         $(this).parent().siblings(".element-bar-button").children(".element-bar-minus").prop('disabled', false);
     }
     if (newVal === counterMax){
@@ -301,6 +308,12 @@ function decreaseCounter(){
             $(this).parent().siblings(".selectpicker").prop('disabled', true);
             $(this).parent().siblings(".selectpicker").selectpicker('refresh');
         }
+        //  Disable the Unit dropdown list
+        //  Get the sibling that is the unitchooser selectpicker's div tag, which contains the 'select' tag
+        var unitchooserDivTagElement = $(this).parent().siblings(".unitchooser");
+        //  Disable the div tag's child 'select' tag
+        $('.unitchooser', unitchooserDivTagElement).prop('disabled', true);
+        $('.unitchooser', unitchooserDivTagElement).selectpicker('refresh');
     }
 }
 /**
