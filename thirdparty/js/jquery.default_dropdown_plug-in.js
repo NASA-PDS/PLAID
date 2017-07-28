@@ -59,12 +59,16 @@ function defaultInvestigationAreaTypeDropdownValue(selectElement, dropdownId) {
     //  IF this dropdown is the Investigation Area step's Type dropdown list
     if (dropdownId === INVESTIGATION_AREA_TYPE_DROPDOWN_ID) {
         console.log('In defaultInvestigationAreaTypeDropdownValue(), Dropdown Id = "' + dropdownId + '".');
-        //  Need to wait until the DOM is loaded before trying to set the selected item
-        setTimeout(function(){
-            $(selectElement).val(INVESTIGATION_AREA_MISSION_TYPE);
-            $(selectElement).trigger("change");
-        }, 0);
-    }
+        //  IF certain conditions are met
+        if (true) {
+            //  Set the default value of the dropdown list
+            //  Need to wait until the DOM is loaded before trying to set the selected item
+            setTimeout(function () {
+                $(selectElement).val(INVESTIGATION_AREA_MISSION_TYPE);
+                $(selectElement).trigger("change");
+            }, 0);
+        }       //  end IF certain conditions are met
+    }       //  end IF the Investigation Area Type dropdown list
 }
 /**
  * Default the Observing System Component step's Type dropdown list
@@ -75,12 +79,16 @@ function defaultObservingSystemComponentTypeDropdownValue(selectElement, dropdow
     //  IF this dropdown is the Observing System Component step's Type dropdown list
     if (dropdownId === OBSERVING_SYSTEM_COMPONENT_TYPE_DROPDOWN_ID) {
         console.log('In defaultObservingSystemComponentTypeDropdownValue(), Dropdown Id = "' + dropdownId + '".');
-        //  Need to wait until the DOM is loaded before trying to set the selected item
-        setTimeout(function(){
-            $(selectElement).val(OBSERVING_SYSTEM_COMPONENT_BALLOON_TYPE);
-            $(selectElement).trigger("change");
-        }, 0);
-    }
+        //  IF certain conditions are met
+        if (true) {
+            //  Set the default value of the dropdown list
+            //  Need to wait until the DOM is loaded before trying to set the selected item
+            setTimeout(function(){
+                $(selectElement).val(OBSERVING_SYSTEM_COMPONENT_BALLOON_TYPE);
+                $(selectElement).trigger("change");
+            }, 0);
+        }       //  end IF certain conditions are met
+    }       //  end IF the Observing System Component Type dropdown list
 }
 /**
  * Default the Target Identification step's Type dropdown list
@@ -91,10 +99,14 @@ function defaultTargetIdentificationTypeDropdownValue(selectElement, dropdownId)
     //  IF this dropdown is the Target Identification step's Type dropdown list
     if (dropdownId === TARGET_IDENTIFICATION_TYPE_DROPDOWN_ID) {
         console.log('In defaultTargetIdentificationTypeDropdownValue(), Dropdown Id = "' + dropdownId + '".');
-        //  Need to wait until the DOM is loaded before trying to set the selected item
-        setTimeout(function(){
-            $(selectElement).val(TARGET_IDENTIFICATION_CALIBRATION_TYPE);
-            $(selectElement).trigger("change");
-        }, 0);
-    }
+        //  IF certain conditions are met
+        if (true) {
+            //  Set the default value of the dropdown list
+            //  Need to wait until the DOM is loaded before trying to set the selected item
+            setTimeout(function(){
+                $(selectElement).val(TARGET_IDENTIFICATION_CALIBRATION_TYPE);
+                $(selectElement).trigger("change");
+            }, 0);
+        }       //  end IF certain conditions are met
+    }       //  end IF the Target Identification Type dropdown list
 }
