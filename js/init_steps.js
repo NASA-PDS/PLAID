@@ -228,7 +228,7 @@ function handleStepAddition(currentIndex, newIndex, indentation, stepObj){
                 } else if($(".selectpicker", this).length != 0) {
                     metadata = $(".selectpicker", this).val();
                 }
-                //  TODO: Unit: Get the selected unit value from the Unit dropdown list
+                //  Get the selected unit value from the Unit dropdown list
                 var unitValue = "";
                 //  Get the element in this elementBar with both the selectpicker and unitchooser classes
                 if ($(".selectpicker.unitchooser", this).length != 0) {
@@ -477,7 +477,7 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
         var input = createValueInput(dataObj);
         elementBar.appendChild(input);
 
-        //  TODO: Unit: Create a Unit dropdown list based on the Unit Id
+        //  Create a Unit dropdown list based on the Unit Id
         var unitDropdown = createUnitDropdown(dataObj);
         if (unitDropdown != null) {
             elementBar.appendChild(unitDropdown);
@@ -493,9 +493,12 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
     if ($(counter).prop("value") === $(counter).prop("max")){
         $("button", plusBtn).prop("disabled", true);
     }
+    //  IF the min is 0, the value is set to 0 too
     if ($(counter).prop("min") === "0") {
         label.className += " zero-instances";
         $(input).prop('disabled', true);
+        //  Disable the Unit dropdown list
+        $(unitDropdown).prop('disabled', true);
     }
     if (isChoice){
         $(counter).prop("disabled", true);
@@ -617,7 +620,7 @@ function createValueInput(dataObj){
 function createUnitDropdown(dataObj){
     var permissibleSelect = null;
 
-    //  TODO: Unit: Look up the actual Units based on the UnitId in the given data object
+    //  Look up the actual Units based on the UnitId in the given data object
     var unitCSVList = dataObj.unitId;
     if ((unitCSVList !== undefined) && (unitCSVList !== null) && (unitCSVList !== "null")) {
         var unitArray = unitCSVList.split(",");
@@ -633,6 +636,7 @@ function createUnitDropdown(dataObj){
 
             for (var u=0; u < unitArray.length; u++) {
                 var permissibleOption = document.createElement("option");
+                //  Set the text of the option
                 $(permissibleOption).text(unitArray[u].trim());
                 $(permissibleSelect).append(permissibleOption);
                 $(permissibleOption).attr("name", unitArray[u].trim());
