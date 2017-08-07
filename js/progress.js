@@ -157,13 +157,23 @@ function storeOptionalNodes(priorIndex, progressObj) {
         if ($(".element-bar-input", this).length != 0) {
             element["val"] = $(".element-bar-input", this).val();
         } else if ($(".selectpicker", this).length != 0) {
-            element["val"] = $(".selectpicker", this).val();
+            //  Get the value dropdown list's selection
+            var valueDropdownSelection = $(".selectpicker", this).val();
+            //  IF the selection is NOT the "No item selected" option
+            if (valueDropdownSelection !== VALUE_DROPDOWN_LIST_NO_SELECTION) {
+                element["val"] = valueDropdownSelection;
+            }
         }
 
         //  Get the Unit value from the Unit dropdown list
         //  Get the element in this elementBar with both selectpicker and unitchooser classes
         if ($(".selectpicker.unitchooser", this).length != 0) {
-            element["unit"] = $(".selectpicker.unitchooser", this).val();
+            //  Get the Unit dropdown list's selection
+            var unitDropdownSelection = $(".selectpicker.unitchooser", this).val();
+            //  IF the selection is NOT the "No unit selected" option
+            if (unitDropdownSelection !== UNIT_DROPDOWN_LIST_NO_SELECTION) {
+                element["unit"] = unitDropdownSelection;
+            }
         }
 
         progressObj['selection'].push(element);
@@ -522,14 +532,24 @@ function areDifferentOptionalNodes(dataObj) {
         if ($(".element-bar-input", elementBar).length != 0) {
             newVal = $(".element-bar-input", elementBar).val();
         } else if ($(".selectpicker", elementBar).length != 0) {
-            newVal = $(".selectpicker", elementBar).val();
+            //  Get the value dropdown list's selection
+            var valueDropdownSelection = $(".selectpicker", elementBar).val();
+            //  IF the dropdown's selection is NOT the "No item selected" option
+            if (valueDropdownSelection !== VALUE_DROPDOWN_LIST_NO_SELECTION) {
+                newVal = valueDropdownSelection;
+            }
         }
 
         //  Get the Unit value from the Unit dropdown list
         var newUnit = "";
         //  Get the element in elementBar with both selectpicker and unitchooser classes
         if ($(".selectpicker.unitchooser", elementBar).length != 0) {
-            newUnit = $(".selectpicker.unitchooser", elementBar).val();
+            //  Get the Unit dropdown list's selection
+            var unitDropdownSelection = $(".selectpicker.unitchooser", elementBar).val();
+            //  IF the dropdown's selection is NOT the "No unit selected" option
+            if (unitDropdownSelection !== UNIT_DROPDOWN_LIST_NO_SELECTION) {
+                newUnit = unitDropdownSelection;
+            }
         }
 
         var pathToUse = currObj['id'];
