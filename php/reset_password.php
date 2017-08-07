@@ -46,8 +46,11 @@
             //  IF the email and hash parameters are in the URL
             if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && !empty($_GET['hash'])){
                 // Verify data
-                $email = mysql_escape_string($_GET['email']); // Set email variable
-                $hash = mysql_escape_string($_GET['hash']); // Set hash variable
+                //  Using the prepare() stmt. eliminates the need to escape special characters
+                ///$email = mysql_escape_string($_GET['email']); // Set email variable
+                ///$hash = mysql_escape_string($_GET['hash']); // Set hash variable
+                $email = $_GET['email']; // Set email variable
+                $hash = $_GET['hash']; // Set hash variable
                 //  Check that the given e-mail address and hash are in the User table
                 $handle = $LINK->prepare('select id, active from user where email=? and activation_hash=?');
                 $handle->bindValue(1, $email);
