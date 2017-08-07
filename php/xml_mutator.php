@@ -97,8 +97,11 @@ function addNode($args){
                             updateNodeValue($child_node, $args["value"]);
                             //  IF a Unit is specified
                             if (isset($args["unit"]) && (!empty($args["unit"]))) {
-                                //  Update the Unit attribute of the node
+                                //  Set the Unit attribute of the node
                                 $child_node->setAttribute("unit", $args["unit"]);
+                            } else {
+                                //  Remove the Unit attribute of the node
+                                $child_node->removeAttribute("unit");
                             }
 
                         }
@@ -168,7 +171,7 @@ function addNode($args){
             }
 
             //  IF a Unit is specified
-                if (isset($args["unit"]) && (!empty($args["unit"]))) {
+            if (isset($args["unit"]) && (!empty($args["unit"]))) {
                 //  Add a Unit attribute to the node
                 $newNode->setAttribute("unit", $args["unit"]);
             }

@@ -24,6 +24,8 @@
  * @author Michael Kim
  * @author Stirling Algermissen
  */
+const VALUE_DROPDOWN_LIST_NO_SELECTION = "No item selected";
+const UNIT_DROPDOWN_LIST_NO_SELECTION = "No unit selected";
 /**
  * Initialize the wizard using jQuery-Steps built-in method.
  *
@@ -226,13 +228,23 @@ function handleStepAddition(currentIndex, newIndex, indentation, stepObj){
                 if ($(".element-bar-input", this).length != 0) {
                     metadata = $(".element-bar-input", this).val();
                 } else if($(".selectpicker", this).length != 0) {
-                    metadata = $(".selectpicker", this).val();
+                    //  Get the value dropdown list's selection
+                    var valueDropdownSelection = $(".selectpicker", this).val();
+                    //  IF the selection is NOT the "No Selection" option
+                    if (valueDropdownSelection !== VALUE_DROPDOWN_LIST_NO_SELECTION) {
+                        metadata = valueDropdownSelection;
+                    }
                 }
                 //  Get the selected unit value from the Unit dropdown list
                 var unitValue = "";
                 //  Get the element in this elementBar with both the selectpicker and unitchooser classes
                 if ($(".selectpicker.unitchooser", this).length != 0) {
-                    unitValue = $(".selectpicker.unitchooser", this).val();
+                    //  Get the Unit dropdown list's selection
+                    var unitDropdownSelection = $(".selectpicker.unitchooser", this).val();
+                    //  IF the selection is NOT the "No Selection" option
+                    if (unitDropdownSelection !== UNIT_DROPDOWN_LIST_NO_SELECTION) {
+                        unitValue = unitDropdownSelection;
+                    }
                 }
 
                 var path = $(this).attr("data-path");
@@ -572,10 +584,16 @@ function createValueInput(dataObj){
         $(permissibleSelect).attr("title", "Choose a value");
         $(permissibleSelect).addClass("selectpicker");
 
+        //  Have the 1st Dropdown list option be "No item selected"
+        var permissibleOption = document.createElement("option");
+        $(permissibleOption).text(VALUE_DROPDOWN_LIST_NO_SELECTION);
+        //$(permissibleOption).attr("data-subtext", current_value.valueMeaning); -disabled until bootstrap is stable
+        $(permissibleSelect).append(permissibleOption);
+        $(permissibleOption).attr("name", VALUE_DROPDOWN_LIST_NO_SELECTION);
 
         for(var i = 0; i< dataObj.PermissibleValueList.length; i++) {
             var current_value = dataObj.PermissibleValueList[i].PermissibleValue;
-            var permissibleOption = document.createElement("option");
+            permissibleOption = document.createElement("option");
             $(permissibleOption).text(current_value.value);
             //$(permissibleOption).attr("data-subtext", current_value.valueMeaning); -disabled until bootstrap is stable
             $(permissibleSelect).append(permissibleOption);
@@ -634,8 +652,15 @@ function createUnitDropdown(dataObj){
             //  Add another class to make it distinct from the Value dropdown list
             $(permissibleSelect).addClass("unitchooser");
 
+            //  Have the 1st Dropdown list option be "No unit selected"
+            var permissibleOption = document.createElement("option");
+            $(permissibleOption).text(UNIT_DROPDOWN_LIST_NO_SELECTION);
+            //$(permissibleOption).attr("data-subtext", current_value.valueMeaning); -disabled until bootstrap is stable
+            $(permissibleSelect).append(permissibleOption);
+            $(permissibleOption).attr("name", UNIT_DROPDOWN_LIST_NO_SELECTION);
+
             for (var u=0; u < unitArray.length; u++) {
-                var permissibleOption = document.createElement("option");
+                permissibleOption = document.createElement("option");
                 //  Set the text of the option
                 $(permissibleOption).text(unitArray[u].trim());
                 $(permissibleSelect).append(permissibleOption);
