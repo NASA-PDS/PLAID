@@ -61,8 +61,12 @@ catch(\PDOException $ex){
 function insertUser($args){
     global $LINK;
     global $HASHER;
-    //  TODO:  Validate the form entries:  e-mail address in correct format xxx@xxx.xxx, not a duplicate of an existing user,
-    //  to avoid a crash on SQL non-unique key error
+    //  TODO:  Validate the form entries:  e-mail address in correct format xxx@xxx.xxx
+    $duplicateEmailAddr = checkForDuplicateUser($args['email']);
+    if($duplicateEmailAddr){
+        return;
+     }
+
 
     $password = $args['password'];
     $verifyPassword = $args['verifyPassword'];
@@ -746,4 +750,32 @@ function getLabelName(){
 
     $result = $handle->fetch(\PDO::FETCH_OBJ);
     echo $result->name;
+}
+
+
+/**
+ * Check for the duplicate email address already exists in the db.
+ * @param {Object} $args object containing the user's email and password
+ */
+function checkForDuplicateUser($args){
+    global $LINK;
+    global $HASHER;
+    $handle = $LINK->prepare('select id,password,full_name,organization, active, activation_hash from user where email=?');
+    $handle->bindValue(1, $args);
+
+    $handle->execute();
+    $result = $handle->fetchAll(\PDO::FETCH_OBJ);
+
+    session_start();
+    $count = count($result);
+    if (count($result) >= 1) {
+                //  Duplicate email address exists in the db. Return to the Login page w/ an error message
+                $_SESSION['login'] = true;
+                $_SESSION['error_code'] = 3;
+                //  Return to the Login page with an error message
+                header("Location: ../index.php");
+
+                return true;
+    }
+    return false;
 }
