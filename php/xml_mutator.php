@@ -237,32 +237,219 @@ function updateNodeValue($node, $value){
 /**
  * Add custom nodes from the mission specifics JSON passed in from the front-end.
  * Note: only handles adding custom nodes within the Mission_Area node of the document.
- * @param {object} $args object containing the string-ified JSON
+ * @param {object} $args object containing the string-ified mission-specific JSON,
+ *  the mission-specific header, and the schema version
  */
 function addCustomNodes($args){
     global $DOC;
     $data = $args["json"];
+    $missionSpecificsHeader = $args['missionSpecificsHeader'];
+    $version = $args['schemaVersion'];
+    $missionName = $missionSpecificsHeader['missionName'];
+    $stewardId = $missionSpecificsHeader['stewardId'];
+    $nsId = $missionSpecificsHeader['namespaceId'];
+    $cmt = $missionSpecificsHeader['comment'];
     $path = "Observation_Area/Mission_Area";
     $parentNode = getNode($path, "")->item(0);
+
+    //  Create the ingestLDD XML Document
+    $DOC_LDD = new DOMDocument('1.0', 'utf-8');
+    $DOC_LDD->preserveWhiteSpace = false;
+    $DOC_LDD->formatOutput = true;
+    //  Create a root element for the ingestLDD XML Document
+    $rootLDD = $DOC_LDD->createElement('Ingest_LDD');
+    $DOC_LDD->appendChild($rootLDD);
+
+    //  Add the Mission Name under the root element 'Ingest_LDD'
+    addIngestLDDNode($DOC_LDD, $rootLDD, "name", $missionName);
+    //  Add the version under the root element 'Ingest_LDD'
+    //  Add dots to the version
+    $version_dotted = "";
+    for ($i=0; $i < strlen($version); $i++) {
+        $version_dotted .= $version[$i];
+        if ($i < strlen($version)-1) {
+            $version_dotted .= ".";
+        }
+    }
+    addIngestLDDNode($DOC_LDD, $rootLDD, "ldd_version_id", $version_dotted);
+
+    //  Add the user's full name under the root element 'Ingest_LDD'
+    $userId = $_SESSION['user_id'];
+    //  Get the user's full name from the user table
+    $userFullName = getUserName($userId);
+    if ($userFullName != null) {
+        addIngestLDDNode($DOC_LDD, $rootLDD, "full_name", $userFullName);
+    }
+    //  Add the Steward Id under the root element 'Ingest_LDD'
+    addIngestLDDNode($DOC_LDD, $rootLDD, "steward_id", $stewardId);
+    //  Add the Namespace Id under the root element 'Ingest_LDD'
+    addIngestLDDNode($DOC_LDD, $rootLDD, "namespace_id", $nsId);
+    //  Add the Comment under the root element 'Ingest_LDD'
+    addIngestLDDNode($DOC_LDD, $rootLDD, "comment", $cmt);
+    //  Add the Last Modification Date under the root element 'Ingest_LDD'
+    //  Get the current date time in GMT time
+    $curDateTime = gmdate("Y-m-d\TH:i:s\Z");
+    addIngestLDDNode($DOC_LDD, $rootLDD, "last_modification_date_time", $curDateTime);
 
     //  Remove all of the child nodes that are already in the parent node
     while ($parentNode->firstChild) {
         $parentNode->removeChild($parentNode->firstChild);
     }
 
+    //  Create a DD_Attribute tag for each Attribute node
     foreach ($data as $node){
         addNodeWithComment($parentNode, $node["name"], $node["description"]);
+
+        //  IF the node is a Group
         //  The isGroup boolean has been JSON stringified
-        ///if ($node["isGroup"]){
-        if ($node["isGroup"] == "true"){
+        if ($node["isGroup"] === "true"){
+            //  For each child in the group
+            foreach ($node["children"] as $child) {
+                addDDAttributeNode($DOC_LDD, $rootLDD, $userFullName, $child);
+            }
+        } else {
+            addDDAttributeNode($DOC_LDD, $rootLDD, $userFullName, $node);
+        }
+
+
+        //  The isGroup boolean has been JSON stringified
+        if ($node["isGroup"] === "true"){
             foreach ($node["children"] as $child){
                 $groupNode = getNode($path."/".$node["name"], "")->item(0);
                 addNodeWithComment($groupNode, $child["name"], $child["description"]);
             }
         }
     }
+
+    //  Create the DD_Class & DD_Association tags for each Group node
+    foreach ($data as $node){
+
+        //  IF the node is a Group
+        //  The isGroup boolean has been JSON stringified
+        if ($node["isGroup"] === "true"){
+            //  Write a DD_Class tag
+            addDDClassNode($DOC_LDD, $rootLDD, $userFullName, $node);
+        }
+
+    }
+
+    $ingestLddXML = $DOC_LDD->saveXML();
+    updateIngestLddXML($ingestLddXML);
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
+}
+/**
+ * Add a DD_Attribute tag for the given node to the specified root element.
+ * @param {DOMNode} DOMDocument for ingestLDD XML document
+ * @param {$rootLDD} top-level element for ingestLDD XML document
+ * @param {string} $userFullName current user name
+ * @param {string} $node node to write a tag out for
+ */
+function addDDAttributeNode($DOC_LDD, $rootLDD, $userFullName, $node){
+    //  Create a DD_Attribute node
+    $ddAttributeNode = $DOC_LDD->createElement("DD_Attribute");
+    //  Put DD_Attribute under the root
+    $rootLDD->appendChild($ddAttributeNode);
+
+    //  Add a node for the DD_Attribute's name attribute
+    addIngestLDDNode($DOC_LDD, $ddAttributeNode, "name", $node["name"]);
+    //  Add a node for the DD_Attribute's Version Id attribute
+    addIngestLDDNode($DOC_LDD, $ddAttributeNode, "version_id", "1.0");
+    //  Add a node for the DD_Attribute's Local Identifier attribute
+    addIngestLDDNode($DOC_LDD, $ddAttributeNode, "local_identifier", $node["name"]);
+    //  Add a node for the DD_Attribute's nillable attribute
+    addIngestLDDNode($DOC_LDD, $ddAttributeNode, "nillable_flag", $node["nullable"]);
+    //  Add a node for the DD_Attribute's Submitter Name attribute
+    if ($userFullName != null) {
+        addIngestLDDNode($DOC_LDD, $ddAttributeNode, "submitter_name", $userFullName);
+    }
+    //  Add a node for the DD_Attribute's definition attribute
+    addIngestLDDNode($DOC_LDD, $ddAttributeNode, "definition", $node["description"]);
+
+    //  Create a DD_Value_Domain node
+    $ddValueDomainNode = $DOC_LDD->createElement("DD_Value_Domain");
+    //  Put DD_Value_Domain under DD_Attribute
+    $ddAttributeNode->appendChild($ddValueDomainNode);
+
+    //  Add a node for the DD_Value_Domain's Enumeration Flag attribute
+    addIngestLDDNode($DOC_LDD, $ddValueDomainNode, "enumeration_flag", $node["enumFlag"]);
+    //  Add a node for the DD_Value_Domain's Data Type attribute
+    addIngestLDDNode($DOC_LDD, $ddValueDomainNode, "value_data_type", $node["dataType"]);
+    //  TODO:  Add a node for the DD_Value_Domain's Minimum Characters attribute???
+
+    //  Add a node for the DD_Value_Domain's Unit of Measure attribute
+    addIngestLDDNode($DOC_LDD, $ddValueDomainNode, "unit_of_measure_type", $node["unitType"]);
+
+    //  IF the Enumeration Flag is "true" string
+    if ($node["enumFlag"] === "true") {
+        //  Parse the Permissible Values as a comma-separated list
+        $permissibleValueArray = explode(",", $node["permissibleValues"]);
+        //  For each Permissible Value in the array
+        foreach ($permissibleValueArray as $permissibleValue) {
+            $permissibleValue = trim($permissibleValue);
+
+            //  Create a DD_Permissible_Value node
+            $ddPermissibleValueNode = $DOC_LDD->createElement("DD_Permissible_Value");
+            //  Put DD_Permissible_Value under DD_Value_Domain
+            $ddValueDomainNode->appendChild($ddPermissibleValueNode);
+
+            //  Add a node for the DD_Permissible_Value's Value attribute
+            addIngestLDDNode($DOC_LDD, $ddPermissibleValueNode, "value", $permissibleValue);
+        }
+    }
+
+}
+/**
+ * Add a DD_Class tag for the given node to the specified root element.
+ * @param {DOMNode} DOMDocument for ingestLDD XML document
+ * @param {$rootLDD} top-level element for ingestLDD XML document
+ * @param {string} $userFullName current user name
+ * @param {string} $node node to write a tag out for
+ */
+function addDDClassNode($DOC_LDD, $rootLDD, $userFullName, $node){
+    //  Create a DD_Class node
+    $ddClassNode = $DOC_LDD->createElement("DD_Class");
+    //  Put DD_Class under the root
+    $rootLDD->appendChild($ddClassNode);
+
+    //  Add a node for the DD_Class's name attribute
+    addIngestLDDNode($DOC_LDD, $ddClassNode, "name", $node["name"]);
+    //  Add a node for the DD_Class's Version Id attribute
+    addIngestLDDNode($DOC_LDD, $ddClassNode, "version_id", "1.0");
+    //  Add a node for the DD_Class's Local Identifier attribute
+    addIngestLDDNode($DOC_LDD, $ddClassNode, "local_identifier", $node["name"]);
+    //  Add a node for the DD_Class's Submitter Name attribute
+    if ($userFullName != null) {
+        addIngestLDDNode($DOC_LDD, $ddClassNode, "submitter_name", $userFullName);
+    }
+    //  Add a node for the DD_Class's definition attribute
+    addIngestLDDNode($DOC_LDD, $ddClassNode, "definition", $node["description"]);
+
+    //  For each child in the group
+    foreach ($node["children"] as $child) {
+        //  Write a DD_Association tag
+
+        //  Create a DD_Association node
+        $ddAssociationNode = $DOC_LDD->createElement("DD_Association");
+        //  Put DD_Association under DD_Class
+        $ddClassNode->appendChild($ddAssociationNode);
+
+        //  Add a node for the DD_Association's Local Identifier attribute
+        addIngestLDDNode($DOC_LDD, $ddAssociationNode, "local_identifier", $child["name"]);
+        //  Add a node for the DD_Association's Reference Type attribute
+        $referenceType = "attribute_of";
+        //  IF the child is a Group
+        if ($child["isGroup"] === "true") {
+            $referenceType = "component_of";
+        }
+        addIngestLDDNode($DOC_LDD, $ddAssociationNode, "reference_type", $referenceType);
+        //  Add a node for the DD_Association's Minimum Occurrences attribute
+        addIngestLDDNode($DOC_LDD, $ddAssociationNode, "minimum_occurrences", 0);
+        //  Add a node for the DD_Association's Maximum Occurrences attribute
+        addIngestLDDNode($DOC_LDD, $ddAssociationNode, "maximum_occurrences", 1);
+
+    }
+
 }
 /**
  * Add nodes with associated comments to the specified parent element.
@@ -275,6 +462,20 @@ function addNodeWithComment($parent, $nodeName, $comment){
     $newNode = $DOC->createElement($nodeName);
     $newComment = $DOC->createComment($comment);
     $newNode->appendChild($newComment);
+    $parent->appendChild($newNode);
+}
+/**
+ * Add nodes with associated values to the specified parent element.
+ * @param {DOMNode} $parent node to add the new node to
+ * @param {string} $nodeName name of the new node
+ * @param {string} $value value of the new node
+ */
+function addIngestLDDNode($docLDD, $parent, $nodeName, $value){
+    ///global $DOC;
+    $newNode = $docLDD->createElement($nodeName);
+    ///addNodeValue($newNode, $value);
+    $valNode = $docLDD->createTextNode($value);
+    $newNode->appendChild($valNode);
     $parent->appendChild($newNode);
 }
 /**

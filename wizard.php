@@ -297,10 +297,27 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         </div>
 
                         <span class="spacer"></span>
+                </div>
 
+                <div id="finalPreviewIngest"></div>
+                <div class="exportIngestLDDForm">
+                    <span class="spacer"></span>
+                    <div class="input-group" role="group">
+                        <span class="input-group-addon" style="width:auto !important;">Filename:</span>
 
+                        <input id="exportIngestLDDInput" class="form-control" name="filename" type="text" placeholder="IngestLDDTool.xml">
+                        <span class="input-group-btn">
+                                <button id="exportIngestLDDButton" class="btn btn-warning" type="submit">Export</button>
+                            </span>
+                        <!-- <span class="input-group-btn">
+                            <button id="submitButton" class="btn btn-primary">Submit to PDS for review</button>
+                            </span> -->
+                    </div>
+
+                    <span class="spacer"></span>
 
                 </div>
+
             </section>
         </div>
         <div id="sidebar">

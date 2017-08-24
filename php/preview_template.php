@@ -25,12 +25,11 @@
 require_once("interact_db.php");
 require_once("xml_mutator.php");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+function previewLabelTemplate($args) {
+    global $DOC;
     header('Content-Type: text/plain');
-    $namespaces = $_POST["Data"]["namespaces"];
+    $namespaces = $args["namespaces"];
 
-
-    $DOC = readInXML(getLabelXML());
     $root = $DOC->documentElement;
     foreach ($namespaces as $ns){
         if ($ns === "pds") {
@@ -47,3 +46,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $modFile = preg_replace("/<Discipline_Area>.*<\/Discipline_Area>/s", $discAreaStr, $tempXml);
     echo $modFile;
 }
+
+function previewIngestLDDToolTemplate($args) {
+    global $DOC;
+    header('Content-Type: text/plain');
+    $namespaces = $args["namespaces"];
+
+    $ingestLDDToolXML = getIngestLDDToolXML();
+    echo $ingestLDDToolXML;
+    /*************************************************************************************
+    $root = $DOC->documentElement;
+    foreach ($namespaces as $ns){
+        if ($ns === "pds") {
+            $root->setAttribute("xmlns", "http://pds.nasa.gov/pds4/$ns/v1");
+        } else {
+            $root->setAttribute("xmlns:$ns", "http://pds.nasa.gov/pds4/$ns/v1");
+        }
+    }
+    $tempXml = $DOC->saveXML(NULL, LIBXML_NOEMPTYTAG);
+    $root->removeAttributeNS("http://pds.nasa.gov/pds4/pds/v1", "");
+    $discAreaDom = getNode("Observation_Area/Discipline_Area", "")->item(0);
+    $discAreaStr = $DOC->saveXML($discAreaDom);
+    $discAreaStr = preg_replace("/\sxmlns:.*=\"http:\/\/pds.nasa.gov\/pds4\/.*\/v1\"/", "", $discAreaStr);
+    $modFile = preg_replace("/<Discipline_Area>.*<\/Discipline_Area>/s", $discAreaStr, $tempXml);
+    echo $modFile;
+    *************************************************************************************/
+}
+
+?>
