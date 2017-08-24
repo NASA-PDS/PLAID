@@ -31,6 +31,8 @@
                 //  Get the Inactive E-mail Address from the Session variable
                 $inactive_email = $_SESSION['inactive_email'];
                 $error_msg = "E-mail address '".$inactive_email."' has not been verified yet. Click on this link to <a href=\"php/resend_verification_email.php\">re-send the verification e-mail</a>.";
+            } else if ($error_code == 3) {
+                $error_msg = "You already have a PLAID account associated with the email address you entered. Please sign in or reset the password of your account.";
             }
             echo '<div class="statusmsg">Error:  '.$error_msg.'</div>'; // Display our error message and wrap it with a div with the class "statusmsg".
 
