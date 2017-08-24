@@ -195,6 +195,27 @@ function verifyUser($args){
 }
 
 /**
+ * Fetch the User's full name, given the User Id.
+ * @param {Object} $userId the User's Id
+ * @return user's full name
+ */
+function getUserName($userId){
+    global $LINK;
+    $handle = $LINK->prepare('select full_name from user where id=? and active=1');
+    $handle->bindValue(1, $userId);
+
+    $handle->execute();
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+
+    if ($result !== false){
+        return($result->full_name);
+    } else {
+        return null;
+    }
+
+}
+
+/**
  * Send an e-mail to the user with a link to Reset Password.
  * @param {Object} $args object containing the user's email address
  */
@@ -648,14 +669,43 @@ function getLabelXML(){
 }
 
 /**
- * Update the XML stored in the database with the most recent changes.
- * @param {Object} $args object containing the updated XML string
+ * Use the label id stored in the session to determine which Ingest LDDTool XML to output
+ * from the database.
+ * @return {string}
+ */
+function getIngestLDDToolXML(){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('select ingest_ldd_xml from label where id=?');
+    $handle->bindValue(1, $_SESSION['label_id']);
+    $handle->execute();
+
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+    return $result->ingest_ldd_xml;
+}
+
+/**
+ * Update the Label XML stored in the database with the most recent changes.
+ * @param {Object} $args object containing the updated Label XML string
  */
 function updateLabelXML($args){
     global $LINK;
     session_start();
     $handle = $LINK->prepare('update label set last_modified=now(),label_xml=? where id=?');
     $handle->bindValue(1, $args['xml']);
+    $handle->bindValue(2, $_SESSION['label_id']);
+    $handle->execute();
+}
+
+/**
+ * Update the Ingest LDD XML stored in the database with the most recent changes.
+ * @param {Object} $ingestLddXML string containing the updated Ingest LDD XML string
+ */
+function updateIngestLddXML($ingestLddXML){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('update label set last_modified=now(),ingest_ldd_xml=? where id=?');
+    $handle->bindValue(1, $ingestLddXML);
     $handle->bindValue(2, $_SESSION['label_id']);
     $handle->execute();
 }
@@ -711,15 +761,24 @@ function getProgressData(){
  */
 function storeMissionSpecificsData($args){
     global $LINK;
+    $missionSpecificsHeader = $args['missionSpecificsHeader'];
+    $missionName = $missionSpecificsHeader['missionName'];
+    $stewardId = $missionSpecificsHeader['stewardId'];
+    $namespaceId = $missionSpecificsHeader['namespaceId'];
+    $comment = $missionSpecificsHeader['comment'];
     session_start();
-    $handle = $LINK->prepare('update label set mission_specifics=? where id=?');
+    $handle = $LINK->prepare('update label set mission_specifics=?, ms_mission_name=?, ms_steward_id=?, ms_namespace_id=?, ms_comment=?  where id=?');
     $handle->bindValue(1, $args['missionSpecificsJson']);
-    $handle->bindValue(2, $_SESSION['label_id']);
+    $handle->bindValue(2, $missionName);
+    $handle->bindValue(3, $stewardId);
+    $handle->bindValue(4, $namespaceId);
+    $handle->bindValue(5, $comment);
+    $handle->bindValue(6, $_SESSION['label_id']);
     $handle->execute();
 }
 
 /**
- * Get the progress data for the active label and send it to the front-end
+ * Get the mission-specific data for the active label and send it to the front-end
  * as a JSON.
  */
 function getMissionSpecificsData(){
@@ -732,6 +791,28 @@ function getMissionSpecificsData(){
     $result = $handle->fetch(\PDO::FETCH_OBJ);
     header('Content-type: application/json');
     echo json_encode($result->mission_specifics);
+}
+
+/**
+ * Get the mission-specific header data for the active label and send it to the front-end
+ * as an object.
+ */
+function getMissionSpecificsHeaderData(){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('select ms_mission_name, ms_steward_id, ms_namespace_id, ms_comment from label where id=?');
+    $handle->bindValue(1, $_SESSION['label_id']);
+    $handle->execute();
+
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+    $missionSpecificsHeader['missionName'] = $result->ms_mission_name;
+    $missionSpecificsHeader['stewardId'] = $result->ms_steward_id;
+    $missionSpecificsHeader['namespaceId'] = $result->ms_namespace_id;
+    $missionSpecificsHeader['comment'] = $result->ms_comment;
+
+    header('Content-type: application/json');
+    $missionSpecificsHeaderJson = json_encode($missionSpecificsHeader);
+    echo $missionSpecificsHeaderJson;
 }
 
 /**
