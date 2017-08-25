@@ -99,17 +99,18 @@ function initWizard(wizard) {
             }
             if (newIndex > currentIndex){
 
-                var indentLevel = 0;
-                if(typeof(progressData[currentIndex]) != "undefined" && progressData[currentIndex]['step']=='optional_nodes'){
-                    pathParts = progressData[currentIndex]['step_path'].split('/');
-                    indentLevel = pathParts.length>2?pathParts.length:0;
-                }else if(typeof(progressData[currentIndex]) != "undefined" && progressData[currentIndex]['step']=='builder'){
-                    indentlevel = 1;
-                }
+                // var indentLevel = 0;
+                // console.log('progressData[currentIndex]', progressData[currentIndex]);
+                // if(typeof(progressData[currentIndex]) !== "undefined" && progressData[currentIndex]['step_path']==='optional_nodes'){
+                //     pathParts = progressData[currentIndex]['step_path'].split('/');
+                //     indentLevel = pathParts.length>2?pathParts.length:0;
+                // }else if(typeof(progressData[currentIndex]) !== "undefined" && progressData[currentIndex]['step_path']==='builder'){
+                //     indentlevel = 1;
+                // }
 
                 // TODO - we should do a check here to figure out what
                 // page we are on and determine where to go from there
-                handleStepAddition(currentIndex, newIndex, indentLevel, progressData[currentIndex]);
+                handleStepAddition(currentIndex, newIndex, progressData[currentIndex]);
                 handleMissionSpecificsStep(currentIndex, newIndex);
                 handleExportStep(newIndex);
                 discNodesSelection(currentIndex);
@@ -141,14 +142,14 @@ function initWizard(wizard) {
                         storeProgress(priorIndex, priorStepTitle, (priorIndex + 1 > progressData.length));
                         if (currentIndex > priorIndex){
 
-                            var indentLevel = 0;
-                            if(typeof(progressData[priorIndex]) != "undefined" && progressData[priorIndex]['step']=='optional_nodes'){
-                                pathParts = progressData[priorIndex]['step_path'].split('/');
-                                indentLevel = pathParts.length>2?pathParts.length:0;
-                            }else if(typeof(progressData[priorIndex]) != "undefined" && progressData[priorIndex]['step']=='builder'){
-                                indentlevel = 1;
-                            }
-                            handleStepAddition(priorIndex, currentIndex, indentLevel, progressData[priorIndex]);
+                            // var indentLevel = 0;
+                            // if(typeof(progressData[priorIndex]) !== "undefined" && progressData[priorIndex]['step_path']=='optional_nodes'){
+                            //     pathParts = progressData[priorIndex]['step_path'].split('/');
+                            //     indentLevel = pathParts.length>2?pathParts.length:0;
+                            // }else if(typeof(progressData[priorIndex]) !== "undefined" && progressData[priorIndex]['step_path']=='builder'){
+                            //     indentlevel = 1;
+                            // }
+                            handleStepAddition(priorIndex, currentIndex, progressData[priorIndex]);
                         }
                     }
                 }
@@ -207,12 +208,12 @@ function matchWizardHeight(wizardContent, wizardActions, sidebar, stepsBar){
  * @param {number} currentIndex for the current step in the wizard
  * @param {number} newIndex for the next step in the wizard
  */
-function handleStepAddition(currentIndex, newIndex, indentation, stepObj){
+function handleStepAddition(currentIndex, newIndex, stepObj){
     var insertionIndex = newIndex;
 
 
     // Indent step-link-list-items to show step hierarchy
-    if(typeof(stepObj) != "undefined" && stepObj['step']=='optional_nodes') {
+    if(typeof(stepObj) !== "undefined" && stepObj['step']==='optional_nodes' &&  typeof stepObj['step_path']!=='undefined') {
         // $('#wizard-t-' + currentIndex).parent().css('padding-left', stepObj['step_path'].split('/').length * 10 );
         $('#wizard-t-' + currentIndex).parent().css('padding-left', stepObj['step_path'].split('/').length * 10 );
     }
@@ -723,9 +724,9 @@ function validateTextInput() {
     }
 }
 /**
-* Create a plus or minus button for controlling the form in an element-bar.
-* @param {string} type ["plus" | "minus"]
-* @return {Element} wrapper
+ * Create a plus or minus button for controlling the form in an element-bar.
+ * @param {string} type ["plus" | "minus"]
+ * @return {Element} wrapper
  */
 function createControlButton(type){
     var btnClass, iconClass, handler;
@@ -846,10 +847,10 @@ function prepXML(sectionHeading, isValidating){
                 "addRootAttrs",
                 {namespaces: g_jsonData.namespaces},
                 function(data){});
-           backendCall("php/xml_validator.php",
-                        "validate",
-                        {},
-                        function(data){});
+            backendCall("php/xml_validator.php",
+                "validate",
+                {},
+                function(data){});
 
         }
         backendCall("php/xml_mutator.php",
@@ -857,11 +858,11 @@ function prepXML(sectionHeading, isValidating){
             {namespaces: g_jsonData.namespaces},
             function(data){});
         /*
-        backendCall("php/xml_mutator.php",
-            "removeAllChildNodes",
-            {path: sectionHeading, ns: ""},
-            function(data){});
-            */
+         backendCall("php/xml_mutator.php",
+         "removeAllChildNodes",
+         {path: sectionHeading, ns: ""},
+         function(data){});
+         */
     }
 }
 /**
