@@ -294,18 +294,20 @@ function getLevelOfAssociations(searchObj, nextObjs, exeTwice){
     for (var index in nextObjs){
         for (var key in nextObjs[index]){
             var currObj = nextObjs[index][key];
-            if(typeof currObj["associationList"] != 'undefined') {
-                for (var k = 0; k < currObj["associationList"].length; k++) {
-                    if (currObj["associationList"][k]["association"]["assocType"] == "parent_of") {
-                        currObj.generalization = currObj["associationList"].splice(k, 1)[0];
+            if (currObj !== undefined) {
+                if(typeof currObj["associationList"] != 'undefined') {
+                    for (var k = 0; k < currObj["associationList"].length; k++) {
+                        if (currObj["associationList"][k]["association"]["assocType"] == "parent_of") {
+                            currObj.generalization = currObj["associationList"].splice(k, 1)[0];
+                        }
                     }
                 }
-            }
 
-            getAssociations(searchObj, currObj, currObj["next"]);
-            assignObjectPath(index, currObj, currObj["next"]);
-            if (exeTwice) {
-                getLevelOfAssociations(searchObj, currObj["next"], false);
+                getAssociations(searchObj, currObj, currObj["next"]);
+                assignObjectPath(index, currObj, currObj["next"]);
+                if (exeTwice) {
+                    getLevelOfAssociations(searchObj, currObj["next"], false);
+                }
             }
         }
     }

@@ -372,11 +372,11 @@ function handleExportStep(newIndex){
     var isExportStep = $(nextSection).find(".exportForm").length > 0;
     var hasNoPreview = !$(nextSection).find(".finalPreview").length > 0;
     if (isExportStep){
-        var isAnyBuilderStep = false;
-        //  Look for a Builder step
+        var isAnyMissionSpecificData = false;
+        //  Look for a Yes on the Mission-Specifics step
         for (var s=0; s < progressData.length; s++) {
-            if (progressData[s].step === "builder") {
-                isAnyBuilderStep = true;
+            if ((progressData[s].step === "mission_specifics") && (progressData[s].selection === "yesButton")) {
+                isAnyMissionSpecificData = true;
                 break;
             }
         }
@@ -404,25 +404,28 @@ function handleExportStep(newIndex){
                 codemirror_editor.refresh();
             }, 100);
 
-            //  IF there is any Builder step
-            if (isAnyBuilderStep) {
+            //  Generate preview of the Ingest LDDTool template
+            var previewIngestLDDTool = generateIngestLDDToolPreview(g_jsonData.namespaces);
+            $("#finalPreviewIngest", nextSection).append(previewIngestLDDTool[0]);
+            var codemirror_editor_ingest = CodeMirror.fromTextArea(previewIngestLDDTool[1], {
+                mode: "xml",
+                lineNumbers: true,
+                foldGutter: true,
+                gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+            });
+            $(".CodeMirror").css("height", "93%");
+            setTimeout(function () {
+                codemirror_editor_ingest.refresh();
+            }, 100);
+
+            //  IF there is any Mission-Specific data
+            if (isAnyMissionSpecificData) {
                 //  Show the Ingest LDDTool preview
+                $("#finalPreviewIngest").show();
                 $(".exportIngestLDDForm").show();
-                //  Generate preview of the Ingest LDDTool template
-                var previewIngestLDDTool = generateIngestLDDToolPreview(g_jsonData.namespaces);
-                $("#finalPreviewIngest", nextSection).append(previewIngestLDDTool[0]);
-                var codemirror_editor_ingest = CodeMirror.fromTextArea(previewIngestLDDTool[1], {
-                    mode: "xml",
-                    lineNumbers: true,
-                    foldGutter: true,
-                    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
-                });
-                $(".CodeMirror").css("height", "93%");
-                setTimeout(function () {
-                    codemirror_editor_ingest.refresh();
-                }, 100);
             } else {
                 //  Hide the Ingest LDDTool preview
+                $("#finalPreviewIngest").hide();
                 $(".exportIngestLDDForm").hide();
             }
         } else {
@@ -438,8 +441,11 @@ function handleExportStep(newIndex){
                 });
             });
 
-            //  IF there is any Builder step
-            if (isAnyBuilderStep) {
+            //  IF there is any Mission-Specific data
+            if (isAnyMissionSpecificData) {
+                //  Show the Ingest LDDTool preview
+                $("#finalPreviewIngest").show();
+                $(".exportIngestLDDForm").show();
                 backendCall("php/preview_template.php", "previewIngestLDDToolTemplate", {
                     namespaces: g_jsonData.namespaces
                 }, function (data) {
@@ -450,6 +456,10 @@ function handleExportStep(newIndex){
                         }, 1);
                     });
                 });
+            } else {
+                //  Hide the Ingest LDDTool preview
+                $("#finalPreviewIngest").hide();
+                $(".exportIngestLDDForm").hide();
             }
         }
     }

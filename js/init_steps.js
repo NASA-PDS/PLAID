@@ -169,8 +169,6 @@ function initWizard(wizard) {
             insertCheckmark($("#wizard-t-" + currentIndex.toString()));
 
             window.location = "dashboard.php";
-
-            window.location.reload(false);
         },
 
         /* Labels */
