@@ -153,42 +153,6 @@ function addPopover(element, data, min, max, isRecommended){
     });
 }
 /**
- * Called to add a static popover.
- * Uses data from the corresponding objects.
- * @param {Element} element to add the popover to
- * @param {Object} data object containing info for the popover
- * @param {string} min info from element denoting minimum occurrences of the object
- * @param {string} max info from element denoting maximum occurrences of the object
- */
-// function addStaticPopover(element, data){
-//
-//     var title = data["title"].replace(/_/g, " ");
-//     var description = data["description"];
-//
-//     $(element).popover({
-//         container: "body",
-//         html: true,
-//         title: title,
-//         content: description,
-//         trigger: "manual",
-//         selector: true
-//
-//     }).on("mouseenter", function () {
-//         var _this = this;
-//         $(this).popover("show");
-//         $(".popover").on("mouseleave", function () {
-//             $(_this).popover('hide');
-//         });
-//     }).on("mouseleave", function () {
-//         var _this = this;
-//         setTimeout(function () {
-//             if (!$(".popover:hover").length) {
-//                 $(_this).popover("hide");
-//             }
-//         }, 0);
-//     });
-// }
-/**
 * Sometimes popovers remain on the page after the user has stopped hovering
 * over the corresponding element. This will hide all remaining popovers.
  */
