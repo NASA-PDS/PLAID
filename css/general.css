@@ -123,6 +123,11 @@ td {
     background-color: #2184be !important;
     color: white;
 }
+/* dropdown menus of element-bars */
+.bootstrap-select > .dropdown-toggle {
+    padding: 5% 10%;
+    min-height: 49px ! important;
+}
 .btn:disabled {
     opacity: 0.3;
 }
