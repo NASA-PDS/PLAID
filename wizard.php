@@ -45,6 +45,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <script src="thirdparty/js/bootstrap-toggle.min.js"></script>
     <!-- Plug in to allow the user to add code to set the default values for dropdown lists -->
     <script src="thirdparty/js/jquery.default_dropdown_plug-in.js"></script>
+    <script src="js/csv.js"></script>
     <script src="js/main.js"></script>
     <script src="config/pop_up_config.js"></script>
     <script src="js/element_bar.js"></script>
@@ -316,6 +317,34 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
 
                     <span class="spacer"></span>
 
+                </div>
+                
+                <div id="tableImportExport" title="Table Upload & Download" data-content="<p>Hit 'Download Table' button to download your labels in CSV format.</p>
+<p>You can then view & edit it using Excel as a spreadsheet or using any other table editors.</p>
+<p>You can fill in the values in bulk by editing the spreadsheet. Once the values are populated, you can hit the 'Upload Table' button, to import the spreadsheet to re-render the label in PLAID interface. Once the file is imported back to PLAID, you can view and download your label in the PDS4 compliant format.</p>"
+                     class="staticPopover">
+
+                    <!--            <a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">-->
+                    <p class="spreadsheetSectionHeader">Table Import/Export:</p>
+                    <div class="exportForm">
+                        <span class="spacer"></span>
+                        <div class="input-group" role="group">
+                        <span class="input-group-addon" style="width:auto !important; padding:0;">
+                             <span class="input-group-addon" style="width:auto; position:absolute; padding:1.1% 2% 1.6% 2%;border-color:grey;border-bottom:.1px;border-right:3px; border-top:none; border-left:none;">Choose A File:</span>
+                            <label class="custom-file" id="inputfile">
+                                <input type="file" id="file" class="custom-file-input" style="size:200px">
+                                <span class="custom-file-control" id="fileChooser"></span>
+                            </label></span>
+                            <span class="input-group-btn">
+                                <button id="exportButton" class="btn btn-warning" type="submit" onclick="tableUpload()">Upload Table</button>
+                            </span>
+                            <span class="input-group-btn">
+                            <button id="submitButton" class="btn btn-primary"
+                                    onclick="tableDownload()">Download Table</button>
+                            </span>
+                        </div>
+                        <span class="spacer"></span>
+                    </div>
                 </div>
 
             </section>
