@@ -860,3 +860,45 @@ function checkForDuplicateUser($args){
     }
     return false;
 }
+
+/**
+ * Use the label id stored in the session to pass label XML to the front-end.
+ */
+function fetchLabelXML(){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('select label_xml from label where id=?');
+    $handle->bindValue(1, $_SESSION['label_id']);
+    $handle->execute();
+
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+    header('Content-type: application/xml');
+
+    echo $result->label_xml;
+}
+
+/**
+ * Imports the label CSV file, uploaded by the user.
+ */
+function importCSV(){
+
+    $myfile = fopen("/Users/sawada/Downloads/my_label_datasheet.csv", "r");
+    print $myfile;
+    if (file_exists($myfile)) {
+        chmod($myfile, 0777);
+        echo "The file $myfile exists";
+    } else {
+        echo "The file $myfile does not exist";
+    }
+    echo fread($myfile,filesize("/Users/sawada/Downloads/my_label_datasheet.csv"));
+    fclose($myfile);
+}
+
+/**
+ * Pass current label ID to the front-end.
+ */
+function getSessionLabelID(){
+    session_start();
+    $labelID = $_SESSION['label_id'];
+    echo $labelID;
+}
