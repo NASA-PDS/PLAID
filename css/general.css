@@ -36,7 +36,25 @@ td {
     height: 50%;
     padding: 1rem;
 }
-
+#inputfile {
+    color: gray;
+    /*background-color: white;*/
+    padding-left: 1%;
+    display: inline-block;
+    /*height: 38.69px;*/
+}
+#file {
+    /*width: 0.1px;*/
+    height: 30px;
+    paddint-top:0;
+    padding-bottom:0;
+    /*opacity: 0;*/
+    /*overflow: hidden;*/
+    /*position: absolute;*/
+    /*z-index: -1;*/
+    width: 100%;
+    border: none;
+}
 #finalPreview {
     height: 88%;
 }
@@ -135,6 +153,9 @@ td {
 .choice-prompt {
     font-size: small;
     opacity: 0.7;
+}
+.current {
+    overflow: auto;
 }
 .data-section {
     height: inherit;
@@ -262,6 +283,11 @@ input::-webkit-inner-spin-button {
     margin-right: 0.2rem;
     margin-left: 0.2rem;
 }
+.spreadsheetSectionHeader{
+    font-weight: bold;
+    font-size: large;
+    margin-top: 10%;
+}
 div.steps {
     overflow: auto;
 }
@@ -271,6 +297,4 @@ div.steps {
 .zero-instances {
     opacity: 0.3;
 }
-.current {
-    overflow: auto;
-}
+

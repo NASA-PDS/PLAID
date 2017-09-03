@@ -318,7 +318,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                     <span class="spacer"></span>
 
                 </div>
-                
+
                 <div id="tableImportExport" title="Table Upload & Download" data-content="<p>Hit 'Download Table' button to download your labels in CSV format.</p>
 <p>You can then view & edit it using Excel as a spreadsheet or using any other table editors.</p>
 <p>You can fill in the values in bulk by editing the spreadsheet. Once the values are populated, you can hit the 'Upload Table' button, to import the spreadsheet to re-render the label in PLAID interface. Once the file is imported back to PLAID, you can view and download your label in the PDS4 compliant format.</p>"
