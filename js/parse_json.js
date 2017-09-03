@@ -567,7 +567,6 @@ function getProgressDataObjFromPathRecurr(path){
     return target;
 }
 
-
 /**
 * Using the values stored in the association list objects (assocMention), determine
 * whether the association is required, set the range, and store the info in the
