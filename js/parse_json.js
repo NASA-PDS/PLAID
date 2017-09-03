@@ -441,6 +441,134 @@ function getObjectFromPath(path, refObj){
 }
 
 /**
+ * Given a specified data-path, traverses through objects of progressData, compare the data-path against each each object's id (path), and return matching object.
+ * @param {string} path:
+ *                  e.g. "1/Observation_Area/4/Observing_System/0/name", "1/Observation_Area" etc
+ * @returns {g_jsonData.refObj|{}}
+ */
+function getProgressDataObjFromPath(path){
+    var obj = progressData, i = 0, target={};
+
+    // Iterates through first level children of progressData
+    while(i < progressData.length){
+        // Checks against internal nodes's id (path)
+        // console.log('depth 1 obj step_path:', obj[i]['step_path']);
+        if(obj[i]['step_path'] === path){
+            // console.log('hit 1');
+            target = obj[i];
+            return obj[i];
+        }
+
+        if(obj[i].step === 'product_type'){
+            // Checks against  the progressData[0], 0001_NASA_PDS_1.pds.Product_Observational
+            console.log(obj[i]['selection'], " is a product type.");
+            if(obj[i]['selection'] === path){
+                // console.log('hit 2');
+                target = obj[i];
+                return obj[i];
+            }
+        }else if( obj[i]['selection'].length > 0 ){
+            // Checks against leaf nodes
+            for(index in obj[i]['selection']){
+                // console.log(obj[i]['selection'][index]);
+                if(obj[i]['selection'][index]['id'] === path){
+                    // console.log('hit 3');
+                    target = obj[i]['selection'][index];
+                    return obj[i]['selection'][index];
+                }
+            }
+        }
+        i++;
+    }
+    return "unknown"; // <-- debug
+}
+
+/**
+ * Prints out all existing objects in progressData to the console
+ */
+function printAllProgressDataObj(){
+    var obj = progressData, i = 0;
+
+    // Iterate through first level children of progressData
+    while(i < progressData.length){
+        // console.log('i=', i);
+
+        // Prints out internal nodes
+        console.log('depth 1 obj step_path:', obj[i].step_path);
+
+        // Prints out progressData[0] objects
+        if(obj[i].step === 'product_type'){
+            // Accommodates the progressData[0], 0001_NASA_PDS_1.pds.Product_Observational
+            console.log(obj[i].selection, " is a product type.");
+
+            // Prints out leaf nodes
+        }else if( obj[i].selection.length > 0 ){
+            for(index in obj[i]['selection']){
+                console.log(obj[i]['selection'][index]);
+            }
+        }else{
+            console.log(obj);
+        }
+        i++;
+    }
+}
+
+/**  THIS IS PROBABLY A BAD APPROACH
+ * Recursively search for an object that matches the given path.
+ * @param {string} path: e.g. "1/Observation_Area/4/Observing_System/0/name", "1/Observation_Area" etc
+ * @returns {g_jsonData.refObj|{}}
+ */
+function getProgressDataObjFromPathRecurr(path){
+    var obj = progressData,target={};
+
+    for(index in progressData){
+        if(progressData[index].step_path === path){
+            target = progressData[index];
+            return target;
+        }
+        if(target['id'] === path){
+            return target;
+        }
+        recurse(obj[index]);
+    }
+
+
+    function recurse(obj){
+
+        // If the object is an internal node (its children are found under the "selection" attribute)...
+        if(obj.selection !== null
+            && obj.selection !== undefined
+            && typeof obj !== "undefined"
+            && obj.selection.length > 0){
+
+            return recurse(obj.selection);
+
+        }else{ // If the object is a leaf node, compare the path (the "id" attribute of this object) against the given path in the parameter
+
+            // A special case (handles progressData[0] <-- Product Type): Currently there is only one product_type.
+            if(typeof obj === "string"){
+                // if( obj.step === "product_type"){
+                if(obj['id'] === path){
+                    target = obj;
+                    return obj;
+                }
+            }else{
+                // Iterate through what is under "selection" of an object
+                for(index in obj){
+                    if(obj[index]['id'] === path){
+                        target = obj[index];
+                        return obj[index];
+                    }
+                }
+            }
+            return target;
+        }
+    }
+    return target;
+}
+
+
+/**
 * Using the values stored in the association list objects (assocMention), determine
 * whether the association is required, set the range, and store the info in the
 * detailed object for that association (assocDetails).
