@@ -131,13 +131,6 @@ function initWizard(wizard) {
         onStepChanged: function (event, currentIndex, priorIndex) {
             wizardData.currentStep = currentIndex;
 
-            // Indent step bars on LHS nav to show step hierarchy
-            var currStep = $('#wizard-t-' + currentIndex);
-            var currStepPath = currStep.attr('path');
-            if(currStepPath !== undefined){
-                currStep.parent().css('padding-left', currStep.attr('path').split('/').length * 10 );
-            }
-
             var stepContent = $("#wizard-p-" + priorIndex);
             //progressObj['step_path'] = $(".optional-section", stepContent).attr("step_path");
             if(g_state.loading && typeof $(".optional-section", stepContent).attr("no_save_data") != 'undefined') {
@@ -218,11 +211,12 @@ function handleStepAddition(currentIndex, newIndex, stepObj){
     var insertionIndex = newIndex;
 
 
-    // Indent step-link-list-items to show step hierarchy
-    // if(typeof(stepObj) !== "undefined" && stepObj['step']==='optional_nodes' &&  typeof stepObj['step_path']!=='undefined') {
-    //     // $('#wizard-t-' + currentIndex).parent().css('padding-left', stepObj['step_path'].split('/').length * 10 );
-    //     $('#wizard-t-' + currentIndex).parent().css('padding-left', stepObj['step_path'].split('/').length * 10 );
-    // }
+    // Indent step bars on LHS nav to show step hierarchy
+    var currStep = $('#wizard-t-' + currentIndex);
+    var currStepPath = currStep.attr('path');
+    if(currStepPath !== undefined){
+        currStep.parent().css('padding-left', currStep.attr('path').split('/').length * 10 );
+    }
 
     var currSection = $("#wizard-p-" + currentIndex.toString());
     var hasRun = false;
