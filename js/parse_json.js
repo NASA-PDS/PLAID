@@ -449,6 +449,11 @@ function getObjectFromPath(path, refObj){
 function getProgressDataObjFromPath(path){
     var obj = progressData, i = 0, target={};
 
+    // if the Label Root path component contains index (i.e. [1], [2], etc), remove it
+    var pathSegments = path.split("/")
+    pathSegments[1] = pathSegments[1].replace(/(\[.+\])/g, '');
+    path = pathSegments.join('/');
+
     // Iterates through first level children of progressData
     while(i < progressData.length){
         // Checks against internal nodes's id (path)

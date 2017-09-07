@@ -147,7 +147,7 @@ function parseLabelCSV() {
         datatype: "text",
         success: function (csv) {
 
-            // console.log('in parseLabelCSV()',csv);
+            console.log('in parseLabelCSV()',csv);
             var lines = csv.split(/\r\n|\n/);
             var entries = [];
             var entriesOld = [];
