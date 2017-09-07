@@ -114,6 +114,15 @@ function initWizard(wizard) {
                 handleMissionSpecificsStep(currentIndex, newIndex);
                 handleExportStep(newIndex);
                 discNodesSelection(currentIndex);
+
+                // Assign step/data-path to LHS navigation bars
+                stepLhsNav = $('#wizard-t-'+currentIndex);
+                if(progressData[currentIndex] === undefined){
+                    console.log(stepLhsNav.text());
+                }
+                else if(progressData[currentIndex] !== undefined && progressData[currentIndex]['step'] === "product_type"){
+
+                }
             }
             $("ul[role='menu']").show();
             updateActionBar(newIndex);
@@ -121,6 +130,13 @@ function initWizard(wizard) {
         },
         onStepChanged: function (event, currentIndex, priorIndex) {
             wizardData.currentStep = currentIndex;
+
+            // Indent step bars on LHS nav to show step hierarchy
+            var currStep = $('#wizard-t-' + currentIndex);
+            var currStepPath = currStep.attr('path');
+            if(currStepPath !== undefined){
+                currStep.parent().css('padding-left', currStep.attr('path').split('/').length * 10 );
+            }
 
             var stepContent = $("#wizard-p-" + priorIndex);
             //progressObj['step_path'] = $(".optional-section", stepContent).attr("step_path");
@@ -141,14 +157,6 @@ function initWizard(wizard) {
                         // need to only call storeprogress when appropriate
                         storeProgress(priorIndex, priorStepTitle, (priorIndex + 1 > progressData.length));
                         if (currentIndex > priorIndex){
-
-                            // var indentLevel = 0;
-                            // if(typeof(progressData[priorIndex]) !== "undefined" && progressData[priorIndex]['step_path']=='optional_nodes'){
-                            //     pathParts = progressData[priorIndex]['step_path'].split('/');
-                            //     indentLevel = pathParts.length>2?pathParts.length:0;
-                            // }else if(typeof(progressData[priorIndex]) !== "undefined" && progressData[priorIndex]['step_path']=='builder'){
-                            //     indentlevel = 1;
-                            // }
                             handleStepAddition(priorIndex, currentIndex, progressData[priorIndex]);
                         }
                     }
@@ -211,10 +219,10 @@ function handleStepAddition(currentIndex, newIndex, stepObj){
 
 
     // Indent step-link-list-items to show step hierarchy
-    if(typeof(stepObj) !== "undefined" && stepObj['step']==='optional_nodes' &&  typeof stepObj['step_path']!=='undefined') {
-        // $('#wizard-t-' + currentIndex).parent().css('padding-left', stepObj['step_path'].split('/').length * 10 );
-        $('#wizard-t-' + currentIndex).parent().css('padding-left', stepObj['step_path'].split('/').length * 10 );
-    }
+    // if(typeof(stepObj) !== "undefined" && stepObj['step']==='optional_nodes' &&  typeof stepObj['step_path']!=='undefined') {
+    //     // $('#wizard-t-' + currentIndex).parent().css('padding-left', stepObj['step_path'].split('/').length * 10 );
+    //     $('#wizard-t-' + currentIndex).parent().css('padding-left', stepObj['step_path'].split('/').length * 10 );
+    // }
 
     var currSection = $("#wizard-p-" + currentIndex.toString());
     var hasRun = false;
@@ -277,7 +285,7 @@ function handleStepAddition(currentIndex, newIndex, stepObj){
                     //  tool and a step should not be added
                     if (currObj['next'] !== undefined && currObj['title'] !== "Mission_Area" && currObj['title'] !== "Discipline_Area") {
 
-                        insertStep($("#wizard"), insertionIndex, currObj, g_jsonData.namespaces[g_state.nsIndex], val);
+                        insertStep($("#wizard"), insertionIndex, currObj, g_jsonData.namespaces[g_state.nsIndex], val, currentIndex);
 
                         for(var i = 1; i <= val; i++) {
                             wizardData.stepPaths.splice(insertionIndex - getStepOffset(insertionIndex), 0, currObj['path'] + "[" + i + "]");
@@ -326,12 +334,21 @@ function insertStep(wizard, index, dataObj, ns, quantity){
                 title: title + " #" + i,
                 content: generateContent(title, data, dataObj, ns, i, quantity)
             });
+
+            var pathComponents = $('#wizard-p-' + index).children().children().children()[0]['attributes']['data-path-corrected']['nodeValue'].split('/');
+            pathComponents.splice(pathComponents.length-2,2);
+            // $('#wizard-t-' + index).attr("path", dataObj['path']); // ORIGINAL assign path attributes to the step on the LHS nav
+            $('#wizard-t-' + index).attr("path", pathComponents.join("/")); // assign path attributes to the step on the LHS nav
+            $('#wizard-p-' + index).attr("path", pathComponents.join("/")); // assign path attributes to the section for pertaining step
         }
     } else {
         wizard.steps("insert", index, {
             title: title,
             content: generateContent(title, data, dataObj, ns, 1, quantity)
         });
+
+        $('#wizard-t-' + index).attr("path", dataObj['path']); // assign path attributes to the step on the LHS nav
+        $('#wizard-p-' + index).attr("path", dataObj['path']); // assign path attributes to the section for pertaining step
     }
 
     $(".selectpicker").selectpicker("render"); // select pickers need to rendered after being appended;
