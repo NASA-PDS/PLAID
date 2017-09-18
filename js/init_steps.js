@@ -101,11 +101,13 @@ function initWizard(wizard) {
 
                 // var indentLevel = 0;
                 // console.log('progressData[currentIndex]', progressData[currentIndex]);
-                // if(typeof(progressData[currentIndex]) !== "undefined" && progressData[currentIndex]['step_path']==='optional_nodes'){
+                //  Check that step_path attribute exists before accessing it, since it does not exist for Imaging step!
+                // if (typeof(progressData[currentIndex]) !== "undefined" && progressData[currentIndex]['step_path'] === 'optional_nodes' &&
+                //    progressData[currentIndex]['step_path'] !== undefined) {
                 //     pathParts = progressData[currentIndex]['step_path'].split('/');
                 //     indentLevel = pathParts.length>2?pathParts.length:0;
                 // }else if(typeof(progressData[currentIndex]) !== "undefined" && progressData[currentIndex]['step_path']==='builder'){
-                //     indentlevel = 1;
+                //    indentLevel = 1;
                 // }
 
                 // TODO - we should do a check here to figure out what
@@ -143,11 +145,13 @@ function initWizard(wizard) {
                         if (currentIndex > priorIndex){
 
                             // var indentLevel = 0;
-                            // if(typeof(progressData[priorIndex]) !== "undefined" && progressData[priorIndex]['step_path']=='optional_nodes'){
-                            //     pathParts = progressData[priorIndex]['step_path'].split('/');
+                            //  Check that step_path attribute exists before accessing it, since it does not exist for Imaging step!
+                            // if (typeof(progressData[priorIndex]) !== "undefined" && progressData[priorIndex]['step_path'] === 'optional_nodes' &&
+                            //    progressData[priorIndex]['step_path'] !== undefined) {
+                            //    var pathParts = progressData[priorIndex]['step_path'].split('/');
                             //     indentLevel = pathParts.length>2?pathParts.length:0;
                             // }else if(typeof(progressData[priorIndex]) !== "undefined" && progressData[priorIndex]['step_path']=='builder'){
-                            //     indentlevel = 1;
+                            //    indentLevel = 1;
                             // }
                             handleStepAddition(priorIndex, currentIndex, progressData[priorIndex]);
                         }
@@ -251,7 +255,16 @@ function handleStepAddition(currentIndex, newIndex, stepObj){
                 var currObj = getObjectFromPath(path, g_jsonData.refObj);
 
                 if (typeof $(this).attr("data-path-corrected") != 'undefined') {
-                    currObj["path"] = $(this).attr("data-path-corrected");
+                    //  Fix for Issue #72:
+                    //  Verify that there is a valid object associated with this corrected path,
+                    //  before you set it as the path of the current object
+                    var correctedPath = $(this).attr("data-path-corrected");
+                    var correctedObj = getObjectFromPath(correctedPath, g_jsonData.refObj);
+                    if (correctedObj != null) {
+                        currObj["path"] = correctedPath;
+                    } else {
+                        console.log("The corrected path '" + correctedPath + "' is not a valid path.");
+                    }
                 }
 
 
