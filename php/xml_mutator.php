@@ -212,6 +212,18 @@ function addNodeValue($node, $value){
 }
 
 /**
+ * If a value is included, add it to the specified node of the target XML document.
+ * @param {DOMNode} $node to add the value to
+ * @param {string} $value to insert into the node
+ */
+function addNodeValueLocal($node, $value, $doc){
+    if ($value !== ""){
+        $valNode = $doc->createTextNode($value);
+        $node->appendChild($valNode);
+    }
+}
+
+/**
  * Update the given node's text value.
  * If a value is included, add it to the specified node.
  * @param {DOMNode} $node to add the value to
@@ -231,6 +243,29 @@ function updateNodeValue($node, $value){
     //  IF No Text node found
     if (! $found) {
         addNodeValue($node, $value);
+    }
+}
+
+/**
+ * Update the given node's text value of the target XML document.
+ * If a value is included, add it to the specified node.
+ * @param {DOMNode} $node to add the value to
+ * @param {string} $value to set into the node
+ */
+function updateNodeValueLocal($node, $value, $doc){
+
+    $found = false;
+    foreach ($node->childNodes as $child_node) {
+        //  IF child node is a Text node
+        if ($child_node->nodeName === "#text") {
+            $child_node->nodeValue = $value;
+            $found = true;
+            break;
+        }
+    }
+    //  IF No Text node found
+    if (! $found) {
+        addNodeValueLocal($node, $value, $doc);
     }
 }
 
@@ -706,6 +741,142 @@ function prependDisciplineRootNode($filtArr, $ns) {
             return $filtArr;
     }
     return $filtArr;
+}
+
+/**
+ * Add node(s) to the specified XML document.
+ * @param {object} $args object containing the node path, number of nodes to add,
+ * the namespace of the node, and the value (if any) to insert in the node.
+ */
+function addNodeLocal($args){
+//    global $DOC;
+    $nodePath = $args["path"];
+    $quantity = $args["quantity"];
+    $ns = $args["ns"];
+    $doc = $args["xmlDoc"];
+    list($nodeName, $nodePath) = handlePath($nodePath, $ns, isset($args["root_discipline_node"]), false);
 
 
+    if (isNonDefaultNamespace($ns)){
+        // make sure discipline root node exists
+        $nodeName = $ns.":".$nodeName;
+    }
+    $nodes = getNodeLocal($nodePath, $ns, $doc);
+
+    // Only change the node(s) value below
+    if(isset($args["value_only"])) {
+        foreach($nodes as $parent_node) {
+            if ($parent_node->hasChildNodes()) {
+                //  The updated value will now be set even if there is only 1 attribute w/ a non-zero quantity on the page
+                ///if ($parent_node->childNodes->length > 1) {
+                if ($parent_node->childNodes->length >= 1) {
+                    foreach ($parent_node->childNodes as $child_node) {
+                        if ($child_node->nodeName == $nodeName) {
+                            //  Update the text value of this node
+                            //  Setting the nodeValue attribute wipes out the child nodes of this node
+                            ///$child_node->nodeValue = $args["value"];
+                            updateNodeValueLocal($child_node, $args["value"], $doc);
+                            //  IF a Unit is specified
+                            if (isset($args["unit"]) && (!empty($args["unit"]))) {
+                                //  Set the Unit attribute of the node
+                                $child_node->setAttribute("unit", $args["unit"]);
+                            } else {
+                                //  Remove the Unit attribute of the node
+                                $child_node->removeAttribute("unit");
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        $args = array("xml"=>$doc->saveXML(NULL, LIBXML_NOEMPTYTAG));
+//        updateNodeValue();
+//        updateLabelXML($args);
+        return $doc;
+    }
+
+
+    if($nodes->length == 0 && isNonDefaultNamespace($ns)) {
+        // Create ns root node
+        $root_discipline_node = prependDisciplineRootNode(array(), $ns);
+        if(count($root_discipline_node) == 1) {
+            $newNode = $doc->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $root_discipline_node[0]);
+            $discipline_area = getNode("Observation_Area/Discipline_Area", "");
+            $discipline_area = $discipline_area->item(0);
+            $discipline_area->appendChild($newNode);
+            $nodes = getNode($nodePath, $ns);
+        }
+    }
+
+
+
+    if($nodes->length == 0 && substr_count($nodePath, "/") > 1 && !isNonDefaultNamespace($ns)) {
+        http_response_code(500); // Couldn't find parent node
+    }
+
+    foreach($nodes as $parent_node){
+        if($parent_node == null) {
+            echo "Parent node is null";
+            return;
+        }
+        // Check parent node children to see if the node we're going to add is already there -
+        // In this case we want to insert the new node before the node of the same name, to maintain
+        // order. Also, we want to duplicate that node's children, if it has any.
+        $node_to_insert_before = NULL;
+        $node_has_children = false;
+        $total_instances_of_node = 0;
+        if($parent_node->hasChildNodes()) {
+            if($parent_node->childNodes->length >= 1) {
+                foreach ($parent_node->childNodes as $child_node)  {
+                    var_dump($child_node->nodeName);
+                    var_dump($nodeName);
+
+                    if($child_node->nodeName == $nodeName) {
+                        $total_instances_of_node++;
+                        $node_to_insert_before = $child_node;
+                        $node_has_children = $node_to_insert_before->hasChildNodes();
+                        //  Update the text value of this node
+                        //  Setting the nodeValue attribute wipes out the child nodes of this node
+                        ///$child_node->nodeValue = $args["value"];
+                        updateNodeValue($child_node, $args["value"]);
+                    }
+                }
+            }
+        }
+        print "\ntotal instances of node $total_instances_of_node\n";
+        for ($x = $total_instances_of_node; $x < $quantity; $x++){
+            if (isNonDefaultNamespace($ns)) {
+                $newNode = $doc->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $nodeName);
+            } else {
+                $newNode = $doc->createElement($nodeName);
+            }
+
+            //  IF a Unit is specified
+            if (isset($args["unit"]) && (!empty($args["unit"]))) {
+                //  Add a Unit attribute to the node
+                $newNode->setAttribute("unit", $args["unit"]);
+            }
+
+            addNodeValueLocal($newNode, $args["value"], $doc);
+            var_dump($node_to_insert_before);
+
+            if(is_null($node_to_insert_before)) {
+                $parent_node->appendChild($newNode);
+
+                // SOMETHING WRONG WITH CODE BELOW - used to clone an already added class when more are added later
+
+            } else {
+                if($node_has_children) {
+                    $node_cloned = $node_to_insert_before->cloneNode(true);
+                    $parent_node->insertBefore($node_cloned, $node_to_insert_before);
+                } else {
+                    $parent_node->insertBefore($newNode, $node_to_insert_before);
+                }
+            }
+        }
+    }
+    $args = array("xml"=>$doc->saveXML(NULL, LIBXML_NOEMPTYTAG));
+//    updateLabelXML($args);
+    return $doc;
 }

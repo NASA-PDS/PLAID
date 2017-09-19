@@ -98,8 +98,8 @@ $(document).ready(function() {
             $(preview_download_button).text("Download Label");
             $(".modal-footer").prepend(preview_download_button);
         });
-
     });
+    $('#mirrorFileInputField').val($('#file').val());
     $("ul[role='menu']").hide();
     addMissionSpecificsActionBar();
     previewDescription();
