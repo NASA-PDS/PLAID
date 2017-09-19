@@ -334,6 +334,7 @@ function insertStep(wizard, index, dataObj, ns, quantity){
             // $('#wizard-t-' + index).attr("path", dataObj['path']); // ORIGINAL assign path attributes to the step on the LHS nav
             $('#wizard-t-' + index).attr("path", pathComponents.join("/")); // assign path attributes to the step on the LHS nav
             $('#wizard-p-' + index).attr("path", pathComponents.join("/")); // assign path attributes to the section for pertaining step
+            $('#wizard-t-' + index).addClass("lhs-nav-bars");
         }
     } else {
         wizard.steps("insert", index, {
@@ -343,6 +344,7 @@ function insertStep(wizard, index, dataObj, ns, quantity){
 
         $('#wizard-t-' + index).attr("path", dataObj['path']); // assign path attributes to the step on the LHS nav
         $('#wizard-p-' + index).attr("path", dataObj['path']); // assign path attributes to the section for pertaining step
+        $('#wizard-t-' + index).addClass("lhs-nav-bars");
     }
 
     $(".selectpicker").selectpicker("render"); // select pickers need to rendered after being appended;
