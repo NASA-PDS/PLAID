@@ -654,6 +654,36 @@ function storeNewLabel($args){
     $handle->execute();
 
     $_SESSION['label_id'] = intval($newLabelId);
+    return $_SESSION['label_id'];
+}
+
+
+/**
+ * When a user creates a new label via table upload, create an entry for it in the label table, link
+ * it to the user in the link table, and store the modified label XML as a new label.
+ *
+ * Note: $data will need to be updated in future once multiple product types are supported
+ * in PLAID. Currently, observational is the only supported product type.
+ *
+ * @param {Object} $args object containing the name of the label inputted by the user
+ */
+function storeXMLToANewLabel($args){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('INSERT INTO label SET creation=now(),last_modified=now(),name=?,label_xml=?,schema_version=?');
+    $handle->bindValue(1, $args['labelName']);
+    $handle->bindValue(2, $args['xmlDoc']->saveXML());
+    $handle->bindValue(3, $args['version']);
+    $handle->execute();
+
+    $handle = $LINK->prepare('INSERT INTO link SET user_id=?,label_id=?');
+    $newLabelId = $LINK->lastInsertId();
+    $handle->bindValue(1, $_SESSION['user_id']);
+    $handle->bindValue(2, $newLabelId);
+    $handle->execute();
+
+    $_SESSION['label_id'] = intval($newLabelId);
+    return $_SESSION['label_id'];
 }
 
 /**
@@ -666,6 +696,22 @@ function getLabelXML(){
     session_start();
     $handle = $LINK->prepare('select label_xml from label where id=?');
     $handle->bindValue(1, $_SESSION['label_id']);
+    $handle->execute();
+
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+    return $result->label_xml;
+}
+
+/**
+ * Use the label id in the argument to determine which label to output
+ * the XML from the database.
+ * @return {string}
+ */
+function getSpecifiedLabelXML($arg){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('select label_xml from label where id=?');
+    $handle->bindValue(1, $arg['label_id']);
     $handle->execute();
 
     $result = $handle->fetch(\PDO::FETCH_OBJ);
@@ -698,6 +744,15 @@ function updateLabelXML($args){
     $handle = $LINK->prepare('update label set last_modified=now(),label_xml=? where id=?');
     $handle->bindValue(1, $args['xml']);
     $handle->bindValue(2, $_SESSION['label_id']);
+    $handle->execute();
+}
+
+function testUpdateLabelXML($args){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('update label set last_modified=now(),label_xml=? where id=?');
+    $handle->bindValue(1, $args['xml']);
+    $handle->bindValue(2, 313);
     $handle->execute();
 }
 
@@ -744,6 +799,19 @@ function storeProgressData($args){
 }
 
 /**
+ * Store the progressData JSON with the user's modifications to the label in the database associated with the label ID given in the argument.
+ * @param {Object} $args object containing a string-ified JSON of the user's progress
+ */
+function storeProgressDataLocal($args){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('update label set progress_data=? where id=?');
+    $handle->bindValue(1, $args['progressJson']);
+    $handle->bindValue(2, $args['label_id']);
+    $handle->execute();
+}
+
+/**
  * Get the progress data for the active label and send it to the front-end
  * as a JSON.
  */
@@ -757,6 +825,25 @@ function getProgressData(){
     $result = $handle->fetch(\PDO::FETCH_OBJ);
     header('Content-type: application/json');
     echo json_encode($result->progress_data);
+    return json_encode($result->progress_data);
+}
+
+/**
+ * Get the progress data for the active label and send it to the front-end
+ * as a JSON.
+ */
+function getRawProgressData($arg){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('select progress_data from label where id=?');
+    $handle->bindValue(1, $arg['label_id']);
+    $handle->execute();
+
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+//    header('Content-type: application/json');
+//    echo json_encode($result->progress_data);
+//    return json_encode($result->progress_data);
+    return utf8_encode($result->progress_data);
 }
 
 /**
@@ -831,6 +918,29 @@ function getLabelName(){
 
     $result = $handle->fetch(\PDO::FETCH_OBJ);
     echo $result->name;
+    return $result->name;
+}
+
+/**
+ * Get the name and ID of the label currently stored in the session.
+ */
+function getCurrLabelIdName(){
+    global $LINK;
+    session_start();
+
+    // Execute a query to get the name of the label associated with the id in current session.
+    $handle = $LINK->prepare('select name from label where id=?');
+    $handle->bindValue(1, $_SESSION['label_id']);
+    $handle->execute();
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+
+    // Variable to return
+    $retVal = array("id" => $_SESSION['label_id'], "name" => $result->name );
+
+    // attach a hedder to indicate that this is JSON.
+    header('Content-type: application/json');
+    echo json_encode($retVal);
+    return json_encode($retVal);   // <-- debug
 }
 
 
@@ -859,4 +969,52 @@ function checkForDuplicateUser($args){
                 return true;
     }
     return false;
+}
+
+/**
+ * Use the label id stored in the session to pass label XML string to the front-end.
+ */
+function fetchLabelXML(){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('select label_xml from label where id=?');
+    $handle->bindValue(1, $_SESSION['label_id']);
+    $handle->execute();
+
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+    header('Content-type: application/xml');
+
+    echo $result->label_xml;
+    return $result->label_xml;
+}
+
+/**
+ * Imports the label CSV file, uploaded by the user.
+ */
+function importCSV(){
+
+    /**
+     * Imports the label CSV file, uploaded by the user.
+     */
+    function importCSV(){
+
+        print $_FILES['upload'];
+
+        if (file_exists($_FILES)) {
+            chmod($_FILES, 0777);
+            print_r($_FILES);
+            echo "The file $_FILES exists";
+        } else {
+            echo "The file $_FILES does not exist";
+        }
+    }
+}
+
+/**
+ * Pass current label ID to the front-end.
+ */
+function getSessionLabelID(){
+    session_start();
+    $labelID = $_SESSION['label_id'];
+    echo $labelID;
 }

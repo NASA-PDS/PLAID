@@ -85,6 +85,12 @@ body {
     margin: 0 auto;
     text-align: center;
 }
+.newLabelWrapper {
+    max-width: 330px;
+    padding: 0px 15px 15px 15px;
+    margin: 0 auto;
+    text-align: center;
+}
 .statusmsg{
     font-size: 12px; /* Set message font size  */
     padding: 3px; /* Some padding to make some more space for our text  */
