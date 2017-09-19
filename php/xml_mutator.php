@@ -300,17 +300,8 @@ function addCustomNodes($args){
     foreach ($data as $node){
         addNodeWithComment($parentNode, $node["name"], $node["description"]);
 
-        //  IF the node is a Group
-        //  The isGroup boolean has been JSON stringified
-        if ($node["isGroup"] === "true"){
-            //  For each child in the group
-            foreach ($node["children"] as $child) {
-                addDDAttributeNode($DOC_LDD, $rootLDD, $userFullName, $child);
-            }
-        } else {
-            addDDAttributeNode($DOC_LDD, $rootLDD, $userFullName, $node);
-        }
-
+        //  Recurse on the node to add all of its attributes & sub-attributes
+        recursivelyAddDDAttributeNode($DOC_LDD, $rootLDD, $userFullName, $node);
 
         //  The isGroup boolean has been JSON stringified
         if ($node["isGroup"] === "true"){
@@ -324,12 +315,8 @@ function addCustomNodes($args){
     //  Create the DD_Class & DD_Association tags for each Group node
     foreach ($data as $node){
 
-        //  IF the node is a Group
-        //  The isGroup boolean has been JSON stringified
-        if ($node["isGroup"] === "true"){
-            //  Write a DD_Class tag
-            addDDClassNode($DOC_LDD, $rootLDD, $userFullName, $node);
-        }
+        //  Recurse on the node to add all of its Classes & sub-Classes
+        recursivelyAddDDClassNode($DOC_LDD, $rootLDD, $userFullName, $node);
 
     }
 
@@ -339,11 +326,54 @@ function addCustomNodes($args){
     updateLabelXML($args);
 }
 /**
+ * Recurse on the given node to add all of its attributes.
+ * @param {DOMNode} DOMDocument for ingestLDD XML document
+ * @param {$rootLDD} top-level element for ingestLDD XML document
+ * @param {string} $userFullName current user name
+ * @param {object} $node node to write a tag out for
+ */
+function recursivelyAddDDAttributeNode($DOC_LDD, $rootLDD, $userFullName, $node) {
+    //  IF the node is a Group
+    //  The isGroup boolean has been JSON stringified
+        if ($node["isGroup"] === "true"){
+            //  For each child in the group
+            foreach ($node["children"] as $child) {
+                ///addDDAttributeNode($DOC_LDD, $rootLDD, $userFullName, $child);
+                //  Recurse on the group's child to add any of its attributes
+                recursivelyAddDDAttributeNode($DOC_LDD, $rootLDD, $userFullName, $child);
+            }
+        } else {
+            addDDAttributeNode($DOC_LDD, $rootLDD, $userFullName, $node);
+        }
+
+}
+/**
+ * Recurse on the given node to add all of its Classes.
+ * @param {DOMNode} DOMDocument for ingestLDD XML document
+ * @param {$rootLDD} top-level element for ingestLDD XML document
+ * @param {string} $userFullName current user name
+ * @param {object} $node node to write a tag out for
+ */
+function recursivelyAddDDClassNode($DOC_LDD, $rootLDD, $userFullName, $node) {
+    //  IF the node is a Group
+    //  The isGroup boolean has been JSON stringified
+    if ($node["isGroup"] === "true"){
+        //  Write a DD_Class tag
+        addDDClassNode($DOC_LDD, $rootLDD, $userFullName, $node);
+
+        //  For each child in the group
+        foreach ($node["children"] as $child) {
+            //  Recurse on the group's child to add any of its Classes
+            recursivelyAddDDClassNode($DOC_LDD, $rootLDD, $userFullName, $child);
+        }
+    }
+}
+/**
  * Add a DD_Attribute tag for the given node to the specified root element.
  * @param {DOMNode} DOMDocument for ingestLDD XML document
  * @param {$rootLDD} top-level element for ingestLDD XML document
  * @param {string} $userFullName current user name
- * @param {string} $node node to write a tag out for
+ * @param {object} $node node to write a tag out for
  */
 function addDDAttributeNode($DOC_LDD, $rootLDD, $userFullName, $node){
     //  Create a DD_Attribute node
