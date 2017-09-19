@@ -206,7 +206,7 @@ function getLabelCSVFromLhsNavBars(callback){
                     }// ends inner for loop
                 } // ends if clause
             } // ends outer for loop
-            // console.log('csv:', csv);
+            console.log('csv:', csv);
             callback(csv, "my_label_"+ labelInfo['id'] + "_" + labelInfo['name']+".csv");
             return csv;
         }, // ends success clause
@@ -330,6 +330,8 @@ function noArgBackendCall(file, funcName, callback){
     });
 }
 
+
+
 /*
  * Call the backend function to read CSV file that has been uploaded
  */
@@ -344,6 +346,44 @@ function importCSV() {
         success: function (data) {
         }
     })
+}
+
+
+function testFileUpload(){
+    $.ajax({
+        method: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "importCSV"
+        },
+        datatype: "text",
+        success: function (data) {
+
+            console.log('in testFileUpload()', data);
+
+        },
+        error: function (textStatus, errorThrown) {
+            // Success = false;//doesnt goes here
+            console.log('File upload failed.');
+        }
+
+    })
+}
+
+function hi(){
+    console.log('hi!');
+    $.ajax({
+        method: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "getCurrLabelIdName"
+        },
+        datatype: "text",
+        success: function(labelInfo){
+            console.log('labelInfo:', labelInfo);
+        }
+    })
+
 }
 
 function submitCSV(){
