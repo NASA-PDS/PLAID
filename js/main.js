@@ -134,7 +134,9 @@ $(document).ready(function() {
             },
             datatype: "text",
             success: function (data) {
-                missionSpecificsHeader = (data === null ? {} : data);
+                if (data !== null) {
+                    missionSpecificsHeader = data;
+                }
             }
         }),
         $.ajax({
@@ -372,11 +374,11 @@ function handleExportStep(newIndex){
     var isExportStep = $(nextSection).find(".exportForm").length > 0;
     var hasNoPreview = !$(nextSection).find(".finalPreview").length > 0;
     if (isExportStep){
-        var isAnyMissionSpecificData = false;
-        //  Look for a Yes on the Mission-Specifics step
+        var isAnyMissionSpecificYesStep = false;
+        //  Look for a Mission Specifics step w/ a Yes button-click
         for (var s=0; s < progressData.length; s++) {
             if ((progressData[s].step === "mission_specifics") && (progressData[s].selection === "yesButton")) {
-                isAnyMissionSpecificData = true;
+                isAnyMissionSpecificYesStep = true;
                 break;
             }
         }
@@ -418,14 +420,12 @@ function handleExportStep(newIndex){
                 codemirror_editor_ingest.refresh();
             }, 100);
 
-            //  IF there is any Mission-Specific data
-            if (isAnyMissionSpecificData) {
+            //  IF there is any Mission Specifics step w/ a Yes button-click
+            if (isAnyMissionSpecificYesStep) {
                 //  Show the Ingest LDDTool preview
-                $("#finalPreviewIngest").show();
                 $(".exportIngestLDDForm").show();
             } else {
                 //  Hide the Ingest LDDTool preview
-                $("#finalPreviewIngest").hide();
                 $(".exportIngestLDDForm").hide();
             }
         } else {
@@ -441,10 +441,9 @@ function handleExportStep(newIndex){
                 });
             });
 
-            //  IF there is any Mission-Specific data
-            if (isAnyMissionSpecificData) {
+            //  IF there is any Mission Specifics step w/ a Yes button-click
+            if (isAnyMissionSpecificYesStep) {
                 //  Show the Ingest LDDTool preview
-                $("#finalPreviewIngest").show();
                 $(".exportIngestLDDForm").show();
                 backendCall("php/preview_template.php", "previewIngestLDDToolTemplate", {
                     namespaces: g_jsonData.namespaces
@@ -458,7 +457,6 @@ function handleExportStep(newIndex){
                 });
             } else {
                 //  Hide the Ingest LDDTool preview
-                $("#finalPreviewIngest").hide();
                 $(".exportIngestLDDForm").hide();
             }
         }
