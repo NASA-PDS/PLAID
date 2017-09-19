@@ -71,7 +71,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <link href="thirdparty/css/tether.min.css" rel="stylesheet">
     <link href="thirdparty/font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet">
 </head>
-<body>
+<body  onmousemove="textMirror(event)">
     <nav class="navbar navbar-dark no-border-radius" style="background-color: #2184be;">
         <div class="nav navbar-nav">
             <a class="navbar-brand">PDS Label Assistant for Interactive Design (PLAID)</a>
@@ -324,29 +324,48 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
 <p>You can fill in the values in bulk by editing the spreadsheet. Once the values are populated, you can hit the 'Upload Table' button, to import the spreadsheet to re-render the label in PLAID interface. Once the file is imported back to PLAID, you can view and download your label in the PDS4 compliant format.</p>"
                      class="staticPopover">
 
-                    <!--            <a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">-->
                     <p class="spreadsheetSectionHeader">Table Import/Export:</p>
-                    <div class="exportForm">
-                        <span class="spacer"></span>
-                        <div class="input-group" role="group">
-                        <span class="input-group-addon" style="width:auto !important; padding:0;">
-                             <span class="input-group-addon" style="width:auto; position:absolute; padding:1.1% 2% 1.6% 2%;border-color:grey;border-bottom:.1px;border-right:3px; border-top:none; border-left:none;">Choose A File:</span>
-                            <label class="custom-file" id="inputfile">
-                                <input type="file" id="file" class="custom-file-input" style="size:200px">
-                                <span class="custom-file-control" id="fileChooser"></span>
-                            </label></span>
-                            <span class="input-group-btn">
-                                <button id="exportButton" class="btn btn-warning" type="submit" onclick="tableUpload()">Upload Table</button>
-                            </span>
-                            <span class="input-group-btn">
-                            <button id="submitButton" class="btn btn-primary"
-                                    onclick="tableDownload()">Download Table</button>
-                            </span>
-                        </div>
-                        <span class="spacer"></span>
-                    </div>
-                </div>
 
+                    <div id="tableExportForm" >
+                        <div class="tableExportForm">
+                            <span class="spacer"></span>
+                            <div class="input-group" role="group">
+                            <span class="input-group-btn">
+
+                            <form action="php/playground.php" method="post" enctype="multipart/form-data">
+
+                            <div style="border:1px solid #dddddd !important;font-color: white;border-top-left-radius:5px;border-bottom-left-radius:7px;height:38px;">
+                                <form action="php/playground.php" method="post" enctype="multipart/form-data">
+                                <label class="btn btn-default btn-file">
+                                Browse ... <input type="file"  id="file" name="file" style="display:none;"><input type="submit" value="Do Playground" name="submit" style="display:none;" id="submitCSV">
+                                </label>
+                            </div>
+                            </form>
+                            </span>
+
+
+                                <!--                            <span class="input-group-btn">-->
+                                <input class="form-control" name="inputfilename" type="text" placeholder="my_label.csv" id="mirrorFileInputField" onmousemove="textMirror(event)">
+                                <!--                            </span>-->
+                                <span class="input-group-btn">
+                                <button id="inportBtn" class="btn btn-warning" type="submit"  onClick="submitCSV()">Upload Table</button>
+                            </span>
+                                <!--                             </form>-->
+                                <span class="input-group-btn">
+                             <button id="exportBtn" class="btn btn-primary"
+                                     onclick="tableDownload()">Download Table</button>
+                            </span>
+                            </div>
+                        </div>
+                        <div class="exportForm">
+                            <span class="spacer"></span>
+                            <div class="input-group" role="group">
+                        <span class="input-group-addon" style="width:auto !important; padding:0;">
+                            </span>
+                            </div>
+                            <span class="spacer"></span>
+                        </div>
+                    </div>
             </section>
         </div>
         <div id="sidebar">
