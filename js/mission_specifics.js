@@ -143,25 +143,41 @@ function handleSaveButton(builderState) {
         //  Get the schema version
         var schemaVersion = getParameterByName("version");
 
-        //  Get the value entered in the Mission Name textbox
-        var missionName = $("fieldset.missionName").find("input").val();
-        //  Get the value entered in the Steward Id textbox
-        var stewardId = $("fieldset.stewardId").find("input").val();
-        //  Get the value entered in the Namespace Id textbox
-        var namespaceId = $("fieldset.namespaceId").find("input").val();
-        //  Get the value entered in the Comment textbox
-        var comment = $("fieldset.comment").find("input").val();
-        //  Collect the textbox values into a global data structure
-        missionSpecificsHeader.missionName = missionName;
-        missionSpecificsHeader.stewardId = stewardId;
-        missionSpecificsHeader.namespaceId = namespaceId;
-        missionSpecificsHeader.comment = comment;
+        //  Get the values entered into the textboxes, and save them into the global data structure
+        saveMissionAreaHomePageValues();
 
         backendCall("php/xml_mutator.php",
             "addCustomNodes",
             {json: missionSpecifics, missionSpecificsHeader: missionSpecificsHeader, schemaVersion: schemaVersion},
             function(data){ console.log(data);});
         $("#wizard").steps("next");
+    }
+}
+
+/**
+ * Save the values entered into the textboxes into a global data structure
+ */
+function saveMissionAreaHomePageValues() {
+    //  Get the value entered in the Mission Name textbox
+    var missionName = $("fieldset.missionName").find("input").val();
+    //  Get the value entered in the Steward Id textbox
+    var stewardId = $("fieldset.stewardId").find("input").val();
+    //  Get the value entered in the Namespace Id textbox
+    var namespaceId = $("fieldset.namespaceId").find("input").val();
+    //  Get the value entered in the Comment textbox
+    var comment = $("fieldset.comment").find("input").val();
+    //  Collect the textbox values into a global data structure
+    if (missionName !== undefined) {
+        missionSpecificsHeader.missionName = missionName;
+    }
+    if (stewardId !== undefined) {
+        missionSpecificsHeader.stewardId = stewardId;
+    }
+    if (namespaceId !== undefined) {
+        missionSpecificsHeader.namespaceId = namespaceId;
+    }
+    if (comment !== undefined) {
+        missionSpecificsHeader.comment = comment;
     }
 }
 
@@ -210,17 +226,27 @@ function createAttribute() {
     var element = getAttributeInfo();
     var groupSelect;
 
+    //  Get the newly selected Group
     groupSelect = $(".form-group.groupSelect").find("select.form-control").val();
     if (groupSelect === "No Group") {
         missionSpecifics.push(element);
     } else {
-        var node;
-        for (var i = 0; i < missionSpecifics.length; i++) {
-            node = missionSpecifics[i];
-            if (node.name === groupSelect) {
-                node.children.push(element);
-                break;
+        //  Find the newly selected Group in the tree
+        var newSelectedGroupNode = $('#editTree').tree(
+            'getNodeByCallback',
+            function(node) {
+                return node.name === groupSelect;
             }
+        );
+
+        //  IF the newly selected Group node was found in the tree
+        if (newSelectedGroupNode) {
+            //  Add the new attribute as a child of the newly selected Group
+            ///newSelectedGroupNode.children.push(element);
+            $('#editTree').tree('appendNode', element, newSelectedGroupNode);
+
+            //  Update the missionSpecifics array to reflect the change in the jqTree
+            missionSpecifics = JSON.parse($('#editTree').tree('toJson'));
         }
     }
 }
@@ -258,9 +284,7 @@ function modifyAttribute() {
             //  Need to remove the node (from the old group), and add it as a child of the new group
             //  Remove the node (from the old group) in the jqTree
             $('#editTree').tree('removeNode', node);
-            //  Update the missionSpecifics array to reflect the change in the jqTree
-            missionSpecifics = JSON.parse($('#editTree').tree('toJson'));
-            refreshGroupChildren();
+            //  Update of missionSpecifics array to reflect change in the jqTree will be done in createAttribute() below
 
             //  Add a new node as a child of the new group
             createAttribute();
@@ -435,6 +459,12 @@ function handleMissionSpecificsStep(currentIndex, newIndex) {
  *  - "addGroup"   : The page for adding a group of attributes
  */
 function mutatePage(nextPage, step) {
+    //  IF NOT going TO the home page, you must be coming FROM the home page
+    if (nextPage !== "home") {
+        //  Save off the textbox entries on the previous (home) page, so they are not lost
+        saveMissionAreaHomePageValues();
+    }
+
     var section = $("#wizard-p-" + step);
     $(section).empty();
 
@@ -521,6 +551,7 @@ function generateHomepage(wrapperClass) {
         function() {mutatePage("addGroup", wizardData.currentStep.toString())}));
     table.appendChild(generateButtonRow("remove", "fa-eraser", "Remove",
         function() {mutatePage("remove", wizardData.currentStep.toString())}));
+        ///function() {removeSelectedNode()}));
     table.appendChild(generateButtonRow("edit", "fa-tag-edit", "Edit",
         function() {checkIfTreeSelection()}));
     dataSection.appendChild(table);
@@ -575,10 +606,14 @@ function generateTree(cardBlock) {
         dragAndDrop: true,
         selectable: true,
         onCanMove: function(node) {
-            return !node.isGroup;
+            ///return !node.isGroup;   //  can't move a Group
+            return true;               //  now can move a Group
         },
         onCanMoveTo: function(moved_node, target_node, position) {
-            return target_node.getLevel() !== 2 && target_node.isGroup;
+            //  can only move something to be under a Group that is on the 1st level
+            ///return target_node.getLevel() !== 2 && target_node.isGroup;
+            //  now can  move something to be under a Group that is on any level
+            return target_node.isGroup;
         }
     });
     // Handles any drag-and-drop action, saving any changes made into the missionSpecifics data in config.js
@@ -642,6 +677,22 @@ function checkIfTreeSelection() {
             //  Call the Edit Attribute routine
             mutatePage("editAttr", wizardData.currentStep.toString());
         }
+    }
+}
+
+/**
+ * Helper method for removing the currently selected node in the Preview Tree
+ */
+function removeSelectedNode() {
+    if (selectedNode === null) {
+        alert("Need to select an item in the Preview Tree.");
+        console.log("Need to select an item in the Preview Tree.");
+    } else {
+        alert("Are you sure that you want to remove the selected item from the Preview Tree?");
+        //  Remove the currently selected node from the tree
+        $('#previewContent').tree('removeNode', selectedNode);
+        //  Update the missionSpecifics array to reflect the change in the jqTree
+        ///missionSpecifics = JSON.parse($('#previewContent').tree('toJson'));
     }
 }
 
@@ -1032,14 +1083,35 @@ function generateGroupDropdownSelect() {
     wrapper.className = "form-control";
 
     wrapper.appendChild(generateOption("No Group"));
+    //  For each item in the missionSpecifics array
     for (var i = 0; i < missionSpecifics.length; i++) {
-        var node = missionSpecifics[i];
-        if (node.isGroup) {
-            wrapper.appendChild(generateOption(node.name));
-        }
+        var item = missionSpecifics[i];
+        checkIfGroup(item, wrapper);
     }
 
     return wrapper;
+}
+
+/**
+ * Checks if this item is a Group, and if it contains any Groups
+ * adds the Groups into the dropdown select
+ *
+ * @param {object} item An object in the mission-specific array
+ * @param {doc object} groupDropdown The Group dropdown list document object
+ */
+function checkIfGroup(item, groupDropdown) {
+    if (item.isGroup) {
+        //  Add the Group's name to the Group dropdown list
+        groupDropdown.appendChild(generateOption(item.name));
+        //  IF the Group has a children array
+        if (item.children !== undefined) {
+            //  For each child in the Group
+            for (var c=0; c < item.children.length; c++) {
+                var child = item.children[c];
+                checkIfGroup(child, groupDropdown);
+            }
+        }
+    }
 }
 
 /**
@@ -1067,7 +1139,7 @@ function generateDataTypeDropdownSelect() {
     //  Get all of the Data Type Dictionary entries
     var dataTypeDict = g_jsonData.nodes.pds.dataDictionary.dataTypeDictionary;
     for (var d=0; d < dataTypeDict.length; d++) {
-        var dataTypeDictId = dataTypeDict[d].DataType.identifier;
+        var dataTypeDictId = dataTypeDict[d].DataType.title;
         wrapper.appendChild(generateOption(dataTypeDictId));
     }
     return wrapper;
@@ -1086,7 +1158,7 @@ function generateUnitTypeDropdownSelect() {
     //  Get all of the Unit Type Dictionary entries
     var unitTypeDict = g_jsonData.nodes.pds.dataDictionary.unitDictionary;
     for (var u=0; u < unitTypeDict.length; u++) {
-        var unitTypeDictId = unitTypeDict[u].Unit.identifier;
+        var unitTypeDictId = unitTypeDict[u].Unit.title;
         wrapper.appendChild(generateOption(unitTypeDictId));
     }
     return wrapper;
