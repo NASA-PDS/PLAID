@@ -464,15 +464,14 @@ function getProgressDataObjFromPath(path){
             return obj[i];
         }
 
-        if(obj[i].step === 'product_type'){
+        else if(obj[i].step === 'product_type'){
             // Checks against  the progressData[0], 0001_NASA_PDS_1.pds.Product_Observational
-            console.log(obj[i]['selection'], " is a product type.");
             if(obj[i]['selection'] === path){
                 // console.log('hit 2');
                 target = obj[i];
                 return obj[i];
             }
-        }else if( obj[i]['selection'].length > 0 ){
+        }else if( obj[i]['selection'] !== null && obj[i]['selection'] !== undefined && obj[i]['selection'].length > 0 ){
             // Checks against leaf nodes
             for(index in obj[i]['selection']){
                 // console.log(obj[i]['selection'][index]);
