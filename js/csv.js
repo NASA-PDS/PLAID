@@ -107,12 +107,12 @@ function getLabelCSV(){
                             }
                         }
                     } else {
-                        console.log(obj);
+                        console.log('The object will be ignored',obj); // debug
                     }
                 }
                 i++;
             }
-            console.log('csv:', csv);
+            // console.log('csv:', csv);
             return csv;
         },
         error: function (textStatus, errorThrown) {
@@ -206,7 +206,7 @@ function getLabelCSVFromLhsNavBars(callback){
                     }// ends inner for loop
                 } // ends if clause
             } // ends outer for loop
-            console.log('csv:', csv);
+            // console.log('csv:', csv);
             callback(csv, "my_label_"+ labelInfo['id'] + "_" + labelInfo['name']+".csv");
             return csv;
         }, // ends success clause
