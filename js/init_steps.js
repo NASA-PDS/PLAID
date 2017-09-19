@@ -99,15 +99,6 @@ function initWizard(wizard) {
             }
             if (newIndex > currentIndex){
 
-                // var indentLevel = 0;
-                // console.log('progressData[currentIndex]', progressData[currentIndex]);
-                // if(typeof(progressData[currentIndex]) !== "undefined" && progressData[currentIndex]['step_path']==='optional_nodes'){
-                //     pathParts = progressData[currentIndex]['step_path'].split('/');
-                //     indentLevel = pathParts.length>2?pathParts.length:0;
-                // }else if(typeof(progressData[currentIndex]) !== "undefined" && progressData[currentIndex]['step_path']==='builder'){
-                //     indentlevel = 1;
-                // }
-
                 // TODO - we should do a check here to figure out what
                 // page we are on and determine where to go from there
                 handleStepAddition(currentIndex, newIndex, progressData[currentIndex]);
@@ -253,7 +244,16 @@ function handleStepAddition(currentIndex, newIndex, stepObj){
                 var currObj = getObjectFromPath(path, g_jsonData.refObj);
 
                 if (typeof $(this).attr("data-path-corrected") != 'undefined') {
-                    currObj["path"] = $(this).attr("data-path-corrected");
+                    //  Fix for Issue #72:
+                    //  Verify that there is a valid object associated with this corrected path,
+                    //  before you set it as the path of the current object
+                    var correctedPath = $(this).attr("data-path-corrected");
+                    var correctedObj = getObjectFromPath(correctedPath, g_jsonData.refObj);
+                    if (correctedObj != null) {
+                        currObj["path"] = correctedPath;
+                    } else {
+                        console.log("The corrected path '" + correctedPath + "' is not a valid path.");
+                    }
                 }
 
 
