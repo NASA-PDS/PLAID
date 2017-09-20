@@ -28,6 +28,7 @@
  */
 require_once('../thirdparty/php/PasswordHash.php');
 require("configuration.php");
+include_once("PlaidSessionHandler.php");
 $HASHER = new PasswordHash(8, false);
 try{
     $host = DB_HOST;
@@ -35,6 +36,8 @@ try{
     $port = DB_PORT;
     $user = DB_USER;
     $pass = DB_PASSWORD;
+
+    $session_handler = new PlaidSessionHandler(); // MYSQL-backed session handler
 
     $LINK = new \PDO('mysql:host=' . $host .
                      ';dbname='. $db .
@@ -46,6 +49,7 @@ try{
             \PDO::ATTR_PERSISTENT => false
         )
     );
+
 
     if(isset($_POST['function'])){
         call_user_func($_POST['function'], $_POST);
@@ -199,6 +203,122 @@ function verifyUser($args){
 }
 
 /**
+ * Fetch the User's full name, given the User Id.
+ * @param {Object} $userId the User's Id
+ * @return user's full name
+ */
+function getUserName($userId){
+    global $LINK;
+    $handle = $LINK->prepare('select full_name from user where id=? and active=1');
+    $handle->bindValue(1, $userId);
+
+    $handle->execute();
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+
+    if ($result !== false){
+        return($result->full_name);
+    } else {
+        return null;
+    }
+
+}
+
+/*
+*  Given a query, show all users with a name or email that starts with that query
+*  @param {Object} $args object containing the search query
+*/
+function getUsersListing($args) {
+    global $LINK;
+    session_start();
+    if(isset($_SESSION['user_id'])) {
+        $stmt = $LINK->prepare('SELECT id, email, full_name, organization FROM user WHERE (full_name LIKE :query and id!=:user_id) or (email LIKE :query and id!=:user_id) LIMIT 0,10');
+        $stmt->execute(array('query' => '%' . $args['q'] . '%',
+            'user_id' => $_SESSION['user_id']));
+        echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+    }
+}
+
+/*
+ * Share a label with a user
+ * @param {Object} $args object containing the label to share and the user to share it with
+ */
+
+function shareLabelWithUser($args) {
+    global $LINK;
+    session_start();
+    if(isset($_SESSION['user_id'])) {
+        // first verify the label being changed is owned by the user in modifying it's links
+        $stmt = $LINK->prepare('SELECT count(*) FROM label WHERE id=? AND owner=?');
+        $stmt->bindValue(1, $args["label_id"]);
+        $stmt->bindValue(2, $_SESSION["user_id"]);
+        $stmt->execute();
+        if(count($stmt->fetchAll(\PDO::FETCH_OBJ)) > 0) {
+            // insert the association
+            $handle = $LINK->prepare('INSERT INTO link SET user_id=?,label_id=?');
+            $newLabelId = $LINK->lastInsertId();
+            $handle->bindValue(1, $args["user_id"]);
+            $handle->bindValue(2, $args["label_id"]);
+            $handle->execute();
+            getLabelShareSettings(["label_id"=> $args["label_id"]]);
+        } else {
+            header("HTTP/1.1 401 Unauthorized");
+            exit;
+        }
+
+    }
+}
+
+/*
+ * Stop sharing a label with a user
+ * @param {Object} $args object containing the label to share and the user to share it with
+ */
+
+function stopSharingLabelWithUser($args) {
+    global $LINK;
+    session_start();
+    if(isset($_SESSION['user_id'])) {
+        // first verify the label being changed is owned by the user in modifying it's links
+        $stmt = $LINK->prepare('SELECT count(*) FROM label WHERE id=? AND owner=?');
+        $stmt->bindValue(1, $args["label_id"]);
+        $stmt->bindValue(2, $_SESSION["user_id"]);
+        $stmt->execute();
+        if(count($stmt->fetchAll(\PDO::FETCH_OBJ)) > 0) {
+            // insert the association
+            $handle = $LINK->prepare('DELETE FROM link WHERE user_id=? AND label_id=?');
+            $handle->bindValue(1, $args["user_id"]);
+            $handle->bindValue(2, $args["label_id"]);
+            $handle->execute();
+            getLabelShareSettings(["label_id"=> $args["label_id"]]);
+        } else {
+            header("HTTP/1.1 401 Unauthorized");
+            exit;
+        }
+
+    }
+}
+
+
+/**
+ * Given a label id, show all users that have access to that label
+ * @param {Object} $args object containing label to list who it is shared with
+ */
+
+function getLabelShareSettings($args) {
+    global $LINK;
+    session_start();
+    if(isset($_SESSION['user_id'])){
+        $handle = $LINK->prepare('SELECT user.full_name, user.email, user.id from user inner JOIN link ON link.user_id=user.id where link.label_id=? and user.id!=?');
+        $handle->bindValue(1, $args['label_id']);
+        $handle->bindValue(2, $_SESSION['user_id']);
+
+        $handle->execute();
+        echo json_encode($handle->fetchAll(PDO::FETCH_ASSOC));
+
+    }
+}
+
+
+/**
  * Send an e-mail to the user with a link to Reset Password.
  * @param {Object} $args object containing the user's email address
  */
@@ -330,11 +450,35 @@ function getLabelInfo(){
     global $LINK;
     session_start();
     if(isset($_SESSION['user_id'])){
-        $handle = $LINK->prepare('select link.user_id, label.id, label.creation, label.last_modified, label.name, label.schema_version from link inner JOIN label ON link.label_id=label.id where link.user_id=? and label.is_deleted=0 order by label.last_modified desc;');
+        $handle = $LINK->prepare('select link.user_id, label.id, label.creation, label.last_modified, label.name, label.schema_version, label.owner from link inner JOIN label ON link.label_id=label.id where link.user_id=? and label.is_deleted=0 order by label.last_modified desc;');
         $handle->bindValue(1, $_SESSION['user_id'], PDO::PARAM_INT);
         $handle->execute();
 
         $result = $handle->fetchAll(\PDO::FETCH_OBJ);
+
+        foreach ($result as &$label) {
+            if($label->user_id != $label->owner) {
+                // if not owner of label, say who is
+
+                $owner_info = $LINK->prepare('select email, full_name from user where id=?');
+                $owner_info->bindValue(1, $label->owner);
+                $owner_info->execute();
+
+                $owner_obj = $owner_info->fetchAll(\PDO::FETCH_OBJ);
+
+                $label->owner_email = $owner_obj[0]->email;
+                $label->owner_name = $owner_obj[0]->full_name;
+            }
+            $label->in_use = checkIfLabelInUse($label->id);
+            if($label->in_use) {
+                $label->in_use_by = getUserName($label->in_use); // provide user name when label is in use
+            } else {
+                $label->in_use_by = false;
+            }
+
+        }
+
+
         header('Content-type: application/json');
         echo json_encode($result);
     }
@@ -361,269 +505,12 @@ function storeNewLabel($args){
     var_dump($data);
     /** JPADAMS - load a file here **/
 
-//     $data = '<Product_Observational>
-//     <Identification_Area>
-//         <logical_identifier></logical_identifier>
-//         <version_id></version_id>
-//         <title></title>
-//         <information_model_version></information_model_version>
-//         <product_class></product_class>
-//         <Alias_List>
-//             <Alias>
-//                 <alternate_id></alternate_id>
-//                 <alternate_title></alternate_title>
-//                 <comment></comment>
-//             </Alias>
-//         </Alias_List>
-//         <Citation_Information>
-//             <author_list></author_list>
-//             <editor_list></editor_list>
-//             <publication_year></publication_year>
-//             <keyword></keyword>
-//             <description></description>
-//         </Citation_Information>
-//         <Modification_History>
-//             <Modification_Detail>
-//                 <modification_date></modification_date>
-//                 <version_id></version_id>
-//                 <description></description>
-//             </Modification_Detail>
-//         </Modification_History>
-//     </Identification_Area>
-//     <Observation_Area>
-//         <comment></comment>
-//         <Time_Coordinates>
-//             <start_date_time></start_date_time>
-//             <stop_date_time></stop_date_time>
-//             <local_mean_solar_time></local_mean_solar_time>
-//             <local_true_solar_time></local_true_solar_time>
-//             <solar_longitude></solar_longitude>
-//         </Time_Coordinates>
-//         <Primary_Result_Summary>
-//             <type></type>
-//             <purpose></purpose>
-//             <data_regime></data_regime>
-//             <processing_level></processing_level>
-//             <processing_level_id></processing_level_id>
-//             <description></description>
-//             <Science_Facets>
-//                 <wavelength_range></wavelength_range>
-//                 <domain></domain>
-//                 <discipline_name></discipline_name>
-//                 <facet1></facet1>
-//                 <subfacet1></subfacet1>
-//                 <facet2></facet2>
-//                 <subfacet2></subfacet2>
-//             </Science_Facets>
-//         </Primary_Result_Summary>
-//         <Investigation_Area>
-//             <name></name>
-//             <type></type>
-//             <Internal_Reference>
-//                 <lid_reference></lid_reference>
-//                 <reference_type></reference_type>
-//                 <comment></comment>
-//             </Internal_Reference>
-//         </Investigation_Area>
-//         <Observing_System>
-//             <name></name>
-//             <description></description>
-//             <Observing_System_Component>
-//                 <name></name>
-//                 <type></type>
-//                 <description></description>
-//                 <Internal_Reference>
-//                     <lid_reference></lid_reference>
-//                     <reference_type></reference_type>
-//                     <comment></comment>
-//                 </Internal_Reference>
-//                 <External_Reference>
-//                     <doi></doi>
-//                     <reference_text></reference_text>
-//                     <description></description>
-//                 </External_Reference>
-//             </Observing_System_Component>
-//         </Observing_System>
-//         <Target_Identification>
-//             <name></name>
-//             <alternate_designation></alternate_designation>
-//             <type></type>
-//             <description></description>
-//             <Internal_Reference>
-//                 <lid_reference></lid_reference>
-//                 <reference_type></reference_type>
-//                 <comment></comment>
-//             </Internal_Reference>
-//         </Target_Identification>
-//         <Mission_Area>
-//             <ins:InsightClass></ins:InsightClass>
-//         </Mission_Area>
-//         <Discipline_Area></Discipline_Area>
-//     </Observation_Area>
-//     <Reference_List>
-//         <Internal_Reference>
-//             <lid_reference></lid_reference>
-//             <reference_type></reference_type>
-//             <comment></comment>
-//         </Internal_Reference>
-//         <External_Reference>
-//             <doi></doi>
-//             <reference_text></reference_text>
-//             <description></description>
-//         </External_Reference>
-//     </Reference_List>
-//     <File_Area_Observational>
-//         <File>
-//             <file_name></file_name>
-//             <local_identifier></local_identifier>
-//             <creation_date_time></creation_date_time>
-//             <file_size></file_size>
-//             <records></records>
-//             <md5_checksum></md5_checksum>
-//             <comment></comment>
-//         </File>
-//         <Array_1D>
-//             <name></name>
-//             <local_identifier></local_identifier>
-//             <offset></offset>
-//             <axes></axes>
-//             <axis_index_order></axis_index_order>
-//             <description></description>
-//             <Element_Array>
-//                 <data_type></data_type>
-//                 <unit></unit>
-//                 <scaling_factor></scaling_factor>
-//                 <value_offset></value_offset>
-//             </Element_Array>
-//             <Axis_Array>
-//                 <axis_name></axis_name>
-//                 <local_identifier></local_identifier>
-//                 <elements></elements>
-//                 <unit></unit>
-//                 <sequence_number></sequence_number>
-//                 <Band_Bin_Set>
-//                     <Band_Bin>
-//                         <band_number></band_number>
-//                         <band_width></band_width>
-//                         <center_wavelength></center_wavelength>
-//                         <detector_number></detector_number>
-//                         <filter_number></filter_number>
-//                         <grating_position></grating_position>
-//                         <original_band></original_band>
-//                         <standard_deviation></standard_deviation>
-//                         <scaling_factor></scaling_factor>
-//                         <value_offset></value_offset>
-//                     </Band_Bin>
-//                 </Band_Bin_Set>
-//             </Axis_Array>
-//             <Special_Constants>
-//                 <saturated_constant></saturated_constant>
-//                 <missing_constant></missing_constant>
-//                 <error_constant></error_constant>
-//                 <invalid_constant></invalid_constant>
-//                 <unknown_constant></unknown_constant>
-//                 <not_applicable_constant></not_applicable_constant>
-//                 <valid_maximum></valid_maximum>
-//                 <high_instrument_saturation></high_instrument_saturation>
-//                 <high_representation_saturation></high_representation_saturation>
-//                 <valid_minimum></valid_minimum>
-//                 <low_instrument_saturation></low_instrument_saturation>
-//                 <low_representation_saturation></low_representation_saturation>
-//             </Special_Constants>
-//             <Object_Statistics>
-//                 <local_identifier></local_identifier>
-//                 <maximum></maximum>
-//                 <minimum></minimum>
-//                 <mean></mean>
-//                 <standard_deviation></standard_deviation>
-//                 <bit_mask></bit_mask>
-//                 <median></median>
-//                 <md5_checksum></md5_checksum>
-//                 <maximum_scaled_value></maximum_scaled_value>
-//                 <minimum_scaled_value></minimum_scaled_value>
-//                 <description></description>
-//             </Object_Statistics>
-//         </Array_1D>
-//     </File_Area_Observational>
-//     <File_Area_Observational_Supplemental>
-//         <File>
-//             <file_name></file_name>
-//             <local_identifier></local_identifier>
-//             <creation_date_time></creation_date_time>
-//             <file_size></file_size>
-//             <records></records>
-//             <md5_checksum></md5_checksum>
-//             <comment></comment>
-//         </File>
-//         <Array_1D>
-//             <name></name>
-//             <local_identifier></local_identifier>
-//             <offset></offset>
-//             <axes></axes>
-//             <axis_index_order></axis_index_order>
-//             <description></description>
-//             <Element_Array>
-//                 <data_type></data_type>
-//                 <unit></unit>
-//                 <scaling_factor></scaling_factor>
-//                 <value_offset></value_offset>
-//             </Element_Array>
-//             <Axis_Array>
-//                 <axis_name></axis_name>
-//                 <local_identifier></local_identifier>
-//                 <elements></elements>
-//                 <unit></unit>
-//                 <sequence_number></sequence_number>
-//                 <Band_Bin_Set>
-//                     <Band_Bin>
-//                         <band_number></band_number>
-//                         <band_width></band_width>
-//                         <center_wavelength></center_wavelength>
-//                         <detector_number></detector_number>
-//                         <filter_number></filter_number>
-//                         <grating_position></grating_position>
-//                         <original_band></original_band>
-//                         <standard_deviation></standard_deviation>
-//                         <scaling_factor></scaling_factor>
-//                         <value_offset></value_offset>
-//                     </Band_Bin>
-//                 </Band_Bin_Set>
-//             </Axis_Array>
-//             <Special_Constants>
-//                 <saturated_constant></saturated_constant>
-//                 <missing_constant></missing_constant>
-//                 <error_constant></error_constant>
-//                 <invalid_constant></invalid_constant>
-//                 <unknown_constant></unknown_constant>
-//                 <not_applicable_constant></not_applicable_constant>
-//                 <valid_maximum></valid_maximum>
-//                 <high_instrument_saturation></high_instrument_saturation>
-//                 <high_representation_saturation></high_representation_saturation>
-//                 <valid_minimum></valid_minimum>
-//                 <low_instrument_saturation></low_instrument_saturation>
-//                 <low_representation_saturation></low_representation_saturation>
-//             </Special_Constants>
-//             <Object_Statistics>
-//                 <local_identifier></local_identifier>
-//                 <maximum></maximum>
-//                 <minimum></minimum>
-//                 <mean></mean>
-//                 <standard_deviation></standard_deviation>
-//                 <bit_mask></bit_mask>
-//                 <median></median>
-//                 <md5_checksum></md5_checksum>
-//                 <maximum_scaled_value></maximum_scaled_value>
-//                 <minimum_scaled_value></minimum_scaled_value>
-//                 <description></description>
-//             </Object_Statistics>
-//         </Array_1D>
-//     </File_Area_Observational_Supplemental>
-// </Product_Observational>';
     session_start();
-    $handle = $LINK->prepare('INSERT INTO label SET creation=now(),last_modified=now(),name=?,label_xml=?,schema_version=?');
+    $handle = $LINK->prepare('INSERT INTO label SET creation=now(),last_modified=now(),name=?,label_xml=?,schema_version=?,owner=?');
     $handle->bindValue(1, $args['labelName']);
     $handle->bindValue(2, $data);
     $handle->bindValue(3, $args['version']);
+    $handle->bindValue(4, $_SESSION['user_id']);
     $handle->execute();
 
     $handle = $LINK->prepare('INSERT INTO link SET user_id=?,label_id=?');
@@ -673,11 +560,15 @@ function updateLabelXML($args){
 function deleteLabel($args){
     global $LINK;
     session_start();
-
-    $handle = $LINK->prepare('update label set is_deleted=? where id=?');
-    $handle->bindValue(1, 1, PDO::PARAM_INT);
-    $handle->bindValue(2, $args['label_id'], PDO::PARAM_INT);
-    $handle->execute();
+    $labelInUse = checkIfLabelInUse($args['label_id']);
+    if($labelInUse) {
+        echo getUserName($labelInUse);
+    } else {
+        $handle = $LINK->prepare('update label set is_deleted=? where id=?');
+        $handle->bindValue(1, 1, PDO::PARAM_INT);
+        $handle->bindValue(2, $args['label_id'], PDO::PARAM_INT);
+        $handle->execute();
+    }
 }
 
 /**
@@ -750,6 +641,33 @@ function getLabelName(){
 
     $result = $handle->fetch(\PDO::FETCH_OBJ);
     echo $result->name;
+}
+
+/**
+ * Check all active sessions besides the current user and see if they are currently accessing the provided label id.
+ * @param {Object} $label_id id of label to determine if in use
+ */
+function checkIfLabelInUse($label_id) {
+    global $LINK;
+    session_start();
+    $result = $LINK->query('SELECT data FROM sessions');
+    $current_user = $_SESSION['user_id'];
+    $current_session = session_encode();
+
+    foreach ($result as $row)
+    {
+        session_decode($row['data']);
+        if($_SESSION['user_id'] != $current_user) {
+            if($_SESSION['label_id'] == intval($label_id)) {
+                $user_in_use = $_SESSION['user_id'];
+                session_decode($current_session);
+                return $user_in_use;
+            }
+        }
+    }
+    session_decode($current_session);
+    return false;
+
 }
 
 

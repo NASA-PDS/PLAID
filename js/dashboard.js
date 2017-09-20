@@ -70,6 +70,7 @@ function createLabelEntry(labelData){
     var labelCard = document.createElement("div");
     labelCard.className = "card card-block labelCard";
     labelCard.id = "label-" + labelData["id"];
+    $(labelCard).attr("label_num", labelData["id"]);
     $(labelCard).attr("version", labelData["schema_version"]);
     var title = document.createElement("h4");
     title.className = "card-title";
@@ -121,15 +122,43 @@ function createLabelEntry(labelData){
     editButton.textContent = "Edit";
     editButton.onclick = editLabel;
 
-    var delButton = document.createElement("button");
-    delButton.type = "button";
-    delButton.className = "btn btn-secondary labelButton delete";
-    delButton.textContent = "Delete";
-    delButton.onclick = deleteLabel;
 
+    // Only users that own a document can set sharing
+    if(labelData["owner"] == labelData["user_id"]) {
+        var shareButton = document.createElement("button");
+        shareButton.type = "button";
+        shareButton.className = "btn btn-secondary labelButton delete";
+        shareButton.textContent = "Share";
+        shareButton.onclick = shareLabel;
+
+        var delButton = document.createElement("button");
+        delButton.type = "button";
+        delButton.className = "btn btn-secondary labelButton delete";
+        delButton.textContent = "Delete";
+        delButton.onclick = deleteLabel;
+
+        btnGrp.appendChild(delButton);
+        btnGrp.appendChild(shareButton);
+    } else {
+        var ownerEmail = document.createElement("div");
+        var ownerLabel = document.createElement("span");
+        ownerLabel.innerHTML = "<b>Shared by:</b> " + labelData['owner_name'] + " (<a href='mailto:" + labelData['owner_email'] + "'/>" + labelData['owner_email'] + "</a>)";
+        ownerEmail.appendChild(ownerLabel);
+        content.appendChild(ownerEmail);
+    }
     btnGrp.appendChild(editButton);
-    btnGrp.appendChild(delButton);
     labelCard.appendChild(btnGrp);
+
+    if(labelData['in_use']) {
+        // Label is in use by another user, diable all buttons;
+        var buttons = $(labelCard).find("button");
+        for(var i = 0; i < buttons.length; i++) {
+            $(buttons[i]).prop('disabled', true);
+        }
+        $(labelCard).tooltip({
+            title: "Label currently being edited by user " + labelData['in_use_by']
+        });
+    }
 
     return labelCard;
 }
@@ -158,12 +187,18 @@ function deleteLabel(){
                 function: "deleteLabel",
                 label_id: labelID
             }
-        });
-        $(labelCard).remove();
-        $('#deleteLabel').modal('hide');
-        $('#deleteLabel').on('hidden.bs.modal', function () {
-            $("body .modal.fade.hide").remove();
-            $("body .modal-backdrop.fade.in").remove();
+        }).success(function(data) {
+            if(data.length > 0) {
+                alert("Shared label is currently being edited by user '" + data
+                    + "'. Please try again later or try contacting that user");
+            } else {
+                $(labelCard).remove();
+                $('#deleteLabel').modal('hide');
+                $('#deleteLabel').on('hidden.bs.modal', function () {
+                    $("body .modal.fade.hide").remove();
+                    $("body .modal-backdrop.fade.in").remove();
+                });
+            }
         });
     };
     generatePopUp(deleteLabelPopUp);
@@ -183,9 +218,210 @@ function editLabel(){
             label_id: labelID
         },
         success: function(data) {
-            window.location = "wizard.php?version=" + labelCard.attr("version");
+            if(data.length > 0) {
+                alert("Shared label is currently being edited by user '" + data
+                    + "'. Please try again later or try contacting that user");
+            } else {
+                window.location = "wizard.php?version=" + labelCard.attr("version");
+            }
         }
     });
+}
+/**
+ * Show prompt where user can share label with other users;
+ */
+function shareLabel() {
+    var labelCard = $(this).parents(".labelCard");
+    var labelId = $(labelCard).attr("label_num");
+
+    $("#share_modal").remove();
+
+    var modal = document.createElement("div");
+    modal.id = "share_modal";
+    modal.className = "modal fade hide";
+
+    var modalDialog = document.createElement("div");
+    modalDialog.className = "modal-dialog modal-lg";
+    modalDialog.setAttribute("role", "document");
+
+    var modalContent = document.createElement("div");
+    modalContent.className = "modal-content";
+
+    var modalHeader = document.createElement("div");
+    modalHeader.className = "modal-header";
+
+    var modalTitle = document.createElement("h4");
+    modalTitle.className = "modal-title";
+    modalTitle.innerHTML = "Share label '" + $(labelCard).find('h4.card-title').text() + "' with:";
+    modalHeader.appendChild(modalTitle);
+    modalContent.appendChild(modalHeader);
+
+    var modalBody = document.createElement("div");
+    modalBody.className = "modal-body";
+
+    modalBody.innerHTML = '<row>' +
+        '<div class="form-group">' +
+        '<label for="exampleInputEmail1">User lookup</label>' +
+        '<input class="form-control" id="searchUser" placeholder="Name or Email" class="typeahead">' +
+        '<small id="emailHelp" class="form-text text-muted">User must have a PLAID account.</small>' +
+        '</div></row>' +
+        '<div class="card">' +
+        '<div class="card-header">' +
+        'Label shared with:' +
+        '</div>' +
+        '<div class="card-block"><ul class="list-group" id="shareList"></ul>' +
+        '</div>' +
+        '</div>';
+
+    var searchBar = $(modalBody).find("#searchUser");
+
+    var shareList = $(modalBody).find("#shareList");
+
+    $.post("php/interact_db.php", {
+            "function": "getLabelShareSettings",
+            "label_id": labelId
+    }).done(function(data) {
+        refreshLabelShareListing(JSON.parse(data), shareList, labelId);
+    });
+
+
+
+    var userLookup = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+
+        remote: {
+            url: 'php/interact_db.php',
+            prepare: function (q, rq) {
+
+                $(".typeahead-loader").show();
+
+                rq.data = {
+                    q: searchBar.val(),
+                    function: "getUsersListing"
+
+                };
+                return rq;
+            },
+            transport: function (obj, onS, onE) {
+                obj.type = "POST";
+                $.ajax(obj).done(done).fail(fail).always(always);
+
+                function done(data, textStatus, request) {
+                    // Don't forget to fire the callback for Bloodhound
+                    onS(data);
+                }
+
+                function fail(request, textStatus, errorThrown) {
+                    // Don't forget the error callback for Bloodhound
+                    onE(errorThrown);
+                }
+
+                function always() {
+                    $(".typeahead-loader").hide();
+                }
+            }
+        }
+    });
+
+    searchBar.typeahead(null, {
+        name: 'user-search',
+        display: 'full_name',
+        source: userLookup,
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                '<strong>No users found</strong>',
+                '</div>'
+            ].join('\n'),
+            suggestion: Handlebars.compile('<div><strong>{{full_name}}</strong> – {{email}}</div>')
+        }
+
+        })
+
+    searchBar.bind('typeahead:select', function (ev, suggestion) {
+
+        shareLabelWithUser(labelId, suggestion["id"]);
+    });
+    /*
+    searchBar.on("keypress", function search(e) {
+        console.log("got " + e.keyCode);
+        if(e.keyCode == 13) {
+            e.preventDefault();
+            shareLabelWithUser(undefined, $("#targetQuery").val());
+        }
+    });*/
+
+
+    var modalBodyContent = document.createElement("p");
+    modalBody.appendChild(modalBodyContent);
+    modalContent.appendChild(modalBody);
+
+    var modalFooter = document.createElement("div");
+    modalFooter.className = "modal-footer";
+
+    var modalClose = document.createElement("button");
+    $(modalClose).attr("type", "button");
+    $(modalClose).addClass("btn btn-secondary");
+    $(modalClose).attr("data-dismiss", "modal");
+    $(modalClose).text("Close");
+
+
+    modalFooter.appendChild(modalClose);
+    modalContent.appendChild(modalFooter);
+    modalDialog.appendChild(modalContent);
+    modal.appendChild(modalDialog);
+    $('body').append(modal);
+    $("#share_modal .hide").show();
+    $("#share_modal").modal({
+        "backdrop" : "static"
+    });
+}
+
+function shareLabelWithUser(labelId, user_id) {
+    console.log("share label " + labelId + " with user " + user_id);
+    $.post("php/interact_db.php", {
+        "user_id": user_id,
+        "label_id": labelId,
+        "function": "shareLabelWithUser"
+    }).done(function(data){
+        refreshLabelShareListing(JSON.parse(data), $("#shareList"), labelId);
+    });
+
+}
+
+function refreshLabelShareListing(data, shareList, labelId) {
+    shareList.empty();
+    for(var i = 0; i < data.length; i++) {
+        var new_item = document.createElement("li");
+        $(new_item).addClass("list-group-item justify-content-between");
+        var new_header = document.createElement("h5");
+        $(new_header).text(data[i]["full_name"]);
+        var removeUser = document.createElement("button");
+        $(removeUser).attr("type", "button");
+        $(removeUser).addClass("btn btn-danger");
+        $(removeUser).text("Remove");
+        var itemUserId = data[i]["id"];
+
+        $(removeUser).on("click", function() {
+
+             $.post("php/interact_db.php", {
+                 "function": "stopSharingLabelWithUser",
+                 "label_id": labelId,
+                 "user_id": itemUserId
+             }).done(function(data) {
+                 refreshLabelShareListing(JSON.parse(data), $("#shareList"), labelId);
+            });
+        });
+
+        $(new_item).append(new_header);
+        $(new_item).append(removeUser);
+
+        shareList.append(new_item);
+
+    }
+
+
 }
 
 /**
