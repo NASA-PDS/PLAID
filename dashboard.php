@@ -15,9 +15,14 @@
  * limitations under the License.
  *
  */
+include_once("php/PlaidSessionHandler.php");
+$session_handler = new PlaidSessionHandler();
 session_start();
 if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     header("Location: index.php");
+
+// Set current label to none since we're on the dashboard page
+$_SESSION['label_id'] = "";
 
 ?>
 
@@ -76,5 +81,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
 <script src="thirdparty/js/tether.min.js"></script>
 <script src="thirdparty/js/bootstrap.min.js"></script>
 <script src="thirdparty/js/bootstrap-toggle.min.js"></script>
+<script src="thirdparty/js/bootstrap3-typeahead.min.js"></script>
+<script src="thirdparty/js/typeahead.bundle.min.js"></script>
+<script src="thirdparty/js/handlebars-v4.0.10.js"></script>
 <link href="thirdparty/css/bootstrap-toggle.min.css" rel="stylesheet">
 </html>
