@@ -304,6 +304,17 @@ var wizardData = {
     stepPaths: []
 };
 /**
+ * This data structure is for passing the top-level attributes of the user-created Mission-Specific data to the backend.
+ * @type {missionName: String, stewardId: String, namespaceId: String, comment: String}
+ */
+var missionSpecificsHeader = {
+     missionName: "Initial Mission Name",
+     stewardId: "Initial Steward ID",
+     namespaceId: "Initial Namespace ID",
+     comment: "Initial Comment"
+};
+
+/**
  * This list is for storing the user created Mission Specifics content. It will
  * be stored in a JSON format correlating to the jqTree framework.
  * @type {Array}

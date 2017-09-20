@@ -25,6 +25,7 @@
  */
 $(function() {
     initPopovers();
+    initStaticPopovers()
 });
 
 /**
@@ -68,6 +69,20 @@ function initPopovers(){
             html: true,
             title: title,
             content: dict[key],
+            trigger: "hover"
+        });
+    });
+}
+/**
+ * For each element with the class name "staticPopOver", initialize a popover.
+ */
+function initStaticPopovers(){
+    $('.staticPopover').each(function(){
+        $(this).popover({
+            container: "body",
+            html: true,
+            title: "static title",
+            content: "static content",
             trigger: "hover"
         });
     });

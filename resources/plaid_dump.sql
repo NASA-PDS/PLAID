@@ -33,6 +33,12 @@ CREATE TABLE `label` (
   `schema_version` int(11) DEFAULT NULL,
   `is_deleted` int(11) NOT NULL DEFAULT '0',
   `owner` int(11) NOT NULL,
+  `ingest_ldd_xml` blob NULL DEFAULT NULL,
+  `ms_mission_name` VARCHAR(50) NULL DEFAULT NULL,
+  `ms_steward_id` VARCHAR(20) NULL DEFAULT NULL,
+  `ms_namespace_id` VARCHAR(20) NULL DEFAULT NULL,
+  `ms_comment` VARCHAR(255) NULL DEFAULT NULL,
+
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=utf8;
