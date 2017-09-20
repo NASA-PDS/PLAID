@@ -205,13 +205,13 @@ function storeBuilder(progressObj) {
     progressObj['step'] = "builder";
     progressObj['type'] = "builder";
     progressObj['completed'] = true;
-
     $.ajax({
         type: "post",
         url: "php/interact_db.php",
         data: {
             function: "storeMissionSpecificsData",
-            missionSpecificsJson: JSON.stringify(missionSpecifics)
+            missionSpecificsJson: JSON.stringify(missionSpecifics),
+            missionSpecificsHeader: missionSpecificsHeader
         }
     });
 }

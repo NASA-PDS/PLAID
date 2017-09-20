@@ -3,7 +3,7 @@
     "dataDictionary": {
       "Title": "PDS4 Data Dictionary" ,
       "Version": "1.8.0.0" ,
-      "Date": "Mon Jun 05 10:52:11 PDT 2017" ,
+      "Date": "Tue Aug 15 13:28:24 PDT 2017" ,
       "Description": "This document is a dump of the contents of the PDS4 Data Dictionary" ,
       "classDictionary": [
         {
@@ -648,7 +648,7 @@
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.0.0.0" ,
-            "description": " The Companding_Parameters class TBD"
+            "description": " The Companding_Parameters class describes whether or not data is or has had its bit depth reduced (for example conversion from 12 to 8 bits via a lookup table or bit scaling), the venue where it occurred (Software or Hardware), and the method used to complete the companding."
               , "associationList": [
              {"association": {
                 "identifier": "0001_NASA_PDS_1.img.Companding_Parameters.img.companding_state" ,
@@ -697,6 +697,77 @@
         }
       , {
           "class": {
+            "identifier": "0001_NASA_PDS_1.img.Coordinate_Space_Reference" ,
+            "title": "Coordinate_Space_Reference" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "img" ,
+            "steward": "img" ,
+            "versionId": "1.0.0.0" ,
+            "description": "The Coordinate_Space_Reference class includes the attributes that identify the reference coordinate space to be used in relation to the spacecraft's present coordinate space. The reference coordinate space is the space in which the present coordinate space is defined."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.img.Coordinate_Space_Reference.pds.pds.Local_Internal_Reference" ,
+                "title": "null" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "classId": [
+                   "0001_NASA_PDS_1.pds.Local_Internal_Reference"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.img.Correction_Parameter" ,
+            "title": "Correction_Parameter" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "img" ,
+            "steward": "img" ,
+            "versionId": "1.0.0.0" ,
+            "description": " The Correction_Parameter class specifies identifier(s) and value for a data correction parameter applicable to the parent class."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.id" ,
+                "title": "null" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.id",
+                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.sequence_number",
+                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.pds.name"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.value_number" ,
+                "title": "null" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1060" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.value_number",
+                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.value_string"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
             "identifier": "0001_NASA_PDS_1.img.Data_Correction" ,
             "title": "Data_Correction" ,
             "registrationAuthorityId": "0001_NASA_PDS_1" ,
@@ -734,6 +805,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.img.Data_Correction.img.data_correction_venue" ,
+                "title": "null" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.img.Data_Correction.img.data_correction_venue"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.img.Data_Correction.img.active_flag" ,
                 "title": "null" ,
                 "isAttribute": "true" ,
@@ -741,23 +826,9 @@
                 "isAny": "false" ,
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
-                "classOrder": "1030" ,
+                "classOrder": "1040" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.img.Data_Correction.img.active_flag"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Data_Correction.img.Data_Correction_Constant" ,
-                "title": "null" ,
-                "isAttribute": "false" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "*" ,
-                "classOrder": "1040" ,
-                "classId": [
-                   "0001_NASA_PDS_1.img.Data_Correction_Constant"
                  ]
               }
             }
@@ -775,46 +846,45 @@
                  ]
               }
             }
-           ]
-          }
-        }
-      , {
-          "class": {
-            "identifier": "0001_NASA_PDS_1.img.Data_Correction_Constant" ,
-            "title": "Data_Correction_Constant" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.0.0.0" ,
-            "description": " The Data_Correction_Constant class specifies identifier(s) and value for a data correction constant applicable to the parent Data_Correction class."
-              , "associationList": [
-             {"association": {
-                "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_id" ,
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.img.Data_Correction.img.Flat_Field_Correction_Parameters" ,
                 "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "true" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
                 "isAny": "false" ,
-                "minimumCardinality": "1" ,
-                "maximumCardinality": "3" ,
-                "classOrder": "1040" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_id",
-                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_name",
-                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_sequence_number"
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1060" ,
+                "classId": [
+                   "0001_NASA_PDS_1.img.Flat_Field_Correction_Parameters"
                  ]
               }
             }
            , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_value_number" ,
+                "identifier": "0001_NASA_PDS_1.img.Data_Correction.img.Radiometric_Correction_Parameters" ,
                 "title": "null" ,
-                "isAttribute": "true" ,
+                "isAttribute": "false" ,
                 "isChoice": "false" ,
                 "isAny": "false" ,
-                "minimumCardinality": "1" ,
+                "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
-                "classOrder": "1050" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_value_number"
+                "classOrder": "1070" ,
+                "classId": [
+                   "0001_NASA_PDS_1.img.Radiometric_Correction_Parameters"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.img.Data_Correction.img.Shutter_Subtraction_Parameters" ,
+                "title": "null" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1080" ,
+                "classId": [
+                   "0001_NASA_PDS_1.img.Shutter_Subtraction_Parameters"
                  ]
               }
             }
@@ -855,7 +925,8 @@
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
                 "classId": [
-
+                   "0001_NASA_PDS_1.pds.External_Reference",
+                   "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
             }
@@ -942,16 +1013,30 @@
               }
             }
            , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Derived_Product_Parameters.img.Data_Correction_File" ,
+                "identifier": "0001_NASA_PDS_1.img.Derived_Product_Parameters.img.Vector_Range_Origin" ,
                 "title": "null" ,
                 "isAttribute": "false" ,
                 "isChoice": "false" ,
                 "isAny": "false" ,
                 "minimumCardinality": "0" ,
-                "maximumCardinality": "*" ,
+                "maximumCardinality": "1" ,
                 "classOrder": "1030" ,
                 "classId": [
-                   "0001_NASA_PDS_1.img.Data_Correction_File"
+                   "0001_NASA_PDS_1.img.Vector_Range_Origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.img.Derived_Product_Parameters.img.Coordinate_Space_Reference" ,
+                "title": "null" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "classId": [
+                   "0001_NASA_PDS_1.img.Coordinate_Space_Reference"
                  ]
               }
             }
@@ -966,7 +1051,7 @@
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.0.0.0" ,
-            "description": " The Downsampling_Parameters class TBD"
+            "description": " The Downsampling_Parameters class describes whether or not downsampling occurred, the venue where it occurrected (Software or Hardware), the method used to downsample, and the pixel averaging dimensions. A downsampled image is a smaller version of the image, resulting in reduced resolution of the same coverage area"
               , "associationList": [
              {"association": {
                 "identifier": "0001_NASA_PDS_1.img.Downsampling_Parameters.img.downsampling_flag" ,
@@ -1021,6 +1106,47 @@
                 "classOrder": "1040" ,
                 "classId": [
                    "0001_NASA_PDS_1.img.Pixel_Averaging_Dimensions"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.img.Error_Model_Parameter" ,
+            "title": "Error_Model_Parameter" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "img" ,
+            "steward": "img" ,
+            "versionId": "1.0.0.0" ,
+            "description": "The Error_Model_Parameter class specifies name and value for a parameter defined by the error model described by the parent class."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.img.Error_Model_Parameter.pds.name" ,
+                "title": "null" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.img.Error_Model_Parameter.pds.name"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.img.Error_Model_Parameter.pds.value" ,
+                "title": "null" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.img.Error_Model_Parameter.pds.value"
                  ]
               }
             }
@@ -1242,6 +1368,33 @@
                 "classOrder": "1070" ,
                 "classId": [
                    "0001_NASA_PDS_1.img.Bayer_Parameters"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.img.Flat_Field_Correction_Parameters" ,
+            "title": "Flat_Field_Correction_Parameters" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "img" ,
+            "steward": "img" ,
+            "versionId": "1.0.0.0" ,
+            "description": " The Flat_Field_Correction_Parameters class specifies the onboard flat-field coefficients\/parameters used in the algorithm to remove the flat field signature."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.img.Flat_Field_Correction_Parameters.img.Correction_Parameter" ,
+                "title": "null" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "*" ,
+                "classOrder": "1010" ,
+                "classId": [
+                   "0001_NASA_PDS_1.img.Correction_Parameter"
                  ]
               }
             }
@@ -1495,12 +1648,12 @@
               }
             }
            , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Image_Compression_Parameters.img.XSChoice#19" ,
+                "identifier": "0001_NASA_PDS_1.img.Image_Compression_Parameters.img.XSChoice#18" ,
                 "title": "null" ,
                 "isAttribute": "false" ,
                 "isChoice": "true" ,
                 "isAny": "false" ,
-                "minimumCardinality": "1" ,
+                "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
                 "classOrder": "1080" ,
                 "classId": [
@@ -1684,7 +1837,7 @@
                 "isChoice": "false" ,
                 "isAny": "false" ,
                 "minimumCardinality": "0" ,
-                "maximumCardinality": "1" ,
+                "maximumCardinality": "*" ,
                 "classOrder": "1030" ,
                 "classId": [
                    "0001_NASA_PDS_1.img.Filter"
@@ -1772,7 +1925,7 @@
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.0.0.0" ,
-            "description": "The Imaging class contains TBD"
+            "description": "The Imaging class contains classes and attributes describing both the image product itself and the imaging instrument. Image product information can include exposure duration, filters, data correction, sampling, frame, sub-frames, and how the product was derived. For the imaging instrument, information can be provided describing the dynamic physical or operating characteristics of the imaging instrument."
               , "associationList": [
              {"association": {
                 "identifier": "0001_NASA_PDS_1.img.Imaging.pds.pds.Local_Internal_Reference" ,
@@ -1827,34 +1980,6 @@
                 "classOrder": "1040" ,
                 "classId": [
                    "0001_NASA_PDS_1.img.Image_Compression_Parameters"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Imaging.img.Source_Product" ,
-                "title": "null" ,
-                "isAttribute": "false" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "1" ,
-                "maximumCardinality": "*" ,
-                "classOrder": "1050" ,
-                "classId": [
-                   "0001_NASA_PDS_1.img.Source_Product"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Imaging.img.Processing_History" ,
-                "title": "null" ,
-                "isAttribute": "false" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "*" ,
-                "classOrder": "1060" ,
-                "classId": [
-                   "0001_NASA_PDS_1.img.Processing_History"
                  ]
               }
             }
@@ -1914,20 +2039,6 @@
               }
             }
            , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Imaging_Instrument_State_Parameters.img.camera_serial_number" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1040" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Imaging_Instrument_State_Parameters.img.camera_serial_number"
-                 ]
-              }
-            }
-           , {"association": {
                 "identifier": "0001_NASA_PDS_1.img.Imaging_Instrument_State_Parameters.img.detector_first_line" ,
                 "title": "null" ,
                 "isAttribute": "true" ,
@@ -1935,7 +2046,7 @@
                 "isAny": "false" ,
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
-                "classOrder": "1050" ,
+                "classOrder": "1040" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.img.Imaging_Instrument_State_Parameters.img.detector_first_line"
                  ]
@@ -1949,7 +2060,7 @@
                 "isAny": "false" ,
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
-                "classOrder": "1060" ,
+                "classOrder": "1050" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.img.Imaging_Instrument_State_Parameters.img.detector_first_sample"
                  ]
@@ -1963,7 +2074,7 @@
                 "isAny": "false" ,
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
-                "classOrder": "1070" ,
+                "classOrder": "1060" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.img.Imaging_Instrument_State_Parameters.img.detector_lines"
                  ]
@@ -1977,7 +2088,7 @@
                 "isAny": "false" ,
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
-                "classOrder": "1080" ,
+                "classOrder": "1070" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.img.Imaging_Instrument_State_Parameters.img.detector_to_image_rotation"
                  ]
@@ -1991,7 +2102,7 @@
                 "isAny": "false" ,
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
-                "classOrder": "1090" ,
+                "classOrder": "1080" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.img.Imaging_Instrument_State_Parameters.img.gain_mode_id"
                  ]
@@ -2005,23 +2116,9 @@
                 "isAny": "false" ,
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
-                "classOrder": "1100" ,
+                "classOrder": "1090" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.img.Imaging_Instrument_State_Parameters.img.gain_number"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Imaging_Instrument_State_Parameters.img.instrument_mode_id" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1110" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Imaging_Instrument_State_Parameters.img.instrument_mode_id"
                  ]
               }
             }
@@ -2033,7 +2130,7 @@
                 "isAny": "false" ,
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
-                "classOrder": "1120" ,
+                "classOrder": "1100" ,
                 "classId": [
                    "0001_NASA_PDS_1.img.Command_Parameters"
                  ]
@@ -2047,7 +2144,7 @@
                 "isAny": "false" ,
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "*" ,
-                "classOrder": "1130" ,
+                "classOrder": "1110" ,
                 "classId": [
                    "0001_NASA_PDS_1.img.Error_Pixel"
                  ]
@@ -2061,7 +2158,7 @@
                 "isAny": "false" ,
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
-                "classOrder": "1140" ,
+                "classOrder": "1120" ,
                 "classId": [
                    "0001_NASA_PDS_1.img.Instrument_Device_Temperature"
                  ]
@@ -2075,7 +2172,7 @@
                 "isAny": "false" ,
                 "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
-                "classOrder": "1150" ,
+                "classOrder": "1130" ,
                 "classId": [
                    "0001_NASA_PDS_1.img.Instrument_Device_Voltage"
                  ]
@@ -2118,7 +2215,8 @@
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
                 "classId": [
-
+                   "0001_NASA_PDS_1.pds.External_Reference",
+                   "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
             }
@@ -2465,7 +2563,7 @@
             "description": "Used when the list values have no units. "
               , "associationList": [
              {"association": {
-                "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_id" ,
+                "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.id" ,
                 "title": "null" ,
                 "isAttribute": "true" ,
                 "isChoice": "true" ,
@@ -2474,23 +2572,24 @@
                 "maximumCardinality": "3" ,
                 "classOrder": "1040" ,
                 "attributeId": [
-                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_id",
-                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_name",
-                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_sequence_number"
+                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.id",
+                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.sequence_number",
+                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.pds.name"
                  ]
               }
             }
            , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_value_number" ,
+                "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.value_number" ,
                 "title": "null" ,
                 "isAttribute": "true" ,
-                "isChoice": "false" ,
+                "isChoice": "true" ,
                 "isAny": "false" ,
                 "minimumCardinality": "1" ,
                 "maximumCardinality": "1" ,
-                "classOrder": "1050" ,
+                "classOrder": "1060" ,
                 "attributeId": [
-                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_value_number"
+                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.value_number",
+                  "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.value_string"
                  ]
               }
             }
@@ -2762,155 +2861,30 @@
         }
       , {
           "class": {
-            "identifier": "0001_NASA_PDS_1.img.Process" ,
-            "title": "Process" ,
+            "identifier": "0001_NASA_PDS_1.img.Radiometric_Correction_Parameters" ,
+            "title": "Radiometric_Correction_Parameters" ,
             "registrationAuthorityId": "0001_NASA_PDS_1" ,
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.0.0.0" ,
-            "description": "The Process class describes an action taken upon a product, typically by a software program."
+            "description": " The Radiometric_Correction_Parameters class is a container for the type and details of the radiometric calibration performed on the product. "
               , "associationList": [
              {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Process.pds.description" ,
+                "identifier": "0001_NASA_PDS_1.img.Radiometric_Correction_Parameters.img.radiometric_correction_type" ,
                 "title": "null" ,
                 "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1010" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Process.pds.description"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Process.img.Process_Owner" ,
-                "title": "null" ,
-                "isAttribute": "false" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1020" ,
-                "classId": [
-                   "0001_NASA_PDS_1.img.Process_Owner"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Process.img.Software" ,
-                "title": "null" ,
-                "isAttribute": "false" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "*" ,
-                "classOrder": "1030" ,
-                "classId": [
-                   "0001_NASA_PDS_1.img.Software"
-                 ]
-              }
-            }
-           ]
-          }
-        }
-      , {
-          "class": {
-            "identifier": "0001_NASA_PDS_1.img.Process_Owner" ,
-            "title": "Process_Owner" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.0.0.0" ,
-            "description": "The Process_Owner class describes the individual and\/or organization that made changes to a product."
-              , "associationList": [
-             {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Process_Owner.img.full_name" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "true" ,
-                "isAny": "false" ,
-                "minimumCardinality": "1" ,
-                "maximumCardinality": "*" ,
-                "classOrder": "1030" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Process_Owner.img.full_name",
-                  "0001_NASA_PDS_1.img.Process_Owner.img.institution_name",
-                  "0001_NASA_PDS_1.img.Process_Owner.pds.name"
-                 ]
-              }
-            }
-           ]
-          }
-        }
-      , {
-          "class": {
-            "identifier": "0001_NASA_PDS_1.img.Processing_History" ,
-            "title": "Processing_History" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.0.0.0" ,
-            "description": "The Processing_History class provides a listing of the products and programs used to create the current product."
-              , "associationList": [
-             {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Processing_History.img.Input_Product_List" ,
-                "title": "null" ,
-                "isAttribute": "false" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1010" ,
-                "classId": [
-                   "0001_NASA_PDS_1.img.Input_Product_List"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Processing_History.img.Process" ,
-                "title": "null" ,
-                "isAttribute": "false" ,
                 "isChoice": "false" ,
                 "isAny": "false" ,
                 "minimumCardinality": "1" ,
-                "maximumCardinality": "*" ,
-                "classOrder": "1020" ,
-                "classId": [
-                   "0001_NASA_PDS_1.img.Process"
-                 ]
-              }
-            }
-           ]
-          }
-        }
-      , {
-          "class": {
-            "identifier": "0001_NASA_PDS_1.img.Product_Identification" ,
-            "title": "Product_Identification" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.0.0.0" ,
-            "description": "The Product_Identification class contains identifying information to associate the image with other products."
-              , "associationList": [
-             {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Product_Identification.img.image_type" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
                 "attributeId": [
-                  "0001_NASA_PDS_1.img.Product_Identification.img.image_type"
+                  "0001_NASA_PDS_1.img.Radiometric_Correction_Parameters.img.radiometric_correction_type"
                  ]
               }
             }
            , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Product_Identification.img.image_observation_type" ,
+                "identifier": "0001_NASA_PDS_1.img.Radiometric_Correction_Parameters.img.radiance_offset" ,
                 "title": "null" ,
                 "isAttribute": "true" ,
                 "isChoice": "false" ,
@@ -2919,7 +2893,21 @@
                 "maximumCardinality": "1" ,
                 "classOrder": "1020" ,
                 "attributeId": [
-                  "0001_NASA_PDS_1.img.Product_Identification.img.image_observation_type"
+                  "0001_NASA_PDS_1.img.Radiometric_Correction_Parameters.img.radiance_offset"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.img.Radiometric_Correction_Parameters.img.radiance_scaling_factor" ,
+                "title": "null" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.img.Radiometric_Correction_Parameters.img.radiance_scaling_factor"
                  ]
               }
             }
@@ -3011,6 +2999,47 @@
         }
       , {
           "class": {
+            "identifier": "0001_NASA_PDS_1.img.Shutter_Subtraction_Parameters" ,
+            "title": "Shutter_Subtraction_Parameters" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "img" ,
+            "steward": "img" ,
+            "versionId": "1.0.0.0" ,
+            "description": " The Shutter_Subtraction_Parameters class specifies attributes describing the removal from the image of the shutter, or fixed-pattern."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.img.Shutter_Subtraction_Parameters.img.shutter_subtraction_mode" ,
+                "title": "null" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.img.Shutter_Subtraction_Parameters.img.shutter_subtraction_mode"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.img.Shutter_Subtraction_Parameters.img.exposure_duration_threshold" ,
+                "title": "null" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.img.Shutter_Subtraction_Parameters.img.exposure_duration_threshold"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
             "identifier": "0001_NASA_PDS_1.img.Smith_1997_Autoexposure" ,
             "title": "Smith_1997_Autoexposure" ,
             "registrationAuthorityId": "0001_NASA_PDS_1" ,
@@ -3052,309 +3081,6 @@
         }
       , {
           "class": {
-            "identifier": "0001_NASA_PDS_1.img.Software" ,
-            "title": "Software" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.0.0.0" ,
-            "description": "The Software class identifies the software program used to make changes to a product."
-              , "associationList": [
-             {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software.img.software_name" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "1" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1010" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Software.img.software_name"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software.pds.software_version_id" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "1" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1020" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Software.pds.software_version_id"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software.pds.description" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1030" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Software.pds.description"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software.img.software_user" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1040" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Software.img.software_user"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software.img.software_host_name" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1050" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Software.img.software_host_name"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software.pds.start_date_time" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "1" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1060" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Software.pds.start_date_time"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software.pds.stop_date_time" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "1" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1070" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Software.pds.stop_date_time"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software.img.Software_Inputs" ,
-                "title": "null" ,
-                "isAttribute": "false" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1080" ,
-                "classId": [
-                   "0001_NASA_PDS_1.img.Software_Inputs"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software.img.Software_Outputs" ,
-                "title": "null" ,
-                "isAttribute": "false" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1090" ,
-                "classId": [
-                   "0001_NASA_PDS_1.img.Software_Outputs"
-                 ]
-              }
-            }
-           ]
-          }
-        }
-      , {
-          "class": {
-            "identifier": "0001_NASA_PDS_1.img.Software_Argument" ,
-            "title": "Software_Argument" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.0.0.0" ,
-            "description": "The Software_Argument class specifies an input argument for the software task described in the Software class, including an argument name and one or more accompanying values. Depending on the processing software, the name-value(s) pairs specified here could also describe information other than input arguments for the software."
-              , "associationList": [
-             {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software_Argument.pds.name" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "1" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1010" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Software_Argument.pds.name"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software_Argument.pds.value" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "1" ,
-                "maximumCardinality": "*" ,
-                "classOrder": "1020" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Software_Argument.pds.value"
-                 ]
-              }
-            }
-           ]
-          }
-        }
-      , {
-          "class": {
-            "identifier": "0001_NASA_PDS_1.img.Software_Inputs" ,
-            "title": "Software_Inputs" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.0.0.0" ,
-            "description": "The Software_Inputs class specifies the input products and\/or argument for the software task described in the Software class."
-              , "associationList": [
-             {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software_Inputs.pds.pds.Local_Internal_Reference" ,
-                "title": "null" ,
-                "isAttribute": "false" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "1" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1010" ,
-                "classId": [
-                   "0001_NASA_PDS_1.pds.Local_Internal_Reference"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software_Inputs.img.Software_Argument" ,
-                "title": "null" ,
-                "isAttribute": "false" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "*" ,
-                "classOrder": "1020" ,
-                "classId": [
-                   "0001_NASA_PDS_1.img.Software_Argument"
-                 ]
-              }
-            }
-           ]
-          }
-        }
-      , {
-          "class": {
-            "identifier": "0001_NASA_PDS_1.img.Software_Outputs" ,
-            "title": "Software_Outputs" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.0.0.0" ,
-            "description": "The Software_Outputs class specifies the output products and\/or return parameters for the software task described in the Software class."
-              , "associationList": [
-             {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software_Outputs.pds.pds.Local_Internal_Reference" ,
-                "title": "null" ,
-                "isAttribute": "false" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "1" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1010" ,
-                "classId": [
-                   "0001_NASA_PDS_1.pds.Local_Internal_Reference"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software_Outputs.img.Software_Parameter" ,
-                "title": "null" ,
-                "isAttribute": "false" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "0" ,
-                "maximumCardinality": "*" ,
-                "classOrder": "1020" ,
-                "classId": [
-                   "0001_NASA_PDS_1.img.Software_Parameter"
-                 ]
-              }
-            }
-           ]
-          }
-        }
-      , {
-          "class": {
-            "identifier": "0001_NASA_PDS_1.img.Software_Parameter" ,
-            "title": "Software_Parameter" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.0.0.0" ,
-            "description": "The Software_Parameter class specifies a return parameter for the software task described in the Software class, including an parameter name and one or more accompanying values."
-              , "associationList": [
-             {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software_Parameter.pds.name" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "1" ,
-                "maximumCardinality": "1" ,
-                "classOrder": "1010" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Software_Parameter.pds.name"
-                 ]
-              }
-            }
-           , {"association": {
-                "identifier": "0001_NASA_PDS_1.img.Software_Parameter.pds.value" ,
-                "title": "null" ,
-                "isAttribute": "true" ,
-                "isChoice": "false" ,
-                "isAny": "false" ,
-                "minimumCardinality": "1" ,
-                "maximumCardinality": "*" ,
-                "classOrder": "1020" ,
-                "attributeId": [
-                  "0001_NASA_PDS_1.img.Software_Parameter.pds.value"
-                 ]
-              }
-            }
-           ]
-          }
-        }
-      , {
-          "class": {
             "identifier": "0001_NASA_PDS_1.img.Source_Product" ,
             "title": "Source_Product" ,
             "registrationAuthorityId": "0001_NASA_PDS_1" ,
@@ -3373,7 +3099,8 @@
                 "maximumCardinality": "1" ,
                 "classOrder": "1010" ,
                 "classId": [
-
+                   "0001_NASA_PDS_1.pds.External_Reference",
+                   "0001_NASA_PDS_1.pds.Internal_Reference"
                  ]
               }
             }
@@ -3772,6 +3499,61 @@
         }
       , {
           "class": {
+            "identifier": "0001_NASA_PDS_1.img.Vector_Range_Origin" ,
+            "title": "Vector_Range_Origin" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "img" ,
+            "steward": "img" ,
+            "versionId": "1.0.0.0" ,
+            "description": "The Vector_Range_Origin class specifies the 3-D space from which the Range values are measured in a Range RDR. This will normally be the same as the C point of the camera. It is expressed in the coordinate system specified by the Coordinate_Space_Reference class."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.img.Vector_Range_Origin.img.x_position" ,
+                "title": "null" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.img.Vector_Range_Origin.img.x_position"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.img.Vector_Range_Origin.img.y_position" ,
+                "title": "null" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.img.Vector_Range_Origin.img.y_position"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.img.Vector_Range_Origin.img.z_position" ,
+                "title": "null" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.img.Vector_Range_Origin.img.z_position"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
             "identifier": "0001_NASA_PDS_1.img.XSChoice#11" ,
             "title": "XSChoice#11" ,
             "registrationAuthorityId": "0001_NASA_PDS_1" ,
@@ -3816,8 +3598,8 @@
         }
       , {
           "class": {
-            "identifier": "0001_NASA_PDS_1.img.XSChoice#19" ,
-            "title": "XSChoice#19" ,
+            "identifier": "0001_NASA_PDS_1.img.XSChoice#18" ,
+            "title": "XSChoice#18" ,
             "registrationAuthorityId": "0001_NASA_PDS_1" ,
             "nameSpaceId": "img" ,
             "steward": "null" ,
@@ -6849,7 +6631,7 @@
             "nameSpaceId": "pds" ,
             "steward": "pds" ,
             "versionId": "1.0.0.0" ,
-            "description": "The ASCII Numeric Base16 class indicates a ASCII encoded string constrained to hexadecimal digits."
+            "description": "The ASCII Numeric Base16 class indicates an ASCII character representation of a non-negative unsigned integer in base 16. Must consist of the characters 0 through 9, and A through F or a through f. May not be preceded by any sign (+\/-) notation."
               , "associationList": [
              {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.ASCII_Numeric_Base16.pds.minimum_characters" ,
@@ -6988,7 +6770,7 @@
             "nameSpaceId": "pds" ,
             "steward": "pds" ,
             "versionId": "1.2.0.0" ,
-            "description": "The ASCII Numeric Base2 class indicates a ASCII encoded string constrained to binary digits."
+            "description": "The ASCII Numeric Base2 class indicates an ASCII character representation of a non-negative unsigned integer in base 2. Must consist of the characters 0 and 1. May not be preceded by any sign (+\/-) notation."
               , "associationList": [
              {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.ASCII_Numeric_Base2.pds.minimum_characters" ,
@@ -7127,7 +6909,7 @@
             "nameSpaceId": "pds" ,
             "steward": "pds" ,
             "versionId": "1.2.0.0" ,
-            "description": "The ASCII Numeric Base8 class indicates a ASCII encoded string constrained to octal digits."
+            "description": "The ASCII Numeric Base8 class indicates an ASCII character representation of a non-negative unsigned integer in base 8. Must consist of the characters 0 through 7. May not be preceded by any sign (+\/-) notation."
               , "associationList": [
              {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.ASCII_Numeric_Base8.pds.minimum_characters" ,
@@ -8735,6 +8517,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.Array.pds.description" ,
                 "title": "description" ,
                 "isAttribute": "true" ,
@@ -8898,6 +8694,20 @@
                 "classOrder": "1030" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Array.pds.axis_index_order"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -9097,6 +8907,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.Array.pds.description" ,
                 "title": "description" ,
                 "isAttribute": "true" ,
@@ -9274,6 +9098,20 @@
                 "classOrder": "1030" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Array.pds.axis_index_order"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -9473,6 +9311,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.Array.pds.description" ,
                 "title": "description" ,
                 "isAttribute": "true" ,
@@ -9664,6 +9516,20 @@
                 "classOrder": "1030" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Array.pds.axis_index_order"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -9863,6 +9729,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.Array.pds.description" ,
                 "title": "description" ,
                 "isAttribute": "true" ,
@@ -10040,6 +9920,20 @@
                 "classOrder": "1030" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Array.pds.axis_index_order"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -10225,6 +10119,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.Array.pds.description" ,
                 "title": "description" ,
                 "isAttribute": "true" ,
@@ -10402,6 +10310,20 @@
                 "classOrder": "1030" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Array.pds.axis_index_order"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -10943,6 +10865,20 @@
                  ]
               }
             }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
            ]
           }
         }
@@ -11162,6 +11098,20 @@
                 "classOrder": "1020" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Parsable_Byte_Stream.pds.object_length"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -14141,6 +14091,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.Encoded_Byte_Stream.pds.description" ,
                 "title": "description" ,
                 "isAttribute": "true" ,
@@ -14234,6 +14198,20 @@
                 "classOrder": "1020" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Encoded_Byte_Stream.pds.object_length"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -14363,6 +14341,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.Encoded_Byte_Stream.pds.description" ,
                 "title": "description" ,
                 "isAttribute": "true" ,
@@ -14474,6 +14466,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.Encoded_Byte_Stream.pds.description" ,
                 "title": "description" ,
                 "isAttribute": "true" ,
@@ -14567,6 +14573,20 @@
                 "classOrder": "1020" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Encoded_Byte_Stream.pds.object_length"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -17333,6 +17353,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.Parsable_Byte_Stream.pds.description" ,
                 "title": "description" ,
                 "isAttribute": "true" ,
@@ -18377,6 +18411,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.Table_Delimited.pds.parsing_standard_id" ,
                 "title": "parsing_standard_id" ,
                 "isAttribute": "true" ,
@@ -18761,6 +18809,20 @@
                 "classOrder": "1020" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Table_Delimited.pds.record_delimiter"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -20018,6 +20080,20 @@
                 "classOrder": "1020" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Parsable_Byte_Stream.pds.object_length"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -22861,6 +22937,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.SPICE_Kernel.pds.encoding_type" ,
                 "title": "encoding_type" ,
                 "isAttribute": "true" ,
@@ -23259,6 +23349,20 @@
                 "classOrder": "1020" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Parsable_Byte_Stream.pds.object_length"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -24171,6 +24275,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.Parsable_Byte_Stream.pds.description" ,
                 "title": "description" ,
                 "isAttribute": "true" ,
@@ -24385,6 +24503,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.Table_Base.pds.description" ,
                 "title": "description" ,
                 "isAttribute": "true" ,
@@ -24492,6 +24624,20 @@
                 "classOrder": "1020" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Table_Base.pds.records"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -24631,6 +24777,20 @@
                 "classOrder": "1020" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Table_Base.pds.records"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -24784,6 +24944,20 @@
                 "classOrder": "1020" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Table_Delimited.pds.record_delimiter"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -25452,6 +25626,20 @@
                 "classOrder": "1020" ,
                 "attributeId": [
                   "0001_NASA_PDS_1.pds.Table_Base.pds.records"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
                  ]
               }
             }
@@ -28884,6 +29072,20 @@
               }
             }
            , {"association": {
+                "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+                "title": "md5_checksum" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum"
+                 ]
+              }
+            }
+           , {"association": {
                 "identifier": "0001_NASA_PDS_1.pds.Parsable_Byte_Stream.pds.description" ,
                 "title": "description" ,
                 "isAttribute": "true" ,
@@ -31340,7 +31542,7 @@
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.5" ,
-            "description": "The companding_venue attribute specifies where companding was done onboard. Valid values: 'Hardware' - companding was done by hardware, for example inside the camera. 'Software' - companding was done by flight software. 'None' - data was not companded" ,
+            "description": "The companding_venue attribute specifies where companding or expanding of the data was completed either onboard or on the ground. Valid values: 'Hardware' - companding was done by hardware, for example inside the camera. 'Software' - companding was done by flight software. 'None' - data was not companded" ,
             "isNillable": "false" ,
             "isEnumerated": "true" ,
             "dataType": "ASCII_Short_String_Collapsed" ,
@@ -31405,7 +31607,7 @@
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.5" ,
-            "description": "The data_correction_subtype attribute specifies TBD" ,
+            "description": "The data_correction_subtype attribute specifies a further refinement of the type of data correction completed." ,
             "isNillable": "false" ,
             "isEnumerated": "true" ,
             "dataType": "ASCII_Short_String_Collapsed" ,
@@ -31429,7 +31631,7 @@
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.5" ,
-            "description": "The data_correction_type attribute specifies the type of data correction to be applied using the accompanying file." ,
+            "description": "The data_correction_type attribute specifies the type of data correction to be applied using the accompanying file or constants. Valid values: 'Antiblooming', 'Bad Pixel', 'Blemish Protection', 'Brightness', 'Dark Current', 'Flat Field', 'Inverse LUT', 'Light Flood', 'Responsivity', 'Shutter'" ,
             "isNillable": "false" ,
             "isEnumerated": "true" ,
             "dataType": "ASCII_Short_String_Collapsed" ,
@@ -31446,52 +31648,93 @@
           , "PermissibleValueList": [
               {"PermissibleValue": {
                   "value": "Antiblooming" ,
-                  "valueMeaning": "null"
+                  "valueMeaning": "Blooming occurs when photons from an individual cell in a CCD array overflow into surrounding cells. Antiblooming measures are used to either prevent or correct for this effect."
                 }
              }
             , {"PermissibleValue": {
                   "value": "Bad Pixel" ,
-                  "valueMeaning": "null"
+                  "valueMeaning": "certain pixels in the image were replaced based on a bad pixel table."
                 }
              }
             , {"PermissibleValue": {
                   "value": "Blemish Protection" ,
-                  "valueMeaning": "null"
+                  "valueMeaning": "corrections for blemishes (reseaus, dust spots, etc.) that affect the response of the sensor at specific locations"
                 }
              }
             , {"PermissibleValue": {
                   "value": "Brightness" ,
-                  "valueMeaning": "null"
+                  "valueMeaning": " as a mosaic radiometric seam matching process that is done on top of ordinary radiometric correction. Its intent is to reduce visual seams at the expense of radiometric accuracy."
                 }
              }
             , {"PermissibleValue": {
                   "value": "Dark Current" ,
-                  "valueMeaning": "null"
+                  "valueMeaning": "a dark current image file(s) (image taken without opening the camera shutter) will be used to perform radiometric calibration of the image. "
                 }
              }
             , {"PermissibleValue": {
                   "value": "Flat Field" ,
-                  "valueMeaning": "null"
+                  "valueMeaning": "a flat field image(s) file (an image taken in an optical laboratory of a white background or an image taken in the dawn with the intention to have an equally illuminated background for the whole image) which should be used to perform radiometric calibration of the image."
                 }
              }
             , {"PermissibleValue": {
                   "value": "Inverse LUT" ,
-                  "valueMeaning": "null"
+                  "valueMeaning": "inverse-look-table was used in generating this derived product"
                 }
              }
             , {"PermissibleValue": {
                   "value": "Light Flood" ,
-                  "valueMeaning": "null"
+                  "valueMeaning": "instrument light flooding as applied to the image"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Radiometric" ,
+                  "valueMeaning": "radiometric correction was performed on this image"
                 }
              }
             , {"PermissibleValue": {
                   "value": "Responsivity" ,
-                  "valueMeaning": "null"
+                  "valueMeaning": "responsitivity constants were used in generating this derived product"
                 }
              }
             , {"PermissibleValue": {
-                  "value": "Shutter" ,
-                  "valueMeaning": "null"
+                  "value": "Shutter Subtraction" ,
+                  "valueMeaning": "Involves the removal from the image of the shutter, or fixed-pattern."
+                }
+             }
+           ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.img.Data_Correction.img.data_correction_venue" ,
+            "title": "data_correction_venue" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "img" ,
+            "steward": "img" ,
+            "versionId": "1.5" ,
+            "description": "The data_correction_venue attribute specifies where data correctio was done performed. Valid values: 'Onboard' - data correction was performed onboard the spacecraft. 'Ground' - data correction was performed by software on the ground. " ,
+            "isNillable": "false" ,
+            "isEnumerated": "true" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "Onboard" ,
+                  "valueMeaning": "data correction was performed onboard the spacecraft."
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Ground" ,
+                  "valueMeaning": "data correction was performed by software on the ground."
                 }
              }
            ]
@@ -31529,7 +31772,7 @@
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.5" ,
-            "description": "The derived_image_type attribute specifies how to interpret the pixel values in a derived image (or colloquially, the type of the derived image itself). Valid values vary per mission depending on the products produced. Example values from MSL include 'Image' (Standard Image), 'Mask', 'Disparity Ma', 'XYZ Map', 'Roughness Map', etc." ,
+            "description": "The derived_image_type attribute specifies how to interpret the pixel values in a derived image (or colloquially, the type of the derived image itself). Valid values vary per mission depending on the products produced. Example values from MSL include 'Image' (Standard Image), 'Mask', 'Disparity Map', 'XYZ Map', 'Roughness Map', etc." ,
             "isNillable": "false" ,
             "isEnumerated": "false" ,
             "dataType": "ASCII_Short_String_Collapsed" ,
@@ -31625,7 +31868,7 @@
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.5" ,
-            "description": "The downsampling_venue attribute specifies where companding was done onboard. Valid values: 'Hardware' - downsampling was done by hardware, for example inside the camera. 'Software' - downsampling was done by flight software. 'Both' - data was not companded." ,
+            "description": "The downsampling_venue attribute specifies where downsampling was done onboard. Valid values: 'Hardware' - downsampling was done by hardware, for example inside the camera. 'Software' - downsampling was done by flight software. 'Both' - data was not companded." ,
             "isNillable": "true" ,
             "isEnumerated": "true" ,
             "dataType": "ASCII_Short_String_Collapsed" ,
@@ -31656,6 +31899,54 @@
                 }
              }
            ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.img.Error_Model_Parameter.pds.name" ,
+            "title": "name" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "pds" ,
+            "steward": "pds" ,
+            "versionId": "1.5" ,
+            "description": "The name attribute provides a word or combination of words by which the object is known." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.img.Error_Model_Parameter.pds.value" ,
+            "title": "value" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "pds" ,
+            "steward": "pds" ,
+            "versionId": "1.5" ,
+            "description": "The value attribute provides a single, allowed numerical or character string value." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
           }
         }
       , {
@@ -31762,7 +32053,7 @@
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.5" ,
-            "description": "The exposure_duration_count attribute specifies the value, in raw counts, for the amount of time the instrument sensor was gathering light from the scene, such as between opening and closing of a shutter, or between flushing and readout of a CCD. This is the raw count either commanded or taken directly from telemetry as reported by the spacecraft. This attribute is the same as the exposure_duration but in DN counts versus time, and the translation of exposure_duration_count to exposure_duration will differ by mission." ,
+            "description": "The exposure_duration_count attribute specifies the value, in raw counts, for the amount of time the instrument sensor was gathering light from the scene, such as between opening and closing of a shutter, or between flushing and readout of a CCD. This is the raw count either commanded or taken directly from telemetry as reported by the spacecraft. This attribute is the same as the exposure_duration but in DN counts versus time, and the translation of exposure_duration_count to exposure_duration will differ by mission. The attribute can be specified in the context of both Imaging_Instrument_State_Parameters (actual value) and Command_Parameters (commanded value). Both commanded and actual because it's possible for the actual to not match the commanded. For example the exposure might fault out early, or there might be a deadband (for example, pointing backlash) where changes in the input do not actually affect the output." ,
             "isNillable": "false" ,
             "isEnumerated": "false" ,
             "dataType": "ASCII_NonNegative_Integer" ,
@@ -31788,7 +32079,7 @@
             "versionId": "1.5" ,
             "description": "The exposure_type attribute indicates the exposure setting on a camera. Example values used in past missions are 'Manual', 'Auto', or 'Test'." ,
             "isNillable": "false" ,
-            "isEnumerated": "false" ,
+            "isEnumerated": "true" ,
             "dataType": "ASCII_Short_String_Collapsed" ,
             "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
             "minimumCharacters": "1" ,
@@ -31800,6 +32091,23 @@
             "unitOfMeasureId": "null" ,
             "unitId": "null" ,
             "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "Manual" ,
+                  "valueMeaning": "manual exposure setting"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Auto" ,
+                  "valueMeaning": "autoexposure is applied by the camera"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Test" ,
+                  "valueMeaning": "test exposure setting"
+                }
+             }
+           ]
           }
         }
       , {
@@ -32160,7 +32468,7 @@
             "versionId": "1.5" ,
             "description": " The compression_mode_name attribute identifies the type of on-board compression used for data storage and transmission. Note: The compression_mode identifies the shortened version. Valid Values: 'ICER', 'LOCO', 'JPEG', 'JPEG Progressive', 'MSSS Lossless'." ,
             "isNillable": "false" ,
-            "isEnumerated": "false" ,
+            "isEnumerated": "true" ,
             "dataType": "ASCII_Short_String_Collapsed" ,
             "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
             "minimumCharacters": "1" ,
@@ -32175,6 +32483,11 @@
           , "PermissibleValueList": [
               {"PermissibleValue": {
                   "value": "ICER" ,
+                  "valueMeaning": "ICER Adaptive Variable-Length Coding (ICER)"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "ICT" ,
                   "valueMeaning": "ICER Adaptive Variable-Length Coding (ICER)"
                 }
              }
@@ -32281,9 +32594,9 @@
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.5" ,
-            "description": " The compression_type attribute identifies the type of on-board compression used for data storage and transmission. Note that the compression_mode_name and compression_mode identify the specific compression algorithm used (for example, ICER), whereas the compression_type gives a simple indicator of the type of compression mode. Valid values: 'Lossless', 'Lossy', 'Uncompressed'" ,
+            "description": " The compression_type attribute identifies the type of on-board comprcession used for data storage and transmission. Note that the compression_mode_name and compression_mode identify the specific compression algorithm used (for example, ICER), whereas the compression_type gives a simple indicator of the type of compression mode. Valid values: 'Lossless', 'Lossy', 'Uncompressed'" ,
             "isNillable": "false" ,
-            "isEnumerated": "false" ,
+            "isEnumerated": "true" ,
             "dataType": "ASCII_Short_String_Collapsed" ,
             "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
             "minimumCharacters": "1" ,
@@ -32580,30 +32893,6 @@
         }
       , {
           "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Imaging_Instrument_State_Parameters.img.camera_serial_number" ,
-            "title": "camera_serial_number" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.5" ,
-            "description": "The camera_serial_number specifies specifies the manufacturer's serial number assigned to a camera instrument. This number may be used to uniquely identify a particular camera instrument for tracing its components or determining its calibration history, for example. This value may differ from instrument_serial_number attribute." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
             "identifier": "0001_NASA_PDS_1.img.Imaging_Instrument_State_Parameters.img.detector_first_line" ,
             "title": "detector_first_line" ,
             "registrationAuthorityId": "0001_NASA_PDS_1" ,
@@ -32763,30 +33052,6 @@
             "maximumCharacters": "Unbounded" ,
             "minimumValue": "-9223372036854775808" ,
             "maximumValue": "9223372036854775807" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Imaging_Instrument_State_Parameters.img.instrument_mode_id" ,
-            "title": "instrument_mode_id" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.5" ,
-            "description": " The instrument_mode_id attribute provides an instrument-dependent designation of operating mode. This may be simply a number, letter or code, or a word such as 'normal', 'full resolution', 'near encounter', or 'fixed grating'. These types may vary by mission so the permissible values should be set by the mission dictionaries." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
             "pattern": "null" ,
             "unitOfMeasure": "null" ,
             "unitOfMeasureId": "null" ,
@@ -33101,13 +33366,13 @@
         }
       , {
           "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_id" ,
-            "title": "index_id" ,
+            "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.id" ,
+            "title": "id" ,
             "registrationAuthorityId": "0001_NASA_PDS_1" ,
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.5" ,
-            "description": "The index_id attribute supplies a short name (identifier) for the associated value in a group of related values. " ,
+            "description": "The id attribute supplies a short name (identifier) for the associated value in a group of related values. " ,
             "isNillable": "false" ,
             "isEnumerated": "false" ,
             "dataType": "ASCII_Short_String_Collapsed" ,
@@ -33125,13 +33390,13 @@
         }
       , {
           "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_name" ,
-            "title": "index_name" ,
+            "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.sequence_number" ,
+            "title": "sequence_number" ,
             "registrationAuthorityId": "0001_NASA_PDS_1" ,
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.5" ,
-            "description": "The index_name attribute supplies the formal name for the associated value in a group of related values. " ,
+            "description": "The sequence_number attribute supplies the sequence identifier for the associated value in a group of related values. " ,
             "isNillable": "false" ,
             "isEnumerated": "false" ,
             "dataType": "ASCII_Short_String_Collapsed" ,
@@ -33149,37 +33414,13 @@
         }
       , {
           "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_sequence_number" ,
-            "title": "index_sequence_number" ,
+            "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.value_number" ,
+            "title": "value_number" ,
             "registrationAuthorityId": "0001_NASA_PDS_1" ,
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.5" ,
-            "description": "The index_sequence_number attribute supplies the sequence identifier for the associated value in a group of related values. " ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.index_value_number" ,
-            "title": "index_value_number" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.5" ,
-            "description": "The index_value_number attribute provides the value with no applicable units as named by the associated index_id or index_name. " ,
+            "description": "The value_number attribute provides the value with no applicable units as named by the associated id, name, or sequence_number. " ,
             "isNillable": "false" ,
             "isEnumerated": "false" ,
             "dataType": "ASCII_Real" ,
@@ -33189,6 +33430,54 @@
             "minimumValue": "-1.7976931348623157e308" ,
             "maximumValue": "1.7976931348623157e308" ,
             "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.img.value_string" ,
+            "title": "value_string" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "img" ,
+            "steward": "img" ,
+            "versionId": "1.5" ,
+            "description": "The value_string attribute provides the value with no applicable units as named by the associated id, name, or sequence_number. " ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-1.7976931348623157e308" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.img.List_Index_No_Units_Imaging.pds.name" ,
+            "title": "name" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "pds" ,
+            "steward": "pds" ,
+            "versionId": "1.5" ,
+            "description": "The name attribute provides a word or combination of words by which the object is known." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
             "unitOfMeasure": "null" ,
             "unitOfMeasureId": "null" ,
             "unitId": "null" ,
@@ -33581,135 +33870,63 @@
         }
       , {
           "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Process.pds.description" ,
-            "title": "description" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "pds" ,
-            "steward": "pds" ,
-            "versionId": "1.5" ,
-            "description": "The description attribute provides a statement, picture in words, or account that describes or is otherwise relevant to the object." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Process_Owner.img.full_name" ,
-            "title": "full_name" ,
+            "identifier": "0001_NASA_PDS_1.img.Radiometric_Correction_Parameters.img.radiance_offset" ,
+            "title": "radiance_offset" ,
             "registrationAuthorityId": "0001_NASA_PDS_1" ,
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.5" ,
-            "description": "The full_name attribute provides the complete name for a person or process and includes titles and suffixes." ,
+            "description": "The radiance_offset attribute specifies the constant value by which a stored radiance is added. Expressed as an equation as follows: true_radiance_value = radiance_offset + radiance_scaling_factor * stored_radiance value There are 3 types of radiometric corrections: Radiance-calibrated - These products have been scaled to absolute radiance units using either pre-flight radiometric calibration coefficients or calibration coefficients derived from in-flight observations of the calibration target. The units on these files are (W\/m^2\/sr\/nm). Radiance factor-calibrated - products are unitless but have values in the range of 0.0 to 1.0 (for example, average bright Mars soils exhibit I\/F ~ 0.35 at 750 nm and I\/F ~ 0.05 at 410 nm). Instrumentally-calibrated - These products have had no radiance scaling applied, so the units on these files are \"corrected\" DN." ,
             "isNillable": "false" ,
             "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "127" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-1.7976931348623157e308" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Spectral_Radiance" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Spectral_Radiance" ,
+            "unitId": "W*m**-2*sr**-1*Hz**-1, W*m**-2*sr**-1*nm**-1, W*m**-2*sr**-1*um**-1, W*m**-3*sr**-1, W\/m**2\/sr\/Hz, W\/m**2\/sr\/nm, W\/m**2\/sr\/μm, W\/m**3\/sr, uW*cm**-2*sr**-1*um**-1, μW\/cm**2\/sr\/μm" ,
             "defaultUnitId": "null"
           }
         }
       , {
           "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Process_Owner.img.institution_name" ,
-            "title": "institution_name" ,
+            "identifier": "0001_NASA_PDS_1.img.Radiometric_Correction_Parameters.img.radiance_scaling_factor" ,
+            "title": "radiance_scaling_factor" ,
             "registrationAuthorityId": "0001_NASA_PDS_1" ,
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.5" ,
-            "description": "The institution_name attribute identifies a university, research center, national space agency, or other institution associated with the production of a PDS archive. This is generally an institution associated with the product processing. Ex. \"Max Planck Institute\", \"NASA\/Goddard Space Flight Center\"" ,
+            "description": "The radiance_scaling_factor specifies the constant value by which a stored radiance is multiplied. NOTE: Expressed as an equation: true_radiance_value = radiance_offset + radiance_scaling_factor * stored_radiance value There are 3 types of radiometric corrections: Radiance-calibrated - These products have been scaled to absolute radiance units using either pre-flight radiometric calibration coefficients or calibration coefficients derived from in-flight observations of the calibration target. The units on these files are (W\/m^2\/sr\/nm). Radiance factor-calibrated - products are unitless but have values in the range of 0.0 to 1.0 (for example, average bright Mars soils exhibit I\/F ~ 0.35 at 750 nm and I\/F ~ 0.05 at 410 nm). Instrumentally-calibrated - These products have had no radiance scaling applied, so the units on these files are \"corrected\" DN." ,
             "isNillable": "false" ,
             "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-1.7976931348623157e308" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Spectral_Radiance" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Spectral_Radiance" ,
+            "unitId": "W*m**-2*sr**-1*Hz**-1, W*m**-2*sr**-1*nm**-1, W*m**-2*sr**-1*um**-1, W*m**-3*sr**-1, W\/m**2\/sr\/Hz, W\/m**2\/sr\/nm, W\/m**2\/sr\/μm, W\/m**3\/sr, uW*cm**-2*sr**-1*um**-1, μW\/cm**2\/sr\/μm" ,
             "defaultUnitId": "null"
           }
         }
       , {
           "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Process_Owner.pds.name" ,
-            "title": "name" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "pds" ,
-            "steward": "pds" ,
-            "versionId": "1.5" ,
-            "description": "The name attribute provides a word or combination of words by which the object is known." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Product_Identification.img.image_observation_type" ,
-            "title": "image_observation_type" ,
+            "identifier": "0001_NASA_PDS_1.img.Radiometric_Correction_Parameters.img.radiometric_correction_type" ,
+            "title": "radiometric_correction_type" ,
             "registrationAuthorityId": "0001_NASA_PDS_1" ,
             "nameSpaceId": "img" ,
             "steward": "img" ,
             "versionId": "1.5" ,
-            "description": " The image_observation_type attribute identifies the type or purpose of an observation that may be associated with an image. Image observation types may include limb, black sky, spacecraft calibration, or other image attribute that may be used for identification. Observation types should not include features, regions, or standard target names. The set of permissible values should be set by a mission dictionary." ,
+            "description": "The radiometric_correction_type identifies the method used for radiometric correction. The set of possible values should be specified by the mission." ,
             "isNillable": "false" ,
             "isEnumerated": "true" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Product_Identification.img.image_type" ,
-            "title": "image_type" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.5" ,
-            "description": "The image_type attribute specifies the type of image acquired. This may be used to describe characteristics that differentiate one group of images from another such as the nature of the data in the image file, the purpose for which the image was acquired, or the way in which it was acquired. This attribute is very similar to the image_observation_type attribute, but is designed to resolve ambiguities in cases where missions utilize a naming convention for both specific images and more general observations, which consist of multiple images. In those cases, the latter may be described by the image_observation_type attribute. Some example values from MSL include 'Regular', 'Thumbnail', 'Reference Pixels', 'Histogram'." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
             "dataType": "ASCII_Short_String_Collapsed" ,
             "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
             "minimumCharacters": "1" ,
@@ -33821,6 +34038,71 @@
         }
       , {
           "attribute": {
+            "identifier": "0001_NASA_PDS_1.img.Shutter_Subtraction_Parameters.img.exposure_duration_threshold" ,
+            "title": "exposure_duration_threshold" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "img" ,
+            "steward": "img" ,
+            "versionId": "1.5" ,
+            "description": "The exposure_duration_threshold specifies the exposure time threshold when shutter_subtraction_mode = 'Conditional'." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-1.7976931348623157e308" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Time" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Time" ,
+            "unitId": "day, hr, julian day, microseconds, min, ms, s, yr" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.img.Shutter_Subtraction_Parameters.img.shutter_subtraction_mode" ,
+            "title": "shutter_subtraction_mode" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "img" ,
+            "steward": "img" ,
+            "versionId": "1.5" ,
+            "description": "The shutter_subtraction_mode specifies whether shutter subtraction will be performed, or if it is dependent on the exposure_duration_threshold." ,
+            "isNillable": "false" ,
+            "isEnumerated": "true" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "True" ,
+                  "valueMeaning": "shutter subtraction will be performed"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "False" ,
+                  "valueMeaning": "shutter subtraction will not be performed"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Conditional" ,
+                  "valueMeaning": "the exposure_duration_threshold will determine whether or not shutter subtraction will be performed"
+                }
+             }
+           ]
+          }
+        }
+      , {
+          "attribute": {
             "identifier": "0001_NASA_PDS_1.img.Smith_1997_Autoexposure.img.autoexposure_dn_max_threshold" ,
             "title": "autoexposure_dn_max_threshold" ,
             "registrationAuthorityId": "0001_NASA_PDS_1" ,
@@ -33861,270 +34143,6 @@
             "minimumValue": "0.0" ,
             "maximumValue": "100.0" ,
             "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Software.img.software_host_name" ,
-            "title": "software_host_name" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.5" ,
-            "description": "The software_host_name attribute specifies the name of a computer on which a process was run." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Software.img.software_name" ,
-            "title": "software_name" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.5" ,
-            "description": "The software_name attribute specifies the name or identifier for the software or software process being run." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Software.img.software_user" ,
-            "title": "software_user" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "img" ,
-            "steward": "img" ,
-            "versionId": "1.5" ,
-            "description": "The software_user attribute specifies the name or identifier for the person who ran computer process." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Software.pds.description" ,
-            "title": "description" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "pds" ,
-            "steward": "pds" ,
-            "versionId": "1.5" ,
-            "description": "The description attribute provides a statement, picture in words, or account that describes or is otherwise relevant to the object." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Software.pds.software_version_id" ,
-            "title": "software_version_id" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "pds" ,
-            "steward": "ops" ,
-            "versionId": "1.5" ,
-            "description": "The software_version_id attribute provides the version of the software." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Software.pds.start_date_time" ,
-            "title": "start_date_time" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "pds" ,
-            "steward": "pds" ,
-            "versionId": "1.5" ,
-            "description": "The start_date_time attribute provides the date and time appropriate to the beginning of the product being labeled." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Software.pds.stop_date_time" ,
-            "title": "stop_date_time" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "pds" ,
-            "steward": "pds" ,
-            "versionId": "1.5" ,
-            "description": "The stop_date_time attribute provides the date and time appropriate to the end of the product being labeled." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Software_Argument.pds.name" ,
-            "title": "name" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "pds" ,
-            "steward": "pds" ,
-            "versionId": "1.5" ,
-            "description": "The name attribute provides a word or combination of words by which the object is known." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Software_Argument.pds.value" ,
-            "title": "value" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "pds" ,
-            "steward": "pds" ,
-            "versionId": "1.5" ,
-            "description": "The value attribute provides a single, allowed numerical or character string value." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Software_Parameter.pds.name" ,
-            "title": "name" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "pds" ,
-            "steward": "pds" ,
-            "versionId": "1.5" ,
-            "description": "The name attribute provides a word or combination of words by which the object is known." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
-            "unitOfMeasure": "null" ,
-            "unitOfMeasureId": "null" ,
-            "unitId": "null" ,
-            "defaultUnitId": "null"
-          }
-        }
-      , {
-          "attribute": {
-            "identifier": "0001_NASA_PDS_1.img.Software_Parameter.pds.value" ,
-            "title": "value" ,
-            "registrationAuthorityId": "0001_NASA_PDS_1" ,
-            "nameSpaceId": "pds" ,
-            "steward": "pds" ,
-            "versionId": "1.5" ,
-            "description": "The value attribute provides a single, allowed numerical or character string value." ,
-            "isNillable": "false" ,
-            "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
-            "minimumValue": "Unbounded" ,
-            "maximumValue": "Unbounded" ,
-            "pattern": "null" ,
             "unitOfMeasure": "null" ,
             "unitOfMeasureId": "null" ,
             "unitId": "null" ,
@@ -34744,6 +34762,78 @@
                 }
              }
            ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.img.Vector_Range_Origin.img.x_position" ,
+            "title": "x_position" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "img" ,
+            "steward": "img" ,
+            "versionId": "1.5" ,
+            "description": "The x component of a Cartesian position vector." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-1.7976931348623157e308" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Length" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Length" ,
+            "unitId": "AU, Angstrom, cm, km, m, micrometer, mm, nm" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.img.Vector_Range_Origin.img.y_position" ,
+            "title": "y_position" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "img" ,
+            "steward": "img" ,
+            "versionId": "1.5" ,
+            "description": "The y component of a Cartesian position vector." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-1.7976931348623157e308" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Length" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Length" ,
+            "unitId": "AU, Angstrom, cm, km, m, micrometer, mm, nm" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.img.Vector_Range_Origin.img.z_position" ,
+            "title": "z_position" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "img" ,
+            "steward": "img" ,
+            "versionId": "1.5" ,
+            "description": "The z component of a Cartesian position vector." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-1.7976931348623157e308" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Length" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Length" ,
+            "unitId": "AU, Angstrom, cm, km, m, micrometer, mm, nm" ,
+            "defaultUnitId": "null"
           }
         }
       , {
@@ -41663,6 +41753,30 @@
             "minimumValue": "Unbounded" ,
             "maximumValue": "Unbounded" ,
             "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.pds.Byte_Stream.pds.md5_checksum" ,
+            "title": "md5_checksum" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "pds" ,
+            "steward": "pds" ,
+            "versionId": "1.5" ,
+            "description": "The md5_checksum attribute is the 32-character hexadecimal number computed using the MD5 algorithm for the contiguous bytes of single digital object (as stored) or for an entire file." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "dataType": "ASCII_MD5_Checksum" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_MD5_Checksum" ,
+            "minimumCharacters": "32" ,
+            "maximumCharacters": "32" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "[0-9a-fA-F]{32}" ,
             "unitOfMeasure": "null" ,
             "unitOfMeasureId": "null" ,
             "unitId": "null" ,
@@ -49144,7 +49258,7 @@
             "nameSpaceId": "pds" ,
             "steward": "pds" ,
             "versionId": "1.5" ,
-            "description": "The md5_checksum attribute is the 32-character hexadecimal number computed for a file using the MD5 algorithm." ,
+            "description": "The md5_checksum attribute is the 32-character hexadecimal number computed using the MD5 algorithm for the contiguous bytes of single digital object (as stored) or for an entire file." ,
             "isNillable": "false" ,
             "isEnumerated": "false" ,
             "dataType": "ASCII_MD5_Checksum" ,
@@ -52450,7 +52564,7 @@
             "nameSpaceId": "pds" ,
             "steward": "pds" ,
             "versionId": "1.5" ,
-            "description": "The md5_checksum attribute is the 32-character hexadecimal number computed for a file using the MD5 algorithm." ,
+            "description": "The md5_checksum attribute is the 32-character hexadecimal number computed using the MD5 algorithm for the contiguous bytes of single digital object (as stored) or for an entire file." ,
             "isNillable": "false" ,
             "isEnumerated": "false" ,
             "dataType": "ASCII_MD5_Checksum" ,
@@ -58051,12 +58165,12 @@
             "steward": "pds" ,
             "versionId": "1.5" ,
             "description": "The start_date_time attribute provides the date and time appropriate to the beginning of the product being labeled." ,
-            "isNillable": "false" ,
+            "isNillable": "true" ,
             "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
+            "dataType": "ASCII_Date_Time_YMD_UTC" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Date_Time_YMD_UTC" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
             "minimumValue": "Unbounded" ,
             "maximumValue": "Unbounded" ,
             "pattern": "null" ,
@@ -58075,12 +58189,12 @@
             "steward": "pds" ,
             "versionId": "1.5" ,
             "description": "The stop_date_time attribute provides the date and time appropriate to the end of the product being labeled." ,
-            "isNillable": "false" ,
+            "isNillable": "true" ,
             "isEnumerated": "false" ,
-            "dataType": "ASCII_Short_String_Collapsed" ,
-            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
-            "minimumCharacters": "1" ,
-            "maximumCharacters": "255" ,
+            "dataType": "ASCII_Date_Time_YMD_UTC" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Date_Time_YMD_UTC" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
             "minimumValue": "Unbounded" ,
             "maximumValue": "Unbounded" ,
             "pattern": "null" ,
@@ -68081,7 +68195,7 @@
       ]
     , "PropertyMapDictionary": [
         {"PropertyMaps": {
-            "identifier": "img_property_map_definitions.100003242" ,
+            "identifier": "img_property_map_definitions.100003215" ,
             "title": "null" ,
             "namespace_id": "img" ,
             "description": "ICER_Compression_Parameters.wavelet_filter definitions" ,
