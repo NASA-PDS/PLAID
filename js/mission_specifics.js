@@ -124,8 +124,11 @@ function updateActionBarHandlers(builderState, goBackSelector, saveSelector) {
 function handleSaveButton(builderState) {
     if (builderState === "addAttr" || builderState == "addGroup" || builderState == "editAttr" || builderState == "editGroup"){
         var name = $("fieldset.title").find("input");
-        if(!isValidMSInput(name))
-            return false;
+        var minOccurrencesInput = $("fieldset.minOccurrences").find("input");
+        var maxOccurrencesInput = $("fieldset.maxOccurrences").find("input");
+        //  Validate the data entered into the Mission-specific form
+        if(!isValidMSInput(name, minOccurrencesInput, maxOccurrencesInput))
+            return false;   //  remain on the current sub-page
         if (builderState === "addAttr") {
             createAttribute();
         } else if (builderState === "editAttr") {
@@ -133,7 +136,10 @@ function handleSaveButton(builderState) {
         } else if (builderState === "addGroup") {
             createAttributeGroup();
         } else if (builderState === "editGroup") {
-            modifyAttributeGroup();
+            var isValidGroup = modifyAttributeGroup();
+            if (! isValidGroup) {
+                return false;   //  remain on current page
+            }
         }
         mutatePage("home", wizardData.currentStep.toString());
     } else if (builderState === "remove") {
@@ -188,6 +194,7 @@ function getAttributeInfo() {
     var element = {};
     //  Get the Name
     element.name = $("fieldset.title").find("input").val();
+    element.description = $("fieldset.description").find("input").val();
     element.nullable = "false";
     element.enumFlag = "false";
     //  For each checked checkbox
@@ -213,7 +220,11 @@ function getAttributeInfo() {
     ///if (unitTypeSelect !== NO_UNIT_TYPE_SELECTED) {
        element.unitType =unitTypeSelect;
     ///}
-    element.description = $("fieldset.description").find("input").val();
+    var minOccurrencesAsStr = $("fieldset.minOccurrences").find("input").val();
+    var maxOccurrencesAsStr = $("fieldset.maxOccurrences").find("input").val();
+    element.minOccurrences = parseInt(minOccurrencesAsStr);
+    element.maxOccurrences = parseInt(maxOccurrencesAsStr);
+
     element.isGroup = false;
     ///groupSelect = $(".form-group.groupSelect").find("select.form-control").val();
     return element;
@@ -314,6 +325,7 @@ function modifyAttribute() {
 
 /**
  * Adds an attribute group to the missionSpecific data array
+ * @returns {boolean} True if no errors on page
  */
 function createAttributeGroup() {
     var element = {};
@@ -321,11 +333,17 @@ function createAttributeGroup() {
     element.description = $("fieldset.description").find("input").val();
     element.children = [];
     element.isGroup = true;
+    var minOccurrencesAsStr = $("fieldset.minOccurrences").find("input").val();
+    var maxOccurrencesAsStr = $("fieldset.maxOccurrences").find("input").val();
+    element.minOccurrences = parseInt(minOccurrencesAsStr);
+    element.maxOccurrences = parseInt(maxOccurrencesAsStr);
     missionSpecifics.push(element);
+    return true;    //  continue back to Home page
 }
 
 /**
  * Modifies an attribute group in the missionSpecific data array
+ * @returns {boolean} TTrue if no errors on page
  */
 function modifyAttributeGroup() {
     //  Find the selected node in the tree that's on this page
@@ -343,18 +361,26 @@ function modifyAttributeGroup() {
         var element = {};
         element.name = $("fieldset.title").find("input").val();
         element.description = $("fieldset.description").find("input").val();
+        var minOccurrencesAsStr = $("fieldset.minOccurrences").find("input").val();
+        var maxOccurrencesAsStr = $("fieldset.maxOccurrences").find("input").val();
+
         node.name = element.name;
         node.description = element.description;
+        node.minOccurrences = parseInt(minOccurrencesAsStr);
+        node.maxOccurrences = parseInt(maxOccurrencesAsStr);
         //  Update the selected node in the jqTree
         ///$('#editTree').tree('updateNode', node, element);
         //  Update the missionSpecifics array to reflect the change in the jqTree
         missionSpecifics = JSON.parse($('#editTree').tree('toJson'));
+        return true;    //  continue back to Home page
     }
+    return false;
 }
 
 /**
  * Remove attributes/groups from the missionSpecific data array
  */
+/***************************************************************************
 function removeFromMissionSpecifics() {
     $('input.form-check-input:checked').each(function() {
         var checkedText = $(this).parent().find(".check-span").text();
@@ -372,21 +398,55 @@ function removeFromMissionSpecifics() {
     });
     mutatePage("home", wizardData.currentStep.toString());
 }
+***************************************************************************/
 
 /**
  * Check if the field is empty or contains any spaces.
  * @param {Object} jQuery selected field input to check
- * @returns {boolean}
+ * @param {Object} jQuery selected Minimum Occurrence field input
+ * @param {Object} jQuery selected Maximum Occurrence field input
+ * @returns {boolean} True if all the given form fields are valid
  */
-function isValidMSInput(field){
+function isValidMSInput(field, minOccurrencesInput, maxOccurrencesInput){
+    var isValidInput = true;    //  default the return value
     if ($(field).val().search(/\s/g) !== -1 || $(field).val() === ""){
         $(field).addClass("error");
-        return false;
+        alert("'Title' field cannot contain spaces.");
+        isValidInput = false;
     }
     else {
         $(field).removeClass("error");
-        return true;
     }
+
+    var minOccurrencesAsStr = $(minOccurrencesInput).val();
+    var minOccurrencesAsInt = parseInt(minOccurrencesAsStr);
+    var maxOccurrencesAsStr = $(maxOccurrencesInput).val();
+    var maxOccurrencesAsInt = parseInt(maxOccurrencesAsStr);
+    //  IF either Min OR Max Occurrences does NOT have a number
+    if (isNaN(minOccurrencesAsInt) || isNaN(maxOccurrencesAsInt)) {
+        if (isNaN(minOccurrencesAsInt)) {
+            $(minOccurrencesInput).addClass("error");
+        } else {
+            $(minOccurrencesInput).removeClass("error");
+        }
+        if (isNaN(maxOccurrencesAsInt)) {
+            $(maxOccurrencesInput).addClass("error");
+        } else {
+            $(maxOccurrencesInput).removeClass("error");
+        }
+        alert("'Minimum Occurrences' & 'Maximum Occurrences' fields must both contain a number.");
+        isValidInput = false;
+    } else if (minOccurrencesAsInt > maxOccurrencesAsInt) {
+        //  Else IF the Min > Max Occurrences
+        $(minOccurrencesInput).addClass("error");
+        $(maxOccurrencesInput).addClass("error");
+        alert("'Maximum Occurrences' must be greater than or equal to 'Minimum Occurrences'.");
+        isValidInput = false;
+    } else {
+        $(minOccurrencesInput).removeClass("error");
+        $(maxOccurrencesInput).removeClass("error");
+    }
+    return isValidInput;
 }
 
 /**
@@ -550,8 +610,7 @@ function generateHomepage(wrapperClass) {
     table.appendChild(generateButtonRow("groupAttribute", "fa-tags", "Add a grouping of attributes",
         function() {mutatePage("addGroup", wizardData.currentStep.toString())}));
     table.appendChild(generateButtonRow("remove", "fa-eraser", "Remove",
-        function() {mutatePage("remove", wizardData.currentStep.toString())}));
-        ///function() {removeSelectedNode()}));
+        function() {removeSelectedNode()}));
     table.appendChild(generateButtonRow("edit", "fa-tag-edit", "Edit",
         function() {checkIfTreeSelection()}));
     dataSection.appendChild(table);
@@ -631,13 +690,13 @@ function generateTree(cardBlock) {
         'tree.select',
         function(event) {
             if (event.node) {
-               // The selected node is 'event.node'
+                // The selected node is 'event.node'
                 selectedNode = event.node;
-                console.log(selectedNode.name + " was selected.");
+                //console.log(selectedNode.name + " was selected.");
             } else {
                 //  the node was de-selected
                 var prevNode = event.previous_node;
-                console.log(prevNode.name + " was de-selected.");
+                //console.log(prevNode.name + " was de-selected.");
                 selectedNode = null;
             }
         }
@@ -648,7 +707,7 @@ function generateTree(cardBlock) {
         function(event) {
             // The double-clicked node is 'event.node'
             selectedNode = event.node;
-            console.log(selectedNode.name + " was double-clicked.");
+            //console.log(selectedNode.name + " was double-clicked.");
             //  IF a Group node
             if (selectedNode.isGroup) {
                 //  Call the Edit Group routine
@@ -686,13 +745,17 @@ function checkIfTreeSelection() {
 function removeSelectedNode() {
     if (selectedNode === null) {
         alert("Need to select an item in the Preview Tree.");
-        console.log("Need to select an item in the Preview Tree.");
+        ///console.log("Need to select an item in the Preview Tree.");
     } else {
-        alert("Are you sure that you want to remove the selected item from the Preview Tree?");
-        //  Remove the currently selected node from the tree
-        $('#previewContent').tree('removeNode', selectedNode);
-        //  Update the missionSpecifics array to reflect the change in the jqTree
-        ///missionSpecifics = JSON.parse($('#previewContent').tree('toJson'));
+        var isConfirmed = confirm("Are you sure that you want to remove the selected item from the Preview Tree?");
+        if (isConfirmed) {
+            //  Remove the currently selected node from the tree
+            $('#previewContent').tree('removeNode', selectedNode);
+            //  Update the missionSpecifics array to reflect the change in the jqTree
+            missionSpecifics = JSON.parse($('#previewContent').tree('toJson'));
+            //  Reset the selected node after removing it
+            selectedNode = null;
+        }
     }
 }
 
@@ -830,6 +893,26 @@ function generateEditAttributePage(wrapperClass, nodeToEdit) {
     }
     form.appendChild(unitTypeDropdown);
 
+    var minOccurrencesFieldset = generateFieldset("minOccurrences", "Minimum Occurrences", "Ex. 0");
+    //  Allow only digits to be entered into the Minimum Occurrences textbox
+    $('input', minOccurrencesFieldset).attr("type", "number");
+    $('input', minOccurrencesFieldset).keypress(preventInput);
+    if ((nodeToEdit != null) && (nodeToEdit.minOccurrences !== undefined) && (nodeToEdit.minOccurrences !== "")) {
+        //  Set the node's minOccurrences into the Minimum Occurrences textbox
+        $('input', minOccurrencesFieldset).val(nodeToEdit.minOccurrences);
+    }
+    form.appendChild(minOccurrencesFieldset);
+
+    var maxOccurrencesFieldset = generateFieldset("maxOccurrences", "Maximum Occurrences", "Ex. 1");
+    //  Allow only digits to be entered into the Maximum Occurrences textbox
+    $('input', maxOccurrencesFieldset).attr("type", "number");
+    $('input', maxOccurrencesFieldset).keypress(preventInput);
+    if ((nodeToEdit != null) && (nodeToEdit.maxOccurrences !== undefined) && (nodeToEdit.maxOccurrences !== "")) {
+        //  Set the node's maxOccurrences into the Maximum Occurrences textbox
+        $('input', maxOccurrencesFieldset).val(nodeToEdit.maxOccurrences);
+    }
+    form.appendChild(maxOccurrencesFieldset);
+
     var groupDropdown = generateDropdown("groupSelect", "Select a group to add this attribute to:");
     //  IF the node's parent is a Group
     if ((nodeToEdit != null) && (nodeToEdit.parent !== undefined) && (nodeToEdit.parent.isGroup === true)) {
@@ -890,6 +973,29 @@ function generateEditGroupPage(wrapperClass, nodeToEdit) {
     }
     form.appendChild(descFieldset);
 
+    var minOccurrencesFieldset = generateFieldset("minOccurrences", "Minimum Occurrences", "Ex. 0");
+    //  Allow only digits to be entered into the Minimum Occurrences textbox
+    $('input', minOccurrencesFieldset).attr("type", "number");
+    ///$('input', minOccurrencesFieldset).focus(captureValue);
+    $('input', minOccurrencesFieldset).keypress(preventInput);
+    ///$('input', minOccurrencesFieldset).keyup(validateInput);
+    ///$('input', minOccurrencesFieldset).focusout(releaseValue);
+    if ((nodeToEdit != null) && (nodeToEdit.minOccurrences !== undefined) && (nodeToEdit.minOccurrences !== "")) {
+        //  Set the node's minOccurrences into the Minimum Occurrences textbox
+        $('input', minOccurrencesFieldset).val(nodeToEdit.minOccurrences);
+    }
+    form.appendChild(minOccurrencesFieldset);
+
+    var maxOccurrencesFieldset = generateFieldset("maxOccurrences", "Maximum Occurrences", "Ex. 1");
+    //  Allow only digits to be entered into the Maximum Occurrences textbox
+    $('input', maxOccurrencesFieldset).attr("type", "number");
+    $('input', maxOccurrencesFieldset).keypress(preventInput);
+    if ((nodeToEdit != null) && (nodeToEdit.maxOccurrences !== undefined) && (nodeToEdit.maxOccurrences !== "")) {
+        //  Set the node's maxOccurrences into the Maximum Occurrences textbox
+        $('input', maxOccurrencesFieldset).val(nodeToEdit.maxOccurrences);
+    }
+    form.appendChild(maxOccurrencesFieldset);
+
     dataSection.appendChild(form);
 
     wrapper.appendChild(dataSection);
@@ -913,6 +1019,7 @@ function generateEditGroupPage(wrapperClass, nodeToEdit) {
  * @param {string} wrapperClass The class name for the wrapper div
  * @return {Element} The generated HTML element representing the remove page
  */
+/***************************************************************************
 function generateRemovePage(wrapperClass) {
     var wrapper = document.createElement("div");
     wrapper.className = wrapperClass;
@@ -934,6 +1041,7 @@ function generateRemovePage(wrapperClass) {
 
     return wrapper;
 }
+***************************************************************************/
 
 /**
  * Generates and appends each of the checkbox and label pairs into the given wrapper
