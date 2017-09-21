@@ -13,6 +13,9 @@
  * Time: 12:47 PM
  */
 require "../thirdparty/php/PHPMailerAutoload.php";
+include_once("PlaidSessionHandler.php");
+$session_handler = new PlaidSessionHandler();
+
 //  Enable the use of Session variables
 session_start();
 //  Get the Inactive E-mail Address from the Session variable
