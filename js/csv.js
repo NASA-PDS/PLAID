@@ -162,8 +162,9 @@ function getLabelCSVFromLhsNavBars(callback){
                     for (var j = 0; j < attributes.length; j++) {
 
                         dataPath = attributes[j].attributes["data-path"].value;
-                        dataPathCorrected = attributes[j].attributes["data-path-corrected"].value;
-
+                        if(attributes[j].attributes["data-path-corrected"] !== undefined){
+                            dataPathCorrected = attributes[j].attributes["data-path-corrected"].value;
+                        }
                         if (dataPathCorrected > 0) {
                             attr = getProgressDataObjFromPath(dataPathCorrected);
                         } else if (dataPath) {
@@ -178,6 +179,8 @@ function getLabelCSVFromLhsNavBars(callback){
                                 isLeaf = gJsonObj['next'] != null ? false : true;
 
                                 val = gJsonObj['next'] != null ? "-" : attr['val'];
+
+
                                 val = attr['val'] == "null" ? "" : val;
                                 isNillable = gJsonObj['isNillable'] === "false" ? "no" : "yes";
 
