@@ -187,3 +187,4 @@ function generatePopUp(popUpObj, codemirror_type, large) {
     });
     removePopovers();
 }
+

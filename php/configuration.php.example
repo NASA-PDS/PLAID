@@ -3,10 +3,10 @@
 Rename this file to configuration.php after filling out the sections below.
 */
 
-define (DB_USER, "mysql_user");
-define (DB_PASSWORD, "mysql_password");
-define (DB_DATABASE, "database_name");
-define (DB_HOST, "localhost");
-define (DB_PORT, "3306");
+const DB_USER     = "mysql_user";
+const DB_PASSWORD = "mysql_password";
+const DB_DATABASE = "database_name";
+const DB_HOST     = "localhost";
+const DB_PORT     = "3306";
 
 ?>
