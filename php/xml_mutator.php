@@ -509,9 +509,9 @@ function addDDClassNode($DOC_LDD, $rootLDD, $userFullName, $node){
         }
         addIngestLDDNode($DOC_LDD, $ddAssociationNode, "reference_type", $referenceType);
         //  Add a node for the DD_Association's Minimum Occurrences attribute
-        addIngestLDDNode($DOC_LDD, $ddAssociationNode, "minimum_occurrences", 0);
+        addIngestLDDNode($DOC_LDD, $ddAssociationNode, "minimum_occurrences", $child["minOccurrences"]);
         //  Add a node for the DD_Association's Maximum Occurrences attribute
-        addIngestLDDNode($DOC_LDD, $ddAssociationNode, "maximum_occurrences", 1);
+        addIngestLDDNode($DOC_LDD, $ddAssociationNode, "maximum_occurrences", $child["maxOccurrences"]);
 
     }
 
