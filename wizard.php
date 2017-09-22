@@ -348,7 +348,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                                 <input class="form-control" name="inputfilename" type="text" placeholder="my_label.csv" id="mirrorFileInputField" onmousemove="textMirror(event)">
                                 <!--                            </span>-->
                                 <span class="input-group-btn">
-                                <button id="inportBtn" class="btn btn-warning" type="submit"  onClick="submitCSV()">Upload Table</button>
+                               <button id="uploadTableBtn" class="btn btn-warning" type="button" onclick="triggerTableUploadModal()">Upload Table</button>tableUploadModal
                             </span>
                                 <!--                             </form>-->
                                 <span class="input-group-btn">
@@ -364,6 +364,28 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             </span>
                             </div>
                             <span class="spacer"></span>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                    `<div class="modal fade" id="tblUploadModal" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Modal Header</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Some text in the modal.</p>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button id="exportBtn" class="btn btn-primary tableUploadChoiceOverwriteButton"
+                                            onclick="setOverWrite(1)" data-dismiss="modal">Overwrite My Lable</button>
+                                    <button type="button" class="btn btn-default" onclick="setOverWrite(0)" data-dismiss="modal">Create New Label</button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
             </section>
