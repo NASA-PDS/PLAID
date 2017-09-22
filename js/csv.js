@@ -401,3 +401,23 @@ function textMirror(e){
     $('#mirrorFileInputField').attr("placeholder",filename);
 }
 
+function setOverWrite(isOverwrite) {
+
+    $.ajax({
+        method: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "setTableUploadOption",
+            table_upload_overwrite: isOverwrite
+        },
+        datatype: "text",
+        success: function (data) {
+            console.log("$_SESSION['table_upload_overwrite'] is set to", data);
+            submitCSV();
+        }
+    });
+}
+
+function triggerTableUploadModal(){
+    $('#tableUploadModal').click();
+}

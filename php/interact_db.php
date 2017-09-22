@@ -687,6 +687,25 @@ function storeXMLToANewLabel($args){
 }
 
 /**
+ * When a user chooses to modify the existing label via table upload, store the modified label XML as a new label.
+ *
+ * Note: $data will need to be updated in future once multiple product types are supported
+ * in PLAID. Currently, observational is the only supported product type.
+ *
+ * @param {Object} $args object containing the name of the label inputted by the user
+ */
+
+function storeXML($args){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('update label set label_xml=? where id=?');
+    $handle->bindValue(1, $args['xmlDoc']->saveXML());
+    $handle->bindValue(2, $_SESSION['label_id']);
+    $handle->execute();
+    return $_SESSION['label_id'];
+}
+
+/**
  * Use the label id stored in the session to determine which label to output
  * the XML from the database.
  * @return {string}
@@ -864,7 +883,11 @@ function storeMissionSpecificsData($args){
     $handle->bindValue(3, $stewardId);
     $handle->bindValue(4, $namespaceId);
     $handle->bindValue(5, $comment);
-    $handle->bindValue(6, $_SESSION['label_id']);
+    if (isset ($args['store_location'])) {
+        $handle->bindValue(6, $args['store_location']);
+    } else {
+        $handle->bindValue(6, $_SESSION['label_id']);
+    }
     $handle->execute();
 }
 
@@ -1017,4 +1040,18 @@ function getSessionLabelID(){
     session_start();
     $labelID = $_SESSION['label_id'];
     echo $labelID;
+}
+
+/**
+ * Stores user's choice of whether overwrite the existing label or create a new
+ */
+function setTableUploadOption($arg){
+    session_start();
+    $_SESSION['table_upload_overwrite'] = false;
+    if($arg['table_upload_overwrite'] == 1 || $arg['table_upload_overwrite'] == "1" ){
+        $_SESSION['table_upload_overwrite'] = 1;
+    }else{
+        $_SESSION['table_upload_overwrite'] = 0;
+    }
+    echo $_SESSION['table_upload_overwrite'];
 }

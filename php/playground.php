@@ -12,7 +12,7 @@
     <link href="../css/user_management.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="../thirdparty/js/jquery.steps.min.js"></script>
-    <script src="../js/redirect.js"></script>
+<!--    <script src="../js/redirect.js"></script>-->
 
 </head>
 <body>
@@ -67,7 +67,11 @@ if($notDebug){
 // get the original XML Data
     $DOC =  readInXML(getSpecifiedLabelXML(array(label_id=>$csvArray[0][0])));
     $labelXml = readInXML(getLabelXML(array(label_id=>$csvArray[0][0]))); // <-- this IS a copy of current xml, not just a reference
-    $dummyXml = readInXML(getLabelXML(array(label_id=>$csvArray[0][0]))); // <-- this IS a copy of current xml, not just a reference
+    if($_SESSION['table_upload_overwrite']==1 || $_SESSION['table_upload_overwrite']=="1") {
+        $dummyXml = $DOC;
+    }else{
+        $dummyXml = readInXML(getLabelXML(array(label_id => $csvArray[0][0]))); // <-- this IS a copy of current xml, not just a reference
+    }
     $dataArray = array(); // a flattened array of $csvArray
 
 // Iterate through rows in CSV, if the values are modified, modify the value of the newly generated label XML ($labelXml)
@@ -149,17 +153,32 @@ unset($val);
 // Store the new label XML and progressData
 $currLabelId = $_SESSION['label_id'];
 // Todo: Uncomment this line before checkin - Commented out for devel opment
-$newLabelId = storeXMLToANewLabel(array(labelName=>$newName, xmlDoc=>$dummyXml, version=>$movdelVersion));
-storeProgressDataLocal(array(progressJson=>json_encode($decPD2), label_id=>$newLabelId));
+$displayMsg = "";
+if($_SESSION['table_upload_overwrite']==1 || $_SESSION['table_upload_overwrite']=="1"){
+    $currLabelId = $_SESSION['label_id'];
+    storeXML(array(labelName=>$newName, xmlDoc=>$dummyXml, version=>$modelVersion));
+    storeProgressData(array(progressJson=>json_encode($decPD2)));
+    $displayMsg = 'Your label has been updated';
+    echo 'label overwritten: ' . $currLabelId;
+
+}else{
+    //    just do the regular storing
+    //    storeProgressDataLocal(array(progressJson=>json_encode($decPD2), label_id=>$newLabelId));
+    $newLabelId = storeXMLToANewLabel(array(labelName=>$newName, xmlDoc=>$dummyXml, version=>$movdelVersion));
+    storeProgressDataLocal(array(progressJson=>json_encode($decPD2), label_id=>$newLabelId));
+    $displayMsg = 'Your label has been stored as ' . $newName;
+    echo 'New label created: ' . $newLabelId;
+}
+
 
 //echo $newLabelId;
 
 echo '<div class="container" style="padding-top:20%; ">';
-echo '<p><h3 class="form-login-heading" style="text-align: center;">Your label has been stored as ' . $newName .' </h3></p>';
+echo '<p><h3 class="form-login-heading" style="text-align: center;">' . $displayMsg . '</h3></p>';
 
 echo '<div class="newLabelWrapper" style="display: flex; justify-content: center;">';
 echo '<p sylte=""><button id="signUp" class="btn btn-lg btn-primary btn-block" onclick="location.href=\'../dashboard.php\';" >Go To Dashboard</button>';
-echo '<button id="signUp" class="btn btn-lg btn-primary btn-block" onclick="location.href=\'../wizard.php\';" >Go To Your New Label</button></p>';
+echo '<button id="signUp" class="btn btn-lg btn-primary btn-block" onclick="location.href=\'../wizard.php\';" >Go To Your Label</button></p>';
 
 
 //echo '<small class="form-text text-muted">Don\'t have an account? Click below.</small>';
