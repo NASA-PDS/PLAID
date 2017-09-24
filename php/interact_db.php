@@ -553,6 +553,25 @@ function storeXMLToANewLabel($args){
 }
 
 /**
+ * When a user chooses to modify the existing label via table upload, store the modified label XML as a new label.
+ *
+ * Note: $data will need to be updated in future once multiple product types are supported
+ * in PLAID. Currently, observational is the only supported product type.
+ *
+ * @param {Object} $args object containing the name of the label inputted by the user
+ */
+
+function storeXML($args){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('update label set label_xml=? where id=?');
+    $handle->bindValue(1, $args['xmlDoc']->saveXML());
+    $handle->bindValue(2, $_SESSION['label_id']);
+    $handle->execute();
+    return $_SESSION['label_id'];
+}
+
+/**
  * Use the label id stored in the session to determine which label to output
  * the XML from the database.
  * @return {string}
@@ -589,11 +608,16 @@ function getSpecifiedLabelXML($arg){
  * from the database.
  * @return {string}
  */
-function getIngestLDDToolXML(){
+function getIngestLDDToolXML($arg){
     global $LINK;
     session_start();
     $handle = $LINK->prepare('select ingest_ldd_xml from label where id=?');
-    $handle->bindValue(1, $_SESSION['label_id']);
+    if(isset ($arg['target_label_id'])){
+        $handle->bindValue(1, $arg['target_label_id']);
+    }
+    else {
+        $handle->bindValue(1, $_SESSION['label_id']);
+    }
     $handle->execute();
 
     $result = $handle->fetch(\PDO::FETCH_OBJ);
@@ -734,7 +758,11 @@ function storeMissionSpecificsData($args){
     $handle->bindValue(3, $stewardId);
     $handle->bindValue(4, $namespaceId);
     $handle->bindValue(5, $comment);
-    $handle->bindValue(6, $_SESSION['label_id']);
+    if (isset ($args['store_location'])) {
+        $handle->bindValue(6, $args['store_location']);
+    } else {
+        $handle->bindValue(6, $_SESSION['label_id']);
+    }
     $handle->execute();
 }
 
@@ -742,27 +770,41 @@ function storeMissionSpecificsData($args){
  * Get the mission-specific data for the active label and send it to the front-end
  * as a JSON.
  */
-function getMissionSpecificsData(){
+function getMissionSpecificsData($arg){
     global $LINK;
     session_start();
     $handle = $LINK->prepare('select mission_specifics from label where id=?');
-    $handle->bindValue(1, $_SESSION['label_id']);
+    if(isset ($arg['target_label_id'])){
+        $handle->bindValue(1, $arg['target_label_id']);
+    }
+    else {
+        $handle->bindValue(1, $_SESSION['label_id']);
+    }
     $handle->execute();
 
     $result = $handle->fetch(\PDO::FETCH_OBJ);
     header('Content-type: application/json');
-    echo json_encode($result->mission_specifics);
+    if(isset ($arg['isReturn'])){
+        return utf8_encode($result->mission_specifics);
+    }
+    else {
+        echo json_encode($result->mission_specifics);
+    }
 }
 
 /**
  * Get the mission-specific header data for the active label and send it to the front-end
  * as an object.
  */
-function getMissionSpecificsHeaderData(){
+function getMissionSpecificsHeaderData($arg){
     global $LINK;
     session_start();
     $handle = $LINK->prepare('select ms_mission_name, ms_steward_id, ms_namespace_id, ms_comment from label where id=?');
-    $handle->bindValue(1, $_SESSION['label_id']);
+    if(isset ($arg['target_label_id'])){
+        $handle->bindValue(1, $arg['target_label_id']);
+    }else{
+        $handle->bindValue(1, $_SESSION['label_id']);
+    }
     $handle->execute();
 
     $result = $handle->fetch(\PDO::FETCH_OBJ);
@@ -773,7 +815,12 @@ function getMissionSpecificsHeaderData(){
 
     header('Content-type: application/json');
     $missionSpecificsHeaderJson = json_encode($missionSpecificsHeader);
-    echo $missionSpecificsHeaderJson;
+    if(isset ($arg['isReturn'])){
+        return $missionSpecificsHeader;
+    }
+    else {
+        echo $missionSpecificsHeaderJson;
+    }
 }
 
 /**
@@ -914,4 +961,18 @@ function getSessionLabelID(){
     session_start();
     $labelID = $_SESSION['label_id'];
     echo $labelID;
+}
+
+/**
+ * Stores user's choice of whether overwrite the existing label or create a new
+ */
+function setTableUploadOption($arg){
+    session_start();
+    $_SESSION['table_upload_overwrite'] = false;
+    if($arg['table_upload_overwrite'] == 1 || $arg['table_upload_overwrite'] == "1" ){
+        $_SESSION['table_upload_overwrite'] = 1;
+    }else{
+        $_SESSION['table_upload_overwrite'] = 0;
+    }
+    echo $_SESSION['table_upload_overwrite'];
 }

@@ -100,6 +100,10 @@ $(document).ready(function() {
         });
     });
     $('#mirrorFileInputField').val($('#file').val());
+    $("#uploadTableBtn").click(function(){
+        // show Modal
+        $('#tblUploadModal').modal('show');
+    });
     $("ul[role='menu']").hide();
     addMissionSpecificsActionBar();
     previewDescription();

@@ -29,107 +29,7 @@
  *
  * @returns {Object} Label CSV
  */
-function getLabelCSV(){
-
-    $.ajax({
-        method: "post",
-        url: "php/interact_db.php",
-        data: {
-            function: "getCurrLabelIdName"
-        },
-        datatype: "text",
-        success: function(labelInfo){
-            var obj = progressData, i = 0, gJsonObj = {}, permissibleList="", units=[], isLeaf = true, val = "", isNillable = "";
-            var csv = labelInfo['id'] + "," + labelInfo['name'];
-            csv += '\nClass/Attribute ID, Value, Permitted Value, Permitted Units, Is this nullable?,  Description\n';
-
-            // Skip output to CSV if the step is listed here
-            var skip = ["Label Root", "3/File_Area_Observational", "1/Observation_Area"];
-            // FixMe: can we automatically populate this list?
-            // Populate skip list with data-path of "Label Root" steps
-            // for(var i in progressData){
-            //     if(progressData[i]['step_path']==="Label Root"){
-            //         for(var j in progressData[i]['selection']){
-            //             skip.push(progressData[i]['selection'][j]['id']);
-            //         }
-            //         break;
-            //     }
-            // }
-
-            // Iterate through first level children of progressData
-            while(i < progressData.length){
-                // console.log('i=', i);
-
-                // If this is an internal node FixMe
-                if(obj[i].step_path !== null && obj[i].step_path !== undefined && typeof obj[i].step_path !== "undefined" && !skip.includes(obj[i]['step_path'])) {
-
-                    // Processes internal nodes
-                    gJsonObj = getObjectFromPath(obj[i]['step_path'], g_jsonData.refObj);
-                    csv += obj[i]['step_path'] + ',-,-,-,-,' + gJsonObj['description'].replace(/,/g,"/ ") + '\n';
-
-                    // Processes Product Type in the console
-                    if (obj[i].step === 'product_type') {
-                        // Accommodates the progressData[0], 0001_NASA_PDS_1.pds.Product_Observational
-                        console.log(obj[i].selection, " is a product type.");
-
-                        // Processes leaf nodes
-                    } else if (obj[i].selection.length > 0) {
-                        for (var index in obj[i]['selection']) {
-                            // Ignores deselected attributes
-                            if(parseInt(obj[i]['selection'][index]['num']) > 0){
-                                if (obj[i]['selection'][index]['id'] !== null && obj[i]['selection'][index]['id'] !== undefined && typeof obj[i]['selection'][index]['id'] !== "undefined"){
-                                    gJsonObj = getObjectFromPath(obj[i]['selection'][index]['id'], g_jsonData.refObj);
-                                }
-
-                                isLeaf = gJsonObj['next'] != null ? false : true;
-                                val = gJsonObj['next'] != null ? "-" : obj[i]['selection'][index]['val'];
-                                isNillable = gJsonObj['isNillable'] === "false" ? "no" : "yes";
-
-                                // Unit options
-                                if(gJsonObj['unitId'] && gJsonObj['unitId'] !== undefined && typeof gJsonObj['unitId'] !== "undefined"){
-                                    units = gJsonObj['unitId'] === "null" ? "-" : gJsonObj['unitId'].replace(/,/g,"/ ");
-                                }
-
-                                // PermissibleList
-                                if( Object.keys(gJsonObj).includes("PermissibleValueList")){
-                                    if( gJsonObj !== null && gJsonObj !== undefined && typeof gJsonObj !== "undefined" && gJsonObj['PermissibleValueList'] !== undefined && gJsonObj['PermissibleValueList'] !== null && typeof gJsonObj['PermissibleValueList'] !== "undefined" &&  gJsonObj['PermissibleValueList'].length > 0){
-                                        for(var idx in gJsonObj['PermissibleValueList']){
-                                            permissibleList += gJsonObj['PermissibleValueList'][idx]['PermissibleValue']['value'] + "/ ";
-                                        }
-                                    }
-                                }
-                                csv += obj[i]['selection'][index]['id']; // data-path
-                                csv += ',' + val;
-                                csv += ',' + permissibleList;
-                                csv += ',' + units;
-                                csv += ',' + isNillable;
-                                csv += ',' + gJsonObj['description'].replace(/,/g,"/ ") + '\n';
-                            }
-                        }
-                    } else {
-                        console.log('The object will be ignored',obj); // debug
-                    }
-                }
-                i++;
-            }
-            // console.log('csv:', csv);
-            return csv;
-        },
-        error: function (textStatus, errorThrown) {
-            console.log(textStatus,errorThrown);
-        }
-    });
-}
-
-/*
- * Returns a label data that is converted to CSV.
- * Simply iterate through progressData... (experiment)
- *
- * CSV: path, value, permissibleList, units, isNillable, description
- *
- * @returns {Object} Label CSV
- */
-function getLabelCSVFromLhsNavBars(callback){
+function getLabelCSV(callback){
     var obj = progressData, i = 0, gJsonObj = {}, permissibleList = "", units = [], isLeaf = true, val = "",
         isNillable = "", steps = [], currPath = "", wizardIdx = 0, attr = {}, dataPath = "", dataPathCorrected = "";
     var csv = "", attributes = [];
@@ -162,8 +62,9 @@ function getLabelCSVFromLhsNavBars(callback){
                     for (var j = 0; j < attributes.length; j++) {
 
                         dataPath = attributes[j].attributes["data-path"].value;
-                        dataPathCorrected = attributes[j].attributes["data-path-corrected"].value;
-
+                        if(attributes[j].attributes["data-path-corrected"] !== undefined){
+                            dataPathCorrected = attributes[j].attributes["data-path-corrected"].value;
+                        }
                         if (dataPathCorrected > 0) {
                             attr = getProgressDataObjFromPath(dataPathCorrected);
                         } else if (dataPath) {
@@ -178,6 +79,8 @@ function getLabelCSVFromLhsNavBars(callback){
                                 isLeaf = gJsonObj['next'] != null ? false : true;
 
                                 val = gJsonObj['next'] != null ? "-" : attr['val'];
+
+
                                 val = attr['val'] == "null" ? "" : val;
                                 isNillable = gJsonObj['isNillable'] === "false" ? "no" : "yes";
 
@@ -207,7 +110,7 @@ function getLabelCSVFromLhsNavBars(callback){
                 } // ends if clause
             } // ends outer for loop
             // console.log('csv:', csv);
-            callback(csv, "my_label_"+ labelInfo['id'] + "_" + labelInfo['name']+".csv");
+            callback(csv, "my_label.csv");
             return csv;
         }, // ends success clause
         error: function (textStatus, errorThrown) {
@@ -241,8 +144,8 @@ function downloadCSV(csvContentIn, filename){
  */
 function tableDownload(){
     // downloadCSV(getLabelCSV(), "my_label_datasheet.csv"); <-- ORIGINAL
-    // var csv = getLabelCSVFromLhsNavBars();
-    getLabelCSVFromLhsNavBars(downloadCSV);
+    // var csv = getLabelCSV();
+    getLabelCSV(downloadCSV);
 }
 
 /*
@@ -398,3 +301,23 @@ function textMirror(e){
     $('#mirrorFileInputField').attr("placeholder",filename);
 }
 
+function setOverWrite(isOverwrite) {
+
+    $.ajax({
+        method: "post",
+        url: "php/interact_db.php",
+        data: {
+            function: "setTableUploadOption",
+            table_upload_overwrite: isOverwrite
+        },
+        datatype: "text",
+        success: function (data) {
+            console.log("$_SESSION['table_upload_overwrite'] is set to", data);
+            submitCSV();
+        }
+    });
+}
+
+function triggerTableUploadModal(){
+    $('#tableUploadModal').click();
+}
