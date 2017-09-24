@@ -334,10 +334,10 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             <div class="input-group" role="group">
                             <span class="input-group-btn">
 
-                            <form action="php/playground.php" method="post" enctype="multipart/form-data">
+                            <form action="php/table_upload.php" method="post" enctype="multipart/form-data">
 
                             <div style="border:1px solid #dddddd !important;font-color: white;border-top-left-radius:5px;border-bottom-left-radius:7px;height:38px;">
-                                <form action="php/playground.php" method="post" enctype="multipart/form-data">
+                                <form action="php/table_upload.php" method="post" enctype="multipart/form-data">
                                 <label class="btn btn-default btn-file">
                                 Browse ... <input type="file"  id="file" name="file" style="display:none;"><input type="submit" value="Do Playground" name="submit" style="display:none;" id="submitCSV">
                                 </label>
@@ -350,7 +350,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                                 <input class="form-control" name="inputfilename" type="text" placeholder="my_label.csv" id="mirrorFileInputField" onmousemove="textMirror(event)">
                                 <!--                            </span>-->
                                 <span class="input-group-btn">
-                                <button id="inportBtn" class="btn btn-warning" type="submit"  onClick="submitCSV()">Upload Table</button>
+                               <button id="uploadTableBtn" class="btn btn-warning" type="button" onclick="triggerTableUploadModal()">Upload Table</button>tableUploadModal
                             </span>
                                 <!--                             </form>-->
                                 <span class="input-group-btn">
@@ -366,6 +366,28 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             </span>
                             </div>
                             <span class="spacer"></span>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="tblUploadModal" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Modal Header</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Some text in the modal.</p>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button id="exportBtn" class="btn btn-primary tableUploadChoiceOverwriteButton"
+                                            onclick="setOverWrite(1)" data-dismiss="modal">Overwrite My Lable</button>
+                                    <button type="button" class="btn btn-default" onclick="setOverWrite(0)" data-dismiss="modal">Create New Label</button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
             </section>
