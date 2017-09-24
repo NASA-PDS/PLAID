@@ -334,10 +334,10 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             <div class="input-group" role="group">
                             <span class="input-group-btn">
 
-                            <form action="php/playground.php" method="post" enctype="multipart/form-data">
+                            <form action="php/table_upload.php" method="post" enctype="multipart/form-data">
 
                             <div style="border:1px solid #dddddd !important;font-color: white;border-top-left-radius:5px;border-bottom-left-radius:7px;height:38px;">
-                                <form action="php/playground.php" method="post" enctype="multipart/form-data">
+                                <form action="php/table_upload.php" method="post" enctype="multipart/form-data">
                                 <label class="btn btn-default btn-file">
                                 Browse ... <input type="file"  id="file" name="file" style="display:none;"><input type="submit" value="Do Playground" name="submit" style="display:none;" id="submitCSV">
                                 </label>
