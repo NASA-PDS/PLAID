@@ -129,8 +129,7 @@ if($_SESSION['table_upload_overwrite']==1 || $_SESSION['table_upload_overwrite']
     $newLabelId = storeXMLToANewLabel(array(labelName=>$newName, xmlDoc=>$dummyXml, version=>$movdelVersion));
     storeProgressDataLocal(array(progressJson=>json_encode($decPD2), label_id=>$newLabelId));
     $displayMsg = 'Your label has been stored as ' . $newName;
-t
-    // Store the Mission Specific, and Ingest LDD data
+// Store the Mission Specific, and Ingest LDD data
     $missionSpecificsJson = json_decode( getMissionSpecificsData(array(isReturn=>1, target_label_id=>$currLabelId)),true);
     $missionSpecificsHeader = getMissionSpecificsHeaderData(array(isReturn=>1, target_label_id=>$currLabelId));
     $ingestLDDToolXML = getIngestLDDToolXML(array(target_label_id=>$currLabelId));
