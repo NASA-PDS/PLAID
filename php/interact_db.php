@@ -608,11 +608,16 @@ function getSpecifiedLabelXML($arg){
  * from the database.
  * @return {string}
  */
-function getIngestLDDToolXML(){
+function getIngestLDDToolXML($arg){
     global $LINK;
     session_start();
     $handle = $LINK->prepare('select ingest_ldd_xml from label where id=?');
-    $handle->bindValue(1, $_SESSION['label_id']);
+    if(isset ($arg['target_label_id'])){
+        $handle->bindValue(1, $arg['target_label_id']);
+    }
+    else {
+        $handle->bindValue(1, $_SESSION['label_id']);
+    }
     $handle->execute();
 
     $result = $handle->fetch(\PDO::FETCH_OBJ);
@@ -765,27 +770,41 @@ function storeMissionSpecificsData($args){
  * Get the mission-specific data for the active label and send it to the front-end
  * as a JSON.
  */
-function getMissionSpecificsData(){
+function getMissionSpecificsData($arg){
     global $LINK;
     session_start();
     $handle = $LINK->prepare('select mission_specifics from label where id=?');
-    $handle->bindValue(1, $_SESSION['label_id']);
+    if(isset ($arg['target_label_id'])){
+        $handle->bindValue(1, $arg['target_label_id']);
+    }
+    else {
+        $handle->bindValue(1, $_SESSION['label_id']);
+    }
     $handle->execute();
 
     $result = $handle->fetch(\PDO::FETCH_OBJ);
     header('Content-type: application/json');
-    echo json_encode($result->mission_specifics);
+    if(isset ($arg['isReturn'])){
+        return utf8_encode($result->mission_specifics);
+    }
+    else {
+        echo json_encode($result->mission_specifics);
+    }
 }
 
 /**
  * Get the mission-specific header data for the active label and send it to the front-end
  * as an object.
  */
-function getMissionSpecificsHeaderData(){
+function getMissionSpecificsHeaderData($arg){
     global $LINK;
     session_start();
     $handle = $LINK->prepare('select ms_mission_name, ms_steward_id, ms_namespace_id, ms_comment from label where id=?');
-    $handle->bindValue(1, $_SESSION['label_id']);
+    if(isset ($arg['target_label_id'])){
+        $handle->bindValue(1, $arg['target_label_id']);
+    }else{
+        $handle->bindValue(1, $_SESSION['label_id']);
+    }
     $handle->execute();
 
     $result = $handle->fetch(\PDO::FETCH_OBJ);
@@ -796,7 +815,12 @@ function getMissionSpecificsHeaderData(){
 
     header('Content-type: application/json');
     $missionSpecificsHeaderJson = json_encode($missionSpecificsHeader);
-    echo $missionSpecificsHeaderJson;
+    if(isset ($arg['isReturn'])){
+        return $missionSpecificsHeader;
+    }
+    else {
+        echo $missionSpecificsHeaderJson;
+    }
 }
 
 /**

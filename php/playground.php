@@ -23,22 +23,10 @@ require("configuration.php");
 require("interact_db.php");
 require("xml_mutator.php");
 
-//function hello()
-//{
-//    echo "hello.";
-//}
-
-$notDebug = true;
-if($notDebug){
-//++++ file upload ++++++++++++++++++
+// File upload
     if ($_FILES["file"]["error"] > 0) {
         echo "Error: " . $_FILES["file"]["error"] . "<br>";
     } else {
-//    echo "Upload: " . $_FILES["file"]["name"] . "<br>";
-//    echo "Type: " . $_FILES["file"]["type"] . "<br>";
-//    echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-//    echo "Stored in: " . $_FILES["file"]["tmp_name"] . "<br>";
-
         $contents = file_get_contents($_FILES['file']['tmp_name']);
         $csv = array_map('str_getcsv', file($_FILES["file"]["tmp_name"]));
         $csvArray = array_values($csv);
@@ -46,25 +34,7 @@ if($notDebug){
     }
 
 
-//++++ functions ++++++++++++++++++
-    function getNodeLocal($path, $ns, $doc)
-    {
-        $xpath = new DOMXPath($doc);
-        if (isNonDefaultNamespace($ns))
-            $xpath->registerNamespace($ns, "http://pds.nasa.gov/pds4/$ns/v1");
-        $query = "//" . $path;
-        if ($path == "/") {
-            $query = "/*"; // select root node
-        }
-        return $xpath->query($query);
-    }
-
-//function clearSessionLabelId(){
-//    $_SESSION['label_id'] = "";
-//    header('Location: ../wizard.php/');
-//}
-//+++++++ functions ends +++++++++++++++++++
-// get the original XML Data
+// Get the original XML Data
     $DOC =  readInXML(getSpecifiedLabelXML(array(label_id=>$csvArray[0][0])));
     $labelXml = readInXML(getLabelXML(array(label_id=>$csvArray[0][0]))); // <-- this IS a copy of current xml, not just a reference
     if($_SESSION['table_upload_overwrite']==1 || $_SESSION['table_upload_overwrite']=="1") {
@@ -75,7 +45,6 @@ if($notDebug){
     $dataArray = array(); // a flattened array of $csvArray
 
 // Iterate through rows in CSV, if the values are modified, modify the value of the newly generated label XML ($labelXml)
-//        echo "<p><h2>Iterate through rows in CSV</h2>";
     $counter = 0;
     $movdelVersion = "1800";
     $objOld = array();
@@ -95,17 +64,15 @@ if($notDebug){
             $dataArray[$row[0]] = $newVal;
             $dataArray[$stripped] = $newVal;
 
-            // Compare corresponding values on the spreadshee against the old values
+            // Compare corresponding values on the spreadsheet against the old values
             $objOld = getNode(handlePath($row[0], "pds", false, false), "pds", $xml)->item(0);
 
             if($row[1] == "information_model_version"){
                 // Store Information_model_version
                 $modelVersionCheck = strpos("information_model_version", "", $row[1]);
             }
-            if ($modelVersionCheck) {
-                // echo "<br>model_version=" . $row[1] . "</br>";
+            if ($modelVersionCheck) { // incomplete code
                 $movdelVersion = str_replace(".", "", $row[1]);
-                // echo "<br>Modified model_version=" . $modelVersion . "</br>";
             }
             if ($objOld->nodeValue != $newVal) {
                 $dummyXml = addNodeLocal(array('path' => $row[0], 'quantity' => 1, 'value' => $newVal, 'ns' => "pds", 'xmlDoc' => $dummyXml, 'value_only' => true));
@@ -118,7 +85,6 @@ if($notDebug){
     date_default_timezone_set('America/Los_Angeles');
     $datetime = date("m.d.Y") . "_" . date("h:i");
     $newName = "my_label" . "_" . $datetime;
-}//debug ends
 
 // get the original progressData
 $progressData = getRawProgressData(array(label_id=>$csvArray[0][0]));
@@ -126,7 +92,7 @@ $progressData2 = getRawProgressData(array(label_id=>$csvArray[0][0]));
 $decPD = json_decode($progressData, true);
 $decPD2 = json_decode($progressData, true);
 
-//+++++++ Loop through pd, to modify the values +++++++++++++++
+// Loop through progressData, to modify the values +++++++++++++++
 $ptr=0;
 foreach ($decPD2 as $key => &$step) {
     if ($step['step'] == "optional_nodes" && $step['step_path']!="Label Root") {
@@ -149,29 +115,27 @@ foreach ($decPD2 as $key => &$step) {
 unset($value);
 unset($val);
 
-
-// Store the new label XML and progressData
 $currLabelId = $_SESSION['label_id'];
-// Todo: Uncomment this line before checkin - Commented out for devel opment
+
+// Store updated  XML and progressData
 $displayMsg = "";
 if($_SESSION['table_upload_overwrite']==1 || $_SESSION['table_upload_overwrite']=="1"){
     $currLabelId = $_SESSION['label_id'];
     storeXML(array(labelName=>$newName, xmlDoc=>$dummyXml, version=>$modelVersion));
     storeProgressData(array(progressJson=>json_encode($decPD2)));
     $displayMsg = 'Your label has been updated';
-    echo 'label overwritten: ' . $currLabelId;
-
+//    echo 'label overwritten: ' . $currLabelId;
 }else{
-    //    just do the regular storing
-    //    storeProgressDataLocal(array(progressJson=>json_encode($decPD2), label_id=>$newLabelId));
     $newLabelId = storeXMLToANewLabel(array(labelName=>$newName, xmlDoc=>$dummyXml, version=>$movdelVersion));
     storeProgressDataLocal(array(progressJson=>json_encode($decPD2), label_id=>$newLabelId));
     $displayMsg = 'Your label has been stored as ' . $newName;
-    echo 'New label created: ' . $newLabelId;
+
+    // Store the Mission Specific, and Ingest LDD data
+    $missionSpecificsJson = json_decode( getMissionSpecificsData(array(isReturn=>1, target_label_id=>$currLabelId)),true);
+    $missionSpecificsHeader = getMissionSpecificsHeaderData(array(isReturn=>1, target_label_id=>$currLabelId));
+    $ingestLDDToolXML = getIngestLDDToolXML(array(target_label_id=>$currLabelId));
+    storeMissionSpecificsData(array(missionSpecificsHeader=>$missionSpecificsHeader, missionSpecificsJson=>json_encode($missionSpecificsJson), store_location=>$newLabelId));
 }
-
-
-//echo $newLabelId;
 
 echo '<div class="container" style="padding-top:20%; ">';
 echo '<p><h3 class="form-login-heading" style="text-align: center;">' . $displayMsg . '</h3></p>';
@@ -180,12 +144,10 @@ echo '<div class="newLabelWrapper" style="display: flex; justify-content: center
 echo '<p sylte=""><button id="signUp" class="btn btn-lg btn-primary btn-block" onclick="location.href=\'../dashboard.php\';" >Go To Dashboard</button>';
 echo '<button id="signUp" class="btn btn-lg btn-primary btn-block" onclick="location.href=\'../wizard.php\';" >Go To Your Label</button></p>';
 
-
 //echo '<small class="form-text text-muted">Don\'t have an account? Click below.</small>';
 echo '</div>';
 echo '</div>';
 ?>
-
 
 </body>
 </html>

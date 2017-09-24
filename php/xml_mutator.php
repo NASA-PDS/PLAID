@@ -60,6 +60,24 @@ function getNode($path, $ns){
 
     return $xpath->query($query);
 }
+
+/**
+ * Use an XPath query to find a particular node or nodes in a specified DOM Doc. Todo: should alter getNode to take in a specified Dom doc instead of the global XML doc
+ * @param {string} $path path to the node
+ * @param {string} $ns either the current namespace to search with or an empty string
+ * @return NodeList list of query results
+ */
+function getNodeLocal($path, $ns, $doc)
+{
+    $xpath = new DOMXPath($doc);
+    if (isNonDefaultNamespace($ns))
+        $xpath->registerNamespace($ns, "http://pds.nasa.gov/pds4/$ns/v1");
+    $query = "//" . $path;
+    if ($path == "/") {
+        $query = "/*"; // select root node
+    }
+    return $xpath->query($query);
+}
 /**
  * Add node(s) to the overall document.
  * @param {object} $args object containing the node path, number of nodes to add,
