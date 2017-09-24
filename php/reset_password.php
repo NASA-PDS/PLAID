@@ -22,6 +22,8 @@
          * Time: 12:25 PM
          */
         require("configuration.php");
+        include_once("PlaidSessionHandler.php");
+        $session_handler = new PlaidSessionHandler();
         try{
             $host = DB_HOST;
             $db   = DB_DATABASE;
