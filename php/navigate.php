@@ -23,6 +23,13 @@
  * @author Trevor Morse
  * @author Stirling Algermissen
  */
+include_once("PlaidSessionHandler.php");
+include("interact_db.php");
+$session_handler = new PlaidSessionHandler();
 session_start();
-$_SESSION['label_id'] = $_POST['label_id'];
-echo $_SESSION['label_id'];
+$labelInUse = checkIfLabelInUse($_POST['label_id']);
+if($labelInUse) {
+    echo getUserName($labelInUse);
+} else {
+    $_SESSION['label_id'] = $_POST['label_id'];
+}

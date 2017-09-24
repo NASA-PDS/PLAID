@@ -15,6 +15,8 @@
  * limitations under the License.
  *
  */
+include_once("php/PlaidSessionHandler.php");
+$session_handler = new PlaidSessionHandler();
 session_start();
 if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     header("Location: index.php");
@@ -300,8 +302,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         <span class="spacer"></span>
                 </div>
 
-                <div id="finalPreviewIngest"></div>
                 <div class="exportIngestLDDForm">
+                    <div id="finalPreviewIngest"></div>
                     <span class="spacer"></span>
                     <div class="input-group" role="group">
                         <span class="input-group-addon" style="width:auto !important;">Filename:</span>

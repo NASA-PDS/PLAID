@@ -19,6 +19,8 @@
      * Time: 10:57 AM
      */
     //  Enable the use of Session variables
+    include_once("PlaidSessionHandler.php");
+    $session_handler = new PlaidSessionHandler();
     session_start();
     //  IF the error code is not empty
     if(isset($_SESSION['error_code']) && !empty($_SESSION['error_code'])) {

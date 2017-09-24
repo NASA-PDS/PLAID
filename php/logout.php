@@ -24,6 +24,8 @@
  * @author Trevor Morse
  * @author Stirling Algermissen
  */
+include_once("PlaidSessionHandler.php");
+$session_handler = new PlaidSessionHandler();
 session_start();
 $_SESSION['login'] = false;
 header("Location: ../index.php");
