@@ -369,7 +369,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         </div>
                     </div>
                     <!-- Modal -->
-                    `<div class="modal fade" id="tblUploadModal" role="dialog">
+                    <div class="modal fade" id="tblUploadModal" role="dialog">
                         <div class="modal-dialog">
                             <!-- Modal content-->
                             <div class="modal-content">
