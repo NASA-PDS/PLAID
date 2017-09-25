@@ -79,9 +79,7 @@ function getLabelCSV(callback){
                                 isLeaf = gJsonObj['next'] != null ? false : true;
 
                                 val = gJsonObj['next'] != null ? "-" : attr['val'];
-
-
-                                val = attr['val'] == "null" ? "" : val;
+                                val = attr['val'] === null ? "" : val;
                                 isNillable = gJsonObj['isNillable'] === "false" ? "no" : "yes";
 
                                 // Unit options
