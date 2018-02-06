@@ -24,15 +24,9 @@
     session_start();
     //  IF the error code is not empty
     if(isset($_SESSION['error_code']) && !empty($_SESSION['error_code'])) {
-        $error_code = $_SESSION['error_code'];
         //  Clear the Session error code, so no error message next time
         unset($_SESSION['error_code']);
-        $error_msg = "unknown";
-        if ($error_code == 10) {
-            $invalid_email = $_SESSION['invalid_email'];
-            $error_msg = "E-mail address '".$invalid_email."' not found in system. Click on this link to <a href='../signup.php'>create a new account</a>.";
-        }
-        echo '<div class="statusmsg">Error:  '.$error_msg.'</div>'; // Display our error message and wrap it with a div with the class "statusmsg".
+        // Removed message of invalid email message, per SPL ticket
     }
     ?>
 
