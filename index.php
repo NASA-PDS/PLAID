@@ -26,7 +26,7 @@
             unset($_SESSION['error_code']);
             $error_msg = "unknown";
             if ($error_code == 1) {
-                $error_msg = "Invalid Username and Password.";
+                $error_msg = "Invalid Username or Password.";
             } elseif ($error_code == 2) {
                 //  Get the Inactive E-mail Address from the Session variable
                 $inactive_email = $_SESSION['inactive_email'];
