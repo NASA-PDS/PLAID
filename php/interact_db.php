@@ -394,11 +394,8 @@ Please click this link to reset your PLAID password:  ' . $activation_link . '
         }
 
     } else {
-        //  Invalid email address, so return to the Send Link to Reset Password page w/ an error message
-        header("Location: send_link_to_reset_password.php");
-        $_SESSION['login'] = true;
-        $_SESSION['error_code'] = 10;
-        $_SESSION['invalid_email'] = $args['email'];
+        // always redirect when using invalid email, per SPL tickets
+        header("Location: ../send_link_to_reset_password_success.html");
     }
 
 }
