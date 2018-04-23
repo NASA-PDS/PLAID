@@ -17,6 +17,8 @@
     <form class="form-login" action="php/interact_db.php" method="post">
         <h2 class="form-login-heading">PDS Label Assistant for Interactive Design (PLAID)</h2>
         <?php
+        include_once("php/PlaidSessionHandler.php");
+        $session_handler = new PlaidSessionHandler();
         //  Enable the use of Session variables
         session_start();
         //  IF the error code is not empty
@@ -26,7 +28,7 @@
             unset($_SESSION['error_code']);
             $error_msg = "unknown";
             if ($error_code == 1) {
-                $error_msg = "Invalid Username and Password.";
+                $error_msg = "Invalid Username or Password.";
             } elseif ($error_code == 2) {
                 //  Get the Inactive E-mail Address from the Session variable
                 $inactive_email = $_SESSION['inactive_email'];
