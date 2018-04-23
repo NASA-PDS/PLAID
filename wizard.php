@@ -118,41 +118,44 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             </button>
                         </td>
                     </tr>
-                    <!--
-<tr class="label-item">
-    <td>
-        <button class="list-group-item">
-            <i class="fa fa-file-o fa-fw" aria-hidden="true"></i>
-            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Document">Document</span>
-        </button>
-    </td>
-</tr>
-<tr class="label-item">
-    <td>
-        <button class="list-group-item disabled" disabled>
-            <i class="fa fa-list fa-fw" aria-hidden="true"></i>
-            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Context">Context</span>
-        </button>
-    </td>
-</tr>
-<tr class="label-item">
-    <td>
-        <button class="list-group-item disabled" disabled>
-            <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_File_Text">File Text</span>
-        </button>
-    </td>
-</tr>
+                    <!-- MLM:  un-commented the buttons below -->
+                    <tr class="label-item">
+                        <td>
+                            <button class="list-group-item">
+                                <i class="fa fa-file-o fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Document">Document</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="label-item">
+                        <td>
+                            <!-- <button class="list-group-item disabled" disabled> -->
+                            <button class="list-group-item">
+                                <i class="fa fa-list fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Context">Context</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="label-item">
+                        <td>
+                            <!-- <button class="list-group-item disabled" disabled> -->
+                            <button class="list-group-item">
+                                <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_File_Text">File Text</span>
+                            </button>
+                        </td>
+                    </tr>
 
-<tr class="label-item">
-    <td>
-        <button class="list-group-item disabled" disabled>
-            <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
-            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Thumbnail">Thumbnail</span>
-        </button>
-    </td>
-</tr>
--->
+                    <tr class="label-item">
+                        <td>
+                            <!-- <button class="list-group-item disabled" disabled> -->
+                            <button class="list-group-item">
+                                <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Thumbnail">Thumbnail</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- MLM:  un-commented the buttons above -->
                 </table>
             </section>
 
@@ -334,10 +337,10 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             <div class="input-group" role="group">
                             <span class="input-group-btn">
 
-                            <form action="php/table_upload.php" method="post" enctype="multipart/form-data">
+                            <form action="php/table_upload.php" method="post"> <!-- enctype="multipart/form-data"> -->
 
                             <div style="border:1px solid #dddddd !important;font-color: white;border-top-left-radius:5px;border-bottom-left-radius:7px;height:38px;">
-                                <form action="php/table_upload.php" method="post" enctype="multipart/form-data">
+                                <form action="php/table_upload.php" method="post"> <!-- enctype="multipart/form-data"> -->
                                 <label class="btn btn-default btn-file">
                                 Browse ... <input type="file"  id="file" name="file" style="display:none;"><input type="submit" value="Do Playground" name="submit" style="display:none;" id="submitCSV">
                                 </label>
@@ -383,7 +386,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
 
                                 <div class="modal-footer">
                                     <button id="exportBtn" class="btn btn-primary tableUploadChoiceOverwriteButton"
-                                            onclick="setOverWrite(1)" data-dismiss="modal">Overwrite My Lable</button>
+                                            onclick="setOverWrite(1)" data-dismiss="modal">Overwrite My Label</button>
                                     <button type="button" class="btn btn-default" onclick="setOverWrite(0)" data-dismiss="modal">Create New Label</button>
                                 </div>
                             </div>
