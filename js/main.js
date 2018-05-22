@@ -66,7 +66,6 @@ $(document).ready(function() {
 
     setupClickHandlers();
 
-
     $(".list-group-item:not(.yesButton):not(.noButton)").each(function(){
         $(this).click(captureSelection);
     });
@@ -152,6 +151,27 @@ $(document).ready(function() {
             datatype: "text",
             success: function(data){
                 $(".labelNameNav").text(data);
+            }
+        }),
+        // Get the Imported XML File's contents
+        $.ajax({
+            method: "post",
+            url: "php/interact_db.php",
+            data: {
+                function: "getXMLImportFileContents"
+            },
+            datatype: "text",
+            success: function(data){
+               const xmlImportFileContents = data;
+               //console.log("xmlImportFileContents = '" + xmlImportFileContents + "'");
+               g_importedXmlDoc = null;
+               // IF the XML Import File's contents are NOT empty
+               if (xmlImportFileContents != "") {
+                   // Parse the Imported XML file's contents into the XML DOM
+                   const parser = new DOMParser();
+                   g_importedXmlDoc = parser.parseFromString(xmlImportFileContents, XML_FILE_TYPE);
+                   //console.log('g_importedXmlDoc =', g_importedXmlDoc);
+               }
             }
         })
 

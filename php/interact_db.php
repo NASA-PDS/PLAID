@@ -29,6 +29,10 @@
 require_once('../thirdparty/php/PasswordHash.php');
 require("configuration.php");
 include_once("PlaidSessionHandler.php");
+$MAX_FILE_SIZE = 4 * 1024 * 1024;    //  4 MB
+$XML_FILE_TYPE = "text/xml";
+$XML_FILE_EXTENSION = "xml";
+$IMPORT_DIR = "../workspace/";    // Directory that holds the uploaded XML file to be Imported
 $HASHER = new PasswordHash(8, false);
 try{
     $host = DB_HOST;
@@ -65,15 +69,16 @@ catch(\PDOException $ex){
 function insertUser($args){
     global $LINK;
     global $HASHER;
-    //  TODO:  Validate the form entries:  e-mail address in correct format xxx@xxx.xxx
-    $duplicateEmailAddr = checkForDuplicateUser($args['email']);
+    //  Client validated that e-mail address in correct format xxx@xxx.xxx
+    //  Replace special characters with HTML representations
+    $email_addr = sanitizeInput($args['email']);
+    $duplicateEmailAddr = checkForDuplicateUser($email_addr);
     if($duplicateEmailAddr){
         return;
-     }
+    }
 
-
-    $password = $args['password'];
-    $verifyPassword = $args['verifyPassword'];
+    $password = sanitizeInput($args['password']);
+    $verifyPassword = sanitizeInput($args['verifyPassword']);
     //  Check that the two passwords are the same
     if ($password === $verifyPassword) {
 
@@ -91,18 +96,17 @@ function insertUser($args){
         ///        $handle->bindValue($index++, $value);
         ///    }
         ///}
-        $handle->bindValue(1, $args['email']);
+        $handle->bindValue(1, $email_addr);
         //  Encrypt the password
         $hashedPassword = $HASHER->HashPassword($password);
         $handle->bindValue(2, $hashedPassword);
-        $handle->bindValue(3, $args['full_name']);
-        $handle->bindValue(4, $args['organization']);
+        $handle->bindValue(3, sanitizeInput($args['full_name']));
+        $handle->bindValue(4, sanitizeInput($args['organization']));
         $handle->bindValue(5, $hash);
 
         $handle->execute();
 
         //  Send an e-mail message to the given e-mail address with a link to validate the account
-        $email_addr = $args['email'];
         $to = $email_addr; // Send the email to the given e-mail address
         $subject = "PLAID Signup Verification"; // Give the e-mail message a subject
 
@@ -493,6 +497,7 @@ function getLabelInfo(){
 function storeNewLabel($args){
 
     global $LINK;
+    global $MAX_FILE_SIZE, $XML_FILE_TYPE, $XML_FILE_EXTENSION, $IMPORT_DIR;
 
     $filename = "../workspace/observational.xml";
     // $filename = "../workspace/c000m5232t493378259edr_f0000_0134m1.xml";
@@ -503,6 +508,33 @@ function storeNewLabel($args){
     /** JPADAMS - load a file here **/
 
     session_start();
+
+    // Initialize the XML Pathname to Import to be null
+    $_SESSION['xmlPathnameToImport'] = null;
+
+    // IF an XML file was selected to import
+    if (isset($_FILES['xmlFileToImport'])) {
+        $fileName = $_FILES['xmlFileToImport']['name'];
+        $fileSize =$_FILES['xmlFileToImport']['size'];
+        $fileTmpPathname =$_FILES['xmlFileToImport']['tmp_name'];
+        $fileType=$_FILES['xmlFileToImport']['type'];
+        $fileExt=strtolower(end(explode('.',$fileName)));
+        //  IF an XML file
+        if (($fileExt === $XML_FILE_EXTENSION) && ($fileType === $XML_FILE_TYPE)) {
+            // IF file size < MAX_FILE_SIZE
+            if ($fileSize <= $MAX_FILE_SIZE) {
+                $destPath = $IMPORT_DIR . $fileName;
+                // Move the file from the temp dir. to the imports dir.
+                $isMoved = move_uploaded_file($fileTmpPathname, $destPath);
+                // IF the file was moved successfully
+                if ($isMoved) {
+                    // Set the Pathname of the XML file to Import into a Session variable
+                    $_SESSION['xmlPathnameToImport'] = $destPath;
+                }
+            }
+        }
+    }
+
     $handle = $LINK->prepare('INSERT INTO label SET creation=now(),last_modified=now(),name=?,label_xml=?,schema_version=?,owner=?');
     $handle->bindValue(1, $args['labelName']);
     $handle->bindValue(2, $data);
@@ -836,6 +868,30 @@ function getLabelName(){
 }
 
 /**
+ * Get the Import XML File's contents.
+ * called by main.js in wizard.php
+ */
+function getXMLImportFileContents(){
+    $xmlFileContents = "";    // default to empty string, in case no Import file was selected
+    session_start();
+    // Get the XML Import file's pathname on the server
+    // This value was stored into a session variable by storeNewLabel()
+    // call by the Dashboard's 'Create New' popup
+    $xmlPathnameToImport = $_SESSION['xmlPathnameToImport'];
+
+    // IF a file was selected for Import
+    if ($xmlPathnameToImport != null) {
+        // Read the Import XML file's contents into a String
+        $xmlFileContents = file_get_contents ($xmlPathnameToImport);
+        // Delete the file from the import folder, now that it is no longer needed
+        unlink($xmlPathnameToImport);
+    }
+
+    echo $xmlFileContents;
+    return $xmlFileContents;
+}
+
+/**
  * Get the name and ID of the label currently stored in the session.
  */
 function getCurrLabelIdName(){
@@ -851,7 +907,7 @@ function getCurrLabelIdName(){
     // Variable to return
     $retVal = array("id" => $_SESSION['label_id'], "name" => $result->name );
 
-    // attach a hedder to indicate that this is JSON.
+    // attach a header to indicate that this is JSON.
     header('Content-type: application/json');
     echo json_encode($retVal);
     return json_encode($retVal);   // <-- debug
@@ -972,4 +1028,14 @@ function setTableUploadOption($arg){
         $_SESSION['table_upload_overwrite'] = 0;
     }
     echo $_SESSION['table_upload_overwrite'];
+}
+
+/**
+ * Replaces special chars. in input data w/ their HTML representations
+ */
+function sanitizeInput($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
