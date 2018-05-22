@@ -60,7 +60,8 @@ $(document).ready(function(){
             }
         }
     });
-});
+});     // end $(document).ready(function(){
+
 /**
  * Create a card to display a label entry using data from the database.
  * @param {Object} labelData data from the database about the label
@@ -104,7 +105,8 @@ function createLabelEntry(labelData){
     schemaVersion.appendChild(versionLabel);
     var versionNumber = document.createElement("span");
     versionNumber.className = "version";
-    versionNumber.textContent = core_schema_versions[parseInt(labelData["schema_version"])]["name"];
+    // Schema version is now a String, rather than an Integer
+    versionNumber.textContent = core_schema_versions[labelData["schema_version"]]["name"];
     schemaVersion.appendChild(versionNumber);
 
     content.appendChild(time1);
@@ -425,13 +427,13 @@ function refreshLabelShareListing(data, shareList, labelId) {
 }
 
 /**
- * Check if the field is empty. Add the error class if it is. Remove
+ * Check if the given field is Null or empty. Add the error class if it is. Remove
  * the error class if it is not.
  * @param field input form to check
  * @returns {boolean}
  */
 function isValidLabelNameInput(field){
-    if ($(field).val() === ""){
+    if (($(field).val() === null) || ($(field).val() === "")){
         $(field).addClass("error");
         return false;
     }

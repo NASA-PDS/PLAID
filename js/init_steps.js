@@ -26,6 +26,9 @@
  */
 const VALUE_DROPDOWN_LIST_NO_SELECTION = "No item selected";
 const UNIT_DROPDOWN_LIST_NO_SELECTION = "No unit selected";
+const UNIT_ATTRIBUTE_NAME = "unit";
+const FOUND_ATTRIBUTE_NAME = "found";
+const XML_FILE_TYPE = 'text/xml';
 /**
  * Initialize the wizard using jQuery-Steps built-in method.
  *
@@ -484,7 +487,8 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
 
     // Set the data path. This is the traversal path through the JSON
     elementBar.setAttribute('data-path', dataObj["path"]);
-    if(!dataObj["path"].startsWith(parentPath) && typeof parentPath != 'undefined' && parentPath != g_dictInfo["pds"]["name"]) {
+    // IF the dataObj[path] does NOT start with the parentPath AND parentPath is defined AND parentPath does NOT start with the string "undefined" AND  it's not 'Label Root'
+    if(!dataObj["path"].startsWith(parentPath) && typeof parentPath != 'undefined' && !parentPath.startsWith('undefined') && parentPath != g_dictInfo["pds"]["name"]) {
         // console.log("Need to correct " + dataObj["path"] + " with parent " + parentPath);
         var arrayPath = dataObj["path"].split("/");
         parentPath = parentPath + "/" + arrayPath[arrayPath.length-2] + "/" + arrayPath[arrayPath.length-1];
@@ -533,6 +537,77 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
 
     elementBar.appendChild(plusBtn);
 
+    addPopover(elementBar, dataObj, $(counter).prop("min"), $(counter).prop("max"), isRecommended);
+
+    //console.log('g_importedXmlDoc =', g_importedXmlDoc);
+
+    // IF an XML file was imported
+    if (g_importedXmlDoc != null) {
+        // Look in the XML DOM Tree for elements with this Title
+        //const titleNodeList = importedXmlDoc.getElementsByTagName(dataObj["title"]);
+        // Get all the child nodes of the root (There should only be one: the Product_Type)
+        const childNodeArray = g_importedXmlDoc.childNodes;
+        //console.log('childNodeArray =', childNodeArray);
+        // IF a child node (should be one Product_Type)
+        if (childNodeArray.length > 0) {
+            const productTypeNode = childNodeArray[0];
+            console.log("Looking in the XML DOM tree for '" + dataObj["path"] + "'");
+            // Look in the XML DOM Tree for a node with this Data Object's Path
+            const xmlNodeElementData = findXMLNodeWithPath(dataObj["path"], 0, productTypeNode);
+            const xmlNodeCount = xmlNodeElementData.count;
+            // IF did NOT Find a match
+            if (xmlNodeCount == 0) {
+                console.log("Did NOT Find a matching node in the XML DOM tree for '" + dataObj["path"] + "'");
+            } else {
+                console.log("Found " + xmlNodeElementData.count + " matching node(s) in the XML DOM tree for '" + dataObj["path"] + "'!");
+                // Get the count of the element bar
+                const elementBarCount = $(".element-bar-counter", elementBar).val();
+                console.log('Element Bar Count = ' + elementBarCount);
+                // Press the Plus button the # of times needed to set the value correctly
+                for (let ct = elementBarCount; ct < xmlNodeCount; ct++) {
+                    // Increment the counter by clicking the Plus button
+                    // So the choice group total will get incremented
+                    $("button", plusBtn).click();
+                    //need to call this function to reset the properties of the element bar
+                    //after the adjustments have been made to load the XML node values
+                    //setOneElementBarStyle($(".element-bar-counter", elementBar));
+                    setOneElementBarStyle($(counter));
+                }
+
+                const unitValue = xmlNodeElementData.unit;
+                // If there is a 'Unit' attribute for the XML node
+                if (unitValue != null) {
+                    console.log('Unit attribute of node is "' + unitValue + '"');
+                    // Set the Unit attribute of the element bar
+                    // At this early stage, the Unit dropdown has not become a bootstrap toggle button?
+                    // The div tag that bootstrap wraps the select element does not exist yet,
+                    // so it is not found by the JQuery call
+                    // So try just setting the select element directly the old-fashioned way
+                    //$(unitDropdown).value = unitValue;
+                    //  Set the element in elementBar with the unitchooser class
+                    $(".unitchooser", elementBar).selectpicker("val", unitValue);
+                    //$(unitDropdown).selectpicker("val", unitValue);
+                    //$(unitDropdown).selectpicker('refresh');
+                    $(".unitchooser", elementBar).selectpicker('refresh');
+                    //need to call this function to reset the properties of the element bar
+                    //after the adjustments have been made to load the XML node values
+                    //setOneElementBarStyle($(".element-bar-counter", elementBar));
+                    setOneElementBarStyle($(counter));
+                }
+                const textOfNode = xmlNodeElementData.text;
+                // IF there is a text value for the XML node
+                if (textOfNode != null) {
+                    // Set the text as the element bar value
+                    // Set the selected value of the dropdown list
+                    $(".selectpicker", elementBar).selectpicker("val", textOfNode);
+                    // Set the value of the text input
+                    $(".element-bar-input", elementBar).val(textOfNode);
+                }
+            }       // end IF Found a match
+        }       // end IF a child node (Product_Type)
+    }       // end IF an XML file was imported
+
+
     // Highlight the element bar if this item is in the list of recommendedElementDataPaths
     var isRecommended = false;
     recommendedElementDataPaths.forEach(function(path) {
@@ -541,8 +616,6 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
             isRecommended = true;
         }
     });
-
-    addPopover(elementBar, dataObj, $(counter).prop("min"), $(counter).prop("max"), isRecommended);
 
     //  IF in Basic Mode
     if (g_isBasicMode) {
@@ -923,4 +996,124 @@ function showHideAdvancedElementBar(elementBar) {
             }
         }
     }
+}
+
+/**
+ * Find the XML Node in the XML DOM Tree with the given path
+ * @param path - the slash-separated path of the Node Tree tag names
+ * @param pathIndex - the index of the sub-path within the path
+ * @param xmlNode - the XML DOM Tree node to start at
+ */
+function findXMLNodeWithPath(path, pathIndex, xmlNode) {
+    // Create an object to return the values that are found
+    let xmlNodeElementData = {isFound: false, count: 0, text: null, unit: null};
+    path = path.replace(/\[.*?\]/g, ""); // remove brackets for lookup
+    //console.log("path = '" + path + "'");
+    let isNodeFoundSoFar = true;    // True if found a node that matches the path so far
+    // Take the path, and separate it into its components
+    //  Skip over the leading number
+    pathArray = path.split('/');
+    // While a matching node is found and not at end of path
+    while (isNodeFoundSoFar && (pathIndex < pathArray.length)) {
+        //console.log("pathArray[" + p + "] = '" + pathArray[p] + "'");
+        // Ignore the numbers, which are the even indices
+        // IF the path index is Odd
+        if ((pathIndex % 2) == 1) {
+            // Get all the child nodes of the current XML node
+            const childNodeArray = xmlNode.childNodes;
+            //console.log('childNodeArray =', childNodeArray);
+            isNodeFoundSoFar = false;
+            // For each child node of the current node
+            for (let i = 0; i < childNodeArray.length; i++) {
+                //console.log('childNodeArray[' + i + '] =', childNodeArray[i]);
+                // Get the nodeName
+                const nodeName = childNodeArray[i].nodeName;
+                //const nodeType = childNodeArray[i].nodeType;
+                console.log("nodeName = '" + nodeName + "'");
+                // IF the nodeName = the current path portion
+                if (nodeName == pathArray[pathIndex]) {
+                    console.log("Found a node matching the path '" + nodeName + "'");
+                    isNodeFoundSoFar = true;
+                    // IF this is NOT the last sub-path in the path array
+                    if (pathIndex < pathArray.length - 1) {
+                        // Found a match, so need to recurse w/ this as the XML node, increment the pathIndex, same path
+                        xmlNodeElementData = findXMLNodeWithPath(path, pathIndex + 1, childNodeArray[i]);
+                        // IF Found a match, can return
+                        if (xmlNodeElementData.isFound) {
+                            // TODO:  don't return here, but keep looking for more matches in siblings
+                            return xmlNodeElementData;
+                        }
+                        // Keep looking for a match in the next sibling node
+                        //break;
+                    } else {
+                        console.log("Found a node matching the full path '" + path + "'");
+                        // Increment the number of nodes found
+                        xmlNodeElementData.count++;
+                        // See if this node has been found and its values used already
+                        // Get the Found attribute from the node
+                        const foundAttrValue = childNodeArray[i].getAttribute(FOUND_ATTRIBUTE_NAME);
+                        // IF this node's values have been used already
+                        if (foundAttrValue != null) {
+                            console.log("This node's values have been used already.");
+                        } else {    // Else get the info from this node
+                            console.log("This node's values have NOT been used yet.");
+                            xmlNodeElementData.isFound = true;
+                            // Get the text & unit info. from the node
+                            const xmlNodeTextUnitData = getInfoOutOfNode(childNodeArray[i]);
+                            // Set the text & unit info. into this function's return object
+                            xmlNodeElementData.text = xmlNodeTextUnitData.text;
+                            xmlNodeElementData.unit = xmlNodeTextUnitData.unit;
+                            // Set a Found attribute into the node
+                            childNodeArray[i].setAttribute(FOUND_ATTRIBUTE_NAME, "True");
+                            // Keep looking for other siblings that match too, to count them
+                            //return xmlNodeElementData;
+                        }
+                    }
+                }
+            }
+        }       // end IF the path index is Odd
+        pathIndex++;
+    }       // end While a matching node is found and not at end of path
+
+    // IF found a complete match
+    //if (isNodeFoundSoFar) {
+        return xmlNodeElementData;
+    //} else {
+    //    return null;
+    //}
+}
+
+/**
+ * Get the value and unit from the XML Node
+ * @param xmlNode - an XML DOM Tree node of the imported XML file
+ * @return xmlNodeElementData - an object that contains the number of nodes found, the value, and the Unit
+ */
+function getInfoOutOfNode(xmlNode) {
+    // Create an object to return the values that were found
+    let xmlNodeTextAndUnitData = {text: null, unit: null}
+    // Get the child nodes
+    const childNodeList = xmlNode.childNodes;
+    // For each child node in the list
+    for (c=0; c < childNodeList.length; c++) {
+        // IF the child's node name is "#text"
+        if (childNodeList[c].nodeName == "#text") {
+            // Get the text of the XML node
+            const textOfNode = childNodeList[c].nodeValue;
+            console.log('Text of node is "' + textOfNode + '"');
+            // Set the text into the return object
+            xmlNodeTextAndUnitData.text = textOfNode;
+            // Found a match, so can fall out of this For loop
+            break;
+        }
+    }       // end For each child node in the list
+
+    // See if there is a 'Unit' attribute for this XML node
+    const unitAttrValue = xmlNode.getAttribute(UNIT_ATTRIBUTE_NAME);
+    if (unitAttrValue != null) {
+        console.log('Unit attribute of node is "' + unitAttrValue + '"');
+        // Set the Unit attribute into the return object
+        xmlNodeTextAndUnitData.unit = unitAttrValue;
+    }
+
+    return xmlNodeTextAndUnitData;
 }

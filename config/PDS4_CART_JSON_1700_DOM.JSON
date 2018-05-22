@@ -1,0 +1,3721 @@
+[
+  {
+    "dataDictionary": {
+      "Title": "PDS4 Data Dictionary" ,
+      "Version": "1.10.0.0" ,
+      "Date": "Wed Mar 07 14:44:23 PST 2018" ,
+      "Description": "This document is a dump of the contents of the PDS4 Data Dictionary" ,
+      "classDictionary": [
+        {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Bounding_Coordinates" ,
+            "title": "Bounding_Coordinates" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Bounding_Coordinates class defines the limits of coverage of a set of data expressed by latitude and longitude values in the order western-most, eastern-most, northern-most, and southern-most."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Bounding_Coordinates.cart.west_bounding_coordinate" ,
+                "title": "west_bounding_coordinate" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Bounding_Coordinates.cart.west_bounding_coordinate"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Bounding_Coordinates.cart.east_bounding_coordinate" ,
+                "title": "east_bounding_coordinate" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Bounding_Coordinates.cart.east_bounding_coordinate"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Bounding_Coordinates.cart.north_bounding_coordinate" ,
+                "title": "north_bounding_coordinate" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Bounding_Coordinates.cart.north_bounding_coordinate"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Bounding_Coordinates.cart.south_bounding_coordinate" ,
+                "title": "south_bounding_coordinate" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Bounding_Coordinates.cart.south_bounding_coordinate"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Cartography" ,
+            "title": "Cartography" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Cartography class provides a description of how a 3D sphere, spheroid, or elliptical spheroid or the celestial sphere is mapped onto a plane."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Cartography.cart.has_Spatial_Domain.Spatial_Domain" ,
+                "title": "has_Spatial_Domain" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Spatial_Domain"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Cartography.cart.has_Spatial_Reference_Information.Spatial_Reference_Information" ,
+                "title": "has_Spatial_Reference_Information" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Spatial_Reference_Information"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Coordinate_Representation" ,
+            "title": "Coordinate_Representation" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Coordinate_Representation class provides the method of encoding the position of a point by measuring its distance from perpendicular reference axes (the \"coordinate pair\" and \"row and column\" methods)."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Coordinate_Representation.cart.pixel_resolution_x" ,
+                "title": "pixel_resolution_x" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Coordinate_Representation.cart.pixel_resolution_x"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Coordinate_Representation.cart.pixel_resolution_y" ,
+                "title": "pixel_resolution_y" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Coordinate_Representation.cart.pixel_resolution_y"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Coordinate_Representation.cart.pixel_scale_x" ,
+                "title": "pixel_scale_x" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Coordinate_Representation.cart.pixel_scale_x"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Coordinate_Representation.cart.pixel_scale_y" ,
+                "title": "pixel_scale_y" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Coordinate_Representation.cart.pixel_scale_y"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Distance_and_Bearing_Representation" ,
+            "title": "Distance_and_Bearing_Representation" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Distance_and_Bearing_Representation class provides a method of encoding the position of a point by measuring its distance and direction (azimuth angle) from another point."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Distance_and_Bearing_Representation.cart.distance_resolution" ,
+                "title": "distance_resolution" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Distance_and_Bearing_Representation.cart.distance_resolution"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Distance_and_Bearing_Representation.cart.bearing_resolution" ,
+                "title": "bearing_resolution" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Distance_and_Bearing_Representation.cart.bearing_resolution"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Distance_and_Bearing_Representation.cart.bearing_reference_direction" ,
+                "title": "bearing_reference_direction" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Distance_and_Bearing_Representation.cart.bearing_reference_direction"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Distance_and_Bearing_Representation.cart.bearing_reference_meridian" ,
+                "title": "bearing_reference_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Distance_and_Bearing_Representation.cart.bearing_reference_meridian"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Equirectangular" ,
+            "title": "Equirectangular" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Equirectangular class contains parameters for the Equirectangular projection."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Equirectangular.Map_Projection_Base.generalization" ,
+                "title": "Map_Projection_Base" ,
+                "assocType": "parent_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "0000" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base"
+                 ]
+              }
+            } ,
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1" ,
+                "title": "standard_parallel_1" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1",
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_2"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin" ,
+                "title": "scale_factor_at_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line" ,
+                "title": "scale_factor_at_center_line" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian" ,
+                "title": "scale_factor_at_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1050" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian" ,
+                "title": "longitude_of_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1060" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin" ,
+                "title": "latitude_of_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1080" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.has_Oblique_Line.Oblique_Line_Point" ,
+                "title": "has_Oblique_Line" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice%23" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1070" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Point",
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Geo_Transformation" ,
+            "title": "Geo_Transformation" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Geo_Transformation class is used for relating coordinates between one Geographical Coordinate System and another Geographical Coordinate System. In this case, a distance (meters) translation from a defined origin to a defined pixel location within an image array."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Geo_Transformation.cart.upperleft_corner_x" ,
+                "title": "upperleft_corner_x" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Geo_Transformation.cart.upperleft_corner_x"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Geo_Transformation.cart.upperleft_corner_y" ,
+                "title": "upperleft_corner_y" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Geo_Transformation.cart.upperleft_corner_y"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Geodetic_Model" ,
+            "title": "Geodetic_Model" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Geodetic_Model class provides parameters describing the shape of the planet."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Geodetic_Model.cart.latitude_type" ,
+                "title": "latitude_type" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Geodetic_Model.cart.latitude_type"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Geodetic_Model.cart.spheroid_name" ,
+                "title": "spheroid_name" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Geodetic_Model.cart.spheroid_name"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Geodetic_Model.cart.semi_major_radius" ,
+                "title": "semi_major_radius" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Geodetic_Model.cart.semi_major_radius"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Geodetic_Model.cart.semi_minor_radius" ,
+                "title": "semi_minor_radius" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Geodetic_Model.cart.semi_minor_radius"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Geodetic_Model.cart.polar_radius" ,
+                "title": "polar_radius" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1050" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Geodetic_Model.cart.polar_radius"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Geodetic_Model.cart.longitude_direction" ,
+                "title": "longitude_direction" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1060" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Geodetic_Model.cart.longitude_direction"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Geographic" ,
+            "title": "Geographic" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Geographic class provides information about the quantities of latitude and longitude which define the position of a point on a planetary body's surface with respect to a reference spheroid."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Geographic.cart.latitude_resolution" ,
+                "title": "latitude_resolution" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Geographic.cart.latitude_resolution"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Geographic.cart.longitude_resolution" ,
+                "title": "longitude_resolution" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Geographic.cart.longitude_resolution"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Grid_Coordinate_System" ,
+            "title": "Grid_Coordinate_System" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Grid_Coordinate_System class defines a plane-rectangular coordinate system usually based on, and mathematically adjusted to, a map projection so that geographic positions can be readily transformed to and from plane coordinates."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Grid_Coordinate_System.cart.grid_coordinate_system_name" ,
+                "title": "grid_coordinate_system_name" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Grid_Coordinate_System.cart.grid_coordinate_system_name"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Grid_Coordinate_System.cart.has_Universal_Transverse_Mercator.Universal_Transverse_Mercator" ,
+                "title": "has_Universal_Transverse_Mercator" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Universal_Transverse_Mercator"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Grid_Coordinate_System.cart.has_Universal_Polar_Stereographic.Universal_Polar_Stereographic" ,
+                "title": "has_Universal_Polar_Stereographic" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Universal_Polar_Stereographic"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Grid_Coordinate_System.cart.has_State_Plane_Coordinate_System.State_Plane_Coordinate_System" ,
+                "title": "has_State_Plane_Coordinate_System" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.State_Plane_Coordinate_System"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Horizontal_Coordinate_System_Definition" ,
+            "title": "Horizontal_Coordinate_System_Definition" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Horizontal_Coordinate_System_Definition class provides the reference frame or system from which linear or angular quantities are measured and assigned to the position that a point occupies."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Horizontal_Coordinate_System_Definition.cart.has_Geographic.Geographic" ,
+                "title": "has_Geographic" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice%23" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Geographic",
+                  "0001_NASA_PDS_1.cart.Local",
+                  "0001_NASA_PDS_1.cart.Planar"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Horizontal_Coordinate_System_Definition.cart.has_Geodetic_Model.Geodetic_Model" ,
+                "title": "has_Geodetic_Model" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Geodetic_Model"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Lambert_Conformal_Conic" ,
+            "title": "Lambert_Conformal_Conic" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Lambert_Conformal_Conic class contains parameters for the Lambert Conformal Conic projection."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Lambert_Conformal_Conic.Map_Projection_Base.generalization" ,
+                "title": "Map_Projection_Base" ,
+                "assocType": "parent_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "0000" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base"
+                 ]
+              }
+            } ,
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1" ,
+                "title": "standard_parallel_1" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1",
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_2"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin" ,
+                "title": "scale_factor_at_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line" ,
+                "title": "scale_factor_at_center_line" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian" ,
+                "title": "scale_factor_at_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1050" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian" ,
+                "title": "longitude_of_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1060" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin" ,
+                "title": "latitude_of_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1080" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.has_Oblique_Line.Oblique_Line_Point" ,
+                "title": "has_Oblique_Line" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice%23" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1070" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Point",
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Local" ,
+            "title": "Local" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Local class provides a description of any coordinate system that is not aligned with the surface of the planet."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Local.cart.local_description" ,
+                "title": "local_description" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Local.cart.local_description"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Local.cart.local_georeference_information" ,
+                "title": "local_georeference_information" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Local.cart.local_georeference_information"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Local_Planar" ,
+            "title": "Local_Planar" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Local_Planar class defines any right-handed planar coordinate system of which the z-axis coincides with a plumb line through the origin that locally is aligned with the surface of the planet."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Local_Planar.cart.local_planar_description" ,
+                "title": "local_planar_description" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Local_Planar.cart.local_planar_description"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Local_Planar.cart.local_planar_georeference_information" ,
+                "title": "local_planar_georeference_information" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Local_Planar.cart.local_planar_georeference_information"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Map_Projection" ,
+            "title": "Map_Projection" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Map_Projection class provides the systematic representation of all or part of the surface of a planet on a plane or developable surface."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection.cart.map_projection_name" ,
+                "title": "map_projection_name" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection.cart.map_projection_name"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection.cart.has_Equirectrangular.Equirectangular" ,
+                "title": "has_Equirectrangular" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice%23" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Equirectangular",
+                  "0001_NASA_PDS_1.cart.Lambert_Conformal_Conic",
+                  "0001_NASA_PDS_1.cart.Polar_Stereographic",
+                  "0001_NASA_PDS_1.cart.Polyconic",
+                  "0001_NASA_PDS_1.cart.Transverse_Mercator",
+                  "0001_NASA_PDS_1.cart.Oblique_Mercator",
+                  "0001_NASA_PDS_1.cart.Sinusoidal"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base" ,
+            "title": "Map_Projection_Base" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "An abstract class that serves as the parent class to all the map projections."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1" ,
+                "title": "standard_parallel_1" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1",
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_2"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin" ,
+                "title": "scale_factor_at_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line" ,
+                "title": "scale_factor_at_center_line" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian" ,
+                "title": "scale_factor_at_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1050" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian" ,
+                "title": "longitude_of_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1060" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin" ,
+                "title": "latitude_of_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1080" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.has_Oblique_Line.Oblique_Line_Point" ,
+                "title": "has_Oblique_Line" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice%23" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1070" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Point",
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth" ,
+            "title": "Oblique_Line_Azimuth" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Oblique_Line_Azimuth class defines the method used to describe the line along which an oblique mercator map projection is centered using the map projection origin and an azimuth."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth.cart.azimuthal_angle" ,
+                "title": "azimuthal_angle" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth.cart.azimuthal_angle"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth.cart.azimuth_measure_point_longitude" ,
+                "title": "azimuth_measure_point_longitude" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth.cart.azimuth_measure_point_longitude"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Oblique_Line_Point" ,
+            "title": "Oblique_Line_Point" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Oblique_Line_Point class defines the method used to describe the line along which an oblique mercator map projection is centered using two points near the limits of the mapped region that define the center line."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Oblique_Line_Point.cart.has_Oblique_Line_Point_Group.Oblique_Line_Point_Group" ,
+                "title": "has_Oblique_Line_Point_Group" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "2" ,
+                "maximumCardinality": "2" ,
+                "classOrder": "9999" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Point_Group"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Oblique_Line_Point_Group" ,
+            "title": "Oblique_Line_Point_Group" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Oblique_Line_Point_Group class provides the coordinates in latitude and longitude of one end point of the line along which an oblique mercator map projection is centered."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Oblique_Line_Point_Group.cart.oblique_line_latitude" ,
+                "title": "oblique_line_latitude" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Point_Group.cart.oblique_line_latitude"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Oblique_Line_Point_Group.cart.oblique_line_longitude" ,
+                "title": "oblique_line_longitude" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Point_Group.cart.oblique_line_longitude"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Oblique_Mercator" ,
+            "title": "Oblique_Mercator" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Oblique_Mercator class contains parameters for the Oblique Mercator projection."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Oblique_Mercator.Map_Projection_Base.generalization" ,
+                "title": "Map_Projection_Base" ,
+                "assocType": "parent_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "0000" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base"
+                 ]
+              }
+            } ,
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1" ,
+                "title": "standard_parallel_1" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1",
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_2"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin" ,
+                "title": "scale_factor_at_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line" ,
+                "title": "scale_factor_at_center_line" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian" ,
+                "title": "scale_factor_at_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1050" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian" ,
+                "title": "longitude_of_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1060" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin" ,
+                "title": "latitude_of_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1080" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.has_Oblique_Line.Oblique_Line_Point" ,
+                "title": "has_Oblique_Line" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice%23" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1070" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Point",
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Planar" ,
+            "title": "Planar" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Planar class provides the quantities of distances, or distances and angles, which define the position of a point on a reference plane to which the surface of a planet has been projected."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Planar.cart.has_Map_Projection.Map_Projection" ,
+                "title": "has_Map_Projection" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice%23" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection",
+                  "0001_NASA_PDS_1.cart.Local_Planar",
+                  "0001_NASA_PDS_1.cart.Grid_Coordinate_System"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Planar.cart.has_Planar_Coordinate_Information.Planar_Coordinate_Information" ,
+                "title": "has_Planar_Coordinate_Information" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Planar_Coordinate_Information"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Planar.cart.has_Geo_Transformation.Geo_Transformation" ,
+                "title": "has_Geo_Transformation" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Geo_Transformation"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Planar_Coordinate_Information" ,
+            "title": "Planar_Coordinate_Information" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Planar_Coordinate_Information class provides information about the coordinate system developed on the planar surface."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Planar_Coordinate_Information.cart.planar_coordinate_encoding_method" ,
+                "title": "planar_coordinate_encoding_method" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Planar_Coordinate_Information.cart.planar_coordinate_encoding_method"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Planar_Coordinate_Information.cart.has_Coordinate_Representation.Coordinate_Representation" ,
+                "title": "has_Coordinate_Representation" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice%23" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Coordinate_Representation",
+                  "0001_NASA_PDS_1.cart.Distance_and_Bearing_Representation"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Polar_Stereographic" ,
+            "title": "Polar_Stereographic" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Polar_Stereographic class contains parameters for the Polar Stereographic projection."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Polar_Stereographic.Map_Projection_Base.generalization" ,
+                "title": "Map_Projection_Base" ,
+                "assocType": "parent_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "0000" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base"
+                 ]
+              }
+            } ,
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1" ,
+                "title": "standard_parallel_1" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1",
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_2"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin" ,
+                "title": "scale_factor_at_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line" ,
+                "title": "scale_factor_at_center_line" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian" ,
+                "title": "scale_factor_at_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1050" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian" ,
+                "title": "longitude_of_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1060" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin" ,
+                "title": "latitude_of_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1080" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.has_Oblique_Line.Oblique_Line_Point" ,
+                "title": "has_Oblique_Line" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice%23" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1070" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Point",
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Polyconic" ,
+            "title": "Polyconic" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Polyconic class contains parameters for the Polyconic projection."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Polyconic.Map_Projection_Base.generalization" ,
+                "title": "Map_Projection_Base" ,
+                "assocType": "parent_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "0000" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base"
+                 ]
+              }
+            } ,
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1" ,
+                "title": "standard_parallel_1" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1",
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_2"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin" ,
+                "title": "scale_factor_at_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line" ,
+                "title": "scale_factor_at_center_line" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian" ,
+                "title": "scale_factor_at_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1050" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian" ,
+                "title": "longitude_of_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1060" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin" ,
+                "title": "latitude_of_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1080" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.has_Oblique_Line.Oblique_Line_Point" ,
+                "title": "has_Oblique_Line" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice%23" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1070" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Point",
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Sinusoidal" ,
+            "title": "Sinusoidal" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Sinusoidal class contains parameters for the Sinusoidal projection."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Sinusoidal.Map_Projection_Base.generalization" ,
+                "title": "Map_Projection_Base" ,
+                "assocType": "parent_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "0000" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base"
+                 ]
+              }
+            } ,
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1" ,
+                "title": "standard_parallel_1" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1",
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_2"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin" ,
+                "title": "scale_factor_at_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line" ,
+                "title": "scale_factor_at_center_line" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian" ,
+                "title": "scale_factor_at_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1050" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian" ,
+                "title": "longitude_of_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1060" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin" ,
+                "title": "latitude_of_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1080" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.has_Oblique_Line.Oblique_Line_Point" ,
+                "title": "has_Oblique_Line" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice%23" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1070" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Point",
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Spatial_Domain" ,
+            "title": "Spatial_Domain" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Spatial_Domain class describes the geographic areal domain of the data set."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Spatial_Domain.cart.has_Bounding_Coordinates.Bounding_Coordinates" ,
+                "title": "has_Bounding_Coordinates" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Bounding_Coordinates"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Spatial_Reference_Information" ,
+            "title": "Spatial_Reference_Information" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Spatial_Reference_Information class provides a description of the reference frame for, and the means to encode, coordinates in a data set."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Spatial_Reference_Information.cart.has_Horizontal_Coordate_System_Definition.Horizontal_Coordinate_System_Definition" ,
+                "title": "has_Horizontal_Coordate_System_Definition" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "9999" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Horizontal_Coordinate_System_Definition"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.State_Plane_Coordinate_System" ,
+            "title": "State_Plane_Coordinate_System" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The State_Plane_Coordinate_System class defines a plane-rectangular coordinate system established for each state in the United States by the National Geodetic Survey."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.State_Plane_Coordinate_System.cart.spcs_zone_identifier" ,
+                "title": "spcs_zone_identifier" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.State_Plane_Coordinate_System.cart.spcs_zone_identifier"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.State_Plane_Coordinate_System.cart.has_Polyconic.Lambert_Conformal_Conic" ,
+                "title": "has_Polyconic" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice%23" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Lambert_Conformal_Conic",
+                  "0001_NASA_PDS_1.cart.Polyconic",
+                  "0001_NASA_PDS_1.cart.Transverse_Mercator",
+                  "0001_NASA_PDS_1.cart.Oblique_Mercator"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Transverse_Mercator" ,
+            "title": "Transverse_Mercator" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Transverse_Mercator class contains parameters for the Transverse Mercator projection."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Transverse_Mercator.Map_Projection_Base.generalization" ,
+                "title": "Map_Projection_Base" ,
+                "assocType": "parent_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "0000" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base"
+                 ]
+              }
+            } ,
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1" ,
+                "title": "standard_parallel_1" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1",
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_2"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin" ,
+                "title": "scale_factor_at_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice#3301.0" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "3" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line" ,
+                "title": "scale_factor_at_center_line" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian" ,
+                "title": "scale_factor_at_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1050" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian" ,
+                "title": "longitude_of_central_meridian" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1060" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin" ,
+                "title": "latitude_of_projection_origin" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1080" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.has_Oblique_Line.Oblique_Line_Point" ,
+                "title": "has_Oblique_Line" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "true" ,
+                "isAny": "false" ,
+                "groupName": "XSChoice%23" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1070" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Point",
+                  "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Universal_Polar_Stereographic" ,
+            "title": "Universal_Polar_Stereographic" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Universal_Polar_Stereographic class defines a grid system based on the polar stereographic projection, applied to the planet's polar regions north of 84 degrees north and south of 80 degrees south."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Universal_Polar_Stereographic.cart.ups_zone_identifier" ,
+                "title": "ups_zone_identifier" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Universal_Polar_Stereographic.cart.ups_zone_identifier"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Universal_Polar_Stereographic.cart.has_Polar_Stereographic.Polar_Stereographic" ,
+                "title": "has_Polar_Stereographic" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Polar_Stereographic"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.cart.Universal_Transverse_Mercator" ,
+            "title": "Universal_Transverse_Mercator" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Universal_Transverse_Mercator class defines a grid system based on the transverse mercator projection, applied between latitudes 84 degrees north and 80 degrees south on the planet's surface."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Universal_Transverse_Mercator.cart.utm_zone_number" ,
+                "title": "utm_zone_number" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.cart.Universal_Transverse_Mercator.cart.utm_zone_number"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.cart.Universal_Transverse_Mercator.cart.has_Transverse_Mercator.Transverse_Mercator" ,
+                "title": "has_Transverse_Mercator" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "classId": [
+                  "0001_NASA_PDS_1.cart.Transverse_Mercator"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      ]
+    , "attributeDictionary": [
+        {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Bounding_Coordinates.cart.east_bounding_coordinate" ,
+            "title": "east_bounding_coordinate" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The east_bounding_coordinate attribute provides the eastern-most coordinate of the limit of coverage expressed in longitude." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-180.0" ,
+            "maximumValue": "360.0" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Bounding_Coordinates.cart.north_bounding_coordinate" ,
+            "title": "north_bounding_coordinate" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The north_bounding_coordinate attribute provides the northern-most coordinate of the limit of coverage expressed in latitude." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-90.0" ,
+            "maximumValue": "90.0" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Bounding_Coordinates.cart.south_bounding_coordinate" ,
+            "title": "south_bounding_coordinate" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The south_bounding_coordinate attribute provides the southern-most coordinate of the limit of coverage expressed in latitude." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-90.0" ,
+            "maximumValue": "90.0" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Bounding_Coordinates.cart.west_bounding_coordinate" ,
+            "title": "west_bounding_coordinate" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The west_bounding_coordinate attribute provides the western-most coordinate of the limit of coverage expressed in longitude." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-180.0" ,
+            "maximumValue": "360.0" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Coordinate_Representation.cart.pixel_resolution_x" ,
+            "title": "pixel_resolution_x" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": " The pixel_resolution_x and pixel_resolution_y attributes indicate the image array pixel resolution (distance\/pixel or degree\/pixel) relative to the Cartesian (x,y) coordinate system as defined by the map projection. Due to varying properties across different map projections, actual surface distances for an individual pixel may be accurate only at specific location(s) within the image array (e.g. reference latitude or longitude, standard parallels, etc). For most PDS products, x and y resolution values are equal ('square' pixels). The inclusion of both x and y attributes allows for anticipated products where resolution may differ for each axis ('rectangular' pixels). NOTE: Definition of this PDS4 attribute differs from how 'resolution' was defined within PDS3. " ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Map_Scale" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Map_Scale" ,
+            "unitId": "km\/pixel, m\/pixel, mm\/pixel, pixel\/deg" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Coordinate_Representation.cart.pixel_resolution_y" ,
+            "title": "pixel_resolution_y" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": " The pixel_resolution_x and pixel_resolution_y attributes indicate the image array pixel resolution (distance\/pixel or degree\/pixel) relative to the Cartesian (x,y) coordinate system as defined by the map projection. Due to varying properties across different map projections, actual surface distances for an individual pixel may be accurate only at specific location(s) within the image array (e.g. reference latitude or longitude, standard parallels, etc). For most PDS products, x and y resolution values are equal ('square' pixels). The inclusion of both x and y attributes allows for anticipated products where resolution may differ for each axis ('rectangular' pixels). NOTE: Definition of this PDS4 attribute differs from how 'resolution' was defined within PDS3. " ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Map_Scale" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Map_Scale" ,
+            "unitId": "km\/pixel, m\/pixel, mm\/pixel, pixel\/deg" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Coordinate_Representation.cart.pixel_scale_x" ,
+            "title": "pixel_scale_x" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": " The pixel_scale_x and pixel_scale_y attributes indicate the image array pixel scale (pixel\/degree or pixel\/distance) relative to the Cartesian (x,y) coordinate system as defined by the map projection. Due to varying properties across different map projections, actual surface distances for an individual pixel may be accurate only at specific location(s) within the image array (e.g. reference latitude or longitude, standard parallels, etc). For most PDS products, x and y scale values are equal ('square' pixels). The inclusion of both x and y attributes allows for anticipated products where scale may differ for each axis ('rectangular' pixels). NOTE1: For presentation of hard-copy maps, a map scale is traditionally expressed as a 'representative fraction' (the ratio of a hard-copy map to the actual subject surface (e.g. 1:250,000, where one unit of measure on the map equals 250,000 of the same unit on the body surface)). This usage is relevant when map\/data are presented on hard-copy media (paper, computer screen,etc). When defining pixel scale within a stored image\/array context here, we are expressing a ratio between the image array and the actual surface (thus, pixel\/degree or pixel\/distance units). NOTE2: Definition of this PDS4 attribute differs from how 'scale' was defined within PDS3 " ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Map_Scale" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Map_Scale" ,
+            "unitId": "km\/pixel, m\/pixel, mm\/pixel, pixel\/deg" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Coordinate_Representation.cart.pixel_scale_y" ,
+            "title": "pixel_scale_y" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": " The pixel_scale_x and pixel_scale_y attributes indicate the image array pixel scale (pixel\/degree or pixel\/distance) relative to the Cartesian (x,y) coordinate system as defined by the map projection. Due to varying properties across different map projections, actual surface distances for an individual pixel may be accurate only at specific location(s) within the image array (e.g. reference latitude or longitude, standard parallels, etc). For most PDS products, x and y scale values are equal ('square' pixels). The inclusion of both x and y attributes allows for anticipated products where scale may differ for each axis ('rectangular' pixels). NOTE1: For presentation of hard-copy maps, a map scale is traditionally expressed as a 'representative fraction' (the ratio of a hard-copy map to the actual subject surface (e.g. 1:250,000, where one unit of measure on the map equals 250,000 of the same unit on the body surface)). This usage is relevant when map\/data are presented on hard-copy media (paper, computer screen,etc). When defining pixel scale within a stored image\/array context here, we are expressing a ratio between the image array and the actual surface (thus, pixel\/degree or pixel\/distance units). NOTE2: Definition of this PDS4 attribute differs from how 'scale' was defined within PDS3 " ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Map_Scale" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Map_Scale" ,
+            "unitId": "km\/pixel, m\/pixel, mm\/pixel, pixel\/deg" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Distance_and_Bearing_Representation.cart.bearing_reference_direction" ,
+            "title": "bearing_reference_direction" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The bearing_reference_direction attribute specifies the direction from which the bearing is measured." ,
+            "isNillable": "false" ,
+            "isEnumerated": "true" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "5" ,
+            "maximumCharacters": "5" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "North" ,
+                  "valueMeaning": "The indicated bearing is measured from the North vector." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "South" ,
+                  "valueMeaning": "The indicated bearing is measured from the South vector." ,
+                  "isDeprecated": "false"
+                }
+             }
+           ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Distance_and_Bearing_Representation.cart.bearing_reference_meridian" ,
+            "title": "bearing_reference_meridian" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The bearing_reference_meridian attribute specifies the axis from which the bearing is measured." ,
+            "isNillable": "false" ,
+            "isEnumerated": "true" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "4" ,
+            "maximumCharacters": "10" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "Assumed" ,
+                  "valueMeaning": "An assumed (user defined) reference axis. An arbitrary chosen reference line with a directional value assigned by the observer." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Astronomic" ,
+                  "valueMeaning": "A reference line on the Earth's (or other body) surface having the same astronomic longitude at every point." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Geodetic" ,
+                  "valueMeaning": "A referenced geodetic vertical datum." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Grid" ,
+                  "valueMeaning": "A reference line through a point parallel to the central meridian or y-axis of a rectangular coordinate system." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Magnetic" ,
+                  "valueMeaning": "The vertical plane reference in which a freely suspended magnetized needle, under no transient artificial magnetic disturbance, will come to rest." ,
+                  "isDeprecated": "false"
+                }
+             }
+           ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Distance_and_Bearing_Representation.cart.bearing_resolution" ,
+            "title": "bearing_resolution" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The bearing_resolution attribute provides the minimum angle measurable between two points." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Distance_and_Bearing_Representation.cart.distance_resolution" ,
+            "title": "distance_resolution" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The distance_resolution attribute provides the minimum distance measurable between two points, expressed in Planar Distance Units of measure." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Map_Scale" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Map_Scale" ,
+            "unitId": "km\/pixel, m\/pixel, mm\/pixel, pixel\/deg" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Geo_Transformation.cart.upperleft_corner_x" ,
+            "title": "upperleft_corner_x" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The upperleft_corner_x and upperleft_corner_y attributes provide the projection x and y values, in meters, relative to the map projection origin, at sample 0.5 and line 0.5 (upper left corner of pixel 1,1 within image array)." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-1.7976931348623157e308" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Length" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Length" ,
+            "unitId": "AU, Angstrom, cm, km, m, micrometer, mm, nm" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Geo_Transformation.cart.upperleft_corner_y" ,
+            "title": "upperleft_corner_y" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The upperleft_corner_x and upperleft_corner_y attributes provide the projection x and y values, in meters, relative to the map projection origin, at sample 0.5 and line 0.5 (upper left corner of pixel 1,1 within image array)." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-1.7976931348623157e308" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Length" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Length" ,
+            "unitId": "AU, Angstrom, cm, km, m, micrometer, mm, nm" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Geodetic_Model.cart.latitude_type" ,
+            "title": "latitude_type" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": " The latitude_type attribute defines the type of latitude (planetographic, planetocentric) used within a cartographic product and as reflected in attribute values within associated PDS labels. The IAU definition for direction of positive longitude should be adopted: http:\/\/astrogeology.usgs.gov\/groups\/IAU-WGCCRE. " ,
+            "isNillable": "false" ,
+            "isEnumerated": "true" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "Planetocentric" ,
+                  "valueMeaning": "The Planetocentric system has an origin at the center of mass of the body. Planetocentric coordinates are defined by a vector from the center of mass of the body (often approximated as the center of figure) to the point of interest, typically but not necessarily a point on the surface (e.g., an impact crater with known position). The planetocentric latitude is the angle between the equatorial plane and the vector, while the planetocentric longitude is the angle between the prime meridian and the projection of the vector onto the equatorial plane." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Planetographic" ,
+                  "valueMeaning": "The Planetographic system also has an origin at the center of mass of the body. Planetographic coordinates, however, are defined by vectors perpendicular to a reference surface, often a biaxial ellipsoid that is centered on the body and chosen to describe the gross shape of the body. Reference surfaces vary from body to body and are defined by the WGCCRE in consultation with the observers who provide the information to define such surfaces. The most common reference surface is an oblate spheroid aligned with the spin axis of the body. However, for certain applications the reference surface may be a triaxial ellipsoid, a gravitational equipotential, or a higher order surface model." ,
+                  "isDeprecated": "false"
+                }
+             }
+           ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Geodetic_Model.cart.longitude_direction" ,
+            "title": "longitude_direction" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The longitude_direction attribute identifies the direction of longitude (e.g. POSITIVE_EAST or POSITIVE_WEST) for a planet. The IAU definition for direction of positive longitude is adopted. Typically, for planets with prograde rotations, positive longitude direction is to the west. For planets with retrograde rotations, positive longitude direction is to the east. Note: The longitude_direction attribute should be used for planetographc systems, but not for planetocentric." ,
+            "isNillable": "false" ,
+            "isEnumerated": "true" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "13" ,
+            "maximumCharacters": "13" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "Positive East" ,
+                  "valueMeaning": "Indicates longitude increases to the East." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Positive West" ,
+                  "valueMeaning": "Indicates longitude increases to the West." ,
+                  "isDeprecated": "false"
+                }
+             }
+           ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Geodetic_Model.cart.polar_radius" ,
+            "title": "polar_radius" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The polar_radius attribute provides the value of the semiminor axis of the ellipsoid that defines the approximate shape of a target body. The polar radius is normal to the plane defined by the semi-major and semi-minor axes." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Length" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Length" ,
+            "unitId": "AU, Angstrom, cm, km, m, micrometer, mm, nm" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Geodetic_Model.cart.semi_major_radius" ,
+            "title": "semi_major_radius" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The semi_major_axis attribute provides the radius of the equatorial axis of the ellipsoid." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Length" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Length" ,
+            "unitId": "AU, Angstrom, cm, km, m, micrometer, mm, nm" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Geodetic_Model.cart.semi_minor_radius" ,
+            "title": "semi_minor_radius" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The semi_minor_radius attribute provides the value of the intermediate axis of the ellipsoid that defines the approximate shape of a target body. The semi-minor axis is usually in the equatorial plane." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Length" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Length" ,
+            "unitId": "AU, Angstrom, cm, km, m, micrometer, mm, nm" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Geodetic_Model.cart.spheroid_name" ,
+            "title": "spheroid_name" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The spheroid_name attribute provides the identification given to established representations of a planet's shape. " ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Geographic.cart.latitude_resolution" ,
+            "title": "latitude_resolution" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The latitude_resolution attribute indicates the minimum difference between two adjacent latitude values expressed in angular units of measure." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Geographic.cart.longitude_resolution" ,
+            "title": "longitude_resolution" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The longitude_resolution attribute indicates the minimum difference between two adjacent longitude values expressed in angular units of measure." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Grid_Coordinate_System.cart.grid_coordinate_system_name" ,
+            "title": "grid_coordinate_system_name" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The grid_coordinate_system_name attribute provides the name of the grid coordinate system." ,
+            "isNillable": "false" ,
+            "isEnumerated": "true" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "ARC Coordinate System" ,
+                  "valueMeaning": "The Equal Arc-second Coordinate System (Earth only), a plane- rectangular coordinate system established in Department of Defense, 1990, Military specification ARC Digitized Raster Graphics (ADRG) (MIL-A-89007): Philadelphia, Department of Defense, Defense Printing Service Detachment Office." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Other Grid System" ,
+                  "valueMeaning": "A user defined grid coordinate system." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "State Plane Coordinate System 1927" ,
+                  "valueMeaning": "A plane-rectangular coordinate system (Earth only) established (1927) for each state in the United States by the National Geodetic Survey." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "State Plane Coordinate System 1983" ,
+                  "valueMeaning": "A plane-rectangular coordinate system (Earth only) established (updated, 1983) for each state in the United States by the National Geodetic Survey." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Universal Polar Stereographic" ,
+                  "valueMeaning": "An Earth-defined grid system based on the polar stereographic projection, applied to the Earth's polar regions beyond 84 degrees north and 80 degrees south." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Universal Transverse Mercator" ,
+                  "valueMeaning": "A grid system (Earth only) based on the transverse mercator projection, applied between latitudes 84 degrees north and 80 degrees south on the Earth's surface." ,
+                  "isDeprecated": "false"
+                }
+             }
+           ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Local.cart.local_description" ,
+            "title": "local_description" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The local_description attribute provides a description of the coordinate system and its orientation to the surface of a planet." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Text_Preserved" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Text_Preserved" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Local.cart.local_georeference_information" ,
+            "title": "local_georeference_information" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The local_description attribute provides a description of the information provided to register the local system to a planet (e.g. control points, satellite ephemeral data, inertial navigation data)." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Text_Preserved" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Text_Preserved" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Local_Planar.cart.local_planar_description" ,
+            "title": "local_planar_description" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The local_planar_description attribute provides a description of the local planar system." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Text_Preserved" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Text_Preserved" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Local_Planar.cart.local_planar_georeference_information" ,
+            "title": "local_planar_georeference_information" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The local_planar_georeference_information attribute provides a description of the information provided to register the local planar system to a planet (e.g. control points, satellite ephemeral data, inertial navigation data)." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Text_Preserved" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Text_Preserved" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Map_Projection.cart.map_projection_name" ,
+            "title": "map_projection_name" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The map_projection_name attribute provides the name of the map projection." ,
+            "isNillable": "false" ,
+            "isEnumerated": "true" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "Albers Conical Equal Area" ,
+                  "valueMeaning": "The cartographic product is presented in Albers Conical Equal Area projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Azimuthal Equidistant" ,
+                  "valueMeaning": "The cartographic product is presented in Azimuthal Equidistant projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Equidistant Conic" ,
+                  "valueMeaning": "The cartographic product is presented in Equidistant Conic projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Equirectangular" ,
+                  "valueMeaning": "he cartographic product is presented in Equirectangular projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "General Vertical Near-sided Projection" ,
+                  "valueMeaning": "The cartographic product is presented in General Vertical Near-sided Projection projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Gnomonic" ,
+                  "valueMeaning": "The cartographic product is presented in Gnomonic projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Lambert Azimuthal Equal Area" ,
+                  "valueMeaning": "The cartographic product is presented in Lambert Azimuthal Equal Area projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Lambert Conformal Conic" ,
+                  "valueMeaning": "The cartographic product is presented in Lambert Conformal Conic projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Mercator" ,
+                  "valueMeaning": "The cartographic product is presented in Mercator projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Miller Cylindrical" ,
+                  "valueMeaning": "The cartographic product is presented in Miller Cylindrical projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Oblique Mercator" ,
+                  "valueMeaning": "The cartographic product is presented in Oblique Mercator projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Orthographic" ,
+                  "valueMeaning": "The cartographic product is presented in Orthographic projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Polar Stereographic" ,
+                  "valueMeaning": "The cartographic product is presented in Polar Stereographic projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Polyconic" ,
+                  "valueMeaning": "The cartographic product is presented in Polyconic projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Robinson" ,
+                  "valueMeaning": "The cartographic product is presented in Robinson projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Sinusoidal" ,
+                  "valueMeaning": "The cartographic product is presented in Sinusoidal projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Space Oblique Mercator" ,
+                  "valueMeaning": "The cartographic product is presented in Space Oblique Mercator projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Stereographic" ,
+                  "valueMeaning": "The cartographic product is presented in Stereographic projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Transverse Mercator" ,
+                  "valueMeaning": "The cartographic product is presented in Transverse Mercator projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "van der Grinten" ,
+                  "valueMeaning": "The cartographic product is presented in van der Grinten projection." ,
+                  "isDeprecated": "false"
+                }
+             }
+           ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.latitude_of_projection_origin" ,
+            "title": "latitude_of_projection_origin" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The latitude_of_projection_origin attribute defines the latitude chosen as the origin of rectangular coordinates for a map projection." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-90.0" ,
+            "maximumValue": "90.0" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.longitude_of_central_meridian" ,
+            "title": "longitude_of_central_meridian" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The longitude_of_central_meridian attribute defines the line of longitude at the center of a map projection generally used as the basis for constructing the projection." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-180.0" ,
+            "maximumValue": "180.0" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_center_line" ,
+            "title": "scale_factor_at_center_line" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The scale_factor_at_center_line attribute provides a multiplier for reducing a distance obtained from a map by computation or scaling to the actual distance along the center line." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_central_meridian" ,
+            "title": "scale_factor_at_central_meridian" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The scale_factor_at_central_meridian attribute provides a multiplier for reducing a distance obtained from a map by computation or scaling to the actual distance along the central meridian." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.scale_factor_at_projection_origin" ,
+            "title": "scale_factor_at_projection_origin" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": " The scale_factor_at_projection_origin attribute provides a multiplier for reducing a distance obtained from a map by computation or scaling to the actual distance at the projection origin. " ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-1.7976931348623157e308" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_1" ,
+            "title": "standard_parallel_1" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The standard_parallel_1 attribute defines the first standard parallel (applicable only for specific projections), the first line of constant latitude at which the surface of the planet and the plane or developable surface intersect. " ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-90.0" ,
+            "maximumValue": "90.0" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Map_Projection_Base.cart.standard_parallel_2" ,
+            "title": "standard_parallel_2" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The standard_parallel_2 attribute defines the second standard parallel (applicable only for specific projections, a subset of specific projections where a first standard parallel is applicable), the second line of constant latitude at which the surface of the planet and the plane or developable surface intersect. " ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-90.0" ,
+            "maximumValue": "90.0" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth.cart.azimuth_measure_point_longitude" ,
+            "title": "azimuth_measure_point_longitude" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The azimuth_measure_point_longitude attribute provides the longitude of the map projection origin." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-180.0" ,
+            "maximumValue": "180.0" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Oblique_Line_Azimuth.cart.azimuthal_angle" ,
+            "title": "azimuthal_angle" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The azimuthal_angle attribute provides the angle measured clockwise from north, and expressed in degrees." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "360.0" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Oblique_Line_Point_Group.cart.oblique_line_latitude" ,
+            "title": "oblique_line_latitude" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The oblique_line_latitude attribute provides the latitude of a point defining the oblique line." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-90.0" ,
+            "maximumValue": "90.0" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Oblique_Line_Point_Group.cart.oblique_line_longitude" ,
+            "title": "oblique_line_longitude" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The oblique_line_longitude attribute provides the longitude of a point defining the oblique line." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-180.0" ,
+            "maximumValue": "180.0" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Angle" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Angle" ,
+            "unitId": "arcmin, arcsec, deg, hr, mrad, rad" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Planar_Coordinate_Information.cart.planar_coordinate_encoding_method" ,
+            "title": "planar_coordinate_encoding_method" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The planar_coordinate_encoding_method attribute indicates the means used to represent horizontal positions." ,
+            "isNillable": "false" ,
+            "isEnumerated": "true" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "Coordinate Pair" ,
+                  "valueMeaning": "A coordinate pair is used to define a horizontal position." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Distance and Bearing" ,
+                  "valueMeaning": "Distance and Bearing values are used to define a horizontal position." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Row and Column" ,
+                  "valueMeaning": "Row and Column values are used to define a horizontal position." ,
+                  "isDeprecated": "false"
+                }
+             }
+           ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.State_Plane_Coordinate_System.cart.spcs_zone_identifier" ,
+            "title": "spcs_zone_identifier" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The spcs_zone_identifier attribute identifies the SPCS zone." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "4" ,
+            "maximumCharacters": "4" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "[0-9][0-9][0-9][0-9]" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Universal_Polar_Stereographic.cart.ups_zone_identifier" ,
+            "title": "ups_zone_identifier" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The ups_zone_identifier attribute provides an identifier for the UPS zone." ,
+            "isNillable": "false" ,
+            "isEnumerated": "true" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "A" ,
+                  "valueMeaning": "Earth UPS Zone A (South Pole, Western Hemisphere segment)" ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "B" ,
+                  "valueMeaning": "Earth UPS Zone B (South Pole, Eastern Hemisphere segment)" ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Y" ,
+                  "valueMeaning": "Earth UPS Zone Y (North Pole, Western Hemisphere segment)" ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Z" ,
+                  "valueMeaning": "Earth UPS Zone Z (North Pole, Eastern Hemisphere segment)" ,
+                  "isDeprecated": "false"
+                }
+             }
+           ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.cart.Universal_Transverse_Mercator.cart.utm_zone_number" ,
+            "title": "utm_zone_number" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "cart" ,
+            "steward": "cart" ,
+            "versionId": "1.10" ,
+            "description": "The utm_zone_number attribute provides the identifier for the UTM zone." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Integer" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Integer" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "-60" ,
+            "maximumValue": "60" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      ]
+    }
+  }
+]

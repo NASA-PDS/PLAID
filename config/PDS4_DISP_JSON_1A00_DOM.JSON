@@ -1,0 +1,891 @@
+[
+  {
+    "dataDictionary": {
+      "Title": "PDS4 Data Dictionary" ,
+      "Version": "1.10.0.0" ,
+      "Date": "Wed Mar 07 14:44:23 PST 2018" ,
+      "Description": "This document is a dump of the contents of the PDS4 Data Dictionary" ,
+      "classDictionary": [
+        {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.disp.Color_Display_Settings" ,
+            "title": "Color_Display_Settings" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Color_Display_Settings class provides guidance to data users on how to display a multi-banded Array object on a color-capable display device."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Color_Display_Settings.disp.color_display_axis" ,
+                "title": "color_display_axis" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Color_Display_Settings.disp.color_display_axis"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Color_Display_Settings.pds.comment" ,
+                "title": "comment" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Color_Display_Settings.pds.comment"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Color_Display_Settings.disp.red_channel_band" ,
+                "title": "red_channel_band" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Color_Display_Settings.disp.red_channel_band"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Color_Display_Settings.disp.green_channel_band" ,
+                "title": "green_channel_band" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Color_Display_Settings.disp.green_channel_band"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Color_Display_Settings.disp.blue_channel_band" ,
+                "title": "blue_channel_band" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1050" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Color_Display_Settings.disp.blue_channel_band"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.disp.Display_Direction" ,
+            "title": "Display_Direction" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Display_Direction class specifies how two of the dimensions of an Array object should be displayed in the vertical (line) and horizontal (sample) dimensions of a display device."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Display_Direction.pds.comment" ,
+                "title": "comment" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Display_Direction.pds.comment"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Display_Direction.disp.horizontal_display_axis" ,
+                "title": "horizontal_display_axis" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Display_Direction.disp.horizontal_display_axis"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Display_Direction.disp.horizontal_display_direction" ,
+                "title": "horizontal_display_direction" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Display_Direction.disp.horizontal_display_direction"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Display_Direction.disp.vertical_display_axis" ,
+                "title": "vertical_display_axis" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Display_Direction.disp.vertical_display_axis"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Display_Direction.disp.vertical_display_direction" ,
+                "title": "vertical_display_direction" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1050" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Display_Direction.disp.vertical_display_direction"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.disp.Display_Settings" ,
+            "title": "Display_Settings" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Display_Settings class contains one or more classes describing how data should be displayed on a display device."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Display_Settings.pds.local_internal_reference.Local_Internal_Reference" ,
+                "title": "local_internal_reference" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "classId": [
+                  "0001_NASA_PDS_1.pds.Local_Internal_Reference"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Display_Settings.disp.has_display_direction.Display_Direction" ,
+                "title": "has_display_direction" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "classId": [
+                  "0001_NASA_PDS_1.disp.Display_Direction"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Display_Settings.disp.has_color_display_settings.Color_Display_Settings" ,
+                "title": "has_color_display_settings" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "classId": [
+                  "0001_NASA_PDS_1.disp.Color_Display_Settings"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Display_Settings.disp.has_movie_display_settings.Movie_Display_Settings" ,
+                "title": "has_movie_display_settings" ,
+                "assocType": "component_of" ,
+                "isAttribute": "false" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "classId": [
+                  "0001_NASA_PDS_1.disp.Movie_Display_Settings"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      , {
+          "class": {
+            "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings" ,
+            "title": "Movie_Display_Settings" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.0.0.0" ,
+            "isAbstract": "false" ,
+            "isDeprecated": "false" ,
+            "description": "The Movie_Display_Settings class provides default values for the display of a multi-banded Array using a software application capable of displaying video content."
+              , "associationList": [
+             {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.time_display_axis" ,
+                "title": "time_display_axis" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "1" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1010" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.time_display_axis"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings.pds.comment" ,
+                "title": "comment" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1020" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Movie_Display_Settings.pds.comment"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.frame_rate" ,
+                "title": "frame_rate" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1030" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.frame_rate"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.loop_flag" ,
+                "title": "loop_flag" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1040" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.loop_flag"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.loop_count" ,
+                "title": "loop_count" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1050" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.loop_count"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.loop_delay" ,
+                "title": "loop_delay" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1060" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.loop_delay"
+                 ]
+              }
+            }
+           , {"association": {
+                "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.loop_back_and_forth_flag" ,
+                "title": "loop_back_and_forth_flag" ,
+                "assocType": "attribute_of" ,
+                "isAttribute": "true" ,
+                "isChoice": "false" ,
+                "isAny": "false" ,
+                "groupName": "null" ,
+                "minimumCardinality": "0" ,
+                "maximumCardinality": "1" ,
+                "classOrder": "1070" ,
+                "attributeId": [
+                  "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.loop_back_and_forth_flag"
+                 ]
+              }
+            }
+           ]
+          }
+        }
+      ]
+    , "attributeDictionary": [
+        {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Color_Display_Settings.disp.blue_channel_band" ,
+            "title": "blue_channel_band" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The blue_channel_band attribute identifies the number of the band, along the band axis, that should be loaded, by default, into the blue channel of a display device. The first band along the band axis has band number 1." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Integer" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Integer" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "1" ,
+            "maximumValue": "9223372036854775807" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Color_Display_Settings.disp.color_display_axis" ,
+            "title": "color_display_axis" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The color_display_axis attribute identifies, by name, the axis of an Array (or Array subclass) that is intended to be displayed in the color dimension of a display device. I.e., bands from this dimension will be loaded into the red, green, and blue bands of the display device. The value of this attribute must match the value of one, and only one, axis_name attribute in an Axis_Array class of the associated Array." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Color_Display_Settings.disp.green_channel_band" ,
+            "title": "green_channel_band" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The green_channel_band attribute identifies the number of the band, along the band axis, that should be loaded, by default, into the green channel of a display device. The first band along the band axis has band number 1." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Integer" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Integer" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "1" ,
+            "maximumValue": "9223372036854775807" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Color_Display_Settings.disp.red_channel_band" ,
+            "title": "red_channel_band" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The red_channel_band attribute identifies the number of the band, along the band axis, that should be loaded, by default, into the red channel of a display device. The first band along the band axis has band number 1." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Integer" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Integer" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "1" ,
+            "maximumValue": "9223372036854775807" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Color_Display_Settings.pds.comment" ,
+            "title": "comment" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "pds" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The comment attribute is a character string expressing one or more remarks or thoughts relevant to the object." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Text_Preserved" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Text_Preserved" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Display_Direction.disp.horizontal_display_axis" ,
+            "title": "horizontal_display_axis" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The horizontal_display_axis attribute identifies, by name, the axis of an Array (or Array subclass) that is intended to be displayed in the horizontal or \"sample\" dimension on a display device. The value of this attribute must match the value of one, and only one, axis_name attribute in an Axis_Array class of the associated Array." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Display_Direction.disp.horizontal_display_direction" ,
+            "title": "horizontal_display_direction" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The horizontal_display_direction attribute specifies the direction across the screen of a display device that data along the horizontal axis of an Array is supposed to be displayed." ,
+            "isNillable": "false" ,
+            "isEnumerated": "true" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "Left to Right" ,
+                  "valueMeaning": "The lowest indexed element along an array axis should be displayed at the left edge of a display device and elements with higher indices should be displayed further to the right.  Note that this is the standard display direction for most major image formats." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Right to Left" ,
+                  "valueMeaning": "The lowest indexed element along an array axis should be displayed at the right edge of a display device and elements with higher indices should be displayed further to the left.  Note that virtually no image display formats use this display direction.  Use this only when deliberately mirroring the image around the vertical axis." ,
+                  "isDeprecated": "false"
+                }
+             }
+           ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Display_Direction.disp.vertical_display_axis" ,
+            "title": "vertical_display_axis" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The vertical_display_axis attribute identifies, by name, the axis of an Array (or Array subclass) that is intended to be displayed in the vertical or \"line\" dimension on a display device. The value of this attribute must match the value of one, and only one, axis_name attribute in an Axis_Array class of the associated Array." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Display_Direction.disp.vertical_display_direction" ,
+            "title": "vertical_display_direction" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The vertical_display_direction attribute specifies the direction along the screen of a display device that data along the vertical axis of an Array is supposed to be displayed." ,
+            "isNillable": "false" ,
+            "isEnumerated": "true" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "Bottom to Top" ,
+                  "valueMeaning": "The lowest indexed element along an array axis should be displayed at the bottom edge of a display device and elements with higher indices should be displayed higher up.  This is the display direction typically used for FITS formatted data." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "Top to Bottom" ,
+                  "valueMeaning": "The lowest indexed element along an array axis should be displayed at the top edge of a display device and elements with higher indices should be displayed lower down.  This is the display direction typically used for VICAR formatted data." ,
+                  "isDeprecated": "false"
+                }
+             }
+           ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Display_Direction.pds.comment" ,
+            "title": "comment" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "pds" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The comment attribute is a character string expressing one or more remarks or thoughts relevant to the object." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Text_Preserved" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Text_Preserved" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.frame_rate" ,
+            "title": "frame_rate" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The frame_rate attribute indicates the number of still pictures (or frames) that should be displayed per unit of time in a video. Note this is NOT necessarily the same as the rate at which the images were acquired." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "1.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Frame_Rate" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Frame_Rate" ,
+            "unitId": "frames\/s" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.loop_back_and_forth_flag" ,
+            "title": "loop_back_and_forth_flag" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The loop_back_and_forth_flag attribute specifies whether or not a movie should only be \"looped\" or played repeatedly in the forward direction, or whether it should be played forward followed by played in reverse, iteratively." ,
+            "isNillable": "false" ,
+            "isEnumerated": "true" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Boolean" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Boolean" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "false" ,
+                  "valueMeaning": "When looping, the movie should only be played in the forward direction.  This is the default behavior." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "true" ,
+                  "valueMeaning": "When looping, the movie should be played in the forward direction, followed by the reverse direction, iteratively." ,
+                  "isDeprecated": "false"
+                }
+             }
+           ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.loop_count" ,
+            "title": "loop_count" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The loop_count attribute specifies the number of times a movie should be \"looped\" or replayed before stopping." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Integer" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Integer" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "1" ,
+            "maximumValue": "9223372036854775807" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.loop_delay" ,
+            "title": "loop_delay" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The loop_delay attribute specifies the amount of time to pause between \"loops\" or repeated playbacks of a movie." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Real" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Real" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "0.0" ,
+            "maximumValue": "1.7976931348623157e308" ,
+            "pattern": "[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?" ,
+            "unitOfMeasure": "Units_of_Time" ,
+            "unitOfMeasureId": "0001_NASA_PDS_1.pds.Units_of_Time" ,
+            "unitId": "day, hr, julian day, microseconds, min, ms, s, yr" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.loop_flag" ,
+            "title": "loop_flag" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The loop_flag attribute specifies whether or not a movie object should be played repeatedly without prompting from the user." ,
+            "isNillable": "false" ,
+            "isEnumerated": "true" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Boolean" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Boolean" ,
+            "minimumCharacters": "Unbounded" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          , "PermissibleValueList": [
+              {"PermissibleValue": {
+                  "value": "false" ,
+                  "valueMeaning": "The movie should be not be 'looped' or played repeatedly." ,
+                  "isDeprecated": "false"
+                }
+             }
+            , {"PermissibleValue": {
+                  "value": "true" ,
+                  "valueMeaning": "The movie should be 'looped' or played repeatedly." ,
+                  "isDeprecated": "false"
+                }
+             }
+           ]
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings.disp.time_display_axis" ,
+            "title": "time_display_axis" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "disp" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The time_display_axis attribute identifies, by name, the axis of an Array (or Array subclass), the bands of which are intended to be displayed sequentially in time on a display device. The frame_rate attribute, if present, provides the rate at which these bands are to be displayed." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Short_String_Collapsed" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Short_String_Collapsed" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "255" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      , {
+          "attribute": {
+            "identifier": "0001_NASA_PDS_1.disp.Movie_Display_Settings.pds.comment" ,
+            "title": "comment" ,
+            "registrationAuthorityId": "0001_NASA_PDS_1" ,
+            "nameSpaceId": "pds" ,
+            "steward": "img" ,
+            "versionId": "1.10" ,
+            "description": "The comment attribute is a character string expressing one or more remarks or thoughts relevant to the object." ,
+            "isNillable": "false" ,
+            "isEnumerated": "false" ,
+            "isDeprecated": "false" ,
+            "dataType": "ASCII_Text_Preserved" ,
+            "dataTypeId": "0001_NASA_PDS_1.pds.ASCII_Text_Preserved" ,
+            "minimumCharacters": "1" ,
+            "maximumCharacters": "Unbounded" ,
+            "minimumValue": "Unbounded" ,
+            "maximumValue": "Unbounded" ,
+            "pattern": "null" ,
+            "unitOfMeasure": "null" ,
+            "unitOfMeasureId": "null" ,
+            "unitId": "null" ,
+            "defaultUnitId": "null"
+          }
+        }
+      ]
+    }
+  }
+]

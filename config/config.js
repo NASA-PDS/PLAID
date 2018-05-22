@@ -78,6 +78,19 @@ var node_contact_info = {
  * @type {{PDS_JSON: string, CART_JSON: string, DISP_JSON: string, GEOM_JSON: string, IMG_JSON: string, PART_JSON: string, RMS_JSON: string, BOD_JSON: string, SPECT_JSON: string, WAV_JSON: string}}
  */
 
+var filePaths_1A00 = {
+  PDS_JSON: "config/PDS4_PDS_JSON_1A00_DOM.JSON",
+  CART_JSON: "config/PDS4_CART_JSON_1700_DOM.JSON",
+  DISP_JSON: "config/PDS4_DISP_JSON_1A00_DOM.JSON",
+  GEOM_JSON: "config/PDS4_GEOM_1700_1401.json",
+  IMG_JSON: "config/PDS4_IMG_1800.JSON",
+  PART_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+  RMS_JSON: "config/PDS4_RINGS_JSON_1510_DOM.JSON",
+  BOD_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+  SPECT_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+  WAV_JSON: "config/PDS4_PDS_JSON_1800.JSON"
+};
+
 var filePaths_1800 = {
     PDS_JSON: "config/PDS4_PDS_JSON_1800.JSON",
     CART_JSON: "config/PDS4_PDS_JSON_1800.JSON",
@@ -239,21 +252,66 @@ var g_dictInfo_1800 = {
         path: filePaths_1800["RMS_JSON"]
     }
 };
-// ordering for core_schema_versions below is from last to first
-var schema_list_order = [1800, 1700, 1600];
 
+var g_dictInfo_1A00 = {
+  pds: {
+    ns: 'pds',
+    name: 'Label Root',
+    path: filePaths_1A00["PDS_JSON"]
+  },
+  img: {
+    ns: 'img',
+    name: 'imaging',
+    base_class: '0001_NASA_PDS_1.img.Imaging',
+    path: filePaths_1A00["IMG_JSON"]
+  },
+  geom: {
+    ns: 'geom',
+    name: 'geometry',
+    base_class: '0001_NASA_PDS_1.geom.Geometry',
+    path: filePaths_1A00["GEOM_JSON"]
+  },
+  cart: {
+    ns: 'cart',
+    name: 'cartography',
+    base_class: '0001_NASA_PDS_1.cart.Cartography',
+    path: filePaths_1A00["CART_JSON"]
+  },
+  disp: {
+    ns: 'disp',
+    name: 'display',
+    base_class: '0001_NASA_PDS_1.disp.Display',
+    path: filePaths_1A00["DISP_JSON"]
+  },
+  rings: {
+    ns: 'rings',
+    name: 'rings',
+    base_class: '0001_NASA_PDS_1.rings.Rings',
+    path: filePaths_1A00["RMS_JSON"]
+  }
+};
+// ordering for core_schema_versions below is from last to first
+// These values are now represented as Strings, rather than Integers
+var schema_list_order = ["1A00", "1800", "1700", "1600"];
+
+// The keys are now represented as Strings, rather than Integers
 var core_schema_versions = {
-    1800: {
+    "1A00": {
+      name: "Version v1 (1.A.0.0) - February 20, 2018",
+      filePaths: filePaths_1A00,
+      g_dictInfo: g_dictInfo_1A00
+    },
+    "1800": {
         name: "Version v1 (1.8.0.0) - March 31, 2017",
         filePaths: filePaths_1800,
         g_dictInfo: g_dictInfo_1800
     },
-    1600: {
+    "1600": {
         name: "Version v1 (1.6.0.0) - March 31, 2016",
         filePaths: filePaths_1600,
         g_dictInfo: g_dictInfo_1600
     },
-    1700: {
+    "1700": {
         name: "Version v1 (1.7.0.0) - September 30, 2016",
         filePaths: filePaths_1700,
         g_dictInfo: g_dictInfo_1700
@@ -396,3 +454,5 @@ var deprecatedElementDataPaths = [
     "[0-9]\/Observation_Area\/[0-9]+\/Investigation_Area$"
 ];
 
+// XML DOM tree containing the imported XML file
+var g_importedXmlDoc = null;
