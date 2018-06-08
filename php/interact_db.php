@@ -60,7 +60,7 @@ try{
     }
 }
 catch(\PDOException $ex){
-    print($ex->getMessage());
+    print($ex->getMessage());   // TODO: Don't print any error message, for security reasons???
 }
 /**
  * When a new user creates an account, store the form data in the user table.
@@ -69,11 +69,26 @@ catch(\PDOException $ex){
 function insertUser($args){
     global $LINK;
     global $HASHER;
-    //  Client validated that e-mail address in correct format xxx@xxx.xxx
-    //  Replace special characters with HTML representations
+    //  Enable the use of Session variables
+    session_start();
+    //  Sanitize the input by replacing special characters with HTML representations
     $email_addr = sanitizeInput($args['email']);
+
+    // Validate that the given e-mail address is in the correct format xxx@xxx.xxx
+    $isValidEmailAddrFormat = filter_var($email_addr, FILTER_VALIDATE_EMAIL);
+    if (! $isValidEmailAddrFormat) {
+        //  Return to the Sign Up page with an error
+        $_SESSION['error_code'] = 21;
+        header("Location: ../signup.php");
+        return;
+    }
+    // Check that the given e-mail address is not already an existing user
     $duplicateEmailAddr = checkForDuplicateUser($email_addr);
     if($duplicateEmailAddr){
+        //  Return to the Login page with an error
+        $_SESSION['login'] = true;
+        $_SESSION['error_code'] = 3;
+        header("Location: ../index.php");
         return;
     }
 
@@ -86,25 +101,29 @@ function insertUser($args){
         $hash = md5( rand(0,1000) ); // Generate random 32 character hash and assign it to a local variable.
         // Example output: f4552671f8909587cf485ea990207f3b
 
-        $handle = $LINK->prepare("INSERT INTO user SET email=?,password=?,full_name=?,organization=?,activation_hash=?, active=0");
-        ///$index = 1;
-        ///foreach($args as $key=>$value){
-        ///    if ($key === "password"){
-        ///        $handle->bindValue($index++, $HASHER->HashPassword($value));
-        ///    }
-        ///    else if ($key !== "function"){
-        ///        $handle->bindValue($index++, $value);
-        ///    }
-        ///}
-        $handle->bindValue(1, $email_addr);
-        //  Encrypt the password
-        $hashedPassword = $HASHER->HashPassword($password);
-        $handle->bindValue(2, $hashedPassword);
-        $handle->bindValue(3, sanitizeInput($args['full_name']));
-        $handle->bindValue(4, sanitizeInput($args['organization']));
-        $handle->bindValue(5, $hash);
+        try {
+            $handle = $LINK->prepare("INSERT INTO user SET email=?,password=?,full_name=?,organization=?,activation_hash=?, active=0");
+            ///$index = 1;
+            ///foreach($args as $key=>$value){
+            ///    if ($key === "password"){
+            ///        $handle->bindValue($index++, $HASHER->HashPassword($value));
+            ///    }
+            ///    else if ($key !== "function"){
+            ///        $handle->bindValue($index++, $value);
+            ///    }
+            ///}
+            $handle->bindValue(1, $email_addr);
+            //  Encrypt the password
+            $hashedPassword = $HASHER->HashPassword($password);
+            $handle->bindValue(2, $hashedPassword);
+            $handle->bindValue(3, sanitizeInput($args['full_name']));
+            $handle->bindValue(4, sanitizeInput($args['organization']));
+            $handle->bindValue(5, $hash);
 
-        $handle->execute();
+            $handle->execute();
+        } catch(PDOException $ex) {
+            //print($ex->getMessage());     // Don't print any error message, for security reasons
+        }
 
         //  Send an e-mail message to the given e-mail address with a link to validate the account
         $to = $email_addr; // Send the email to the given e-mail address
@@ -156,8 +175,6 @@ function insertUser($args){
            header("Location: ../user_creation_success.html");
         }
     } else {        //  Else the two passwords are NOT the same
-        //  Enable the use of Session variables
-        session_start();
         //  Return to the Sign Up page with an error
         $_SESSION['error_code'] = 20;
         header("Location: ../signup.php");
@@ -170,38 +187,55 @@ function insertUser($args){
 function verifyUser($args){
     global $LINK;
     global $HASHER;
-    $handle = $LINK->prepare('select id,password,full_name,organization, active, activation_hash from user where email=?');
-    $handle->bindValue(1, $args['email']);
+    //  Sanitize the input by replacing special characters with HTML representations
+    $email_addr = sanitizeInput($args['email']);
+    $password_entered = sanitizeInput($args['password']);
 
-    $handle->execute();
-    $result = $handle->fetchAll(\PDO::FETCH_OBJ);
-
-    session_start();
-    if (count($result) === 1 &&
-        $HASHER->CheckPassword($args['password'], $result[0]->password)){
-        //  IF the account is active
-        if ($result[0]->active == 1) {
-            header("Location: ../dashboard.php");
-            $_SESSION['login'] = true;
-            $_SESSION['user_id'] = $result[0]->id;
-            $_SESSION['email'] = $args['email'];
-            $_SESSION['full_name'] = $result[0]->full_name;
-            $_SESSION['organization'] = $result[0]->organization;
-        } else {    //  Else the account is inactive
-            $_SESSION['login'] = true;
-            $_SESSION['error_code'] = 2;
-            $_SESSION['inactive_email'] = $args['email'];
-            $_SESSION['hash'] = $result[0]->activation_hash;
-            //  Return to the Login page with an error message
-            header("Location: ../index.php");
-
-        }
-    }
-    else{
-        //  Invalid username/password combination, so return to the Login page w/ an error message
-        header("Location: ../index.php");
+    // Validate that the given e-mail address is in the correct format xxx@xxx.xxx
+    $isValidEmailAddrFormat = filter_var($email_addr, FILTER_VALIDATE_EMAIL);
+    if (! $isValidEmailAddrFormat) {
+        //  Invalid username, so return to the Login page w/ an error message
         $_SESSION['login'] = true;
         $_SESSION['error_code'] = 1;
+        header("Location: ../index.php");
+        return;
+    }
+    try {
+        $handle = $LINK->prepare('select id,password,full_name,organization, active, activation_hash from user where email=?');
+        $handle->bindValue(1, $email_addr);
+
+        $handle->execute();
+        $result = $handle->fetchAll(\PDO::FETCH_OBJ);
+
+        session_start();
+        if (count($result) === 1 &&
+            $HASHER->CheckPassword($password_entered, $result[0]->password)){
+            //  IF the account is active
+            if ($result[0]->active == 1) {
+                header("Location: ../dashboard.php");
+                $_SESSION['login'] = true;
+                $_SESSION['user_id'] = $result[0]->id;
+                $_SESSION['email'] = $email_addr;
+                $_SESSION['full_name'] = $result[0]->full_name;
+                $_SESSION['organization'] = $result[0]->organization;
+            } else {    //  Else the account is inactive
+                $_SESSION['login'] = true;
+                $_SESSION['error_code'] = 2;
+                $_SESSION['inactive_email'] = $email_addr;
+                $_SESSION['hash'] = $result[0]->activation_hash;
+                //  Return to the Login page with an error message
+                header("Location: ../index.php");
+
+            }
+        }
+        else{
+            //  Invalid username/password combination, so return to the Login page w/ an error message
+            header("Location: ../index.php");
+            $_SESSION['login'] = true;
+            $_SESSION['error_code'] = 1;
+        }
+    } catch(PDOException $ex) {
+        //print($ex->getMessage());     // Don't print any error message, for security reasons
     }
 
 }
@@ -329,77 +363,93 @@ function getLabelShareSettings($args) {
 function sendLinkToResetPassword($args){
     global $LINK;
     global $HASHER;
-    $handle = $LINK->prepare('select id from user where email=?');
-    $handle->bindValue(1, $args['email']);
+    //  Sanitize the input by replacing special characters with HTML representations
+    $email_addr = sanitizeInput($args['email']);
+    // Validate that the given E-mail address is in the correct format xxx@xxx.xxx
+    $isValidEmailAddrFormat = filter_var($email_addr, FILTER_VALIDATE_EMAIL);
+    // IF the given E-mail address is NOT in a valid format
+    if (! $isValidEmailAddrFormat) {
+        // always redirect when using invalid email, per SPL tickets
+        header("Location: ../send_link_to_reset_password_failure.html");
+        return;
+    }
 
-    $handle->execute();
-    $result = $handle->fetchAll(\PDO::FETCH_OBJ);
+    try {
+        $handle = $LINK->prepare('select id from user where email=?');
+        $handle->bindValue(1, $email_addr);
 
-    //  Enable the use of Session variables
-    session_start();
-    if (count($result) === 1){
-        //  Create a hash value to be associated with this user, for validation
-        $hash = md5( rand(0,1000) ); // Generate random 32 character hash and assign it to a local variable.
-        // Example output: f4552671f8909587cf485ea990207f3b
-
-        ///$handle = $LINK->prepare("UPDATE user SET activation_hash='".$hash."' where email=?");
-        $handle = $LINK->prepare("UPDATE user SET activation_hash=? where email=?");
-        $handle->bindValue(1, $hash);
-        $handle->bindValue(2, $args['email']);
         $handle->execute();
+        $result = $handle->fetchAll(\PDO::FETCH_OBJ);
 
-        //  Send an e-mail message to the given e-mail address with a link to reset the account password
-        $email_addr = $args['email'];
-        $to = $email_addr; // Send the email to the given e-mail address
-        $subject = "PLAID Password Reset"; // Give the e-mail message a subject
+        //  Enable the use of Session variables
+        session_start();
+        // IF found a user record with the given e-mail address
+        if (count($result) === 1){
+            //  Create a hash value to be associated with this user, for validation
+            $hash = md5( rand(0,1000) ); // Generate random 32 character hash and assign it to a local variable.
+            // Example output: f4552671f8909587cf485ea990207f3b
 
-        //  Build the URL for the Link
-        $http = (isset($_SERVER['HTTPS']) ? "https" : "http");
-        $host = $_SERVER[HTTP_HOST];
-        $uri = $_SERVER['REQUEST_URI'];
-        ///echo 'http = '.$http.'<br>';
-        ///echo 'host = '.$host.'<br>';
-        ///echo 'uri = '.$uri.'<br>';
-        //  Remove the filename from the URI
-        //  Find the last slash in the URI
-        $last_slash_pos = strrpos($uri, '/');
-        //  Get everything up to and including the last slash
-        $uri_sans_filename = substr($uri, 0, $last_slash_pos+1);
-        //  Build the Link to Activate the account
-        ///http://localhost/myapp/php/reset_password.php?email='.$inactive_email.'&hash='.$hash.'
-        $activation_link = $http. '://' .$host . $uri_sans_filename . 'reset_password.php?email='.$email_addr.'&hash='.$hash;
-        ///echo 'activation_link = '.$activation_link.'<br>';
+            ///$handle = $LINK->prepare("UPDATE user SET activation_hash='".$hash."' where email=?");
+            $handle = $LINK->prepare("UPDATE user SET activation_hash=? where email=?");
+            $handle->bindValue(1, $hash);
+            $handle->bindValue(2, $args['email']);
+            $handle->execute();
 
-        ///$short_test_message = 'Message Line 1';
-        $message = '
- 
+            //  Send an e-mail message to the given e-mail address with a link to reset the account password
+            $email_addr = $args['email'];
+            $to = $email_addr; // Send the email to the given e-mail address
+            $subject = "PLAID Password Reset"; // Give the e-mail message a subject
+
+            //  Build the URL for the Link
+            $http = (isset($_SERVER['HTTPS']) ? "https" : "http");
+            $host = $_SERVER[HTTP_HOST];
+            $uri = $_SERVER['REQUEST_URI'];
+            ///echo 'http = '.$http.'<br>';
+            ///echo 'host = '.$host.'<br>';
+            ///echo 'uri = '.$uri.'<br>';
+            //  Remove the filename from the URI
+            //  Find the last slash in the URI
+            $last_slash_pos = strrpos($uri, '/');
+            //  Get everything up to and including the last slash
+            $uri_sans_filename = substr($uri, 0, $last_slash_pos+1);
+            //  Build the Link to Activate the account
+            ///http://localhost/myapp/php/reset_password.php?email='.$inactive_email.'&hash='.$hash.'
+            $activation_link = $http. '://' .$host . $uri_sans_filename . 'reset_password.php?email='.$email_addr.'&hash='.$hash;
+            ///echo 'activation_link = '.$activation_link.'<br>';
+
+            ///$short_test_message = 'Message Line 1';
+            $message = '
+     
 You can login with the following credentials after you have reset your PLAID password by pressing the url below.
- 
+     
 ------------------------
 Username: '.$email_addr.'
 ------------------------
- 
+     
 Please click this link to reset your PLAID password:  ' . $activation_link . '
- 
+     
 '; // Our message above including the link
 
-        ///$headers = 'From:PLAID_admin@jpl.nasa.gov' . '\r\n'; // Set from headers
-        $headers = "From: Michael.L.Munn@jpl.nasa.gov"; // Set from headers
-        $mail_return_value = mail($to, $subject, $message, $headers); // Send our email
-        ///echo "mail return value = " $mail_return_value
-        //  IF the mail call had an error
-        if ($mail_return_value == FALSE) {
-            //  Go to the Send Link to Reset Password Failure page
-            header("Location: ../send_link_to_reset_password_failure.html");
-        }
-        else {
-            //  Go to the Send Link to Reset Password Success page
+            ///$headers = 'From:PLAID_admin@jpl.nasa.gov' . '\r\n'; // Set from headers
+            $headers = "From: Michael.L.Munn@jpl.nasa.gov"; // Set from headers
+            $mail_return_value = mail($to, $subject, $message, $headers); // Send our email
+            ///echo "mail return value = " $mail_return_value
+            //  IF the mail call had an error
+            if ($mail_return_value == FALSE) {
+                //  Go to the Send Link to Reset Password Failure page
+                header("Location: ../send_link_to_reset_password_failure.html");
+            }
+            else {
+                //  Go to the Send Link to Reset Password Success page
+                header("Location: ../send_link_to_reset_password_success.html");
+            }
+
+        } else {    // Else NO user found w/ given E-mail address
+            // always redirect when using invalid email, per SPL tickets
             header("Location: ../send_link_to_reset_password_success.html");
         }
-
-    } else {
-        // always redirect when using invalid email, per SPL tickets
-        header("Location: ../send_link_to_reset_password_success.html");
+    } catch(PDOException $ex) {
+        //print($ex->getMessage());     // Don't print any error message, for security reasons
     }
 
 }
@@ -415,18 +465,36 @@ function resetPassword($args){
     session_start();
     //  Get the email address from the Session variable
     $email = $_SESSION['email'];
+    //  Sanitize the input by replacing special characters with HTML representations
+    $email = sanitizeInput($email);
+    // Validate that the given E-mail address is in the correct format xxx@xxx.xxx
+    $isValidEmailAddrFormat = filter_var($email, FILTER_VALIDATE_EMAIL);
+    // IF the given E-mail address is NOT in a valid format
+    if (! $isValidEmailAddrFormat) {
+        // always redirect when using invalid email, per SPL tickets
+        //  Return to the Reset Password page with an error; need to re-pass the parameters in the URL
+        $_SESSION['error_code'] = 21;
+        //  Get the hash from the Session variable
+        $hash = $_SESSION['hash'];
+        header("Location: reset_password.php?email=".$email."&hash=".$hash);
+        return;
+    }
     //  Get the passwords from the form arguments
-    $password = $args[password];
-    $verified_password = $args[verifyPassword];
+    $password = sanitizeInput($args[password]);
+    $verified_password = sanitizeInput($args[verifyPassword]);
     //  Check that the password and verified password are the same
     if ($password === $verified_password) {
         //  Encrypt the password
         $hashed_password = $HASHER->HashPassword($password);
-        //  Store the password into the User table
-        $handle = $LINK->prepare("UPDATE user SET password=? where email=?");
-        $handle->bindValue(1, $hashed_password);
-        $handle->bindValue(2, $email);
-        $handle->execute();
+        try {
+            //  Store the password into the User table
+            $handle = $LINK->prepare("UPDATE user SET password=? where email=?");
+            $handle->bindValue(1, $hashed_password);
+            $handle->bindValue(2, $email);
+            $handle->execute();
+        } catch(PDOException $ex) {
+            //print($ex->getMessage());     // Don't print any error message, for security reasons
+        }
 
         //  Go to the Reset Password Success page
         header("Location: ../reset_password_success.html");
@@ -523,30 +591,32 @@ function storeNewLabel($args){
         if (($fileExt === $XML_FILE_EXTENSION) && ($fileType === $XML_FILE_TYPE)) {
             // IF file size < MAX_FILE_SIZE
             if ($fileSize <= $MAX_FILE_SIZE) {
-                $destPath = $IMPORT_DIR . $fileName;
-                // Move the file from the temp dir. to the imports dir.
-                $isMoved = move_uploaded_file($fileTmpPathname, $destPath);
-                // IF the file was moved successfully
-                if ($isMoved) {
-                    // Set the Pathname of the XML file to Import into a Session variable
-                    $_SESSION['xmlPathnameToImport'] = $destPath;
-                }
+                // Read the uploaded XML file's contents into a String
+                $xmlFileContents = file_get_contents ($fileTmpPathname);
+                // Set the contents of the uploaded XML file into a Session variable
+                $_SESSION['xmlFileContentsToImport'] = $xmlFileContents;
             }
         }
     }
 
-    $handle = $LINK->prepare('INSERT INTO label SET creation=now(),last_modified=now(),name=?,label_xml=?,schema_version=?,owner=?');
-    $handle->bindValue(1, $args['labelName']);
-    $handle->bindValue(2, $data);
-    $handle->bindValue(3, $args['version']);
-    $handle->bindValue(4, $_SESSION['user_id']);
-    $handle->execute();
+    // Default the newLabelId to something, in case the first insert stmt. fails, and is caught
+    $newLabelId = null;
+    try {
+        $handle = $LINK->prepare('INSERT INTO label SET creation=now(),last_modified=now(),name=?,label_xml=?,schema_version=?,owner=?');
+        $handle->bindValue(1, $args['labelName']);
+        $handle->bindValue(2, $data);
+        $handle->bindValue(3, $args['version']);
+        $handle->bindValue(4, $_SESSION['user_id']);
+        $handle->execute();
 
-    $handle = $LINK->prepare('INSERT INTO link SET user_id=?,label_id=?');
-    $newLabelId = $LINK->lastInsertId();
-    $handle->bindValue(1, $_SESSION['user_id']);
-    $handle->bindValue(2, $newLabelId);
-    $handle->execute();
+        $handle = $LINK->prepare('INSERT INTO link SET user_id=?,label_id=?');
+        $newLabelId = $LINK->lastInsertId();
+        $handle->bindValue(1, $_SESSION['user_id']);
+        $handle->bindValue(2, $newLabelId);
+        $handle->execute();
+    } catch(PDOException $ex) {
+        //print($ex->getMessage());     // Don't print any error message, for security reasons
+    }
 
     $_SESSION['label_id'] = intval($newLabelId);
     return $_SESSION['label_id'];
@@ -872,20 +942,11 @@ function getLabelName(){
  * called by main.js in wizard.php
  */
 function getXMLImportFileContents(){
-    $xmlFileContents = "";    // default to empty string, in case no Import file was selected
     session_start();
-    // Get the XML Import file's pathname on the server
-    // This value was stored into a session variable by storeNewLabel()
+    // Get the XML Import file's contents on the server
+    // This value was stored into a session variable by the storeNewLabel()
     // call by the Dashboard's 'Create New' popup
-    $xmlPathnameToImport = $_SESSION['xmlPathnameToImport'];
-
-    // IF a file was selected for Import
-    if ($xmlPathnameToImport != null) {
-        // Read the Import XML file's contents into a String
-        $xmlFileContents = file_get_contents ($xmlPathnameToImport);
-        // Delete the file from the import folder, now that it is no longer needed
-        unlink($xmlPathnameToImport);
-    }
+    $xmlFileContents = $_SESSION['xmlFileContentsToImport'];
 
     echo $xmlFileContents;
     return $xmlFileContents;
@@ -948,22 +1009,27 @@ function checkIfLabelInUse($label_id) {
 function checkForDuplicateUser($args){
     global $LINK;
     global $HASHER;
-    $handle = $LINK->prepare('select id,password,full_name,organization, active, activation_hash from user where email=?');
-    $handle->bindValue(1, $args);
+    try {
+        $handle = $LINK->prepare('select id,password,full_name,organization, active, activation_hash from user where email=?');
+        $handle->bindValue(1, $args);
 
-    $handle->execute();
-    $result = $handle->fetchAll(\PDO::FETCH_OBJ);
+        $handle->execute();
+        $result = $handle->fetchAll(\PDO::FETCH_OBJ);
 
-    session_start();
-    $count = count($result);
-    if (count($result) >= 1) {
-                //  Duplicate email address exists in the db. Return to the Login page w/ an error message
-                $_SESSION['login'] = true;
-                $_SESSION['error_code'] = 3;
-                //  Return to the Login page with an error message
-                header("Location: ../index.php");
-
-                return true;
+        session_start();
+        $count = count($result);
+        if (count($result) >= 1) {
+                    //  Duplicate email address exists in the db. Return to the Login page w/ an error message
+                    //$_SESSION['login'] = true;
+                    //$_SESSION['error_code'] = 3;
+                    //  Return to the Login page with an error message
+                    //header("Location: ../index.php");
+                    return true;
+        }
+    } catch(PDOException $ex) {
+        //print($ex->getMessage());     // Don't print any error message, for security reasons
+        //  IF query error, return true so it won't continue to create a possible duplicate user
+        return true;
     }
     return false;
 }
