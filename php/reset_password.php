@@ -45,14 +45,21 @@
             //  Enable use of session variables
             session_start();
 
+            //  Sanitize the input by replacing special characters with HTML representations
+            $email = sanitizeInput($_GET['email']);
+            $hash = sanitizeInput($_GET['hash']);
             //  IF the email and hash parameters are in the URL
-            if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && !empty($_GET['hash'])){
-                // Verify data
+            if(isset($email) && !empty($email) AND isset($hash) && !empty($hash)){
+                // Validate that the given E-mail address is in the correct format xxx@xxx.xxx
+                $isValidEmailAddrFormat = filter_var($email, FILTER_VALIDATE_EMAIL);
+                // IF the given E-mail address is NOT in a valid format
+                if (! $isValidEmailAddrFormat) {
+                    echo '<div class="statusmsg">The given url is invalid.</div>';
+                    return;
+                }
                 //  Using the prepare() stmt. eliminates the need to escape special characters
                 ///$email = mysql_escape_string($_GET['email']); // Set email variable
                 ///$hash = mysql_escape_string($_GET['hash']); // Set hash variable
-                $email = $_GET['email']; // Set email variable
-                $hash = $_GET['hash']; // Set hash variable
                 //  Check that the given e-mail address and hash are in the User table
                 $handle = $LINK->prepare('select id, active from user where email=? and activation_hash=?');
                 $handle->bindValue(1, $email);
@@ -80,6 +87,10 @@
                         if ($error_code == 20) {
                             $error_msg = "'Password' and 'Verify Password' must be the same.";
                         }
+                        // Do not show tell-tale error messages, for Security reasons
+                        //if ($error_code == 21) {
+                        //    $error_msg = "The given e-mail address is NOT in the correct format 'xxx@xxx.xxx'.";
+                        //}
                         echo '<div class="statusmsg">Error:  '.$error_msg.'</div>'; // Display our error message and wrap it with a div with the class "statusmsg".
                     }
 
@@ -107,6 +118,16 @@
         }
         catch(\PDOException $ex){
             print($ex->getMessage());
+        }
+
+        /**
+         * Replaces special chars. in input data w/ their HTML representations
+         */
+        function sanitizeInput($data) {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
         }
 
         ?>
