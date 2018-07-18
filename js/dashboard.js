@@ -92,7 +92,11 @@ function createLabelEntry(labelData){
     var versionNumber = document.createElement("span");
     versionNumber.className = "version";
     // Schema version is now a String, rather than an Integer
-    versionNumber.textContent = core_schema_versions[labelData["schema_version"]]["name"];
+    if(typeof(core_schema_versions[labelData["schema_version"]]) == "undefined") {
+	versionNumber.textContent = core_schema_versions["1A00"]["name"];
+    } else {
+	versionNumber.textContent = core_schema_versions[labelData["schema_version"]]["name"];
+    }
     schemaVersion.appendChild(versionNumber);
 
     content.appendChild(time1);
