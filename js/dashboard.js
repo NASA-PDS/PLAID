@@ -43,22 +43,8 @@ $(document).ready(function(){
         $('#labelNameInput').removeClass('error');
         $("#core_schema_versions_select").empty();
 
-        generatePopUp(popUpData['createNewLabel']);
+        generatePopUp(popUpData['createNewLabelMultiModalStep1']);
 
-        //  Invoke the Bootstrap Toggle programmatically,
-        //  because it doesn't work the regular way when specified in a config file string
-        $('#basic_mode_create_toggle').bootstrapToggle();
-
-        for (var i = 0; i < schema_list_order.length; i++) {
-            var schema = schema_list_order[i];
-            if (core_schema_versions.hasOwnProperty(schema)) {
-                var schema_info = core_schema_versions[schema];
-                var schema_option = document.createElement("option");
-                $(schema_option).text(schema_info["name"]);
-                $(schema_option).attr("value", schema);
-                $("#core_schema_versions_select").append(schema_option);
-            }
-        }
     });
 });     // end $(document).ready(function(){
 
@@ -441,4 +427,103 @@ function isValidLabelNameInput(field){
         $(field).removeClass("error");
         return true;
     }
+}
+
+// Initialize the Schema Version and Basic/Advanced Mode in the Create New dialog
+function initializeCreateNewDialogSchemaVersionAndMode() {
+    // Clear the old items from the dropdown list
+    $("#core_schema_versions_select").empty();
+    // Populate the Schema Version listbox
+    for (var i = 0; i < schema_list_order.length; i++) {
+        var schema = schema_list_order[i];
+        if (core_schema_versions.hasOwnProperty(schema)) {
+            var schema_info = core_schema_versions[schema];
+            var schema_option = document.createElement("option");
+            $(schema_option).text(schema_info["name"]);
+            $(schema_option).attr("value", schema);
+            $("#core_schema_versions_select").append(schema_option);
+        }
+    }
+    //  Invoke the Bootstrap Toggle programmatically,
+    //  because it doesn't work the regular way when specified in a config file string
+    $('#basic_mode_create_toggle').bootstrapToggle();
+}
+
+// Initialize the Sample Label dropdown list
+function initializeCreateNewDialogSampleLabelDropdown() {
+    // Clear the old items from the dropdown list
+    $("#sample_label_select").empty();
+    // Do a fetch from the APPS Label DB server
+    // Get the latest version of all Sample Labels from the APPS Label DB Server
+    // TODO: Set the route to the Production Server URL!!!
+    const route = 'http://localhost:3000/allLabels';
+    fetch(route)
+    //.then(function(res) {
+        .then(res => res.json())
+        //    if (res.ok) {
+        //        res.json().then(function (resJson) {
+        .then(resJson => {
+            //console.log('resJson.rows =', resJson.rows);
+            // Create & Populate the Sample Label listbox
+            // Add a 'no item selected' option
+            let sampleLabelOption = document.createElement("option");
+            $(sampleLabelOption).text("No selection");
+            $(sampleLabelOption).attr("value", -1);
+            $("#sample_label_select").append(sampleLabelOption);
+
+            for (let i = 0; i < resJson.rows.length; i++) {
+                const sampleLabelName = resJson.rows[i].name;
+                const sampleLabelId = resJson.rows[i].id;
+                sampleLabelOption = document.createElement("option");
+                $(sampleLabelOption).text(sampleLabelName);
+                $(sampleLabelOption).attr("value", sampleLabelId);
+                $("#sample_label_select").append(sampleLabelOption);
+            }
+
+        });
+}
+
+// Call the PHP server to create the new label DB entry
+// @param fileData - the selected XML file to upload for import
+// @param sampleLabelId - the ID of the APPS Sample Label to import
+function createNewLabelInDB(fileData, sampleLabelId) {
+    // Get the standard new label data from the dialog
+    const newLabelName = $("#labelNameInput").val();
+    const schemaVersion = $("#core_schema_versions_select").val();
+    const basicMode = $("#basic_mode_create_toggle").is(":checked");
+    //console.log('New Label Name =', newLabelName);
+    //console.log('Schema version =', schemaVersion);
+    //console.log('Basic Mode =', basicMode);
+
+    // Process the form as usual
+    let formData = new FormData();
+    // Append the data in the form into the formData object
+    formData.append('function', "storeNewLabel");
+    formData.append('labelName', newLabelName);
+    formData.append('version', schemaVersion);
+
+    // IF an XML file was given
+    if ((fileData !== undefined) && (fileData != null)) {
+        // Append the given XML file
+        formData.append('xmlFileToImport', fileData);
+    }
+
+    // IF a Sample Label was given
+    if (sampleLabelId !== undefined) {
+        // Append the given Sample Label Id
+        formData.append('selectedSampleLabelId', sampleLabelId);
+    }
+
+    $.ajax({
+        type: "post",
+        url: "php/interact_db.php",
+        processData: false, // Don't process the files
+        contentType: false, // Set content type to false as jQuery will tell the server it's a query string request
+        data: formData,
+    }).success(function () {
+        //alert("Able to upload file");
+        window.location = "wizard.php?version=" + $("#core_schema_versions_select").val() + "&basicMode=" + basicMode;
+    }).fail(function () {
+        alert("Unable to create label");
+    });
 }
