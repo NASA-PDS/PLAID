@@ -96,9 +96,7 @@ function addNode($args){
         $nodeName = $ns.":".$nodeName;
     }
     $nodes = getNode($nodePath, $ns);
-    print $nodePath;
-    print $nodeName;
-    print $nodes->length;
+
 
     // Only change the node(s) value below
     if(isset($args["value_only"])) {
@@ -165,8 +163,6 @@ function addNode($args){
         if($parent_node->hasChildNodes()) {
             if($parent_node->childNodes->length >= 1) {
                 foreach ($parent_node->childNodes as $child_node)  {
-                    var_dump($child_node->nodeName);
-                    var_dump($nodeName);
 
                     if($child_node->nodeName == $nodeName) {
                         $total_instances_of_node++;
@@ -195,7 +191,6 @@ function addNode($args){
             }
 
             addNodeValue($newNode, $args["value"]);
-            var_dump($node_to_insert_before);
 
            if(is_null($node_to_insert_before)) {
                 $parent_node->appendChild($newNode);
@@ -636,7 +631,7 @@ function removeAllChildNodes($args){
         }
     }
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
-    print_r($args);
+
     updateLabelXML($args);
 }
 /**
@@ -720,7 +715,7 @@ function removeRootAttrs($args){
             $root->removeAttributeNS("http://pds.nasa.gov/pds4/$ns/v1", $ns);
     }
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
-    print_r($args);
+
     updateLabelXML($args);
 }
 
@@ -877,8 +872,7 @@ function addNodeLocal($args){
         if($parent_node->hasChildNodes()) {
             if($parent_node->childNodes->length >= 1) {
                 foreach ($parent_node->childNodes as $child_node)  {
-                    var_dump($child_node->nodeName);
-                    var_dump($nodeName);
+
 
                     if($child_node->nodeName == $nodeName) {
                         $total_instances_of_node++;
@@ -907,7 +901,7 @@ function addNodeLocal($args){
             }
 
             addNodeValueLocal($newNode, $args["value"], $doc);
-            var_dump($node_to_insert_before);
+
 
             if(is_null($node_to_insert_before)) {
                 $parent_node->appendChild($newNode);
