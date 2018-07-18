@@ -153,23 +153,23 @@ $(document).ready(function() {
                 $(".labelNameNav").text(data);
             }
         }),
-        // Get the Imported XML File's contents
+        // Get the XML string to Import
         $.ajax({
             method: "post",
             url: "php/interact_db.php",
             data: {
-                function: "getXMLImportFileContents"
+                function: "getXMLStringToImport"
             },
             datatype: "text",
             success: function(data){
-               const xmlImportFileContents = data;
-               //console.log("xmlImportFileContents = '" + xmlImportFileContents + "'");
+               const xmlStringToImport = data;
+               //console.log("xmlStringToImport = '" + xmlStringToImport + "'");
                g_importedXmlDoc = null;
-               // IF the XML Import File's contents are NOT empty
-               if (xmlImportFileContents != "") {
+               // IF the XML string to Import is NOT empty
+               if (xmlStringToImport != "") {
                    // Parse the Imported XML file's contents into the XML DOM
                    const parser = new DOMParser();
-                   g_importedXmlDoc = parser.parseFromString(xmlImportFileContents, XML_FILE_TYPE);
+                   g_importedXmlDoc = parser.parseFromString(xmlStringToImport, XML_FILE_TYPE);
                    //console.log('g_importedXmlDoc =', g_importedXmlDoc);
                }
             }

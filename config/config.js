@@ -455,4 +455,4 @@ var deprecatedElementDataPaths = [
 ];
 
 // XML DOM tree containing the imported XML file
-var g_importedXmlDoc = null;
+let g_importedXmlDoc = null;

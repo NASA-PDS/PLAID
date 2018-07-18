@@ -577,8 +577,8 @@ function storeNewLabel($args){
 
     session_start();
 
-    // Initialize the XML Pathname to Import to be null
-    $_SESSION['xmlPathnameToImport'] = null;
+    // Initialize the XML string to Import to be null
+    $_SESSION['xmlStringToImport'] = null;
 
     // IF an XML file was selected to import
     if (isset($_FILES['xmlFileToImport'])) {
@@ -594,8 +594,18 @@ function storeNewLabel($args){
                 // Read the uploaded XML file's contents into a String
                 $xmlFileContents = file_get_contents ($fileTmpPathname);
                 // Set the contents of the uploaded XML file into a Session variable
-                $_SESSION['xmlFileContentsToImport'] = $xmlFileContents;
+                $_SESSION['xmlStringToImport'] = $xmlFileContents;
             }
+        }
+    } else {    // Else check to see if a sample label was selected to import
+        // Get the sample label that was selected to import
+        $selectedSampleLabelId = $args['selectedSampleLabelId'];
+        // IF a Sample Label was selected to import
+        if ($selectedSampleLabelId > 0) {
+            // Get the sample label's XML from the DB
+            $sampleLabelXML = getSampleLabelXML($selectedSampleLabelId);
+            // Set the XML into a Session variable
+            $_SESSION['xmlStringToImport'] = $sampleLabelXML;
         }
     }
 
@@ -680,6 +690,22 @@ function getLabelXML(){
     session_start();
     $handle = $LINK->prepare('select label_xml from label where id=?');
     $handle->bindValue(1, $_SESSION['label_id']);
+    $handle->execute();
+
+    $result = $handle->fetch(\PDO::FETCH_OBJ);
+    return $result->label_xml;
+}
+
+/**
+ * Use the label id in the argument to determine which label to output
+ * the XML from the database.
+ * @return {string}
+ */
+function getSampleLabelXML($labelId){
+    global $LINK;
+    session_start();
+    $handle = $LINK->prepare('select label_xml from sample_label where id=?');
+    $handle->bindValue(1, $labelId);
     $handle->execute();
 
     $result = $handle->fetch(\PDO::FETCH_OBJ);
@@ -938,18 +964,18 @@ function getLabelName(){
 }
 
 /**
- * Get the Import XML File's contents.
+ * Get the XML String to Import.
  * called by main.js in wizard.php
  */
-function getXMLImportFileContents(){
+function getXMLStringToImport() {
     session_start();
-    // Get the XML Import file's contents on the server
+    // Get the XML String to Import from the server
     // This value was stored into a session variable by the storeNewLabel()
     // call by the Dashboard's 'Create New' popup
-    $xmlFileContents = $_SESSION['xmlFileContentsToImport'];
+    $xmlStringToImport = $_SESSION['xmlStringToImport'];
 
-    echo $xmlFileContents;
-    return $xmlFileContents;
+    echo $xmlStringToImport;
+    return $xmlStringToImport;
 }
 
 /**
