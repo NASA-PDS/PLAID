@@ -30,7 +30,7 @@ CREATE TABLE `label` (
   `label_xml` blob NOT NULL,
   `mission_specifics` blob,
   `progress_data` blob,
-  `schema_version` int(11) DEFAULT NULL,
+  `schema_version` varchar(11) DEFAULT NULL,
   `is_deleted` int(11) NOT NULL DEFAULT '0',
   `owner` int(11) NOT NULL,
   `ingest_ldd_xml` blob NULL DEFAULT NULL,
