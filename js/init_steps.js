@@ -27,19 +27,14 @@
 const VALUE_DROPDOWN_LIST_NO_SELECTION = "No item selected";
 const UNIT_DROPDOWN_LIST_NO_SELECTION = "No unit selected";
 const UNIT_ATTRIBUTE_NAME = "unit";
-const FOUND_ATTRIBUTE_NAME = "found";
+const FOUND_ATTRIBUTE_NAME = "found";       // XML Node attribute set to True if it has been found already
+const INSTANCE_NUM_ATTRIBUTE_NAME = "instance_number";    // Attribute to store the XML Node's instance number
 const XML_FILE_TYPE = "text/xml";
 const PRODUCT_PREFIX = "Product_";
 
 // Global variables
 // First XML Node found in the XML tree for the Current step
 let g_firstXmlNodeFoundForCurrentStep = null;
-// First Path found for the Current step
-let g_firstPathFoundForCurrentStep = null;
-// First XML Node found in the XML tree for the Previous step
-let g_firstXmlNodeFoundForPreviousStep = null;
-// First Path found for the Previous step
-let g_firstPathFoundForPreviousStep = null;
 
 /**
  * Initialize the wizard using jQuery-Steps built-in method.
@@ -385,14 +380,8 @@ function insertStep(wizard, index, dataObj, ns, quantity){
  * @return {Element} section
  */
 function generateContent(sectionTitle, dataObj, parentObj,ns, iteration, quantity){
-    // Move the XML Node found for the current step to be the previous step
-    g_firstXmlNodeFoundForPreviousStep = g_firstXmlNodeFoundForCurrentStep;
-    // Move the path to be found for the current step to be the previous step
-    g_firstPathFoundForPreviousStep = g_firstPathFoundForCurrentStep;
     // Set to Null, to indicate that an XML node has not been found yet for this new step
     g_firstXmlNodeFoundForCurrentStep = null;
-    // Set to Null, since we don't know what the new step's path is yet
-    g_firstPathFoundForCurrentStep = null;
     var parentPath = parentObj["path"];
     if(sectionTitle == g_dictInfo["pds"]["name"]) { // TODO - FIX WHEN LABEL ROOT has a [1] prepended - this is just looking for "LABEL ROOT"
         parentPath = g_dictInfo["pds"]["name"];
@@ -576,14 +565,7 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
         let xmlNodeFound = null;
         // IF an XML node has NOT yet been found for this step
         if (g_firstXmlNodeFoundForCurrentStep == null) {
-            //console.log("Looking in the XML DOM tree for '" + dataObj["path"] + "'");
             ///console.log("Looking in the XML DOM tree for '" + specificPath + "'");
-            ///console.log("g_firstPathFoundForPreviousStep = '" + g_firstPathFoundForPreviousStep + "'");
-            ///console.log("g_firstXmlNodeFoundForPreviousStep = '" + g_firstXmlNodeFoundForPreviousStep + "'");
-            // Check if the current path to find starts with the previous path
-            //if (specificPath.startsWith(g_firstPathFoundForCurrentStep)) {
-                //
-            //}
             // Get all the child nodes of the root
             const childNodeArray = g_importedXmlDoc.childNodes;
             let productTypeNode = null;
@@ -599,8 +581,9 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
             if (productTypeNode !== null) {
                 // Look in the XML DOM Tree for just the XML node with this Data Object's specific Path
                 xmlNodeFound = findXMLNodeWithPath(specificPath, 0, productTypeNode);
+                // Save the first XML Node found for the current step,
+                // because all the other elements in this step must be siblings of this XML Node
                 g_firstXmlNodeFoundForCurrentStep = xmlNodeFound;
-                g_firstPathFoundForCurrentStep = specificPath;
             }
 
         } else {
@@ -1062,7 +1045,7 @@ function showHideAdvancedElementBar(elementBar) {
  */
 function findXMLNodeWithPath(path, pathIndex, xmlNode) {
     let xmlNodeFound = null;         // return value
-    path = path.replace(/\[.*?\]/g, ""); // remove brackets for lookup
+    //path = path.replace(/\[.*?\]/g, ""); // using brackets for lookup
     //console.log("path = '" + path + "'");
     let isNodeFoundSoFar = true;    // True if found a node that matches the path so far
     // Take the path, and separate it into its components
@@ -1070,10 +1053,24 @@ function findXMLNodeWithPath(path, pathIndex, xmlNode) {
     pathArray = path.split('/');
     // While a matching node is found and not at end of path
     while (isNodeFoundSoFar && (pathIndex < pathArray.length)) {
-        //console.log("pathArray[" + p + "] = '" + pathArray[p] + "'");
         // Ignore the numbers, which are the even indices
         // IF the path index is Odd
         if ((pathIndex % 2) == 1) {
+            const subPath = pathArray[pathIndex];
+            //console.log("pathArray[" + pathIndex + "] = '" + subPath + "'");
+            // Get the pathArray item's bracket value
+            let bracketValue = null;
+            let subPathSansBrackets = subPath;
+            // IF the last char. is a closing bracket
+            if (subPath.charAt(subPath.length - 1) === ']') {
+                // Find the opening bracket
+                const openingBracketPos = subPath.lastIndexOf("[");
+                // Get the value inside the brackets
+                bracketValue = subPath.substring(openingBracketPos + 1, subPath.length - 1);
+                //console.log("bracket value = '" + bracketValue + "'");
+                // Get the subPath in front of the brackets
+                subPathSansBrackets = subPath.substring(0, openingBracketPos);
+            }
             // Get all the child nodes of the current XML node
             const childNodeArray = xmlNode.childNodes;
             //console.log('childNodeArray =', childNodeArray);
@@ -1083,38 +1080,51 @@ function findXMLNodeWithPath(path, pathIndex, xmlNode) {
                 //console.log('childNodeArray[' + i + '] =', childNodeArray[i]);
                 // Get the nodeName
                 const nodeName = childNodeArray[i].nodeName;
-                //const nodeType = childNodeArray[i].nodeType;
                 //console.log("nodeName = '" + nodeName + "'");
-                // IF the nodeName = the current path portion
-                if (nodeName == pathArray[pathIndex]) {
-                    console.log("Found a node matching the path '" + nodeName + "'");
-                    isNodeFoundSoFar = true;
-                    // IF this is NOT the last sub-path in the path array
-                    if (pathIndex < pathArray.length - 1) {
-                        // Found a match, so need to recurse w/ this as the XML node, increment the pathIndex, same path
-                        xmlNodeFound = findXMLNodeWithPath(path, pathIndex + 1, childNodeArray[i]);
-                        // IF Found a match, can return
-                        if (xmlNodeFound !== null) {
-                            return xmlNodeFound;
+                // IF the nodeName = the subPath w/out brackets
+                if (nodeName === subPathSansBrackets) {
+                    // IF there are brackets in the subPath
+                    if (bracketValue != null) {
+                        // Get the instance number attribute from the node
+                        const instanceNumAttrValue = childNodeArray[i].getAttribute(INSTANCE_NUM_ATTRIBUTE_NAME);
+                        // IF the bracket value matches the node's instance_number attribute
+                        if (bracketValue === instanceNumAttrValue) {
+                            //console.log("Found a node matching the subPath '" + subPath + "'");
+                            isNodeFoundSoFar = true;
                         }
-                        // Keep looking for a match in the next sibling node
-                        //break;
                     } else {
-                        console.log("Found a node matching the full path '" + path + "'");
-                        // See if this node has been found and its values used already
-                        // Get the Found attribute from the node
-                        const foundAttrValue = childNodeArray[i].getAttribute(FOUND_ATTRIBUTE_NAME);
-                        // IF this node's values have been used already
-                        if (foundAttrValue != null) {
-                            //console.log("This node's values have been used already.");
-                        } else {    // Else return this node
-                            //console.log("This node's values have NOT been used yet.");
-                            // Set a Found attribute into the node
-                            childNodeArray[i].setAttribute(FOUND_ATTRIBUTE_NAME, "True");
-                            return childNodeArray[i];
-                        }       // end IF-Else used already
-                    }       // end IF-Else found node matching full path
-                }       // end IF found node matching partial path
+                        //console.log("Found a node matching the subPath '" + subPath + "'");
+                        isNodeFoundSoFar = true;
+                    }
+                    // IF found a match
+                    if (isNodeFoundSoFar) {
+                        // IF this is NOT the last sub-path in the path array
+                        if (pathIndex < pathArray.length - 1) {
+                            // Found a match, so need to recurse w/ this as the XML node, increment the pathIndex, same path
+                            xmlNodeFound = findXMLNodeWithPath(path, pathIndex + 1, childNodeArray[i]);
+                            // IF Found a match, can return
+                            if (xmlNodeFound !== null) {
+                                return xmlNodeFound;
+                            }
+                            // Keep looking for a match in the next sibling node
+                            //break;
+                        } else {
+                            //console.log("Found a node matching the full path '" + path + "'");
+                            // See if this node has been found and its values used already
+                            // Get the Found attribute from the node
+                            const foundAttrValue = childNodeArray[i].getAttribute(FOUND_ATTRIBUTE_NAME);
+                            // IF this node's values have been used already
+                            if (foundAttrValue != null) {
+                                //console.log("This node's values have been used already.");
+                            } else {    // Else return this node
+                                //console.log("This node's values have NOT been used yet.");
+                                // Set a Found attribute into the node
+                                childNodeArray[i].setAttribute(FOUND_ATTRIBUTE_NAME, "True");
+                                return childNodeArray[i];
+                            }       // end IF-Else used already
+                        }       // end IF-Else found node matching full path
+                    }       // end IF found node matching subPath and brackets (if any)
+                }       // end IF found node matching subPath only
             }       // end For each child node
         }       // end IF the path index is Odd
         pathIndex++;
@@ -1139,7 +1149,7 @@ function getInfoOutOfNode(xmlNode) {
         if (childNodeList[c].nodeName == "#text") {
             // Get the text of the XML node
             const textOfNode = childNodeList[c].nodeValue;
-            console.log('Text of node is "' + textOfNode + '"');
+            //console.log('Text of node is "' + textOfNode + '"');
             // Set the text into the return object
             xmlNodeTextAndUnitData.text = textOfNode;
             // Found a match, so can fall out of this For loop
@@ -1161,7 +1171,7 @@ function getInfoOutOfNode(xmlNode) {
 // Get the count of all the sibling nodes with the same name
 function getCountOfSiblingNodesWithSameName(xmlNode) {
     let nodeCount = 0;
-    xmlNodeName = xmlNode.nodeName;
+    const xmlNodeName = xmlNode.nodeName;
     // Get the parent node of the given node
     const parentNode = xmlNode.parentNode;
     if (parentNode !== null) {
@@ -1173,6 +1183,8 @@ function getCountOfSiblingNodesWithSameName(xmlNode) {
             if (childNodeList[c].nodeName === xmlNodeName) {
                 // Increment the count
                 nodeCount++;
+                // Set the count into the Instance Number attribute of the XML Node
+                childNodeList[c].setAttribute(INSTANCE_NUM_ATTRIBUTE_NAME, nodeCount.toString());
             }
         }       // end For each child node in the list
 
@@ -1184,8 +1196,9 @@ function getCountOfSiblingNodesWithSameName(xmlNode) {
 // Find a sibling node with the given path
 // @param path - the pathname to find
 // @param xmlNode - the XML node to search the siblings of
+// @return an XML node
 function findXMLNodeInSiblings(path, xmlNode) {
-    path = path.replace(/\[.*?\]/g, ""); // remove brackets for lookup
+    //path = path.replace(/\[.*?\]/g, ""); // remove brackets for lookup
     //console.log("path = '" + path + "'");
     //let isNodeFoundSoFar = true;    // True if found a node that matches the path so far
     // Take the path, and separate it into its components
