@@ -116,14 +116,14 @@ var popUpData = {
     createNewLabelMultiModalStep1 : {
         id : "createNewLabelMultiModalStep1",
         title : "Create New Label, Step 1",
-        content : "<form><div class='form-group'>" +
-        "<input type='radio' id='creationChoice1' name='creation' value='" + CREATE_NEW_CHOICE + "' checked>" +
-        "<label for='creationChoice1'>Create New</label>" +
-        "<input type='radio' id='creationChoice2' name='creation' value='" + IMPORT_FILE_CHOICE + "'>" +
-        "<label for='creationChoice2'>Import XML File</label>" +
-        "<input type='radio' id='creationChoice3' name='creation' value='" + IMPORT_SAMPLE_CHOICE + "'>" +
-        "<label for='creationChoice3'>Import Sample label</label>" +
-        "</div></form>",
+        content : "<form>" +
+        "<div class='form-group'><input type='radio' id='creationChoice1' name='creation' value='" + CREATE_NEW_CHOICE + "' checked>" +
+        "<label for='creationChoice1'>Create New</label></div>" +
+        "<div class='form-group'><input type='radio' id='creationChoice2' name='creation' value='" + IMPORT_FILE_CHOICE + "'>" +
+        "<label for='creationChoice2'>Import XML File</label></div>" +
+        "<div class='form-group'><input type='radio' id='creationChoice3' name='creation' value='" + IMPORT_SAMPLE_CHOICE + "'>" +
+        "<label for='creationChoice3'>Import Sample label</label></div>" +
+        "</form>",
         noText: "Cancel",
         yesText: "Continue",
         /**
