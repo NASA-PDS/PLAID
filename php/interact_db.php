@@ -162,7 +162,7 @@ function insertUser($args){
     '; // Our message above including the link
 
         ///$headers = 'From:PLAID_Admin@jpl.nasa.gov' . '\r\n'; // Set from headers
-        $headers = "From: Michael.L.Munn@jpl.nasa.gov"; // Set from headers
+        $headers = "From: plaid-support@jpl.nasa.gov"; // Set from headers
         $mail_return_value = mail($to, $subject, $message, $headers); // Send our email
         ///echo "mail return value = " $mail_return_value
         //  IF the mail call had an error
@@ -431,7 +431,7 @@ Please click this link to reset your PLAID password:  ' . $activation_link . '
 '; // Our message above including the link
 
             ///$headers = 'From:PLAID_admin@jpl.nasa.gov' . '\r\n'; // Set from headers
-            $headers = "From: Michael.L.Munn@jpl.nasa.gov"; // Set from headers
+            $headers = "From: plaid-support@jpl.nasa.gov"; // Set from headers
             $mail_return_value = mail($to, $subject, $message, $headers); // Send our email
             ///echo "mail return value = " $mail_return_value
             //  IF the mail call had an error
