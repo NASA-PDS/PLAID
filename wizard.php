@@ -20,7 +20,7 @@ $session_handler = new PlaidSessionHandler();
 session_start();
 if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     header("Location: index.php");
-
+    die();
 ?>
 <!DOCTYPE html>
 <html>
