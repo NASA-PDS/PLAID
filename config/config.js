@@ -66,8 +66,8 @@ var node_contact_info = {
     },
     test : {
         node_name: "PLAID Support",
-        name: "Stirling Algermissen",
-        email: "stirling.s.algermissen@jpl.nasa.gov"
+        name: "PLAID Support",
+        email: "plaid-support@jpl.nasa.gov"
     }
 
 };
@@ -80,15 +80,19 @@ var node_contact_info = {
 
 var filePaths_1A00 = {
   PDS_JSON: "config/PDS4_PDS_JSON_1A00_DOM.JSON",
-  CART_JSON: "config/PDS4_CART_JSON_1700_DOM.JSON",
+  CART_JSON: "config/PDS4_CART_1A10.json",
   DISP_JSON: "config/PDS4_DISP_JSON_1A00_DOM.JSON",
-  GEOM_JSON: "config/PDS4_GEOM_1700_1401.json",
-  IMG_JSON: "config/PDS4_IMG_1800.JSON",
+  GEOM_JSON: "config/PDS4_GEOM_1A10.json",
+  IMG_JSON: "config/PDS4_IMG_1A10.json",
   PART_JSON: "config/PDS4_PDS_JSON_1800.JSON",
   RMS_JSON: "config/PDS4_RINGS_JSON_1510_DOM.JSON",
   BOD_JSON: "config/PDS4_PDS_JSON_1800.JSON",
   SPECT_JSON: "config/PDS4_PDS_JSON_1800.JSON",
-  WAV_JSON: "config/PDS4_PDS_JSON_1800.JSON"
+  WAV_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+  MSN_JSON: "config/PDS4_MSN_1A10.json",
+  MSN_SURFACE_JSON: "config/PDS4_MSN_SURFACE_1A10.json",
+  IMG_SURFACE_JSON: "config/PDS4_IMG_SURFACE_1A10.json",
+  NUC_JSON: "config/PDS4_NUCSPEC_1A00.json"
 };
 
 var filePaths_1800 = {
@@ -101,7 +105,11 @@ var filePaths_1800 = {
     RMS_JSON: "config/PDS4_PDS_JSON_1800.JSON",
     BOD_JSON: "config/PDS4_PDS_JSON_1800.JSON",
     SPECT_JSON: "config/PDS4_PDS_JSON_1800.JSON",
-    WAV_JSON: "config/PDS4_PDS_JSON_1800.JSON"
+    WAV_JSON: "config/PDS4_PDS_JSON_1800.JSON",
+    MSN_JSON: "",
+    MSN_SURFACE_JSON: "",
+    IMG_SURFACE_JSON: "",
+    NUC_JSON: ""
 };
 
 
@@ -116,7 +124,11 @@ var filePaths_1700 = {
     RMS_JSON: "config/geom_disp_rings_1700.json",
     BOD_JSON: "",
     SPECT_JSON: "",
-    WAV_JSON: ""
+    WAV_JSON: "",
+    MSN_JSON: "",
+    MSN_SURFACE_JSON: "",
+    IMG_SURFACE_JSON: "",
+    NUC_JSON: ""
 };
 
 var filePaths_1600 = {
@@ -129,7 +141,11 @@ var filePaths_1600 = {
     RMS_JSON: "config/PDS4_PDS_JSON_1600.JSON",
     BOD_JSON: "config/PDS4_PDS_JSON_1600.JSON",
     SPECT_JSON: "config/PDS4_PDS_JSON_1600.JSON",
-    WAV_JSON: "config/PDS4_PDS_JSON_1600.JSON"
+    WAV_JSON: "config/PDS4_PDS_JSON_1600.JSON",
+    MSN_JSON: "",
+    MSN_SURFACE_JSON: "",
+    IMG_SURFACE_JSON: "",
+    NUC_JSON: ""
 }
 
 
@@ -288,7 +304,34 @@ var g_dictInfo_1A00 = {
     name: 'rings',
     base_class: '0001_NASA_PDS_1.rings.Rings',
     path: filePaths_1A00["RMS_JSON"]
-  }
+  },
+
+  nucspec: {
+    ns: 'nucspec',
+    name: 'nucspec',
+    base_class: '0001_NASA_PDS_1.nucspec.GRNS_Observation_Properties',
+    path: filePaths_1A00["NUC_JSON"]
+  },
+
+    msn: {
+        ns: 'msn',
+        name: 'mission',
+        base_class: '0001_NASA_PDS_1.msn.Mission_Information',
+        path: filePaths_1A00["MSN_JSON"]
+    },
+    msn_surface: {
+        ns: 'msn_surface',
+        name: 'mission_surface',
+        base_class: '0001_NASA_PDS_1.msn_surface.Surface_Mission_Parameters',
+        path: filePaths_1A00["MSN_SURFACE_JSON"]
+    },
+    img_surface: {
+        ns: 'img_surface',
+        name: 'imaging_surface',
+        base_class: '0001_NASA_PDS_1.img_surface.Surface_Imaging_Parameters',
+        path: filePaths_1A00["IMG_SURFACE_JSON"]
+    }
+
 };
 // ordering for core_schema_versions below is from last to first
 // These values are now represented as Strings, rather than Integers

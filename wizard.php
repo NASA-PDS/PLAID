@@ -205,53 +205,44 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
                                 </div>
                             </td>
                         </tr>
+
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" disabled>
+                                    <input type="checkbox">
+                                    <span class="spacer"></span>
+                                    <i class="fa fa-rocket fa-fw" aria-hidden="true"></i>
+                                    <span class="discNode" ns="msn" data-id="0001_NASA_PDS_1.msn.Mission_Information" step_path="plaid_discipline_node:mission" >Mission</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="label-item">
+                            <td>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" >
                                     <span class="spacer"></span>
                                     <i class="fa fa-sun-o fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" ns="ppi" data-id="">Plasma Particle</span>
+                                    <span class="discNode" ns="msn_surface" data-id="0001_NASA_PDS_1.msn_surface.Surface_Mission_Parameters" step_path="plaid_discipline_node:mission_surface">Mission Surface</span>
                                 </div>
                             </td>
                         </tr>
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" disabled>
+                                    <input type="checkbox" >
                                     <span class="spacer"></span>
-                                    <i class="fa fa-circle fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" ns="rings" data-id="0001_NASA_PDS_1.rings.Rings" step_path="plaid_discipline_node:rings">Ring-Moon Systems</span>
+                                    <i class="fa fa-camera fa-fw" aria-hidden="true"></i>
+                                    <span class="discNode" ns="img_surface" data-id="0001_NASA_PDS_1.img_surface.Surface_Imaging_Parameters" step_path="plaid_discipline_node:imaging_surface">Imaging Surface</span>
                                 </div>
                             </td>
                         </tr>
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" disabled>
+                                    <input type="checkbox" >
                                     <span class="spacer"></span>
-                                    <i class="fa fa-spinner fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="">Small Bodies</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="label-item">
-                            <td>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" disabled>
-                                    <span class="spacer"></span>
-                                    <i class="fa fa-rss fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="">Spectra</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="label-item">
-                            <td>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" disabled>
-                                    <span class="spacer"></span>
-                                    <i class="fa fa-google-wallet fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="">Wave</span>
+                                    <i class="fa fa-bolt fa-fw" aria-hidden="true"></i>
+                                    <span class="discNode" ns="nucspec" data-id="0001_NASA_PDS_1.nucspec.GRNS_Observation_Properties" step_path="plaid_discipline_node:nucspec">Nuclear Spectroscopy (DRAFT)</span>
                                 </div>
                             </td>
                         </tr>
