@@ -777,8 +777,17 @@ function prependDisciplineRootNode($filtArr, $ns) {
         case "rings":
             array_unshift($filtArr, "rings:Rings");
             break;
-        case "wave":
-            array_unshift($filtArr, "wave:Wave");
+        case "nucspec":
+            array_unshift($filtArr, "nucspec:GRNS_Observation_Properties");
+            break;
+        case "msn":
+            array_unshift($filtArr, "msn:Mission_Information");
+            break;
+        case "msn_surface":
+            array_unshift($filtArr, "msn_surface:Surface_Mission_Parameters");
+            break;
+        case "img_surface":
+            array_unshift($filtArr, "img_surface:Surface_Imaging_Parameters");
             break;
         default:
             return $filtArr;

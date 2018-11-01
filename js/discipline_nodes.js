@@ -96,6 +96,14 @@ function getNodeJsonFilename(nodeName){
             return filePaths.SPECT_JSON;
         case "wave":
             return filePaths.WAV_JSON;
+        case "mission":
+            return filePaths.MSN_JSON;
+        case "mission_surface":
+            return filePaths.MSN_SURFACE_JSON;
+        case "imaging_surface":
+            return filePaths.IMG_SURFACE_JSON;
+        case "nuclear_spectroscopy (draft)":
+            return filePaths.NUC_JSON;
         default:
             return null;
     }
