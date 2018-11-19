@@ -19,7 +19,8 @@ include_once("php/PlaidSessionHandler.php");
 $session_handler = new PlaidSessionHandler();
 session_start();
 if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
-    header("Location: index.php");
+    header("HTTP/1.1 401 Unauthorized");
+#    header("Location: index.php");
     die();
 }
 
