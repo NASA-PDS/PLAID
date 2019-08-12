@@ -98,7 +98,6 @@ $(document).ready(function() {
             $(".modal-footer").prepend(preview_download_button);
         });
     });
-    $('#mirrorFileInputField').val($('#file').val());
     $("#uploadTableBtn").click(function(){
         // show Modal
         $('#tblUploadModal').modal('show');
