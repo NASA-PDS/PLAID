@@ -418,56 +418,9 @@ function areDifferentDisciplineNodes(dataObj) {
     nodesToRemove.reverse();
 
     $.each(nodesToRemove, function (key, value) {
-        // Lookup location in wizardData
-        var found = 0;
-        // check if it's a discipline node starting page
-        if (typeof value.step_path == 'undefined' && typeof value.namespace != 'undefined') {
-            // determine wizardData step path
-            var dictKeys = Object.keys(g_dictInfo);
-            for (var i = 0; i < dictKeys.length; i++) {
-                var key = dictKeys[i];
-                var dict = g_dictInfo[key];
-                if (key == value.namespace) {
-                    // The code below removes inital step of the namespace being removed
-                    var searchPath = "plaid_discipline_node:" + dict.name;
-                    $.each(wizardData.stepPaths, function (wizkey, wizvalue) {
-                        if (wizvalue == searchPath) {
-                            found = 1;
-                            var offset = getStepOffset(wizkey); // there is an offset between the steps in the wizard and stepPaths
-                            $("#wizard").steps('remove', Number(wizkey) + offset);
-                            wizardData.stepPaths.splice(wizkey, 1);         // aren't tracked in wizardData
-                            wizardData.mainSteps.splice(wizkey, 1);
-                            progressData.splice(wizkey + offset, 1);
-                        }
-                    })
-                }
-            }
-        }
-        if (found == 0) {
-            // the code below removes all children steps of the root of that namepsace
-            $.each(wizardData.stepPaths, function (wizkey, wizvalue) {
-                if (wizvalue == value.step_path) {
-                    found = 1;
-                    var offset = getStepOffset(wizkey); // there is an offset between the steps in the wizard and stepPaths
-                    $("#wizard").steps('remove', Number(wizkey) + offset);
-                    wizardData.stepPaths.splice(wizkey, 1);         // aren't tracked in wizardData
-                    wizardData.mainSteps.splice(wizkey, 1);
-                    progressData.splice(wizkey + offset, 1);
-
-                    backendCall("php/xml_mutator.php",
-                        "removeAllChildNodes",
-                        {path: value.step_path, ns: value.namespace},
-                        function (data) {
-                        });
-                    backendCall("php/xml_mutator.php",
-                        "removeClass",
-                        {path: value.step_path, ns: value.namespace},
-                        function (data) {
-                        });
-
-                }
-            });
-        }
+        var found = removeWizardDataStepPath(value, wizardData);
+        removeWizardDataMainStep(value, wizardData);
+        removeProgressData(value, progressData);
         if (found == 0) {
             console.log("could not find wizardSteps removal index for:");
             console.log(value);
@@ -524,6 +477,7 @@ function areDifferentOptionalNodes(dataObj) {
             console.log("Current progressData Obj does not match current step");
             console.log($(".optional-section", stepContent).attr("step_path"));
             console.log(dataObj["step_path"]);
+            console.log(currObj['id']);
         }
         var newNum = $(".element-bar-counter", elementBar).val();
         var newVal = "";
@@ -704,4 +658,84 @@ function areDifferentMissionSpecifics(dataObj) {
         return true;
     }
     return false;
+}
+
+/**
+ * Remove wizardData that contains the same step path as given value
+ * @param {string} value - object looked up from progressData
+ * @param {Object} wizardData - object containing the values that map to the current state of the wizard
+ */
+function removeWizardDataStepPath(value, wizardData) {
+    // Lookup location in wizardData
+    var found = 0;
+    // check if it's a discipline node starting page
+    if (typeof value.step_path == 'undefined' && typeof value.namespace != 'undefined') {
+        // determine wizardData step path
+        var dict = g_dictInfo[value.namespace];
+        if (dict) {
+            // The code below removes inital step of the namespace being removed
+            var searchPath = "plaid_discipline_node:" + dict.name;
+            $.each(wizardData.stepPaths, function (wizkey, wizvalue) {
+                if (wizvalue == searchPath) {
+                    found = 1;
+                    var index = getWizardStepByTitle(dict.name);
+                    $("#wizard").steps('remove', index);
+                    wizardData.stepPaths.splice(wizkey, 1);         // aren't tracked in wizardData
+                    return false;
+                }
+            })
+        }
+    }
+    if (found == 0) {
+        // the code below removes all children steps of the root of that namepsace
+        $.each(wizardData.stepPaths, function (wizkey, wizvalue) {
+            var levels = wizvalue.match(/(\[.*?\])/g);
+            if (levels) {
+                wizvalue = wizvalue.slice(0, wizvalue.lastIndexOf(levels[levels.length - 1]));
+            }
+            if (wizvalue == value.step_path) {
+                found = 1;
+                var index = getWizardStepByPath(value.step_path);
+                $("#wizard").steps('remove', index);
+                wizardData.stepPaths.splice(wizkey, 1);         // aren't tracked in wizardData
+
+                // backendCall("php/xml_mutator.php",
+                //     "removeAllChildNodes",
+                //     {path: value.step_path, ns: value.namespace},
+                //     function (data) {
+                //     });
+                // backendCall("php/xml_mutator.php",
+                //     "removeClass",
+                //     {path: value.step_path, ns: value.namespace},
+                //     function (data) {
+                //     });
+                return false;
+            }
+        });
+    }
+    return found;
+}
+
+function removeProgressData(value, progressData) {
+    $.each(progressData, function(key, pValue) {
+        if (typeof pValue.namespace != 'undefined') {
+            if (pValue.namespace == value.namespace) {
+                progressData.splice(key, 1);
+                return false;
+            }
+        }
+    });
+}
+
+function removeWizardDataMainStep(value, wizardData) {
+    // determine wizardData step path
+    var dict = g_dictInfo[value.namespace];
+    if (dict) {
+        $.each(wizardData.mainSteps, function (key, value) {
+            if (dict.name == value) {
+                wizardData.mainSteps.splice(key, 1);
+                return false;
+            }
+        })
+    }
 }
