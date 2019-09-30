@@ -98,7 +98,6 @@ $(document).ready(function() {
             $(".modal-footer").prepend(preview_download_button);
         });
     });
-    $('#mirrorFileInputField').val($('#file').val());
     $("#uploadTableBtn").click(function(){
         // show Modal
         $('#tblUploadModal').modal('show');
@@ -601,6 +600,55 @@ function getStepOffset(insertion_index) {
         }
     }
     return offset;
+}
+
+/**
+ * Look up wizard step's index based on given title of the step
+ * @param {string} title - title of the step; ie. cartography, this can be looked up via g_dictInfo
+ */
+function getWizardStepByTitle(title) {
+    var mapping = mapWizardStepsTitleToDict();
+    return mapping.titles[title];
+}
+
+/**
+ * Look up wizard step's index based on given path of the step
+ * @param {string} path - path of the step; ie. 2/Spatial_Reference_Information
+ */
+function getWizardStepByPath(path) {
+    var mapping = mapWizardStepsTitleToDict();
+    return mapping.paths[path];
+}
+
+/**
+ * Enumerate steps in the wizard and build dictionary with title and indices
+ * @returns {Object} steps; maps step title to index value
+ */
+function mapWizardStepsTitleToDict() {
+    var i = 0;
+    var cont = true;
+    var mapping = {};
+    var titles = {};
+    var paths = {};
+    while (cont) {
+        try {
+            // get step
+            var step = $("#wizard").steps('getStep', i);
+            // set title as key and index as value
+            titles[step.title] = i;
+            // set path as key and index as value as long as path exists
+            var path = $(step.content).attr('step_path');
+            if (path) {
+                paths[path] = i;
+            }
+            i++;
+        } catch (error) {
+            cont = false; // break when index out of range error happens   
+        }
+    }
+    mapping.titles = titles;
+    mapping.paths = paths;
+    return mapping;
 }
 
 /**
