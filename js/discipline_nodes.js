@@ -70,6 +70,33 @@ function discNodesSelection(currentIndex){
         });
     }
 }
+
+/**
+ * Ensure that only discipline nodes with available config is rendered
+ * @param {number} index 
+ */
+function discNodeHideMissing(index) {
+    var currSection = $("#wizard-p-" + index.toString());
+    if ($(".checkbox-group", currSection).length > 0){
+        $(".checkbox-group span.discNode", currSection).each(function() {
+            // Get the discNode section DOM object
+            var span = $(this);
+
+            // Get the nodeName from the HTML
+            var nodeName = span.html().replace(/\b\s\b/, "_").toLowerCase();
+
+            // Get the IM identifier from the data-id
+            var nodeId = span.attr("data-id");
+            // File name for this specific discipline's config
+            var jsonFileName = getNodeJsonFilename(nodeName);
+            // Check if config for discipline node exists, if not hide the selection
+            if (jsonFileName === "") {
+                span.parents("tr").hide();
+            }
+        });
+    }
+}
+
 /**
  * Return the file path to the JSON of data for the specified discipline node. This JSON
  * will be read in as a variable and searched through for the necessary data.

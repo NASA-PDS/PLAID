@@ -979,28 +979,6 @@ function getXMLStringToImport() {
 }
 
 /**
- * Get the name and ID of the label currently stored in the session.
- */
-function getCurrLabelIdName(){
-    global $LINK;
-    session_start();
-
-    // Execute a query to get the name of the label associated with the id in current session.
-    $handle = $LINK->prepare('select name from label where id=?');
-    $handle->bindValue(1, $_SESSION['label_id']);
-    $handle->execute();
-    $result = $handle->fetch(\PDO::FETCH_OBJ);
-
-    // Variable to return
-    $retVal = array("id" => $_SESSION['label_id'], "name" => $result->name );
-
-    // attach a header to indicate that this is JSON.
-    header('Content-type: application/json');
-    echo json_encode($retVal);
-    return json_encode($retVal);   // <-- debug
-}
-
-/**
  * Check all active sessions besides the current user and see if they are currently accessing the provided label id.
  * @param {Object} $label_id id of label to determine if in use
  */
@@ -1078,48 +1056,12 @@ function fetchLabelXML(){
 }
 
 /**
- * Imports the label CSV file, uploaded by the user.
- */
-function importCSV(){
-
-    /**
-     * Imports the label CSV file, uploaded by the user.
-     */
-    function importCSV(){
-
-        print $_FILES['upload'];
-
-        if (file_exists($_FILES)) {
-            chmod($_FILES, 0777);
-            print_r($_FILES);
-            echo "The file $_FILES exists";
-        } else {
-            echo "The file $_FILES does not exist";
-        }
-    }
-}
-
-/**
  * Pass current label ID to the front-end.
  */
 function getSessionLabelID(){
     session_start();
     $labelID = $_SESSION['label_id'];
     echo $labelID;
-}
-
-/**
- * Stores user's choice of whether overwrite the existing label or create a new
- */
-function setTableUploadOption($arg){
-    session_start();
-    $_SESSION['table_upload_overwrite'] = false;
-    if($arg['table_upload_overwrite'] == 1 || $arg['table_upload_overwrite'] == "1" ){
-        $_SESSION['table_upload_overwrite'] = 1;
-    }else{
-        $_SESSION['table_upload_overwrite'] = 0;
-    }
-    echo $_SESSION['table_upload_overwrite'];
 }
 
 /**

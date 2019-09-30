@@ -115,6 +115,7 @@ function initWizard(wizard) {
                 handleMissionSpecificsStep(currentIndex, newIndex);
                 handleExportStep(newIndex);
                 discNodesSelection(currentIndex);
+                discNodeHideMissing(newIndex);
 
                 // Assign step/data-path to LHS navigation bars
                 stepLhsNav = $('#wizard-t-'+currentIndex);
