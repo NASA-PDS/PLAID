@@ -62,7 +62,7 @@ var node_contact_info = {
     sbn : {
         node_name: "Small Bodies Node",
         name: "Michael F. A'Hearn",
-        email: "ma@astro.umd.edu"
+        email: "ludmilla@astro.umd.edu"
     },
     test : {
         node_name: "PLAID Support",
