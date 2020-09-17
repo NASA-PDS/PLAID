@@ -46,10 +46,31 @@ function updatePopUp(currentStep) {
         return false;
     }
     // Show a pop-up when the user is trying to proceed past a step with incorrectly configured choice fields
-    else if ($(wrapper).find(".choice-field").length > 0 &&
-        $(wrapper).find(".choice-field").attr("total") < $(wrapper).find(".choice-field").attr("min")) {
-        $(wrapper).attr("pop-up", "invalidChoice");
-        return true;
+    ///else if ($(wrapper).find(".choice-field").length > 0 &&
+    ///    $(wrapper).find(".choice-field").attr("total") < $(wrapper).find(".choice-field").attr("min")) {
+    else if ($(wrapper).find(".choice-field").length > 0) {     // Else IF there is a Choice Group
+        // Get the Choice Group
+        const choiceGroup = $(wrapper).find(".choice-field");
+        // Get the current total count of all the counters in the choice field
+        // Get all the counter descendants in the choice field
+        const counters = $(choiceGroup).find(".element-bar-counter");
+        let total = 0;
+        // For each counter
+        counters.each(function(){
+            // Get the counter's value
+            const valAsStr = $(this).val();
+            const val = parseInt(valAsStr, 10);     // convert it from string to int
+            //console.log("val = ", val);
+            total += val;
+        });
+        //console.log("total =", total);
+        const choiceGroupMinAsStr = $(wrapper).find(".choice-field").attr("min");
+        const choiceGroupMin = parseInt(choiceGroupMinAsStr, 10);     // convert it from string to int
+        // IF the total < min
+        if (total < choiceGroupMin) {
+            $(wrapper).attr("pop-up", "invalidChoice");
+            return true;
+        }
     }
     // Show a pop-up when the user is trying to leave the MSD builder at an invalid state (not the homepage)
     else if ($(wrapper).find("[pop-up-id]").length > 0) {
@@ -187,3 +208,4 @@ function generatePopUp(popUpObj, codemirror_type, large) {
     });
     removePopovers();
 }
+

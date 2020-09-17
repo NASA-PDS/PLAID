@@ -44,12 +44,27 @@ $(document).ready(function() {
         schemaVersion = default_schema;
     }
 
-// Set when label is created
+    //  Get the Basic Mode from the URL parameter, which is passed if creating, but not if editing
+    var basicModeToggle = getParameterByName("basicMode");
+    if (basicModeToggle == "false") {
+        g_isBasicMode = false;
+    }
+    else if (basicModeToggle == "true") {
+        g_isBasicMode = true;
+    }
+
+    //  Set the Basic Mode Toggle's value
+    if (g_isBasicMode) {
+        $("#basic_mode_toggle").bootstrapToggle('on');
+    } else {
+        $("#basic_mode_toggle").bootstrapToggle('off');
+    }
+
+    // Set when label is created
     filePaths = core_schema_versions[schemaVersion]["filePaths"];
     g_dictInfo = core_schema_versions[schemaVersion]["g_dictInfo"];
 
     setupClickHandlers();
-
 
     $(".list-group-item:not(.yesButton):not(.noButton)").each(function(){
         $(this).click(captureSelection);
@@ -60,7 +75,7 @@ $(document).ready(function() {
         $("#wizard").steps("next");
     });
     $(".labelPreviewButton").click(function(){
-        backendCall("php/preview_template.php", null, {
+        backendCall("php/preview_template.php", "previewLabelTemplate", {
             namespaces: g_jsonData.namespaces
         }, function(data){
             var wrapperDiv = document.createElement("textarea");
@@ -82,7 +97,10 @@ $(document).ready(function() {
             $(preview_download_button).text("Download Label");
             $(".modal-footer").prepend(preview_download_button);
         });
-
+    });
+    $("#uploadTableBtn").click(function(){
+        // show Modal
+        $('#tblUploadModal').modal('show');
     });
     $("ul[role='menu']").hide();
     addMissionSpecificsActionBar();
@@ -114,11 +132,45 @@ $(document).ready(function() {
             method: "post",
             url: "php/interact_db.php",
             data: {
+                function: "getMissionSpecificsHeaderData"
+            },
+            datatype: "text",
+            success: function (data) {
+                if (data !== null) {
+                    missionSpecificsHeader = data;
+                }
+            }
+        }),
+        $.ajax({
+            method: "post",
+            url: "php/interact_db.php",
+            data: {
                 function: "getLabelName"
             },
             datatype: "text",
             success: function(data){
                 $(".labelNameNav").text(data);
+            }
+        }),
+        // Get the XML string to Import
+        $.ajax({
+            method: "post",
+            url: "php/interact_db.php",
+            data: {
+                function: "getXMLStringToImport"
+            },
+            datatype: "text",
+            success: function(data){
+               const xmlStringToImport = data;
+               //console.log("xmlStringToImport = '" + xmlStringToImport + "'");
+               g_importedXmlDoc = null;
+               // IF the XML string to Import is NOT empty
+               if (xmlStringToImport != "") {
+                   // Parse the Imported XML file's contents into the XML DOM
+                   const parser = new DOMParser();
+                   g_importedXmlDoc = parser.parseFromString(xmlStringToImport, XML_FILE_TYPE);
+                   //console.log('g_importedXmlDoc =', g_importedXmlDoc);
+               }
             }
         })
 
@@ -228,6 +280,13 @@ function increaseCounter(){
         $(this).parent().siblings(".element-bar-label").removeClass("zero-instances");
         $(this).parent().siblings(".element-bar-input").prop('disabled', false);
         $(this).parent().siblings(".selectpicker").prop('disabled', false);
+        //  Enable the Unit dropdown list
+        //  Get the sibling that is the unitchooser selectpicker's div tag, which contains the 'select' tag
+        var unitchooserDivTagElement = $(this).parent().siblings(".unitchooser");
+        //  Enable the div tag's child 'select' tag
+        $('.unitchooser', unitchooserDivTagElement).prop('disabled', false);
+        $('.unitchooser', unitchooserDivTagElement).selectpicker('refresh');
+
         $(this).parent().siblings(".element-bar-button").children(".element-bar-minus").prop('disabled', false);
     }
     if (newVal === counterMax){
@@ -285,6 +344,12 @@ function decreaseCounter(){
             $(this).parent().siblings(".selectpicker").prop('disabled', true);
             $(this).parent().siblings(".selectpicker").selectpicker('refresh');
         }
+        //  Disable the Unit dropdown list
+        //  Get the sibling that is the unitchooser selectpicker's div tag, which contains the 'select' tag
+        var unitchooserDivTagElement = $(this).parent().siblings(".unitchooser");
+        //  Disable the div tag's child 'select' tag
+        $('.unitchooser', unitchooserDivTagElement).prop('disabled', true);
+        $('.unitchooser', unitchooserDivTagElement).selectpicker('refresh');
     }
 }
 /**
@@ -305,10 +370,11 @@ function getMinMax(counter){
 /**
  * Before the user submits the filename form (on the Export step),
  * ensure that the filename is valid. Show there is an error otherwise.
+ * @param filenameInputId the ID string of the Input tag for the filename
  * @returns {boolean}
  */
-function checkFilename(){
-    var input = $("#exportInput");
+function checkFilename(filenameInputId){
+    var input = $("#" + filenameInputId);
     var regex = new RegExp("^[a-zA-Z][a-zA-Z0-9_-]+.xml$");
     if ($(input).val().match(regex)){
         $(input).removeClass("error");
@@ -316,7 +382,7 @@ function checkFilename(){
     }
     else{
         $(input).addClass("error");
-        alert("Please use .xml extenion. For example: filename.xml");
+        alert("Please use .xml extension. For example: filename.xml");
         return false;
     }
     return true;
@@ -331,6 +397,14 @@ function handleExportStep(newIndex){
     var isExportStep = $(nextSection).find(".exportForm").length > 0;
     var hasNoPreview = !$(nextSection).find(".finalPreview").length > 0;
     if (isExportStep){
+        var isAnyMissionSpecificYesStep = false;
+        //  Look for a Mission Specifics step w/ a Yes button-click
+        for (var s=0; s < progressData.length; s++) {
+            if ((progressData[s].step === "mission_specifics") && (progressData[s].selection === "yesButton")) {
+                isAnyMissionSpecificYesStep = true;
+                break;
+            }
+        }
         if(hasNoPreview) {
             /*
              backendCall("php/xml_mutator.php",
@@ -354,12 +428,35 @@ function handleExportStep(newIndex){
             setTimeout(function () {
                 codemirror_editor.refresh();
             }, 100);
+
+            //  Generate preview of the Ingest LDDTool template
+            var previewIngestLDDTool = generateIngestLDDToolPreview(g_jsonData.namespaces);
+            $("#finalPreviewIngest", nextSection).append(previewIngestLDDTool[0]);
+            var codemirror_editor_ingest = CodeMirror.fromTextArea(previewIngestLDDTool[1], {
+                mode: "xml",
+                lineNumbers: true,
+                foldGutter: true,
+                gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+            });
+            $(".CodeMirror").css("height", "93%");
+            setTimeout(function () {
+                codemirror_editor_ingest.refresh();
+            }, 100);
+
+            //  IF there is any Mission Specifics step w/ a Yes button-click
+            if (isAnyMissionSpecificYesStep) {
+                //  Show the Ingest LDDTool preview
+                $(".exportIngestLDDForm").show();
+            } else {
+                //  Hide the Ingest LDDTool preview
+                $(".exportIngestLDDForm").hide();
+            }
         } else {
             // regenerate preview
-            backendCall("php/preview_template.php", null, {
+            backendCall("php/preview_template.php", "previewLabelTemplate", {
                 namespaces: g_jsonData.namespaces
             }, function(data){
-                $.each($(".CodeMirror"), function(key, mirror) {
+                $.each($(".CodeMirror", "#finalPreview"), function(key, mirror) {
                     mirror.CodeMirror.setValue(data);
                     setTimeout(function() {
                         mirror.CodeMirror.refresh();
@@ -367,6 +464,24 @@ function handleExportStep(newIndex){
                 });
             });
 
+            //  IF there is any Mission Specifics step w/ a Yes button-click
+            if (isAnyMissionSpecificYesStep) {
+                //  Show the Ingest LDDTool preview
+                $(".exportIngestLDDForm").show();
+                backendCall("php/preview_template.php", "previewIngestLDDToolTemplate", {
+                    namespaces: g_jsonData.namespaces
+                }, function (data) {
+                    $.each($(".CodeMirror", "#finalPreviewIngest"), function (key, mirror) {
+                        mirror.CodeMirror.setValue(data);
+                        setTimeout(function () {
+                            mirror.CodeMirror.refresh();
+                        }, 1);
+                    });
+                });
+            } else {
+                //  Hide the Ingest LDDTool preview
+                $(".exportIngestLDDForm").hide();
+            }
         }
     }
 }
@@ -391,7 +506,38 @@ function generateFinalPreview(namespaces) {
     cardBlock.className = "";
     card.appendChild(cardBlock);
 
-    backendCall("php/preview_template.php", null, {
+    backendCall("php/preview_template.php", "previewLabelTemplate", {
+        namespaces: namespaces
+    }, function(data){
+        $(cardBlock).text(data);
+    });
+
+    previewContainer.appendChild(card);
+
+    return [previewContainer, cardBlock];
+}
+/**
+ * Generate a preview of the completed Ingest LDDTool template. This makes a call
+ * to the backend to read the contents of the Ingest LDDTool XML file.
+ * @returns {Element}
+ */
+function generateIngestLDDToolPreview(namespaces) {
+    var previewContainer = document.createElement("div");
+    previewContainer.className = "finalPreviewIngest previewIngestContainer";
+
+    var card = document.createElement("div");
+    card.className = "finalPreviewIngest cardIngest";
+
+    var cardHeader = document.createElement("div");
+    cardHeader.className = "finalPreviewIngest card-ingest-header";
+    cardHeader.innerHTML = "Ingest LDDTool Template Preview";
+    card.appendChild(cardHeader);
+
+    var cardBlock = document.createElement("textarea");
+    cardBlock.className = "";
+    card.appendChild(cardBlock);
+
+    backendCall("php/preview_template.php", "previewIngestLDDToolTemplate", {
         namespaces: namespaces
     }, function(data){
         $(cardBlock).text(data);
@@ -457,6 +603,55 @@ function getStepOffset(insertion_index) {
 }
 
 /**
+ * Look up wizard step's index based on given title of the step
+ * @param {string} title - title of the step; ie. cartography, this can be looked up via g_dictInfo
+ */
+function getWizardStepByTitle(title) {
+    var mapping = mapWizardStepsTitleToDict();
+    return mapping.titles[title];
+}
+
+/**
+ * Look up wizard step's index based on given path of the step
+ * @param {string} path - path of the step; ie. 2/Spatial_Reference_Information
+ */
+function getWizardStepByPath(path) {
+    var mapping = mapWizardStepsTitleToDict();
+    return mapping.paths[path];
+}
+
+/**
+ * Enumerate steps in the wizard and build dictionary with title and indices
+ * @returns {Object} steps; maps step title to index value
+ */
+function mapWizardStepsTitleToDict() {
+    var i = 0;
+    var cont = true;
+    var mapping = {};
+    var titles = {};
+    var paths = {};
+    while (cont) {
+        try {
+            // get step
+            var step = $("#wizard").steps('getStep', i);
+            // set title as key and index as value
+            titles[step.title] = i;
+            // set path as key and index as value as long as path exists
+            var path = $(step.content).attr('step_path');
+            if (path) {
+                paths[path] = i;
+            }
+            i++;
+        } catch (error) {
+            cont = false; // break when index out of range error happens   
+        }
+    }
+    mapping.titles = titles;
+    mapping.paths = paths;
+    return mapping;
+}
+
+/**
  * This function parses URL parameters
  */
 function getParameterByName(name, url) {
@@ -476,9 +671,16 @@ function getParameterByName(name, url) {
  */
 function setupClickHandlers() {
     $("#exportButton").on("click", function(event) {
-        if(checkFilename()) {
+        if(checkFilename("exportInput")) {
             var label = $(".CodeMirror", "#finalPreview")[0].CodeMirror.getValue();
             download(label, $("#exportInput").val(), "text/xml");
+        }
+    });
+
+    $("#exportIngestLDDButton").on("click", function(event) {
+        if(checkFilename("exportIngestLDDInput")) {
+            var label = $(".CodeMirror", "#finalPreviewIngest")[0].CodeMirror.getValue();
+            download(label, $("#exportIngestLDDInput").val(), "text/xml");
         }
     });
 

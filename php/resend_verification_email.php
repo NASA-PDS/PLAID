@@ -13,6 +13,9 @@
  * Time: 12:47 PM
  */
 require "../thirdparty/php/PHPMailerAutoload.php";
+include_once("PlaidSessionHandler.php");
+$session_handler = new PlaidSessionHandler();
+
 //  Enable the use of Session variables
 session_start();
 //  Get the Inactive E-mail Address from the Session variable
@@ -58,7 +61,7 @@ Please click this link to activate your account:  ' . $activation_link . '
 
 /***********************************************************************************************/
 ///$headers = 'From:PLAID_admin@jpl.nasa.gov' . '\r\n'; // Set from headers
-$headers = "From: Michael.L.Munn@jpl.nasa.gov"; // Set from headers
+$headers = "From: plaid-support@jpl.nasa.gov"; // Set from headers
 $mail_return_value = mail($to, $subject, $message, $headers); // Send our email
 ///echo "mail return value = " $mail_return_value;
 //  IF the mail call had an error
@@ -78,10 +81,10 @@ $mail = new PHPMailer;
 $mail->isSMTP();
 $mail->Host = 'smtp.jpl.nasa.gov';          //  SMTP server
 $mail->SMTPAuth = true;                     // Enable SMTP authentication
-$mail->setFrom("Michael.L.Munn@jpl.nasa.gov", "PLAID System Administrator");
+$mail->setFrom("Stirling.S.Algermissen@jpl.nasa.gov", "PLAID System Administrator");
 $mail->Subject = $subject;
 $mail->addAddress($to);
-$mail->addCC("Michael.L.Munn@jpl.nasa.gov");
+$mail->addCC("Stirling.S.Algermissen@jpl.nasa.gov");
 $mail->Body = $short_test_message;          //  $message
 if ($mail->send()) {
     echo "The Verification E-mail has been re-sent. &nbsp;Please verify your e-mail account by clicking the activation link that has been sent to your email.";

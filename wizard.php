@@ -15,10 +15,14 @@
  * limitations under the License.
  *
  */
+include_once("php/PlaidSessionHandler.php");
+$session_handler = new PlaidSessionHandler();
 session_start();
-if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
-    header("Location: index.php");
-
+if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
+    header("HTTP/1.1 401 Unauthorized");
+#    header("Location: index.php");
+    die();
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -42,9 +46,13 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <script src="config/infobar_config.js"></script>
     <script src="thirdparty/js/download.min.js"></script>
     <script src="thirdparty/js/bootstrap-select.min.js"></script>
+    <script src="thirdparty/js/bootstrap-toggle.min.js"></script>
+    <!-- Plug in to allow the user to add code to set the default values for dropdown lists -->
+    <script src="thirdparty/js/jquery.default_dropdown_plug-in.js"></script>
     <script src="js/main.js"></script>
     <script src="config/pop_up_config.js"></script>
     <script src="js/element_bar.js"></script>
+    <script src="js/default_dropdowns.js"></script>
     <script src="js/init_steps.js"></script>
     <script src="js/popover.js"></script>
     <script src="js/parse_json.js"></script>
@@ -59,6 +67,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
     <link href="thirdparty/css/jqtree.css" rel="stylesheet">
     <link href="thirdparty/css/bootstrap.css" rel="stylesheet">
     <link href="thirdparty/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="thirdparty/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link href="css/general.css" rel="stylesheet">
     <link href="css/mission_specifics.css" rel="stylesheet">
     <link href="css/pop_up.css" rel="stylesheet">
@@ -78,8 +87,23 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
             <li class="nav-item pull-xs-right">
                 <p class="labelNameNav navbar-brand m-b-0"></p>
             </li>
+            <li class="nav-item pull-xs-right">
+                <!-- Basic/Advanced Mode Toggle button defaulted to Basic (On) -->
+                <p><label>Mode: &nbsp;<input id="basic_mode_toggle" type="checkbox" checked data-toggle="toggle" data-on="Basic" data-off="Advanced"></label></p>
+            </li>
         </div>
     </nav>
+    <script>
+        $(function() {
+            //  Called when the basic mode toggle changes
+            $('#basic_mode_toggle').change(function() {
+                //  Get the toggle button's value
+                var isBasicMode = $(this).prop('checked');
+                //  Call an external JavaScript method, and pass the toggle button's value
+                basicModeToggled(isBasicMode);
+            })
+        })
+    </script>
     <div id="wrapper">
         <div id="wizard">
 
@@ -95,41 +119,44 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                             </button>
                         </td>
                     </tr>
-                    <!--
-<tr class="label-item">
-    <td>
-        <button class="list-group-item">
-            <i class="fa fa-file-o fa-fw" aria-hidden="true"></i>
-            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Document">Document</span>
-        </button>
-    </td>
-</tr>
-<tr class="label-item">
-    <td>
-        <button class="list-group-item disabled" disabled>
-            <i class="fa fa-list fa-fw" aria-hidden="true"></i>
-            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Context">Context</span>
-        </button>
-    </td>
-</tr>
-<tr class="label-item">
-    <td>
-        <button class="list-group-item disabled" disabled>
-            <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_File_Text">File Text</span>
-        </button>
-    </td>
-</tr>
+                    <!-- MLM:  un-commented the buttons below -->
+                    <tr class="label-item">
+                        <td>
+                            <button class="list-group-item">
+                                <i class="fa fa-file-o fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Document">Document</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="label-item">
+                        <td>
+                            <!-- <button class="list-group-item disabled" disabled> -->
+                            <button class="list-group-item">
+                                <i class="fa fa-list fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Context">Context</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="label-item">
+                        <td>
+                            <!-- <button class="list-group-item disabled" disabled> -->
+                            <button class="list-group-item">
+                                <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_File_Text">File Text</span>
+                            </button>
+                        </td>
+                    </tr>
 
-<tr class="label-item">
-    <td>
-        <button class="list-group-item disabled" disabled>
-            <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
-            <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Thumbnail">Thumbnail</span>
-        </button>
-    </td>
-</tr>
--->
+                    <tr class="label-item">
+                        <td>
+                            <!-- <button class="list-group-item disabled" disabled> -->
+                            <button class="list-group-item">
+                                <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Thumbnail">Thumbnail</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- MLM:  un-commented the buttons above -->
                 </table>
             </section>
 
@@ -178,53 +205,44 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                                 </div>
                             </td>
                         </tr>
+
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" disabled>
+                                    <input type="checkbox">
+                                    <span class="spacer"></span>
+                                    <i class="fa fa-rocket fa-fw" aria-hidden="true"></i>
+                                    <span class="discNode" ns="msn" data-id="0001_NASA_PDS_1.msn.Mission_Information" step_path="plaid_discipline_node:mission" >Mission</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="label-item">
+                            <td>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" >
                                     <span class="spacer"></span>
                                     <i class="fa fa-sun-o fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" ns="ppi" data-id="">Plasma Particle</span>
+                                    <span class="discNode" ns="msn_surface" data-id="0001_NASA_PDS_1.msn_surface.Surface_Mission_Parameters" step_path="plaid_discipline_node:mission_surface">Mission Surface</span>
                                 </div>
                             </td>
                         </tr>
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" disabled>
+                                    <input type="checkbox" >
                                     <span class="spacer"></span>
-                                    <i class="fa fa-circle fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" ns="rings" data-id="0001_NASA_PDS_1.rings.Rings" step_path="plaid_discipline_node:rings">Ring-Moon Systems</span>
+                                    <i class="fa fa-camera fa-fw" aria-hidden="true"></i>
+                                    <span class="discNode" ns="img_surface" data-id="0001_NASA_PDS_1.img_surface.Surface_Imaging_Parameters" step_path="plaid_discipline_node:imaging_surface">Imaging Surface</span>
                                 </div>
                             </td>
                         </tr>
                         <tr class="label-item">
                             <td>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" disabled>
+                                    <input type="checkbox" >
                                     <span class="spacer"></span>
-                                    <i class="fa fa-spinner fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="">Small Bodies</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="label-item">
-                            <td>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" disabled>
-                                    <span class="spacer"></span>
-                                    <i class="fa fa-rss fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="">Spectra</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="label-item">
-                            <td>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" disabled>
-                                    <span class="spacer"></span>
-                                    <i class="fa fa-google-wallet fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" data-id="">Wave</span>
+                                    <i class="fa fa-bolt fa-fw" aria-hidden="true"></i>
+                                    <span class="discNode" ns="nucspec" data-id="0001_NASA_PDS_1.nucspec.GRNS_Observation_Properties" step_path="plaid_discipline_node:nucspec">Nuclear Spectroscopy (DRAFT)</span>
                                 </div>
                             </td>
                         </tr>
@@ -277,8 +295,24 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false)
                         </div>
 
                         <span class="spacer"></span>
+                </div>
 
+                <div class="exportIngestLDDForm">
+                    <div id="finalPreviewIngest"></div>
+                    <span class="spacer"></span>
+                    <div class="input-group" role="group">
+                        <span class="input-group-addon" style="width:auto !important;">Filename:</span>
 
+                        <input id="exportIngestLDDInput" class="form-control" name="filename" type="text" placeholder="IngestLDDTool.xml">
+                        <span class="input-group-btn">
+                                <button id="exportIngestLDDButton" class="btn btn-warning" type="submit">Export</button>
+                            </span>
+                        <!-- <span class="input-group-btn">
+                            <button id="submitButton" class="btn btn-primary">Submit to PDS for review</button>
+                            </span> -->
+                    </div>
+
+                    <span class="spacer"></span>
 
                 </div>
             </section>

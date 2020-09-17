@@ -14,6 +14,8 @@
         <?php
         //  Enable the use of Session variables
         session_start();
+        // TODO: Figure out why the $_SESSION[] array variable is empty
+        //echo session_id();
         //  IF the error code is not empty
         if(isset($_SESSION['error_code']) && !empty($_SESSION['error_code'])) {
             $error_code = $_SESSION['error_code'];
@@ -23,6 +25,10 @@
             if ($error_code == 20) {
                 $error_msg = "'Password' and 'Verify Password' must be the same.";
             }
+            // Do not show tell-tale error messages, for Security reasons
+            //if ($error_code == 21) {
+            //    $error_msg = "The given e-mail address is NOT in the correct format 'xxx@xxx.xxx'.";
+            //}
             echo '<div class="statusmsg">Error:  '.$error_msg.'</div>'; // Display our error message and wrap it with a div with the class "statusmsg".
 
         }

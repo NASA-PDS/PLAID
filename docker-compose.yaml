@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  mysql:
+    image: mysql:5.7.31
+    environment:
+      MYSQL_DATABASE: plaid
+      MYSQL_USER: plaid_admin
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - internal
+    volumes:
+      - ./resources:/docker-entrypoint-initdb.d
+  plaid:
+    build: .
+    environment:
+      DB_USER: plaid_admin
+      DB_PASSWORD: password
+      DB_DATABASE: plaid
+      DB_HOST: mysql
+    networks:
+      - internal
+    ports:
+      - 80:80
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql
+networks:
+  internal:
