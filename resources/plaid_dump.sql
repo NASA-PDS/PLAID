@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `apps` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `apps`;
--- MySQL dump 10.13  Distrib 5.6.19, for osx10.7 (i386)
+-- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
 --
--- Host: miplapps2    Database: apps
+-- Host: 127.0.0.1    Database: apps
 -- ------------------------------------------------------
--- Server version	5.6.31
+-- Server version	5.6.28
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -29,14 +27,21 @@ CREATE TABLE `label` (
   `creation` datetime NOT NULL,
   `last_modified` datetime NOT NULL,
   `name` varchar(50) NOT NULL,
-  `label_xml` blob NOT NULL,
-  `mission_specifics` blob,
-  `progress_data` blob,
-  `schema_version` int(11) DEFAULT NULL,
+  `label_xml` mediumblob NOT NULL,
+  `mission_specifics` mediumblob,
+  `progress_data` mediumblob,
+  `schema_version` varchar(11) DEFAULT NULL,
   `is_deleted` int(11) NOT NULL DEFAULT '0',
+  `owner` int(11) NOT NULL,
+  `ingest_ldd_xml` mediumblob NULL DEFAULT NULL,
+  `ms_mission_name` VARCHAR(50) NULL DEFAULT NULL,
+  `ms_steward_id` VARCHAR(20) NULL DEFAULT NULL,
+  `ms_namespace_id` VARCHAR(20) NULL DEFAULT NULL,
+  `ms_comment` VARCHAR(255) NULL DEFAULT NULL,
+
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=189 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -57,6 +62,22 @@ CREATE TABLE `link` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `sessions`
+--
+
+DROP TABLE IF EXISTS `sessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sessions` (
+  `id` varchar(63) CHARACTER SET ascii NOT NULL DEFAULT '',
+  `data` text,
+  `expire` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `expire` (`expire`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `user`
 --
 
@@ -71,15 +92,12 @@ CREATE TABLE `user` (
   `organization` varchar(50) DEFAULT NULL,
   `activation_hash` varchar(32) NOT NULL COMMENT 'The hash value to be passed during activation to verify that they came from the e-mail link.',
   `active` int(1) NOT NULL DEFAULT '0' COMMENT 'True if the user has been verified',
+  `admin`  int(1) NOT NULL DEFAULT '0' COMMENT 'True if the user has administrator privileges',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping routines for database 'apps'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -90,4 +108,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-30 16:25:45
+-- Dump completed on 2017-09-20 16:41:08

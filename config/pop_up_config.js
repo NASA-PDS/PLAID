@@ -29,6 +29,15 @@
  * @author Trevor Morse
  * @author Stirling Algermissen
  */
+const MAX_FILE_SIZE =  4 * 1024 * 1024;    // 4 Megabytes
+// 'XML_FILE_TYPE' is already defined by another file that includes this one
+const XML_FILE_TYPE_CONST = "text/xml";
+const CREATE_NEW_CHOICE = "create_new";  // RadioButton choices
+const IMPORT_FILE_CHOICE = "import_file";
+const IMPORT_SAMPLE_CHOICE = "import_sample";
+// Global variables
+let g_creationChoice = null;    // Create New, Step 1 radiobutton choice
+
 var popUpData = {
     // These variables, currentStep and newStep, are used to store the initial step change attempt made by the user,
     // which is referenced again later in the pop-up's yesFunctions that have intent to mimic the same step change
@@ -102,37 +111,137 @@ var popUpData = {
             $('#invalidChoice').modal('hide');
         }
     },
-    // When a user attempts to create a new label from the dashboard, this pop-up forces the user to give the label
-    // a name before proceeding
-    createNewLabel : {
-        id : "createNewLabel",
-        title : "Create New Label",
+    // When a user attempts to create a new label from the dashboard, this pop-up forces the user to choose
+    // to either create a new label, import an XML file, or import a sample label
+    createNewLabelMultiModalStep1 : {
+        id : "createNewLabelMultiModalStep1",
+        title : "Create New Label, Step 1",
+        content : "<form>" +
+        "<div class='form-group'><input type='radio' id='creationChoice1' name='creation' value='" + CREATE_NEW_CHOICE + "' checked>" +
+        "<label for='creationChoice1'>Create New</label></div>" +
+        "<div class='form-group'><input type='radio' id='creationChoice2' name='creation' value='" + IMPORT_FILE_CHOICE + "'>" +
+        "<label for='creationChoice2'>Import XML File</label></div>" +
+        "<div class='form-group'><input type='radio' id='creationChoice3' name='creation' value='" + IMPORT_SAMPLE_CHOICE + "'>" +
+        "<label for='creationChoice3'>Import Sample label</label></div>" +
+        "</form>",
+        noText: "Cancel",
+        yesText: "Continue",
+        /**
+         * Captures user's selection for type of new label creation, and calls the Step 2 modal dialog
+         */
+        yesFunction : function() {
+            // Get the radio button choice
+            g_creationChoice = $("input[name='creation']:checked").val();
+            //console.log('Creation Choice =', g_creationChoice);
+            // Hide the Step 1 dialog after validation
+            $('#createNewLabelMultiModalStep1').modal('hide');
+            // Pop up the "Create New Label, Step 2" modal dialog
+            generatePopUp(popUpData['createNewLabelMultiModalStep2']);
+            // Initialize the Schema Version dropdown and Basic/Advanced Mode
+            initializeCreateNewDialogSchemaVersionAndMode();
+            // IF Create New button was selected
+            if (g_creationChoice === CREATE_NEW_CHOICE) {
+                //console.log('Will Pop up the Create New Label Only dialog');
+                // Hide the XML File selector
+                $("#xml_file_div").hide();
+                // Hide the Sample Label dropdown list
+                $("#sample_label_select_div").hide();
+            } else if (g_creationChoice === IMPORT_FILE_CHOICE) {
+                //console.log('Will Pop up the Import XML File dialog');
+                // Show the XML File selector
+                $("#xml_file_div").show();
+                // Hide the Sample Label dropdown list
+                $("#sample_label_select_div").hide();
+            } else if (g_creationChoice === IMPORT_SAMPLE_CHOICE) {
+                //console.log('Will Pop up the Import Sample Label dialog');
+                // Hide the XML File selector
+                $("#xml_file_div").hide();
+                // Show the Sample Label dropdown list
+                $("#sample_label_select_div").show();
+                // Initialize the Sample Label dropdown list
+                initializeCreateNewDialogSampleLabelDropdown();
+            }
+        }
+    },
+    // When a user attempts to create a new label from the dashboard, this pop-up can allow the user to specify an
+    // XML File to import, or a Sample Label to import
+    createNewLabelMultiModalStep2 : {
+        id : "createNewLabelMultiModalStep2",
+        title : "Create New Label, Step 2",
         content : "<form><div class='form-group'><label for='labelNameInput'>Please enter a name for your new label:</label>" +
         "<input id='labelNameInput' class='form-control' type='text' placeholder='Ex. My Mission Label' id='example-text-input'></div>" +
         "<div class='form-group'><label for='core_schema_version_select'>Please select a PDS4 schema version:</label>" +
-        "<select class='form-control' id='core_schema_versions_select'></select></div></form>",
+        "<select class='form-control' id='core_schema_versions_select'></select></div>" +
+        "<div class='form-group'><label>Mode: &nbsp;</label><input id='basic_mode_create_toggle' type='checkbox' checked data-toggle='toggle' data-on='Basic' data-off='Advanced' data-width='120'></div>" +
+        "<div class='form-group' id='xml_file_div'><label>XML File to Import: &nbsp;</label><input id='xml_file_to_import' name='xml_file_to_import' type='file'></div>" +
+        "<div class='form-group' id='sample_label_select_div'><label for='sample_label_select'>Please select a sample label to import:</label>" +
+        "<select class='form-control' id='sample_label_select'></select></div>" +
+        "</form>",
         noText: "Cancel",
-        yesText: "Submit",
+        yesText: "Continue",
         /**
-         * Captures user's input for label name and sends it to the backend to be processed
+         * Captures user's input for new label Name, Schema version, Basic/Advanced mode, XML File to import,
+         * OR Sample Label to import
+         * If file selected, sends it to the server
          */
         yesFunction : function() {
             if (isValidLabelNameInput($('#labelNameInput'))) {
-                $('#createNewLabel').modal('hide');
-                $.ajax({
-                    type: "post",
-                    url: "php/interact_db.php",
-                    data: {
-                        function: "storeNewLabel",
-                        labelName: $("#labelNameInput").val(),
-                        version: parseInt($("#core_schema_versions_select").val())
+                // IF the Create New label radiobutton was selected
+                if (g_creationChoice === CREATE_NEW_CHOICE) {
+                    // Hide this Step 2 dialog after validation
+                    $('#createNewLabelMultiModalCreateNewLabelOnlyStep').modal('hide');
+                    // Create a new label database entry on server
+                    createNewLabelInDB();
+                } else if (g_creationChoice === IMPORT_FILE_CHOICE) {
+                    // Get the file info. from the file input control
+                    const fileData = $("#xml_file_to_import").prop('files')[0];
+                    //console.log('fileData =', fileData);
+                    // IF the user selected a file to import
+                    if (fileData != undefined) {
+                        const fileName = fileData.name;
+                        //console.log('File name =', fileName);
+                        const fileSize = fileData.size;
+                        //console.log('File size =', fileSize);
+                        // IF the selected file's size over the limit
+                        if (fileSize > MAX_FILE_SIZE) {
+                            $("#xml_file_to_import").addClass("error");
+                            //alert('Selected file size of ' + fileSize + ' > max. file size of ' + MAX_FILE_SIZE);
+                            console.log('Error: Selected file size of ', fileSize, ' > max. file size of ', MAX_FILE_SIZE);
+                            return;
+                        }
+                        const fileType = fileData.type;
+                        //console.log('File type =', fileType);
+                        // IF the selected file's type is NOT XML
+                        if (!(fileType === XML_FILE_TYPE_CONST)) {
+                            $("#xml_file_to_import").addClass("error");
+                            //alert('Selected file type is ' + fileType + ', not ' + XML_FILE_TYPE_CONST);
+                            console.log('Error: Selected file type is ', fileType, ', not ', XML_FILE_TYPE_CONST);
+                            return;
+                        }
+                        // Hide this Step 2 dialog after validation
+                        $('#createNewLabelMultiModalStep2').modal('hide');
+                        $("#xml_file_to_import").removeClass("error");
+
+                        // Create a new label database entry on server
+                        createNewLabelInDB(fileData);
                     }
-                }).success(function() {
-                    window.location = "wizard.php?version=" + $("#core_schema_versions_select").val();
-                }).fail(function() {
-                    alert("Unable to create label");
-                });
-            }
+                } else if (g_creationChoice === IMPORT_SAMPLE_CHOICE) {
+                    // Get the selected Sample Label
+                    const selectedSampleLabelId = $("#sample_label_select").val();
+                    //console.log('Selected sample label ID is', selectedSampleLabelId);
+                    // IF NO Sample label was selected
+                    if ((selectedSampleLabelId == null) || (selectedSampleLabelId <= 0)) {
+                        $("#sample_label_select").addClass("error");
+                        return;
+                    }
+                    // Hide this Step 2 dialog after validation
+                    $('#createNewLabelMultiModalStep2').modal('hide');
+                    $("#sample_label_select").removeClass("error");
+
+                    // Create a new label database entry on server
+                    createNewLabelInDB(null, selectedSampleLabelId);
+                }       // end IF-Else on radiobutton choice
+            }       // end IF a new label name was given
         }
     },
     // When a user attempts to change the label from a previously visited step, give the user the option to save
