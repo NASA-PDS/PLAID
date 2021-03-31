@@ -61,3 +61,51 @@ MySql Database Diagram:
 -----------------------
 
 ![DB Diagram](resources/db_diagram.png "DB Diagram")
+
+
+
+## How to run PLAID with Docker locally (Update: March 31, 2021)
+
+#### Setup an Apache server with PHP
+
+Add the following to your httpd.conf:
+```
+LoadModule php7_module libexec/apache2/libphp7.so
+```
+####  Setup a MySql database using the attached database dump files (```resources/plaid_dump.sql```).
+
+```
+$ mysql -u <user> -p<password> -e 'create database plaid'
+$ mysql -u <user> -p<password> plaid < plaid_dump.sql
+```
+####  Build Docker Image
+
+While in the PLAID directory that holds 'Dockerfile', run command:
+
+```
+$ docker build -t plaidimage .
+```
+
+####  Start PLAID Docker Container
+
+Stay in the same directory and run command:
+
+```
+$ docker run -p 81:8080 plaidimage
+```
+
+####  Run Docker Compose to Launch PLAID application
+
+Stay in the same directory and run command:
+
+```
+$ docker-compose up
+```
+
+#### Open application using browser
+
+Open browser and try localhost with port 81
+```
+http://localhost:81
+```
+
