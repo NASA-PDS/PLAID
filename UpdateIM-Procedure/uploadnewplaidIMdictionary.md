@@ -17,6 +17,32 @@ In the next line, start listing the dictionaries use this format with the namesp
 Example:
 
 ```
+msn:Mission_Information
+img:Imaging
+geom:Geometry
+cart:Cartography
 proc:Processing_Information
 sp:Spectral_Characteristics
+img_surface:Surface_Imaging
+nucspec:NucSpec_Observation_Properties
+speclib:Spectral_Library_Product
+msss_cam_mh:MSSS_Camera_Mini_Header
+disp:Display_Settings
+msn_surface:Surface_Mission_Information
+rings:Ring_Moon_Systems
+survey:Survey
 ```
+
+
+## Add Data Dictionaries to PLAID
+
+Now run the python script that creates and appends the DDs to config.js
+
+Move into `/configs` directory of PLAID repository in your local machine, then run command:
+
+`python addDicts.py`
+
+This will add the listed DDs of the PDS4 JSON to config.js file
+
+
+
