@@ -13,3 +13,10 @@ https://pds.nasa.gov/datastandards/dictionaries/index-versions.shtml
   * The text file should start with the full name of the JSON file of a respective Data Dictionary version from NASA PDS4 site
 
 In the next line, start listing the dictionaries use this format with the namespaceID and title `namespaceID:title`
+
+Example:
+
+```
+proc:Processing_Information
+sp:Spectral_Characteristics
+```
