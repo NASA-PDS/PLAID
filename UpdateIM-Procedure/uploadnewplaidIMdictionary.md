@@ -41,7 +41,7 @@ Start by adding a dictionary information variable `var g_dictInfo_<version>`
 
 Fill in the code using your created list of dictionaries, PDS4 JSON file, and 'config.js'
 
-####Example:
+#### Example:
 
 Dictionary List:
 
