@@ -98,7 +98,7 @@ var filePaths_1F00 = {
   MSSS_CAM_MH_JSON: "config/PDS4_ALL_1F00.JSON",
   SP_JSON: "config/PDS4_ALL_1F00.JSON",
   PROC_JSON: "config/PDS4_ALL_1F00.JSON",
-  SURVEY_JSON: "config/PDS4_ALL_1F00.JSON",
+  SURVEY_JSON: "config/PDS4_ALL_1F00.JSON"
 
 };
 

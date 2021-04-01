@@ -246,6 +246,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
                                 </div>
                             </td>
                         </tr>
+
                     </table>
                 </div>
             </section>
