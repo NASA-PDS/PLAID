@@ -1,4 +1,3 @@
-session_start();
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +13,7 @@ session_start();
         <h2 class="form-signup-heading">Create an account</h2>
         <?php
         //  Enable the use of Session variables
-        //session_start();
+        session_start();
         // TODO: Figure out why the $_SESSION[] array variable is empty
         //echo session_id();
         //  IF the error code is not empty
