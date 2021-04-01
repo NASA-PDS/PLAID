@@ -1,5 +1,3 @@
-session_start();
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +21,7 @@ session_start();
         include_once("php/PlaidSessionHandler.php");
         $session_handler = new PlaidSessionHandler();
         //  Enable the use of Session variables
-        //session_start();
+        session_start();
         //  IF the error code is not empty
         if(isset($_SESSION['error_code']) && !empty($_SESSION['error_code'])) {
             $error_code = $_SESSION['error_code'];
