@@ -17,7 +17,6 @@
     <form class="form-login" action="php/interact_db.php" method="post">
         <h2 class="form-login-heading">PDS Label Assistant for Interactive Design (PLAID)</h2>
         <?php
-
         include_once("php/PlaidSessionHandler.php");
         $session_handler = new PlaidSessionHandler();
         //  Enable the use of Session variables
