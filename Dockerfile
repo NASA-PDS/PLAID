@@ -10,5 +10,9 @@ RUN echo 'sendmail_path = "/usr/sbin/ssmtp -t -i"' > /usr/local/etc/php/conf.d/m
 COPY docker/ssmtp.conf /etc/ssmtp/ssmtp.conf
 
 COPY docker/docker-entrypoint.sh /usr/local/bin
+
+
 ENTRYPOINT [ "docker-entrypoint.sh" ]
+
+
 CMD ["apache2-foreground"]  # because ENTRYPOINT is overridden, we have to also put in a value for CMD

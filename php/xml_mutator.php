@@ -787,7 +787,22 @@ function prependDisciplineRootNode($filtArr, $ns) {
             array_unshift($filtArr, "msn_surface:Surface_Mission_Parameters");
             break;
         case "img_surface":
-            array_unshift($filtArr, "img_surface:Surface_Imaging_Parameters");
+            array_unshift($filtArr, "img_surface:Surface_Imaging");
+            break;
+        case "sp":
+            array_unshift($filtArr, "sp:Spectral_Characteristics");
+            break;
+        case "msss_cam_mh":
+            array_unshift($filtArr, "msss_cam_mh:MSSS_Camera_Mini_Header");
+            break;
+        case "survey":
+            array_unshift($filtArr, "survey:Survey");
+            break;
+        case "speclib":
+            array_unshift($filtArr, "speclib:Spectral_Library_Product");
+            break;
+        case "proc":
+            array_unshift($filtArr, "proc:Processing_Information");
             break;
         default:
             return $filtArr;

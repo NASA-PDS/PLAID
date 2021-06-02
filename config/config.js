@@ -116,7 +116,7 @@ var filePaths_1A00 = {
   MSN_JSON: "config/PDS4_MSN_1A10.json",
   MSN_SURFACE_JSON: "config/PDS4_MSN_SURFACE_1A10.json",
   IMG_SURFACE_JSON: "config/PDS4_IMG_SURFACE_1A10.json",
-  NUC_JSON: "config/PDS4_NUCSPEC_1A00.json"
+  NUC_JSON: "config/PDS4_NUCSPEC_1A00.JSON"
 };
 
 var filePaths_1800 = {
@@ -349,7 +349,7 @@ var g_dictInfo_1A00 = {
     msn_surface: {
         ns: 'msn_surface',
         name: 'mission_surface',
-        base_class: '0001_NASA_PDS_1.msn_surface.Surface_Mission_Parameters',
+        base_class: '0001_NASA_PDS_1.0001_NASA_PDS_1.msn_surface.Surface_Mission_Information',
         path: filePaths_1A00["MSN_SURFACE_JSON"]
     },
     img_surface: {
@@ -401,7 +401,7 @@ var g_dictInfo_1F00 = {
   nucspec: {
     ns: 'nucspec',
     name: 'NucSpec_Observation_Properties',
-    base_class: '0001_NASA_PDS_1.nucspec.NucSpec_Observation_Properties',
+    base_class: '0001_NASA_PDS_1.nucspec.GRNS_Observation_Properties',
     path: filePaths_1F00["NUC_JSON"]
   },
 
