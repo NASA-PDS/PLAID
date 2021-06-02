@@ -6,8 +6,66 @@ Description:
 ------------
 The APPS PLAID is a web GUI to help create PDS4 compliant labels. The core of PLAID is a wizard that walks the user through a sequential process of creating a label. Behind the scenes, PLAID interacts with a MySQL database for storing the user's information and progress through the wizard as well as the actual XML of the label.
 
-Deployment:
------------
+## Deployment: With Docker
+
+### Local Deployment
+
+#### Setup an Apache server with PHP
+Locate httpd.conf in local machine Apache Server folder
+
+Add the following or uncomment this line if it is already in httpd.conf file:
+```
+LoadModule php7_module libexec/apache2/libphp7.so
+```
+####  Setup a MySql database using the attached database dump files (```resources/plaid_dump.sql```).
+Move into the `PLAID/resources` directory and run these mysql commands:
+
+```
+$ mysql -u -p -e 'create database plaid'
+$ mysql -u -p plaid < plaid_dump.sql
+```
+####  Build Docker Image
+Return to parent directory
+
+While in the `/PLAID` directory that holds 'Dockerfile', run command:
+
+```
+$ docker build -t plaidimage .
+```
+
+####  Start PLAID Docker Container
+
+Stay in the same directory and run command:
+
+```
+$ docker run -p 81:8080 plaidimage
+```
+
+####  Run Docker Compose to Launch PLAID application
+
+Stay in the same directory and run command:
+
+```
+$ docker-compose up
+```
+
+#### Open application using browser
+
+Open browser and try localhost with port 81
+```
+http://localhost:81
+```
+
+---
+
+### Operational Deployment
+
+TBD
+
+---
+
+### Deployment: Without Docker
+
 #### Setup an Apache server with PHP
 
 Add the following to your httpd.conf:
@@ -61,53 +119,3 @@ MySql Database Diagram:
 -----------------------
 
 ![DB Diagram](resources/db_diagram.png "DB Diagram")
-
-
-
-## How to run PLAID with Docker locally (Update: March 31, 2021)
-
-#### Setup an Apache server with PHP
-Locate httpd.conf in local machine Apache Server folder
-
-Add the following or uncomment this line if it is already in httpd.conf file:
-```
-LoadModule php7_module libexec/apache2/libphp7.so
-```
-####  Setup a MySql database using the attached database dump files (```resources/plaid_dump.sql```).
-Move into the `PLAID/resources` directory and run these mysql commands:
-
-```
-$ mysql -u -p -e 'create database plaid'
-$ mysql -u -p plaid < plaid_dump.sql
-```
-####  Build Docker Image
-Return to parent directory
-
-While in the `/PLAID` directory that holds 'Dockerfile', run command:
-
-```
-$ docker build -t plaidimage .
-```
-
-####  Start PLAID Docker Container
-
-Stay in the same directory and run command:
-
-```
-$ docker run -p 81:8080 plaidimage
-```
-
-####  Run Docker Compose to Launch PLAID application
-
-Stay in the same directory and run command:
-
-```
-$ docker-compose up
-```
-
-#### Open application using browser
-
-Open browser and try localhost with port 81
-```
-http://localhost:81
-```
