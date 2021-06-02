@@ -34,6 +34,7 @@
 * Capture the user's selections of discipline nodes through the checkbox interface.
 * @param {number} currentIndex indicates the current step in the wizard
  */
+
 function discNodesSelection(currentIndex){
     var currSection = $("#wizard-p-" + currentIndex.toString());
     if ($(".checkbox-group", currSection).length > 0){
@@ -73,7 +74,7 @@ function discNodesSelection(currentIndex){
 
 /**
  * Ensure that only discipline nodes with available config is rendered
- * @param {number} index 
+ * @param {number} index
  */
 function discNodeHideMissing(index) {
     var currSection = $("#wizard-p-" + index.toString());
@@ -84,11 +85,13 @@ function discNodeHideMissing(index) {
 
             // Get the nodeName from the HTML
             var nodeName = span.html().replace(/\b\s\b/, "_").toLowerCase();
-
+            console.log(nodeName)
             // Get the IM identifier from the data-id
             var nodeId = span.attr("data-id");
             // File name for this specific discipline's config
             var jsonFileName = getNodeJsonFilename(nodeName);
+            console.log('json file name: ')
+            console.log(jsonFileName)
             // Check if config for discipline node exists, if not hide the selection
             if (jsonFileName === "") {
                 span.parents("tr").hide();
@@ -115,7 +118,7 @@ function getNodeJsonFilename(nodeName){
             return filePaths.IMG_JSON;
         case "plasma_particle":
             return filePaths.PART_JSON;
-        case "ring-moon_systems":
+        case "ring_moon systems":
             return filePaths.RMS_JSON;
         case "small_bodies":
             return filePaths.BOD_JSON;
@@ -129,9 +132,20 @@ function getNodeJsonFilename(nodeName){
             return filePaths.MSN_SURFACE_JSON;
         case "imaging_surface":
             return filePaths.IMG_SURFACE_JSON;
-        case "nuclear_spectroscopy (draft)":
+        case "nuclear_spectroscopy draft":
             return filePaths.NUC_JSON;
+        case "spectral_characterisitics":
+            return filePaths.SP_JSON;
+        case "msss_camera mini header":
+            return filePaths.MSSS_CAM_MH_JSON;
+        case "survey":
+            return filePaths.SURVEY_JSON;
+        case "spectral_library product":
+            return filePaths.SPECLIB_JSON;
+        case "processing_information":
+            return filePaths.PROC_JSON;
         default:
             return null;
     }
 }
+
