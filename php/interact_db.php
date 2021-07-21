@@ -562,13 +562,97 @@ function getLabelInfo(){
  *
  * @param {Object} $args object containing the name of the label inputted by the user
  */
+
+function console_log( $data ){
+    echo '<script>';
+    echo 'console.log('. json_encode( $data ) .')';
+    echo '</script>';
+  }
+
+function debug_to_console($data) {
+    $output = $data;
+    if (is_array($output))
+        $output = implode(',', $output);
+
+    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+}
+
 function storeNewLabel($args){
 
+    #global $PROD_TYPE = $_GET[''];
     global $LINK;
     global $MAX_FILE_SIZE, $XML_FILE_TYPE, $XML_FILE_EXTENSION, $IMPORT_DIR;
+    global $LIST_SELECT;
+    #global $prod_type;
+    #global $LIST_SELECT;
 
-    $filename = "../workspace/observational.xml";
+    #console.log('maxfilesize: ')
+    #console.log($MAX_FILE_SIZE)
+
+
+    #global $selection;
+    #global $XM
+
+    #console.log('listselect: ')
+    #console.log($LIST_SELECT)
+
+    #echo '<script type="text/javascript">',
+    # 'captureSelection();',
+    # '</script>';
+    
+   
+
+    
+
+    #echo "<h1>" . $myvar . "</h1>";
+    #echo $myvar;
+
+    #console_log('THIS IS STRING');
+    #console_log($LIST_SELECT);
+
+    
+    #$selectedProdtype = file_get_contents("prodTypes.txt");
+    
+    
+
+    $selectedProdtype = "ContextType";
+
+    #$txt = "user id date";
+
+    switch ($selectedProdtype) {
+        case "this_is_selection_list":
+            $filename = "../workspace/observational.xml";
+            break;
+        case "Document":
+            $filename = "../workspace/document.xml";
+            break;
+        case "ContextType":
+            echo "CONTEXT TYPE SELECT -----------";
+            #$myfile = file_put_contents('logs.txt', $selectedProdtype.PHP_EOL);
+
+            #debug_to_console("TESTCONTEXT");
+            #$filename = "../workspace/context.xml";
+            break;
+        case "0001_NASA_PDS_1.pds.Product_File_Text":
+            $filename = "../workspace/filetext.xml";
+            break;
+        case "Thumbnail":
+            $filename = "../workspace/context.xml";
+            break;
+        default:
+            $filename = "../workspace/thumbnail.xml";
+    }
+    
+    echo "PRINT ECHO ---------- \n";
+
+
+    #$filename = "../workspace/context.xml";
+
+    $filename = "../workspace/context.xml";
     // $filename = "../workspace/c000m5232t493378259edr_f0000_0134m1.xml";
+
+
+    #********
     $myfile = fopen($filename, "r") or die("Unable to open file!");
     $data = fread($myfile,filesize($filename));
     fclose($myfile);

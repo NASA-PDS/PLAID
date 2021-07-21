@@ -26,12 +26,17 @@ const PRODUCT_TYPE_OBSERVATIONAL_ID = "0001_NASA_PDS_1.pds.Product_Observational
     PRODUCT_TYPE_DOCUMENT_ID = "0001_NASA_PDS_1.pds.Product_Document",
     PRODUCT_TYPE_CONTEXT_ID = "0001_NASA_PDS_1.pds.Product_Context",
     PRODUCT_TYPE_FILE_TEXT_ID = "0001_NASA_PDS_1.pds.Product_File_Text",
-    PRODUCT_TYPE_THUMBNAIL_ID = "0001_NASA_PDS_1.pds.Product_Thumbnail";
+    PRODUCT_TYPE_THUMBNAIL_ID = "0001_NASA_PDS_1.pds.Product_Thumbnail",
+    PRODUCT_TYPE_COLLECTION_ID = "0001_NASA_PDS_1.pds.Product_Collection",
+    PRODUCT_TYPE_BUNDLE_ID = "0001_NASA_PDS_1.pds.Product_Bundle";
 const PRODUCT_CLASS_OBSERVATIONAL = "Product_Observational",
     PRODUCT_CLASS_DOCUMENT = "Product_Document",
     PRODUCT_CLASS_CONTEXT = "Product_Context",
     PRODUCT_CLASS_FILE_TEXT = "Product_File_Text",
-    PRODUCT_CLASS_THUMBNAIL = "Product_Thumbnail";
+    PRODUCT_CLASS_THUMBNAIL = "Product_Thumbnail",
+    PRODUCT_CLASS_COLLECTION = "Product_Collection",
+    PRODUCT_CLASS_BUNDLE = "Product_Bundle";
+    
 const SCHEMA_VERSION_1F00 = "1F00",
     SCHEMA_VERSION_1A00 = "1A00",
     SCHEMA_VERSION_1800 = "1800",
@@ -99,6 +104,14 @@ function defaultProductClassDropdownValue(selectElement, dropdownId) {
                 case PRODUCT_TYPE_THUMBNAIL_ID:
                     //  Default the Product Class dropdown's value to "Product_Thumbnail"
                     $(selectElement).val(PRODUCT_CLASS_THUMBNAIL);
+                    break;
+                case PRODUCT_TYPE_COLLECTION_ID:
+                    //  Default the Product Class dropdown's value to "Product_Collection"
+                    $(selectElement).val(PRODUCT_CLASS_COLLECTION);
+                    break;
+                case PRODUCT_TYPE_BUNDLE_ID:
+                    //  Default the Product Class dropdown's value to "Product_Bundle"
+                    $(selectElement).val(PRODUCT_CLASS_BUNDLE);
                     break;
             }       //  end Switch
             //  Trigger the onChange event to update the selected item in the dropdown list

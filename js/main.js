@@ -22,6 +22,9 @@
  * @author Michael Kim
  * @author Stirling Algermissen
  */
+
+var MY_SELECTION = "MYSELECTION"
+
 $(document).ready(function() {
     var refreshTime = 300000; // every 5 minutes in milliseconds - refresh the session
     window.setInterval( function() {
@@ -204,11 +207,27 @@ $(document).ready(function() {
  * When the user selects a product type, add the active class to that element
  * and store the result.
  */
+function findselection() {
+    console.log(captureSelection.selection);
+}
+
 function captureSelection(){
     var element = $(this)[0];
     clearActiveElements();
     $(element).addClass("active");
     var selection = $(".productType", element).attr("data-id");
+    console.log('SELECTION PRINT:')
+    console.log(selection)
+    console.log('selection print 444 --------')
+    
+    //findselection();
+
+    //var fs = require('fs');
+    //var var2 = 'HELLLOOOO';
+
+    //fs.writeFileSync('prodct.txt', selection);
+    //fs.writeFileSync('product.txt', var2);
+
 
     // g_jsonData.searchObj = g_jsonData.pds4Obj;
     // getElementFromDict(g_jsonData.searchObj, "product", "classDictionary", selection);

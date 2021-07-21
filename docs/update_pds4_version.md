@@ -162,3 +162,52 @@ var core_schema_versions = {
 
 ```
 
+
+### Render the Updated Disciplines on Dictionary Nodes
+
+First, update the Label Wizard `wizard.php` according to the default schema version, in this case: 1.F.0.0
+
+Within the Discipline Dictionaries tag `<h3>Discipline Dictionaries</h3>`
+
+Append disciplines listed in the default schema version
+
+#### Code Example:
+
+```
+<tr class="label-item">
+    <td>
+         <div class="checkbox-item">
+              <input type="checkbox" >
+              <span class="spacer"></span>
+              <i class="fa fa-sun-o fa-fw" aria-hidden="true"></i>
+              <span class="discNode" ns="sp" data-id="0001_NASA_PDS_1.sp.Spectral_Characteristics" step_path="plaid_discipline_node:spectral_characteristics">Spectral Characterisitics</span>
+         </div>
+    </td>
+</tr>
+
+
+```
+
+Also configure the JSON file path and data-id variable for each discipline
+
+
+```
+
+ns="sp" data-id="0001_NASA_PDS_1.sp.Spectral_Characteristics" step_path="plaid_discipline_node:spectral_characteristics"
+```
+
+
+
+```
+
+function getNodeJsonFilename(nodeName){
+    switch (nodeName){
+        case "spectral_characterisitics":
+            return filePaths.SP_JSON;
+        case "msss_camera mini header":
+            return filePaths.MSSS_CAM_MH_JSON;
+        case "survey":
+            return filePaths.SURVEY_JSON;
+
+
+```
