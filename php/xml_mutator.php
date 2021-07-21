@@ -25,6 +25,10 @@
  * @author Stirling Algermissen
  */
 require_once("interact_db.php");
+
+
+
+
 if(isset($_POST['Function'])){
     $DOC = readInXML(getLabelXML());
     call_user_func($_POST['Function'], $_POST['Data']);
@@ -35,10 +39,47 @@ if(isset($_POST['Function'])){
  * @return DOMDocument
  */
 function readInXML($xml){
+    #$filename = "../workspace/observational.xml";
+
+    #$myfile = fopen($filename, "r") or die("Unable to open file!");
+    #$data = fread($myfile,filesize($filename));
+    #fclose($myfile);
+    #var_dump($data);
+
+    #---
+
+    if (strpos($xml, '<File_Area_Observational>')) {
+        #file_put_contents('logs66.txt', $xml);
+        $product_tag = '/Product_Context/i';
+        $xml = preg_replace($product_tag, 'Product_Observational', $xml);
+        #file_put_contents('logs2222.txt', $xml);
+
+    } else if (strpos($xml, '<Document>')) {
+        $product_tag = '/Product_Context/i';
+        $xml = preg_replace($product_tag, 'Product_Document', $xml);
+    #} else if (strpos($xml, '<Agency>') || strpos($xml, '<Airborne>') || strpos($xml, '<Facility>') || strpos($xml, '<Instrument>') || strpos($xml, '<Instrument Host>') || strpos($xml, '<Investigation>') || strpos($xml, '<Node>') || strpos($xml, '<Other>') || strpos($xml, '<PDS Affiliate>') || strpos($xml, '<Node>') ) {
+    } else if (strpos($xml, '<Collection>')) {
+        #file_put_contents('logs666.txt', $xml);
+
+        $product_tag = '/Product_Context/i';
+        $xml = preg_replace($product_tag, 'Product_Observational', $xml);
+
+    } else if (strpos($xml, '<Bundle>')) {
+
+        $product_tag = '/Product_Context/i';
+        $xml = preg_replace($product_tag, 'Product_Observational', $xml);
+
+    } 
+    
+    
+    
+    #----
+
     $doc = new DOMDocument();
     $doc->preserveWhiteSpace = false;
     $doc->formatOutput = true;
     $doc->loadXML($xml);
+    #$modFile = preg_replace("/<Discipline_Area>.*<\/Discipline_Area>/s", $discAreaStr, $fileContents);
     return $doc;
 }
 /**
@@ -57,6 +98,7 @@ function getNode($path, $ns){
         print "resetting path";
         $query = "/*"; // select root node
     }
+    #$myfile = file_put_contents('logs.txt', 'PRINT CHECK 3');
 
     return $xpath->query($query);
 }
@@ -136,6 +178,7 @@ function addNode($args){
         $root_discipline_node = prependDisciplineRootNode(array(), $ns);
         if(count($root_discipline_node) == 1) {
             $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $root_discipline_node[0]);
+
             $discipline_area = getNode("Observation_Area/Discipline_Area", "");
             $discipline_area = $discipline_area->item(0);
             $discipline_area->appendChild($newNode);
@@ -289,6 +332,9 @@ function updateNodeValueLocal($node, $value, $doc){
  *  the mission-specific header, and the schema version
  */
 function addCustomNodes($args){
+
+    #file_put_contents('logs33.txt', 'PRINT CHECK 333');
+
     global $DOC;
     $data = $args["json"];
     $missionSpecificsHeader = $args['missionSpecificsHeader'];
@@ -694,6 +740,7 @@ function addRootAttrs($args){
             $root->setAttribute("xmlns:$ns", "http://pds.nasa.gov/pds4/$ns/v1");
         }
     }
+
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
 }
@@ -761,6 +808,7 @@ function isNonDefaultNamespace($ns){
  * @return array
  */
 function prependDisciplineRootNode($filtArr, $ns) {
+
     switch($ns) {
         case "img":
             array_unshift($filtArr, "img:Imaging");
@@ -857,6 +905,7 @@ function addNodeLocal($args){
                 }
             }
         }
+        #file_put_contents('logs22.txt', 'PRINT CHECK 222');
         $args = array("xml"=>$doc->saveXML(NULL, LIBXML_NOEMPTYTAG));
 //        updateNodeValue();
 //        updateLabelXML($args);
@@ -944,5 +993,7 @@ function addNodeLocal($args){
     }
     $args = array("xml"=>$doc->saveXML(NULL, LIBXML_NOEMPTYTAG));
 //    updateLabelXML($args);
+    #$myfile = file_put_contents('logs.txt', $args);
+
     return $doc;
 }

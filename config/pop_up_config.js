@@ -35,6 +35,8 @@ const XML_FILE_TYPE_CONST = "text/xml";
 const CREATE_NEW_CHOICE = "create_new";  // RadioButton choices
 const IMPORT_FILE_CHOICE = "import_file";
 const IMPORT_SAMPLE_CHOICE = "import_sample";
+//const LIST_SELECT = "this_is_selection_list";
+
 // Global variables
 let g_creationChoice = null;    // Create New, Step 1 radiobutton choice
 

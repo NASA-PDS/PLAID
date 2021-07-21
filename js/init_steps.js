@@ -583,6 +583,8 @@ function createElementBar(dataObj, genLabel, isChoice, parentPath){
             }
             // IF found the Product_Type node
             if (productTypeNode !== null) {
+                console.log('PRODUCT NODE;')
+                console.log(productTypeNode)
                 // Look in the XML DOM Tree for just the XML node with this Data Object's specific Path
                 xmlNodeFound = findXMLNodeWithPath(specificPath, 0, productTypeNode);
                 // Save the first XML Node found for the current step,

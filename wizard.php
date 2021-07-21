@@ -18,6 +18,8 @@
 include_once("php/PlaidSessionHandler.php");
 $session_handler = new PlaidSessionHandler();
 session_start();
+$_SESSION['productType'] = $prodType;
+
 if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
     header("HTTP/1.1 401 Unauthorized");
 #    header("Location: index.php");
@@ -110,7 +112,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
             <h3>Product Type</h3>
             <section id="product_selection">
                 <p class="question">What type of product would you like to create a label for?</p>
-                <table class="list-group">
+                <table class="list-group" method="get" action="/php/interact_db.php">
+
                     <tr class="label-item">
                         <td>
                             <button class="list-group-item">
@@ -139,10 +142,18 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
                     </tr>
                     <tr class="label-item">
                         <td>
-                            <!-- <button class="list-group-item disabled" disabled> -->
-                            <button class="list-group-item">
+                            <button class="list-group-item disabled" disabled>
                                 <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
                                 <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_File_Text">File Text</span>
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr class="label-item">
+                        <td>
+                            <button class="list-group-item disabled" disabled>
+                                <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Thumbnail">Thumbnail</span>
                             </button>
                         </td>
                     </tr>
@@ -152,11 +163,24 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
                             <!-- <button class="list-group-item disabled" disabled> -->
                             <button class="list-group-item">
                                 <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Thumbnail">Thumbnail</span>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Collection">Collection</span>
                             </button>
                         </td>
                     </tr>
+
+                    <tr class="label-item">
+                        <td>
+                            <!-- <button class="list-group-item disabled" disabled> -->
+                            <button class="list-group-item">
+                                <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Bundle">Bundle</span>
+                            </button>
+                        </td>
+                    </tr>
+
+
                     <!-- MLM:  un-commented the buttons above -->
+                    
                 </table>
             </section>
 
@@ -314,6 +338,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
                     </table>
                 </div>
             </section>
+
 
             <h3>Mission Specifics</h3>
             <section id="mission_specifics_selection">
