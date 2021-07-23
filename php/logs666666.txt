@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<Product_Context>
+  <Identification_Area></Identification_Area>
+  <Observation_Area></Observation_Area>
+</Product_Context>
