@@ -164,11 +164,14 @@ $(document).ready(function() {
             },
             datatype: "text",
             success: function(data){
+               
                const xmlStringToImport = data;
                //console.log("xmlStringToImport = '" + xmlStringToImport + "'");
                g_importedXmlDoc = null;
                // IF the XML string to Import is NOT empty
                if (xmlStringToImport != "") {
+                    console.log('PREVIEW XML DATA: ')
+                    console.log(data) 
                    // Parse the Imported XML file's contents into the XML DOM
                    const parser = new DOMParser();
                    g_importedXmlDoc = parser.parseFromString(xmlStringToImport, XML_FILE_TYPE);
