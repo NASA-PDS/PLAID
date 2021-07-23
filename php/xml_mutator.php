@@ -31,6 +31,8 @@ require_once("interact_db.php");
 
 if(isset($_POST['Function'])){
     $DOC = readInXML(getLabelXML());
+    file_put_contents('logstest4.txt', 'RUNNING VALIDATOR 44');
+
     call_user_func($_POST['Function'], $_POST['Data']);
 }
 /**
@@ -49,28 +51,42 @@ function readInXML($xml){
     #---
 
     if (strpos($xml, '<File_Area_Observational>')) {
-        #file_put_contents('logs66.txt', $xml);
+
         $product_tag = '/Product_Context/i';
         $xml = preg_replace($product_tag, 'Product_Observational', $xml);
         #file_put_contents('logs2222.txt', $xml);
+        file_put_contents('logs66.txt', $xml);
 
     } else if (strpos($xml, '<Document>')) {
         $product_tag = '/Product_Context/i';
         $xml = preg_replace($product_tag, 'Product_Document', $xml);
+        file_put_contents('logs66.txt', $xml);
     #} else if (strpos($xml, '<Agency>') || strpos($xml, '<Airborne>') || strpos($xml, '<Facility>') || strpos($xml, '<Instrument>') || strpos($xml, '<Instrument Host>') || strpos($xml, '<Investigation>') || strpos($xml, '<Node>') || strpos($xml, '<Other>') || strpos($xml, '<PDS Affiliate>') || strpos($xml, '<Node>') ) {
     } else if (strpos($xml, '<Collection>')) {
         #file_put_contents('logs666.txt', $xml);
 
         $product_tag = '/Product_Context/i';
-        $xml = preg_replace($product_tag, 'Product_Observational', $xml);
+        $xml = preg_replace($product_tag, 'Product_Collection', $xml);
+        file_put_contents('logs66.txt', $xml);
 
     } else if (strpos($xml, '<Bundle>')) {
 
         $product_tag = '/Product_Context/i';
-        $xml = preg_replace($product_tag, 'Product_Observational', $xml);
+        $xml = preg_replace($product_tag, 'Product_Bundle', $xml);
+        file_put_contents('logs66.txt', $xml);
 
-    } 
+    } else {
+        file_put_contents('logs666666.txt', $xml);
+        $product_tag = '/Product_Context/i';
+        $xml = preg_replace($product_tag, 'Product_Context', $xml);
+        #file_put_contents('logs2222.txt', $xml);
+        
+    }
     
+    #if (strpos($xml, '<lid_reference>')) {
+    #    $xml = null;
+    #    #file_put_contents('logstest.txt', $xml);
+    #}
     
     
     #----
@@ -79,6 +95,7 @@ function readInXML($xml){
     $doc->preserveWhiteSpace = false;
     $doc->formatOutput = true;
     $doc->loadXML($xml);
+    file_put_contents('logstest3.txt', $xml);
     #$modFile = preg_replace("/<Discipline_Area>.*<\/Discipline_Area>/s", $discAreaStr, $fileContents);
     return $doc;
 }
@@ -168,6 +185,8 @@ function addNode($args){
             }
         }
         $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
+        #file_put_contents('logstestargs.txt', 'RUNNING VALIDATOR');
+
         updateLabelXML($args);
         return;
     }
@@ -251,6 +270,19 @@ function addNode($args){
         }
     }
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
+    #$args = null;
+
+    if (strpos($args, '<logical_identifier>')) {
+
+        $product_tag = '/logical_identifier/i';
+        $args = preg_replace($product_tag, 'TEST CHANGE', $args);
+        #file_put_contents('logs2222.txt', $xml);
+        #file_put_contents('logs66.txt', $xml);
+        file_put_contents('logstestargs.txt', 'checked for context change..');
+
+    }
+    file_put_contents('logstestargs.txt', 'OUTPUT TEST');
+    
     updateLabelXML($args);
 }
 
@@ -418,6 +450,8 @@ function addCustomNodes($args){
     updateIngestLddXML($ingestLddXML);
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
+    file_put_contents('logstest444.txt', 'RUNNING VALIDATOR 444444');
+
 }
 /**
  * Recurse on the given node to add all of its attributes.
@@ -780,6 +814,7 @@ function formatDoc(){
     $fileContents = getLabelXML();
     $modFile = preg_replace("/<Discipline_Area>.*<\/Discipline_Area>/s", $discAreaStr, $fileContents);
     $args = array("xml"=>$modFile);
+    file_put_contents('logstestformat.txt', 'FORMATDOC');
     updateLabelXML($args);
 }
 
@@ -991,9 +1026,13 @@ function addNodeLocal($args){
             }
         }
     }
+    file_put_contents('logstestRETURN.txt', $args);
+
     $args = array("xml"=>$doc->saveXML(NULL, LIBXML_NOEMPTYTAG));
 //    updateLabelXML($args);
     #$myfile = file_put_contents('logs.txt', $args);
+
+
 
     return $doc;
 }

@@ -140,6 +140,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
                             </button>
                         </td>
                     </tr>
+                    <!-- MLM:  commented the buttons 
                     <tr class="label-item">
                         <td>
                             <button class="list-group-item disabled" disabled>
@@ -148,7 +149,9 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
                             </button>
                         </td>
                     </tr>
+                                                -->
 
+                    <!-- MLM:  commented the buttons 
                     <tr class="label-item">
                         <td>
                             <button class="list-group-item disabled" disabled>
@@ -157,6 +160,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
                             </button>
                         </td>
                     </tr>
+                                                -->
 
                     <tr class="label-item">
                         <td>

@@ -44,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     $tempXml = $DOC->saveXML(NULL, LIBXML_NOEMPTYTAG);
+
     $root->removeAttributeNS("http://pds.nasa.gov/pds4/pds/v1", "");
     $discAreaDom = getNode("Observation_Area/Discipline_Area", "")->item(0);
     $discAreaStr = $DOC->saveXML($discAreaDom);

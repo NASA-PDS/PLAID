@@ -31,6 +31,9 @@ $schema = "https://pds.jpl.nasa.gov/pds4/schema/develop/pds/PDS4_PDS_1700.xsd";
 if(isset($_POST['Function'])){
     $doc = new DOMDocument();
     $doc->loadXML(getLabelXML());
+    #***
+    file_put_contents('logstest4.txt', 'RUNNING VALIDATOR');
+
     call_user_func($_POST['Function'], $_POST['Data']);
 }
 

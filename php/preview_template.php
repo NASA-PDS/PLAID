@@ -31,6 +31,9 @@ function previewLabelTemplate($args) {
     $namespaces = $args["namespaces"];
 
     $root = $DOC->documentElement;
+
+    file_put_contents('logstestROOT.txt', $root);
+
     foreach ($namespaces as $ns){
         if ($ns === "pds") {
             $root->setAttribute("xmlns", "http://pds.nasa.gov/pds4/$ns/v1");
@@ -39,11 +42,25 @@ function previewLabelTemplate($args) {
         }
     }
     $tempXml = $DOC->saveXML(NULL, LIBXML_NOEMPTYTAG);
-    $root->removeAttributeNS("http://pds.nasa.gov/pds4/pds/v1", "");
-    $discAreaDom = getNode("Observation_Area/Discipline_Area", "")->item(0);
-    $discAreaStr = $DOC->saveXML($discAreaDom);
-    $discAreaStr = preg_replace("/\sxmlns:.*=\"http:\/\/pds.nasa.gov\/pds4\/.*\/v1\"/", "", $discAreaStr);
-    $modFile = preg_replace("/<Discipline_Area>.*<\/Discipline_Area>/s", $discAreaStr, $tempXml);
+    file_put_contents('logstestTEMP.txt', $tempXml);
+    $modFile = $tempXml;
+
+    #----
+    #$root->removeAttributeNS("http://pds.nasa.gov/pds4/pds/v1", "");
+    #$discAreaDom = getNode("Observation_Area/Discipline_Area", "")->item(0);
+    #$discAreaStr = $DOC->saveXML($discAreaDom);
+    #$discAreaStr = preg_replace("/\sxmlns:.*=\"http:\/\/pds.nasa.gov\/pds4\/.*\/v1\"/", "", $discAreaStr);
+    #$modFile = preg_replace("/<Discipline_Area>.*<\/Discipline_Area>/s", $discAreaStr, $tempXml);
+    #----
+
+    if (strpos($modFile, '<Product_Context>')) {
+        $product_tag = '/Product_Context/i';
+        #$modFile = preg_replace($product_tag, 'CHANGED', $modFile);
+        #file_put_contents('logstest.txt', $xml);
+    }
+    file_put_contents('logstestRETURN.txt', $modFile);
+
+
     echo $modFile;
 }
 

@@ -839,9 +839,12 @@ function getIngestLDDToolXML($arg){
  */
 function updateLabelXML($args){
     global $LINK;
+    #$args = null;
+    
     session_start();
     $handle = $LINK->prepare('update label set last_modified=now(),label_xml=? where id=?');
     $handle->bindValue(1, $args['xml']);
+    file_put_contents('logstestxml.txt', $args['xml']);
     $handle->bindValue(2, $_SESSION['label_id']);
     $handle->execute();
 }
