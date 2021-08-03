@@ -209,7 +209,7 @@ function captureSelection(){
     clearActiveElements();
     $(element).addClass("active");
     var selection = $(".productType", element).attr("data-id");
-   
+
     // g_jsonData.searchObj = g_jsonData.pds4Obj;
     // getElementFromDict(g_jsonData.searchObj, "product", "classDictionary", selection);
     //  Store the selected Data Dictionary Node Name & Identifier

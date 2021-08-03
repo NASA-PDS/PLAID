@@ -18,8 +18,6 @@
 include_once("php/PlaidSessionHandler.php");
 $session_handler = new PlaidSessionHandler();
 session_start();
-$_SESSION['productType'] = $prodType;
-
 if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
     header("HTTP/1.1 401 Unauthorized");
 #    header("Location: index.php");
@@ -112,7 +110,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
             <h3>Product Type</h3>
             <section id="product_selection">
                 <p class="question">What type of product would you like to create a label for?</p>
-                <table class="list-group" method="get" action="/php/interact_db.php">
+                <table class="list-group">
 
                     <tr class="label-item">
                         <td>
