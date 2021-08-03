@@ -192,14 +192,12 @@ Also configure the JSON file path and data-id variable for each discipline
 
 
 ```
-
 ns="sp" data-id="0001_NASA_PDS_1.sp.Spectral_Characteristics" step_path="plaid_discipline_node:spectral_characteristics"
 ```
 
 
 
 ```
-
 function getNodeJsonFilename(nodeName){
     switch (nodeName){
         case "spectral_characterisitics":

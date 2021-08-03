@@ -41,62 +41,35 @@ if(isset($_POST['Function'])){
  * @return DOMDocument
  */
 function readInXML($xml){
-    #$filename = "../workspace/observational.xml";
 
-    #$myfile = fopen($filename, "r") or die("Unable to open file!");
-    #$data = fread($myfile,filesize($filename));
-    #fclose($myfile);
-    #var_dump($data);
-
-    #---
-
+    # Set $xml with selected Product Type strings
     if (strpos($xml, '<File_Area_Observational>')) {
-
         $product_tag = '/Product_Context/i';
         $xml = preg_replace($product_tag, 'Product_Observational', $xml);
-        #file_put_contents('logs2222.txt', $xml);
-        file_put_contents('logs66.txt', $xml);
 
     } else if (strpos($xml, '<Document>')) {
         $product_tag = '/Product_Context/i';
         $xml = preg_replace($product_tag, 'Product_Document', $xml);
-        file_put_contents('logs66.txt', $xml);
-    #} else if (strpos($xml, '<Agency>') || strpos($xml, '<Airborne>') || strpos($xml, '<Facility>') || strpos($xml, '<Instrument>') || strpos($xml, '<Instrument Host>') || strpos($xml, '<Investigation>') || strpos($xml, '<Node>') || strpos($xml, '<Other>') || strpos($xml, '<PDS Affiliate>') || strpos($xml, '<Node>') ) {
     } else if (strpos($xml, '<Collection>')) {
-        #file_put_contents('logs666.txt', $xml);
-
         $product_tag = '/Product_Context/i';
         $xml = preg_replace($product_tag, 'Product_Collection', $xml);
-        file_put_contents('logs66.txt', $xml);
 
     } else if (strpos($xml, '<Bundle>')) {
-
         $product_tag = '/Product_Context/i';
         $xml = preg_replace($product_tag, 'Product_Bundle', $xml);
-        file_put_contents('logs66.txt', $xml);
 
     } else {
+        $product_tag = '/<Discipline_Area>.*<\/Discipline_Area>/s';
+        $xml = preg_replace($product_tag, ' ', $xml);
         file_put_contents('logs666666.txt', $xml);
-        $product_tag = '/Product_Context/i';
-        $xml = preg_replace($product_tag, 'Product_Context', $xml);
-        #file_put_contents('logs2222.txt', $xml);
-        
+
     }
-    
-    #if (strpos($xml, '<lid_reference>')) {
-    #    $xml = null;
-    #    #file_put_contents('logstest.txt', $xml);
-    #}
-    
-    
-    #----
+  
 
     $doc = new DOMDocument();
     $doc->preserveWhiteSpace = false;
     $doc->formatOutput = true;
     $doc->loadXML($xml);
-    file_put_contents('logstest3.txt', $xml);
-    #$modFile = preg_replace("/<Discipline_Area>.*<\/Discipline_Area>/s", $discAreaStr, $fileContents);
     return $doc;
 }
 /**
@@ -365,7 +338,6 @@ function updateNodeValueLocal($node, $value, $doc){
  */
 function addCustomNodes($args){
 
-    #file_put_contents('logs33.txt', 'PRINT CHECK 333');
 
     global $DOC;
     $data = $args["json"];
@@ -940,7 +912,6 @@ function addNodeLocal($args){
                 }
             }
         }
-        #file_put_contents('logs22.txt', 'PRINT CHECK 222');
         $args = array("xml"=>$doc->saveXML(NULL, LIBXML_NOEMPTYTAG));
 //        updateNodeValue();
 //        updateLabelXML($args);

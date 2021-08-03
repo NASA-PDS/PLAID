@@ -21,7 +21,7 @@ services:
     networks:
       - internal
     ports:
-      - 81:80
+      - 80:80
     stdin_open: true
     tty: true
     volumes:

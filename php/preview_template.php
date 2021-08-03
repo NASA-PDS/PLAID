@@ -54,9 +54,11 @@ function previewLabelTemplate($args) {
     #----
 
     if (strpos($modFile, '<Product_Context>')) {
-        $product_tag = '/Product_Context/i';
+        #$product_tag = '/Product_Context/i';
         #$modFile = preg_replace($product_tag, 'CHANGED', $modFile);
         #file_put_contents('logstest.txt', $xml);
+        #$modFile = preg_replace('<Discipline_Area></Discipline_Area>', 'Product_Bundle', $modFile);
+
     }
     file_put_contents('logstestRETURN.txt', $modFile);
 
