@@ -34,7 +34,6 @@
 * Capture the user's selections of discipline nodes through the checkbox interface.
 * @param {number} currentIndex indicates the current step in the wizard
  */
-
 function discNodesSelection(currentIndex){
     var currSection = $("#wizard-p-" + currentIndex.toString());
     if ($(".checkbox-group", currSection).length > 0){
@@ -85,13 +84,11 @@ function discNodeHideMissing(index) {
 
             // Get the nodeName from the HTML
             var nodeName = span.html().replace(/\b\s\b/, "_").toLowerCase();
-            console.log(nodeName)
+  
             // Get the IM identifier from the data-id
             var nodeId = span.attr("data-id");
             // File name for this specific discipline's config
             var jsonFileName = getNodeJsonFilename(nodeName);
-            console.log('json file name: ')
-            console.log(jsonFileName)
             // Check if config for discipline node exists, if not hide the selection
             if (jsonFileName === "") {
                 span.parents("tr").hide();

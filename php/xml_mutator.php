@@ -25,14 +25,8 @@
  * @author Stirling Algermissen
  */
 require_once("interact_db.php");
-
-
-
-
 if(isset($_POST['Function'])){
     $DOC = readInXML(getLabelXML());
-    file_put_contents('logstest4.txt', 'RUNNING VALIDATOR 44');
-
     call_user_func($_POST['Function'], $_POST['Data']);
 }
 /**
@@ -61,8 +55,6 @@ function readInXML($xml){
     } else {
         $product_tag = '/<Discipline_Area>.*<\/Discipline_Area>/s';
         $xml = preg_replace($product_tag, ' ', $xml);
-        file_put_contents('logs666666.txt', $xml);
-
     }
   
 
@@ -88,7 +80,6 @@ function getNode($path, $ns){
         print "resetting path";
         $query = "/*"; // select root node
     }
-    #$myfile = file_put_contents('logs.txt', 'PRINT CHECK 3');
 
     return $xpath->query($query);
 }
@@ -158,7 +149,6 @@ function addNode($args){
             }
         }
         $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
-        #file_put_contents('logstestargs.txt', 'RUNNING VALIDATOR');
 
         updateLabelXML($args);
         return;
@@ -170,7 +160,6 @@ function addNode($args){
         $root_discipline_node = prependDisciplineRootNode(array(), $ns);
         if(count($root_discipline_node) == 1) {
             $newNode = $DOC->createElementNS("http://pds.nasa.gov/pds4/$ns/v1", $root_discipline_node[0]);
-
             $discipline_area = getNode("Observation_Area/Discipline_Area", "");
             $discipline_area = $discipline_area->item(0);
             $discipline_area->appendChild($newNode);
@@ -242,20 +231,7 @@ function addNode($args){
            }
         }
     }
-    $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
-    #$args = null;
-
-    if (strpos($args, '<logical_identifier>')) {
-
-        $product_tag = '/logical_identifier/i';
-        $args = preg_replace($product_tag, 'TEST CHANGE', $args);
-        #file_put_contents('logs2222.txt', $xml);
-        #file_put_contents('logs66.txt', $xml);
-        file_put_contents('logstestargs.txt', 'checked for context change..');
-
-    }
-    file_put_contents('logstestargs.txt', 'OUTPUT TEST');
-    
+    $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));  
     updateLabelXML($args);
 }
 
@@ -337,8 +313,6 @@ function updateNodeValueLocal($node, $value, $doc){
  *  the mission-specific header, and the schema version
  */
 function addCustomNodes($args){
-
-
     global $DOC;
     $data = $args["json"];
     $missionSpecificsHeader = $args['missionSpecificsHeader'];
@@ -422,8 +396,6 @@ function addCustomNodes($args){
     updateIngestLddXML($ingestLddXML);
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
-    file_put_contents('logstest444.txt', 'RUNNING VALIDATOR 444444');
-
 }
 /**
  * Recurse on the given node to add all of its attributes.
@@ -786,7 +758,6 @@ function formatDoc(){
     $fileContents = getLabelXML();
     $modFile = preg_replace("/<Discipline_Area>.*<\/Discipline_Area>/s", $discAreaStr, $fileContents);
     $args = array("xml"=>$modFile);
-    file_put_contents('logstestformat.txt', 'FORMATDOC');
     updateLabelXML($args);
 }
 
@@ -815,7 +786,6 @@ function isNonDefaultNamespace($ns){
  * @return array
  */
 function prependDisciplineRootNode($filtArr, $ns) {
-
     switch($ns) {
         case "img":
             array_unshift($filtArr, "img:Imaging");
@@ -997,13 +967,7 @@ function addNodeLocal($args){
             }
         }
     }
-    file_put_contents('logstestRETURN.txt', $args);
-
     $args = array("xml"=>$doc->saveXML(NULL, LIBXML_NOEMPTYTAG));
 //    updateLabelXML($args);
-    #$myfile = file_put_contents('logs.txt', $args);
-
-
-
     return $doc;
 }
