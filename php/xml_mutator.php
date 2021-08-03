@@ -149,7 +149,6 @@ function addNode($args){
             }
         }
         $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
-
         updateLabelXML($args);
         return;
     }
@@ -718,7 +717,6 @@ function addRootAttrs($args){
             $root->setAttribute("xmlns:$ns", "http://pds.nasa.gov/pds4/$ns/v1");
         }
     }
-
     $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
     updateLabelXML($args);
 }
