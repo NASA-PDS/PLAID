@@ -8,7 +8,7 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 # Reference: https://wiki.archlinux.org/index.php/SSMTP
 RUN echo 'sendmail_path = "/usr/sbin/ssmtp -t -i"' > /usr/local/etc/php/conf.d/mail.ini
 COPY docker/ssmtp.conf /etc/ssmtp/ssmtp.conf
-
+#COPY php /var/www/html
 COPY docker/docker-entrypoint.sh /usr/local/bin
 ENTRYPOINT [ "docker-entrypoint.sh" ]
 CMD ["apache2-foreground"]  # because ENTRYPOINT is overridden, we have to also put in a value for CMD

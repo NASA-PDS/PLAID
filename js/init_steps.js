@@ -483,6 +483,9 @@ function generateContent(sectionTitle, dataObj, parentObj,ns, iteration, quantit
     section.appendChild(subsection);
     return section;
 }
+
+module.exports = {generateContent};
+
 /**
  * Create an element-bar populated with data from the specified object.
  * @param {object} dataObj object containing the information for the element-bar
