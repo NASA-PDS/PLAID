@@ -1,7 +1,7 @@
 version: "3.7"
 services:
-  mysql:
-    image: mysql:5.7.31
+  mariadb:
+    image: mariadb:10.3.23
     environment:
       MYSQL_DATABASE: plaid
       MYSQL_USER: plaid_admin
@@ -17,7 +17,7 @@ services:
       DB_USER: plaid_admin
       DB_PASSWORD: password
       DB_DATABASE: plaid
-      DB_HOST: mysql
+      DB_HOST: mariadb
     networks:
       - internal
     ports:
@@ -27,6 +27,6 @@ services:
     volumes:
       - .:/var/www/html
     depends_on:
-      - mysql
+      - mariadb
 networks:
   internal:

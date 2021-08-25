@@ -39,11 +39,14 @@ function previewLabelTemplate($args) {
         }
     }
     $tempXml = $DOC->saveXML(NULL, LIBXML_NOEMPTYTAG);
-    $root->removeAttributeNS("http://pds.nasa.gov/pds4/pds/v1", "");
-    $discAreaDom = getNode("Observation_Area/Discipline_Area", "")->item(0);
-    $discAreaStr = $DOC->saveXML($discAreaDom);
-    $discAreaStr = preg_replace("/\sxmlns:.*=\"http:\/\/pds.nasa.gov\/pds4\/.*\/v1\"/", "", $discAreaStr);
-    $modFile = preg_replace("/<Discipline_Area>.*<\/Discipline_Area>/s", $discAreaStr, $tempXml);
+    $modFile = $tempXml;
+    #----
+    #$root->removeAttributeNS("http://pds.nasa.gov/pds4/pds/v1", "");
+    #$discAreaDom = getNode("Observation_Area/Discipline_Area", "")->item(0);
+    #$discAreaStr = $DOC->saveXML($discAreaDom);
+    #$discAreaStr = preg_replace("/\sxmlns:.*=\"http:\/\/pds.nasa.gov\/pds4\/.*\/v1\"/", "", $discAreaStr);
+    #$modFile = preg_replace("/<Discipline_Area>.*<\/Discipline_Area>/s", $discAreaStr, $tempXml);
+    #----
     echo $modFile;
 }
 

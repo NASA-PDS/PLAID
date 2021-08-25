@@ -111,6 +111,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
             <section id="product_selection">
                 <p class="question">What type of product would you like to create a label for?</p>
                 <table class="list-group">
+
                     <tr class="label-item">
                         <td>
                             <button class="list-group-item">
@@ -137,12 +138,34 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
                             </button>
                         </td>
                     </tr>
+                    <!-- MLM:  commented the buttons 
+                    <tr class="label-item">
+                        <td>
+                            <button class="list-group-item disabled" disabled>
+                                <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_File_Text">File Text</span>
+                            </button>
+                        </td>
+                    </tr>
+                                                -->
+
+                    <!-- MLM:  commented the buttons 
+                    <tr class="label-item">
+                        <td>
+                            <button class="list-group-item disabled" disabled>
+                                <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Thumbnail">Thumbnail</span>
+                            </button>
+                        </td>
+                    </tr>
+                                                -->
+
                     <tr class="label-item">
                         <td>
                             <!-- <button class="list-group-item disabled" disabled> -->
                             <button class="list-group-item">
-                                <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_File_Text">File Text</span>
+                                <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Collection">Collection</span>
                             </button>
                         </td>
                     </tr>
@@ -152,11 +175,14 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
                             <!-- <button class="list-group-item disabled" disabled> -->
                             <button class="list-group-item">
                                 <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
-                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Thumbnail">Thumbnail</span>
+                                <span class="productType" data-id="0001_NASA_PDS_1.pds.Product_Bundle">Bundle</span>
                             </button>
                         </td>
                     </tr>
+
+
                     <!-- MLM:  un-commented the buttons above -->
+                    
                 </table>
             </section>
 
@@ -222,7 +248,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
                                     <input type="checkbox" >
                                     <span class="spacer"></span>
                                     <i class="fa fa-sun-o fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" ns="msn_surface" data-id="0001_NASA_PDS_1.msn_surface.Surface_Mission_Parameters" step_path="plaid_discipline_node:mission_surface">Mission Surface</span>
+                                    <span class="discNode" ns="msn_surface" data-id="0001_NASA_PDS_1.msn_surface.Surface_Mission_Information" step_path="plaid_discipline_node:mission_surface">Mission Surface</span>
                                 </div>
                             </td>
                         </tr>
@@ -232,7 +258,18 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
                                     <input type="checkbox" >
                                     <span class="spacer"></span>
                                     <i class="fa fa-camera fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" ns="img_surface" data-id="0001_NASA_PDS_1.img_surface.Surface_Imaging_Parameters" step_path="plaid_discipline_node:imaging_surface">Imaging Surface</span>
+                                    <span class="discNode" ns="img_surface" data-id="0001_NASA_PDS_1.img_surface.Surface_Imaging" step_path="plaid_discipline_node:imaging_surface">Imaging Surface</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="label-item">
+                            <td>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" >
+                                    <span class="spacer"></span>
+                                    <i class="fa fa-sun-o fa-fw" aria-hidden="true"></i>
+                                    <span class="discNode" ns="sp" data-id="0001_NASA_PDS_1.sp.Spectral_Characteristics" step_path="plaid_discipline_node:spectral_characteristics">Spectral Characterisitics</span>
                                 </div>
                             </td>
                         </tr>
@@ -241,14 +278,69 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
                                 <div class="checkbox-item">
                                     <input type="checkbox" >
                                     <span class="spacer"></span>
-                                    <i class="fa fa-bolt fa-fw" aria-hidden="true"></i>
-                                    <span class="discNode" ns="nucspec" data-id="0001_NASA_PDS_1.nucspec.GRNS_Observation_Properties" step_path="plaid_discipline_node:nucspec">Nuclear Spectroscopy (DRAFT)</span>
+                                    <i class="fa fa-camera fa-fw" aria-hidden="true"></i>
+                                    <span class="discNode" ns="msss_cam_mh" data-id="0001_NASA_PDS_1.msss_cam_mh.MSSS_Camera_Mini_Header" step_path="plaid_discipline_node:msss_camera_mini_header">MSSS Camera Mini Header</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="label-item">
+                            <td>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" >
+                                    <span class="spacer"></span>
+                                    <i class="fa fa-camera fa-fw" aria-hidden="true"></i>
+                                    <span class="discNode" ns="nucspec" data-id="0001_NASA_PDS_1.nucspec.GRNS_Observation_Properties" step_path="plaid_discipline_node:nucspec">Nuclear Spectroscopy DRAFT</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="label-item">
+                            <td>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" >
+                                    <span class="spacer"></span>
+                                    <i class="fa fa-camera fa-fw" aria-hidden="true"></i>
+                                    <span class="discNode" ns="rings" data-id="0001_NASA_PDS_1.rings.Ring_Moon_Systems" step_path="plaid_discipline_node:rings">Ring Moon Systems</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="label-item">
+                            <td>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" >
+                                    <span class="spacer"></span>
+                                    <i class="fa fa-camera fa-fw" aria-hidden="true"></i>
+                                    <span class="discNode" ns="survey" data-id="0001_NASA_PDS_1.survey.Survey" step_path="plaid_discipline_node:survey">Survey</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="label-item">
+                            <td>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" >
+                                    <span class="spacer"></span>
+                                    <i class="fa fa-camera fa-fw" aria-hidden="true"></i>
+                                    <span class="discNode" ns="speclib" data-id="0001_NASA_PDS_1.speclib.Spectral_Library_Product" step_path="plaid_discipline_node:sp">Spectral Library Product</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="label-item">
+                            <td>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" >
+                                    <span class="spacer"></span>
+                                    <i class="fa fa-camera fa-fw" aria-hidden="true"></i>
+                                    <span class="discNode" ns="proc" data-id="0001_NASA_PDS_1.proc.Processing_Information" step_path="plaid_discipline_node:pro">Processing Information</span>
                                 </div>
                             </td>
                         </tr>
                     </table>
                 </div>
             </section>
+
 
             <h3>Mission Specifics</h3>
             <section id="mission_specifics_selection">

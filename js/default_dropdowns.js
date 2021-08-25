@@ -26,16 +26,25 @@ const PRODUCT_TYPE_OBSERVATIONAL_ID = "0001_NASA_PDS_1.pds.Product_Observational
     PRODUCT_TYPE_DOCUMENT_ID = "0001_NASA_PDS_1.pds.Product_Document",
     PRODUCT_TYPE_CONTEXT_ID = "0001_NASA_PDS_1.pds.Product_Context",
     PRODUCT_TYPE_FILE_TEXT_ID = "0001_NASA_PDS_1.pds.Product_File_Text",
-    PRODUCT_TYPE_THUMBNAIL_ID = "0001_NASA_PDS_1.pds.Product_Thumbnail";
+    PRODUCT_TYPE_THUMBNAIL_ID = "0001_NASA_PDS_1.pds.Product_Thumbnail",
+    PRODUCT_TYPE_COLLECTION_ID = "0001_NASA_PDS_1.pds.Product_Collection",
+    PRODUCT_TYPE_BUNDLE_ID = "0001_NASA_PDS_1.pds.Product_Bundle";
 const PRODUCT_CLASS_OBSERVATIONAL = "Product_Observational",
     PRODUCT_CLASS_DOCUMENT = "Product_Document",
     PRODUCT_CLASS_CONTEXT = "Product_Context",
     PRODUCT_CLASS_FILE_TEXT = "Product_File_Text",
-    PRODUCT_CLASS_THUMBNAIL = "Product_Thumbnail";
-const SCHEMA_VERSION_1800 = "1800",
+    PRODUCT_CLASS_THUMBNAIL = "Product_Thumbnail",
+    PRODUCT_CLASS_COLLECTION = "Product_Collection",
+    PRODUCT_CLASS_BUNDLE = "Product_Bundle";
+    
+const SCHEMA_VERSION_1F00 = "1F00",
+    SCHEMA_VERSION_1A00 = "1A00",
+    SCHEMA_VERSION_1800 = "1800",
     SCHEMA_VERSION_1700 = "1700",
     SCHEMA_VERSION_1600 = "1600";
-const SCHEMA_VERSION_DOTTED_1800 = "1.8.0.0",
+const SCHEMA_VERSION_DOTTED_1F00 = "1.F.0.0",
+    SCHEMA_VERSION_DOTTED_1A00 = "1.A.0.0",
+    SCHEMA_VERSION_DOTTED_1800 = "1.8.0.0",
     SCHEMA_VERSION_DOTTED_1700 = "1.7.0.0",
     SCHEMA_VERSION_DOTTED_1600 = "1.6.0.0";
 
@@ -96,6 +105,14 @@ function defaultProductClassDropdownValue(selectElement, dropdownId) {
                     //  Default the Product Class dropdown's value to "Product_Thumbnail"
                     $(selectElement).val(PRODUCT_CLASS_THUMBNAIL);
                     break;
+                case PRODUCT_TYPE_COLLECTION_ID:
+                    //  Default the Product Class dropdown's value to "Product_Collection"
+                    $(selectElement).val(PRODUCT_CLASS_COLLECTION);
+                    break;
+                case PRODUCT_TYPE_BUNDLE_ID:
+                    //  Default the Product Class dropdown's value to "Product_Bundle"
+                    $(selectElement).val(PRODUCT_CLASS_BUNDLE);
+                    break;
             }       //  end Switch
             //  Trigger the onChange event to update the selected item in the dropdown list
             $(selectElement).trigger("change");
@@ -118,6 +135,14 @@ function defaultInfoModelVersionDropdownValue(selectElement, dropdownId) {
         setTimeout(function(){
             switch (schemaVersion) {
                 //  IF the selected Schema version is '1.8.0.0'
+                case SCHEMA_VERSION_1F00:
+                    //  Default the Information Model Version dropdown's value to "1.F.0.0"
+                    $(selectElement).val(SCHEMA_VERSION_DOTTED_1F00);
+                    break;
+                case SCHEMA_VERSION_1A00:
+                    //  Default the Information Model Version dropdown's value to "1.A.0.0"
+                    $(selectElement).val(SCHEMA_VERSION_DOTTED_1A00);
+                    break;
                 case SCHEMA_VERSION_1800:
                     //  Default the Information Model Version dropdown's value to "1.8.0.0"
                     $(selectElement).val(SCHEMA_VERSION_DOTTED_1800);

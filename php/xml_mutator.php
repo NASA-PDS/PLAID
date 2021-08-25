@@ -35,6 +35,29 @@ if(isset($_POST['Function'])){
  * @return DOMDocument
  */
 function readInXML($xml){
+
+    # Set $xml with selected Product Type strings
+    if (strpos($xml, '<File_Area_Observational>')) {
+        $product_tag = '/Product_Context/i';
+        $xml = preg_replace($product_tag, 'Product_Observational', $xml);
+
+    } else if (strpos($xml, '<Document>')) {
+        $product_tag = '/Product_Context/i';
+        $xml = preg_replace($product_tag, 'Product_Document', $xml);
+    } else if (strpos($xml, '<Collection>')) {
+        $product_tag = '/Product_Context/i';
+        $xml = preg_replace($product_tag, 'Product_Collection', $xml);
+
+    } else if (strpos($xml, '<Bundle>')) {
+        $product_tag = '/Product_Context/i';
+        $xml = preg_replace($product_tag, 'Product_Bundle', $xml);
+
+    } else {
+        $product_tag = '/<Discipline_Area>.*<\/Discipline_Area>/s';
+        $xml = preg_replace($product_tag, ' ', $xml);
+    }
+  
+
     $doc = new DOMDocument();
     $doc->preserveWhiteSpace = false;
     $doc->formatOutput = true;
@@ -207,7 +230,7 @@ function addNode($args){
            }
         }
     }
-    $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));
+    $args = array("xml"=>$DOC->saveXML(NULL, LIBXML_NOEMPTYTAG));  
     updateLabelXML($args);
 }
 
@@ -787,7 +810,22 @@ function prependDisciplineRootNode($filtArr, $ns) {
             array_unshift($filtArr, "msn_surface:Surface_Mission_Parameters");
             break;
         case "img_surface":
-            array_unshift($filtArr, "img_surface:Surface_Imaging_Parameters");
+            array_unshift($filtArr, "img_surface:Surface_Imaging");
+            break;
+        case "sp":
+            array_unshift($filtArr, "sp:Spectral_Characteristics");
+            break;
+        case "msss_cam_mh":
+            array_unshift($filtArr, "msss_cam_mh:MSSS_Camera_Mini_Header");
+            break;
+        case "survey":
+            array_unshift($filtArr, "survey:Survey");
+            break;
+        case "speclib":
+            array_unshift($filtArr, "speclib:Spectral_Library_Product");
+            break;
+        case "proc":
+            array_unshift($filtArr, "proc:Processing_Information");
             break;
         default:
             return $filtArr;

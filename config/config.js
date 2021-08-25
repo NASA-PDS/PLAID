@@ -349,7 +349,7 @@ var g_dictInfo_1A00 = {
     msn_surface: {
         ns: 'msn_surface',
         name: 'mission_surface',
-        base_class: '0001_NASA_PDS_1.msn_surface.Surface_Mission_Parameters',
+        base_class: '0001_NASA_PDS_1.msn_surface.Surface_Mission_Information',
         path: filePaths_1A00["MSN_SURFACE_JSON"]
     },
     img_surface: {
@@ -401,7 +401,7 @@ var g_dictInfo_1F00 = {
   nucspec: {
     ns: 'nucspec',
     name: 'NucSpec_Observation_Properties',
-    base_class: '0001_NASA_PDS_1.nucspec.NucSpec_Observation_Properties',
+    base_class: '0001_NASA_PDS_1.nucspec.GRNS_Observation_Properties',
     path: filePaths_1F00["NUC_JSON"]
   },
 

@@ -566,8 +566,8 @@ function storeNewLabel($args){
 
     global $LINK;
     global $MAX_FILE_SIZE, $XML_FILE_TYPE, $XML_FILE_EXTENSION, $IMPORT_DIR;
-
-    $filename = "../workspace/observational.xml";
+    
+    $filename = "../workspace/context.xml";
     // $filename = "../workspace/c000m5232t493378259edr_f0000_0134m1.xml";
     $myfile = fopen($filename, "r") or die("Unable to open file!");
     $data = fread($myfile,filesize($filename));
@@ -754,7 +754,7 @@ function getIngestLDDToolXML($arg){
  * @param {Object} $args object containing the updated Label XML string
  */
 function updateLabelXML($args){
-    global $LINK;
+    global $LINK;    
     session_start();
     $handle = $LINK->prepare('update label set last_modified=now(),label_xml=? where id=?');
     $handle->bindValue(1, $args['xml']);
