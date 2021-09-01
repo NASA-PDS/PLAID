@@ -12,7 +12,7 @@ services:
     volumes:
       - ./resources:/docker-entrypoint-initdb.d
   plaid:
-    build: .
+    image: plaid:1.0
     environment:
       DB_USER: plaid_admin
       DB_PASSWORD: password
@@ -21,11 +21,9 @@ services:
     networks:
       - internal
     ports:
-      - 81:80
+      - 80:80
     stdin_open: true
     tty: true
-    volumes:
-      - .:/var/www/html
     depends_on:
       - mariadb
 networks:

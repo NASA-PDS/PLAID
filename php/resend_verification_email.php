@@ -29,7 +29,7 @@ $subject = "PLAID Signup Verification"; // Give the e-mail message a subject
 
 //  Build the URL for the Link
 $http = (isset($_SERVER['HTTPS']) ? "https" : "http");
-$host = $_SERVER[HTTP_HOST];
+$host = $_SERVER[SERVER_NAME];
 $uri = $_SERVER['REQUEST_URI'];
 ///echo 'http = '.$http.'<br>';
 ///echo 'host = '.$host.'<br>';

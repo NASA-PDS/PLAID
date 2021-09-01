@@ -161,3 +161,11 @@ var core_schema_versions = {
 }
 
 ```
+
+
+
+---------
+
+# Deploy PLAID to Dev Machine
+
+#### This procedure will show you how to push the PLAID docker image to
