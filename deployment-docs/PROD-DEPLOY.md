@@ -1,39 +1,23 @@
 ## Docker Production Deployment
 
-#### Setup an Apache server with PHP
+### Build and Push PLAID Docker Image to JFrog Artifactory
 
-Login to VM ssh
+####Build Docker Image locally
+Log into CAE-Artifactory Development repository.
 
+* Run login command:
+```
+$ docker login cae-artifactory.jpl.nasa.gov:16001
+```   
+Locate the local `/PLAID` project and `cd` into the root director that has _'Dockerfile'_  file.
+
+* Execute Docker build command to create image:
 
 ```
-####  Build Docker Image
-Return to parent directory
-
-While in the `/PLAID` directory that holds 'Dockerfile', run command:
-
-```
-$ docker build -t plaidimage .
+$ docker build --no-cache -t cae-artifactory.jpl.nasa.gov:16001/gov/nasa/jpl/ammos/ids/plaid/plaidimage:latest .
 ```
 
-####  Start PLAID Docker Container
-
-Stay in the same directory and run command:
-
+* Push image to JPL Artifactory with command:
 ```
-$ docker run -p 81:8080 plaidimage
-```
-
-####  Run Docker Compose to Launch PLAID application
-
-Stay in the same directory and run command:
-
-```
-$ docker-compose up
-```
-
-#### Open application using browser
-
-Open browser and try localhost with port 81
-```
-http://localhost:81
+$ docker push cae-artifactory.jpl.nasa.gov:16001/gov/nasa/jpl/ammos/ids/plaid/plaidimage:latest
 ```
