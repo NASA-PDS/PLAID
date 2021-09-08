@@ -131,8 +131,10 @@ function insertUser($args){
 
         //  Build the URL for the Link
         $http = (isset($_SERVER['HTTPS']) ? "https" : "http");
-        $host = $_SERVER[SERVER_NAME];
+        //$host = $_SERVER[SERVER_NAME];
+        $host = $_SERVER['HTTP_HOST'];
         $uri = $_SERVER['REQUEST_URI'];
+        $server_host_env_var = "https://<HOSTNAME>.<DOMAIN>/PATH";
         ///echo 'http = '.$http.'<br>';
         ///echo 'host = '.$host.'<br>';
         ///echo 'uri = '.$uri.'<br>';
@@ -144,6 +146,7 @@ function insertUser($args){
         //  Build the Link to Activate the account
         ///http://localhost/myapp/php/verify_email_address.php?email='.$inactive_email.'&hash='.$hash.'
         $activation_link = $http. '://' .$host . $uri_sans_filename . 'verify_email_address.php?email='.$email_addr.'&hash='.$hash;
+        //$activation_link = $server_host_env_var . $uri_sans_filename . 'verify_email_address.php?email='.$email_addr.'&hash='.$hash;
         ///echo 'activation_link = '.$activation_link.'<br>';
 
         ///$short_test_message = 'Message Line 1';
@@ -402,7 +405,8 @@ function sendLinkToResetPassword($args){
 
             //  Build the URL for the Link
             $http = (isset($_SERVER['HTTPS']) ? "https" : "http");
-            $host = $_SERVER[SERVER_NAME];
+            //$host = $_SERVER[SERVER_NAME];
+            $host = $_SERVER['HTTP_HOST'];
             $uri = $_SERVER['REQUEST_URI'];
             ///echo 'http = '.$http.'<br>';
             ///echo 'host = '.$host.'<br>';
@@ -415,6 +419,7 @@ function sendLinkToResetPassword($args){
             //  Build the Link to Activate the account
             ///http://localhost/myapp/php/reset_password.php?email='.$inactive_email.'&hash='.$hash.'
             $activation_link = $http. '://' .$host . $uri_sans_filename . 'reset_password.php?email='.$email_addr.'&hash='.$hash;
+            //$activation_link = $server_host_env_var . $uri_sans_filename . 'reset_password.php?email='.$email_addr.'&hash='.$hash;
             ///echo 'activation_link = '.$activation_link.'<br>';
 
             ///$short_test_message = 'Message Line 1';

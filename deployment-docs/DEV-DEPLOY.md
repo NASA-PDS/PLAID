@@ -1,59 +1,97 @@
 ## Docker Dev Deployment
 
-#### Setup an Apache server with PHP
+### Build and Push PLAID Docker Image to JFrog Artifactory
 
-Login to VM ssh
-    ```
-    >> ssh ssh haile@miplvm-docker1 
-    ```
-Pull image:
-    `````>> sudo docker pull karthequian/helloworld:latest
-    2. >> sudo docker tag karthequian/helloworld helloworld
-3. Start container:
-    1. >> sudo docker-compose up
+####Build Docker Image locally
+Log into CAE-Artifactory Development repository.
 
-
-Locate httpd.conf in local machine Apache Server folder
-
-Add the following or uncomment this line if it is already in httpd.conf file:
+* Run login command:
 ```
-LoadModule php7_module libexec/apache2/libphp7.so
-```
-####  Setup a MySql database using the attached database dump files (```resources/plaid_dump.sql```).
-Move into the `PLAID/resources` directory and run these mysql commands:
+$ docker login cae-artifactory.jpl.nasa.gov:16001
+```   
+Locate the local `/PLAID` project and `cd` into the root director that has _'Dockerfile'_  file.
+
+* Execute Docker build command to create image:
 
 ```
-$ mysql -u -p -e 'create database plaid'
-$ mysql -u -p plaid < plaid_dump.sql
-```
-####  Build Docker Image
-Return to parent directory
-
-While in the `/PLAID` directory that holds 'Dockerfile', run command:
-
-```
-$ docker build -t plaidimage .
+$ docker build --no-cache -t cae-artifactory.jpl.nasa.gov:16001/gov/nasa/jpl/ammos/ids/plaid/plaidimage:latest .
 ```
 
-####  Start PLAID Docker Container
-
-Stay in the same directory and run command:
-
+* Push image to JPL Artifactory with command:
 ```
-$ docker run -p 81:8080 plaidimage
+$ docker push cae-artifactory.jpl.nasa.gov:16001/gov/nasa/jpl/ammos/ids/plaid/plaidimage:latest
 ```
 
-####  Run Docker Compose to Launch PLAID application
+####Deploy and Run PLAID Container in VM
+#####Launch mariaDB Container in VM
 
-Stay in the same directory and run command:
+
+
+#####Pull PLAID Image from Repository into Dev Environment
+
+SSH into dev deployment environment:
 
 ```
-$ docker-compose up
+$ ssh miplvm-docker1
+```
+Password is needed to gain access to VM.
+* Enter password for JPL LDAP authentication:
+```
+<USERNAME@miplvm-docker1's password:> $ ********
 ```
 
-#### Open application using browser
+Run login command to access CAE-Artifactory:
 
-Open browser and try localhost with port 81
 ```
-http://localhost:81
+$ sudo docker login cae-artifactory.jpl.nasa.gov:16001
+```   
+
+Pull Docker image from CAE-Artifactory:
+
+```
+$ sudo docker pull cae-artifactory.jpl.nasa.gov:16001/gov/nasa/jpl/ammos/ids/plaid/plaidimage:latest
+```
+
+Rename the Docker image to: _plaid:latest_
+
+```
+sudo docker tag cae-artifactory.jpl.nasa.gov:16001/gov/nasa/jpl/ammos/ids/plaid/plaidimage:latest plaid:latest
+```
+
+Delete old image:
+
+```
+sudo docker rmi cae-artifactory.jpl.nasa.gov:16001/gov/nasa/jpl/ammos/ids/plaid/plaidimage:latest
+```
+
+
+#####Configure docker YAML file for development deployment
+
+Create a directory for the YAML file.
+
+* Make folder for **/plaid** and `cd` into directory:
+```
+$ mkdir plaid
+```
+```
+$ cd plaid
+```
+
+Copy local **_docker-compose.dev.yaml_** file to the VM:
+
+```
+$ scp docker-compose.dev.yaml USERNAME@miplvm-docker1:/home/USERNAME/plaid
+```
+
+Copy the local PLAID **/resources** directory to the VM:
+
+```
+$ scp -r /path/to/folder/resources/* USERNAME@miplvm-docker1:/home/USERNAME/plaid
+
+```
+
+While in directory `/home/USERNAME/plaid`, run docker-compose to deploy PLAID:
+
+```
+$ docker-compose -f docker-compose.dev.yaml up
 ```
