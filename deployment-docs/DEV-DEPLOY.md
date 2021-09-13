@@ -2,7 +2,7 @@
 
 ### Build and Push PLAID Docker Image to JFrog Artifactory
 
-####Build Docker Image locally
+#### Build Docker Image locally
 Log into CAE-Artifactory Development repository.
 
 * Run login command:
@@ -22,12 +22,12 @@ $ docker build --no-cache -t cae-artifactory.jpl.nasa.gov:16001/gov/nasa/jpl/amm
 $ docker push cae-artifactory.jpl.nasa.gov:16001/gov/nasa/jpl/ammos/ids/plaid/plaidimage:latest
 ```
 
-####Deploy and Run PLAID Container in VM
-#####Launch mariaDB Container in VM
+#### Deploy and Run PLAID Container in VM
+##### Launch mariaDB Container in VM
 
 
 
-#####Pull PLAID Image from Repository into Dev Environment
+##### Pull PLAID Image from Repository into Dev Environment
 
 SSH into dev deployment environment:
 
@@ -65,7 +65,7 @@ sudo docker rmi cae-artifactory.jpl.nasa.gov:16001/gov/nasa/jpl/ammos/ids/plaid/
 ```
 
 
-#####Configure docker YAML file for development deployment
+##### Configure docker YAML file for development deployment
 
 Create a directory for the YAML file.
 
@@ -83,8 +83,10 @@ Copy local **_docker-compose.dev.yaml_** file to the VM:
 $ scp docker-compose.dev.yaml USERNAME@miplvm-docker1:/home/USERNAME/plaid
 ```
 
-Copy the local PLAID **/resources** directory to the VM:
-
+Copy the local PLAID **/resources** directory to the VM
+* Make `/resources` directory in /plaid
+* `cd` into `/resources` 
+* Copy contents of `/resources` to `@miplvm-docker1:/home/USERNAME/plaid/resources`
 ```
 $ scp -r /path/to/folder/resources/* USERNAME@miplvm-docker1:/home/USERNAME/plaid
 
