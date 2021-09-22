@@ -12,7 +12,7 @@ services:
     volumes:
       - ./resources:/docker-entrypoint-initdb.d
   plaid:
-    image: plaid:1.0
+    image: plaid:latest
     environment:
       DB_USER: plaid_admin
       DB_PASSWORD: password
