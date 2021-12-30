@@ -54,9 +54,10 @@ try{
         )
     );
 
-
     if(isset($_POST['function'])){
+        # 😦 This seems remarkably unsafe!
         call_user_func($_POST['function'], $_POST);
+        # I would never allow a function to be called via a name passed over http!
     }
 }
 catch(\PDOException $ex){

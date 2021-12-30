@@ -1,0 +1,9 @@
+*.md
+._*
+.DS_Store
+.zenodo.json
+docs/
+deployment-docs/
+Makefile
+tests/
+php/configuration.php
