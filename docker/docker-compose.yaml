@@ -26,7 +26,7 @@ services:
             MYSQL_DATABASE: plaid
             MYSQL_PASSWORD: password
             MYSQL_ROOT_PASSWORD: password
-            MYSQL_USER: plaid
+            MYSQL_USER: plaid_admin
         networks:
             -   internal
         volumes:
@@ -51,7 +51,7 @@ services:
             DB_DATABASE: plaid
             DB_HOST: db
             DB_PASSWORD: password
-            DB_USER: plaid
+            DB_USER: plaid_admin
             # Empty values here are for documentation purposes; they're all optional and defaults are used for
             # the prodution environment at JPL. For development, you'll override `SMTP_HOST` and possibly the
             # other values:
