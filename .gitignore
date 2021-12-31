@@ -37,10 +37,15 @@ src/test/temp/
 /bin/
 .*.swp
 *.sublime-*
-*.DS_Store
+.DS_Store
 pom.xml.versionsBackup
 
 # Java stuff
 *.javac
 .gwt/
 target/
+
+# APPS PLAID specific
+php/configuration.php
+.env
+

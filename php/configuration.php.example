@@ -1,6 +1,7 @@
 <?php
 /*
-Rename this file to configuration.php after filling out the sections below.
+You'd normally rename this file to configuration.php after filling out the sections below,
+but the container entrypoint does that automatically at start up.
 */
 
 const DB_USER     = "mysql_user";

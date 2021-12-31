@@ -1,0 +1,120 @@
+# Docker Composition
+# ==================
+#
+# Composed services to run the Planetary Data Systems Label Assistant for Interactive Design, otherwise
+# known as "APPS PLAID". (No idea why the "APPS" is there, but I guess we're stuck with it.)
+
+
+---
+
+# Services
+# --------
+#
+# When composed, these services make a running instance of "APPS PLAID".
+
+services:
+    # Database
+    # ~~~~~~~~
+    #
+    # The database service provides persistence. Note that we let an internal Docker volume
+    # hold onto all data in this composition. If there's ever a need to preserve the user accounts,
+    # labels being made, etc., to move all this to another host etc., then we'll need to add a volume
+    # for `/var/lib/mysql`.
+    db:
+        image: mariadb:10.3.23
+        environment:
+            MYSQL_DATABASE: plaid
+            MYSQL_PASSWORD: password
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_USER: plaid_admin
+        networks:
+            -   internal
+        volumes:
+            -
+                type: volume
+                source: resources
+                target: /docker-entrypoint-initdb.d
+                read_only: true
+        labels:
+            org.label-schema.name: APPS PLAID persistence
+            org.label-schema.description: MariaDB service providing persistence for APPS PLAID.
+
+    # Application
+    # ~~~~~~~~~~~
+    #
+    # This service provides logic and user interface of APPS PLAID.
+    app:
+        container_name: plaid
+        image: ${PLAID_IMAGE_OWNER-nasapds/}plaid:${PLAID_VERSION:-1.0.0}
+        environment:
+            # These link the `app` with the `db`:
+            DB_DATABASE: plaid
+            DB_HOST: db
+            DB_PASSWORD: password
+            DB_USER: plaid_admin
+            # Empty values here are for documentation purposes; they're all optional and defaults are used for
+            # the prodution environment at JPL. For development, you'll override `SMTP_HOST` and possibly the
+            # other values:
+            SMTP_HOST:
+            SMTP_DOMAIN:
+            SMTP_PASSWORD:
+            SMTP_PORT:
+            SMTP_SECURITY:
+            SMTP_USER:
+        networks:
+            -   internal
+        ports:
+            -
+                target: 80
+                published: ${PLAID_PORT:-7166}
+                protocol: tcp
+                mode: host 
+        volumes:
+            -
+                type: volume
+                source: resources
+                target: /var/www/html/resources
+        depends_on:
+            -   db
+        restart: unless-stopped
+        stop_grace_period: 23s
+        labels:
+            org.label-schema.name: APPS PLAID app service
+            org.label-schema.description: PHP embedded in Apache HTTPD providing the application service for APPS PLAID.
+
+
+# Networks
+# --------
+#
+# Interprocess communication and whatnot.
+
+networks:
+    # A purely backplane-style network for inter-service communication.
+    internal:
+        driver: bridge
+        labels:
+            org.label-schema.name: APPS PLAID Services Shared Internal Network
+
+
+# Volumes
+# -------
+#
+# Data sharing.
+
+volumes:
+    # Shared filesystem resources between the services.
+    resources:
+        driver: local
+        external: false
+        labels:
+            org.label-schema.name: APPS PLAID Services Shared File Resources
+
+
+# Misc
+# ----
+#
+# Just some Docker Composition metadata here.
+
+version: '3.8'
+
+...
