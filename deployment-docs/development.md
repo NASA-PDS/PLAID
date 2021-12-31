@@ -103,3 +103,51 @@ $ docker logout
 ```
 
 Replace `VERSION` with the new version of the APPS PLAID image being published, and `PASSWORD` with the password for the `nasapds` account on `hub.docker.com` (consult the PDS Engineering Node for help).
+
+
+## 📍 Non-Containerized Development
+
+While using the Docker container and `docker compose` simplifies setup and also helps guarantee that APPS PLAID works identically on the desktop as it does in production, it's not as conducive to development because it requires remaking the `plaid` image with every change. You can't just hit <kbd>Reload</kbd> in your browser to see an update to a `.html` file, for example.
+
+In this case, it is possible—and perhaps _preferable_—to run APPS PLAID using a local [MariaDB](https://mariadb.org) or [MySQL Communuty Edition](https://www.mysql.com/products/community/) server and a web server such as [Nginx](https://nginx.org/) or [Apache HTTPD](https://httpd.apache.org/). This is considered an advanced topic, so only guidelines are presented here, as operating system specifics, development environments, and personal choices vary widely.
+
+
+### 🔢 Database Setup
+
+After installing MariaDB or MySQL, you'll need to create the APPS PLAID database user and schema. To do so, run commands similar to the following:
+```console
+$ mysql --batch --user=root --password --execute "CREATE DATABASE plaid;"
+$ mysql --batch --user=root --password --execute "GRANT ALL PRIVILEGES ON plaid.* TO 'plaid_admin'@'localhost' IDENTIFIED BY 'password';"
+```
+Enter the `root` MySQL password when prompted. You can then set up the schema:
+```console
+$ mysql --batch --user=plaid_admin --password plaid < resources/plaid_dump.sql
+```
+When prompted, enter the password `password`.
+
+
+### 🕸 Web Server Setup
+
+Next you need to install a web server, add PHP support to it, and have it use your files as the root for serving and executing files for your client browser. APPS PLAID requires PHP 5.6 as of this writing, and needs the MySQL/MariaDB PDO extension. Depending on your operating system, how you do this may be as simple as running an installer command like `apt-get install`, `apk add`, `brew install`, `yum install`, etc., or may be as complex as compiling Apache HTTPD and PHP from source code and adding a line like
+```
+LoadModule php5_module libexec/apache2/libphp5.so
+```
+to an `httpd.conf` file.
+
+The next challenge is then convincing the web server to serve files out of the cloned repository where you do your development. You may need to adjust security settings to not just enable the web server to execute PHP but to do so outside of a traditional HTML document tree. In some cases, symbolic links may help. In others, copying all the development files to `/var/www/html` is required.
+
+You may also need to configure the global `php.ini` file to allow email to be sent.
+
+
+### ✍️ PHP Configuration
+
+Assuming you've got a working web server with PHP that's able to execute your files, the last step is to configure your local APPS PLAID to communicate with the database server. To do so, copy `php/configuration.php.example` to `php/configuration.php` and change the `const` lines as follows:
+```php
+const DB_USER     = "plaid_admin";
+const DB_PASSWORD = "password";
+const DB_DATABASE = "plaid";
+const DB_HOST     = "mariadb";
+const DB_PORT     = "3306";
+```
+
+Good luck 🤞
