@@ -7,7 +7,7 @@ The following table describes the environment variables that alter the behavior 
 | `PLAID_IMAGE_OWNER` | Set to blank to use a local `plaid` Docker image           | `nasapds/`          |
 | `PLAID_VERSION`     | Set to a version tag, such as `latest`                     | `1.0.0`             |
 | `PLAID_PORT`        | Set to the TCP port number where APPS PLAID listens        | `7166`              |
-| `DB_USER`           | Database username                                          | `plaid`             |
+| `DB_USER`           | Database username                                          | `plaid_admin`       |
 | `DB_PASSWORD`       | Password for the database username                         | `password`          |
 | `DB_DATABASE`       | Name of the database                                       | `plaid`             |
 | `DB_HOST`           | Host where the database is accessed                        | `db`                |
