@@ -25,10 +25,12 @@
  */
 
 require_once("interact_db.php");
+require_once("function_validation.php");
 // Load the XSD schema from the PSA NASA site
 $schema = "https://pds.jpl.nasa.gov/pds4/schema/develop/pds/PDS4_PDS_1700.xsd";
 
 if(isset($_POST['Function'])){
+    validateFunction($_POST['Function']);
     $doc = new DOMDocument();
     $doc->loadXML(getLabelXML());
     call_user_func($_POST['Function'], $_POST['Data']);

@@ -25,7 +25,9 @@
  * @author Stirling Algermissen
  */
 require_once("interact_db.php");
+require_once("function_validation.php");
 if(isset($_POST['Function'])){
+    validateFunction($_POST['Function']);
     $DOC = readInXML(getLabelXML());
     call_user_func($_POST['Function'], $_POST['Data']);
 }
