@@ -29,6 +29,7 @@
 require_once('../thirdparty/php/PasswordHash.php');
 require("configuration.php");
 include_once("PlaidSessionHandler.php");
+require_once("function_validation.php");
 $MAX_FILE_SIZE = 4 * 1024 * 1024;    //  4 MB
 $XML_FILE_TYPE = "text/xml";
 $XML_FILE_EXTENSION = "xml";
@@ -55,9 +56,8 @@ try{
     );
 
     if(isset($_POST['function'])){
-        # 😦 This seems remarkably unsafe!
+        validateFunction($_POST['function']);
         call_user_func($_POST['function'], $_POST);
-        # I would never allow a function to be called via a name passed over http!
     }
 }
 catch(\PDOException $ex){
