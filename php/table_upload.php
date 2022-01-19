@@ -19,7 +19,7 @@
 
 <?php
 
-require("configuration.php");
+require_once("configuration.php");
 require("interact_db.php");
 require("xml_mutator.php");
 

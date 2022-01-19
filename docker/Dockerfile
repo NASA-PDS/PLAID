@@ -7,24 +7,22 @@
 # Base Image
 # ----------
 #
-# This is a PHP app, so we start with a PHP image, in this case PHP 5.6 based on Debian Linux 8,
-# code named "jessie".
-#
-# ⚠️ Note that Debian "jessie" reached end-of-life on 2018-06-17 and end long-term support on 
-# 2020-06-30. We really should look to use a more recent Debian Linux, such as `8.1.1-apache-bullseye`.
-#
-# ⚠️ PHP 5.6 reached end-of-life on 2019-01-01 and has no long-term support. It has received no
-# security patches 3 years. Upgrading to `8.1.1-apache-bullseye` or later is strongly recommended.
+# This is a PHP app, so we start with a PHP image, in this case PHP 7.4.27 based on Debian Linux 11,
+# code named "bullseye". Upgrading to PHP 8.1.1 would be even better, but there are a number of XML
+# parsing issues in that version that we do not, at present, have time to address.
 
-FROM php:5.6-apache-jessie
+FROM php:7.4.27-apache-bullseye
 
 
 # Dependencies
 # ------------
 #
-# We need sSMTP to send mail and the MySQL PDO extensions for PHP. 
+# We need sSMTP to send mail and the MySQL PDO extensions for PHP. During development, you might want to
+# change the `php.ini-production` to `php.ini-development` to enable Zend assertions, memory statistics,
+# start error logging, all reporting enabled, and deprecation warnings.
 
 RUN : &&\
+    mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" &&\
     apt-get update --quiet &&\
     apt-get install --quiet --yes ssmtp &&\
     docker-php-ext-install mysqli pdo pdo_mysql &&\
