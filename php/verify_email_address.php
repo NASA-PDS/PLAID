@@ -22,7 +22,7 @@
      * Date: 5/4/2017
      * Time: 4:20 PM
      */
-    require("configuration.php");
+    require_once("configuration.php");
     include_once("PlaidSessionHandler.php");
     $session_handler = new PlaidSessionHandler();
     try{

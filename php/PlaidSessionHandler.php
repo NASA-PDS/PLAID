@@ -1,6 +1,6 @@
 <?php
 require('DbSessionHandler.php');
-require("configuration.php");
+require_once("configuration.php");
 
 
 

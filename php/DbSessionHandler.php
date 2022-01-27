@@ -137,6 +137,7 @@ SQL
         if ($rec = $sth->fetch()) {
             return $rec['data'];
         }
+        error_log('#### 😢 We were unable to read a session from the database');
         return '';
     }
 

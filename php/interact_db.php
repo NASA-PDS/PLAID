@@ -27,7 +27,7 @@
  * @author Stirling Algermissen
  */
 require_once('../thirdparty/php/PasswordHash.php');
-require("configuration.php");
+require_once("configuration.php");
 include_once("PlaidSessionHandler.php");
 require_once("function_validation.php");
 $MAX_FILE_SIZE = 4 * 1024 * 1024;    //  4 MB
@@ -55,13 +55,47 @@ try{
         )
     );
 
+    log_to_server('POST contains', true);
+    log_object_to_server($_POST, false);
+
     if(isset($_POST['function'])){
         validateFunction($_POST['function']);
         call_user_func($_POST['function'], $_POST);
     }
 }
 catch(\PDOException $ex){
-    print($ex->getMessage());   // TODO: Don't print any error message, for security reasons???
+    log_object_to_server($ex, true);
+    die('PDS Exception 1');
+}
+/**
+ * Log a message to the server log.
+ * 
+ * @param $arg message to log
+ * @param $highlight true if to surround the message with highlighting characters
+ */
+function log_to_server($message, $highlight) {
+    if ($highlight) {
+        error_log('');
+        error_log('====================================================================');
+    }
+    error_log($message);
+    if ($highlight) {
+        error_log('====================================================================');
+        error_log('');
+    }
+}
+/**
+ * Log a variable dump to the server log.
+ * 
+ * @param $arg object to dump.
+ * @param $highlight true if to surround the message with highlighting characters
+ */
+function log_object_to_server($arg, $highlight) {
+    ob_start();
+    var_dump($arg);
+    $dump = ob_get_contents();
+    ob_end_clean();
+    log_to_server($dump, $highlight);
 }
 /**
  * When a new user creates an account, store the form data in the user table.
@@ -123,7 +157,8 @@ function insertUser($args){
 
             $handle->execute();
         } catch(PDOException $ex) {
-            //print($ex->getMessage());     // Don't print any error message, for security reasons
+            log_object_to_server($ex);
+            die('PDS Exception 2');
         }
 
         //  Send an e-mail message to the given e-mail address with a link to validate the account
@@ -186,6 +221,7 @@ function insertUser($args){
  * @param {Object} $args object containing the user's email and password
  */
 function verifyUser($args){
+    log_to_server(']]]]]]] INSIDE verifyUser', true);
     global $LINK;
     global $HASHER;
     //  Sanitize the input by replacing special characters with HTML representations
@@ -213,12 +249,13 @@ function verifyUser($args){
             $HASHER->CheckPassword($password_entered, $result[0]->password)){
             //  IF the account is active
             if ($result[0]->active == 1) {
-                header("Location: ../dashboard.php");
+                log_to_server(']]]]]] ACTIVE IS ONE, user id "' . $result[0]->id . '"', true);
                 $_SESSION['login'] = true;
                 $_SESSION['user_id'] = $result[0]->id;
                 $_SESSION['email'] = $email_addr;
                 $_SESSION['full_name'] = $result[0]->full_name;
                 $_SESSION['organization'] = $result[0]->organization;
+                header("Location: ../dashboard.php");
             } else {    //  Else the account is inactive
                 $_SESSION['login'] = true;
                 $_SESSION['error_code'] = 2;
@@ -231,12 +268,14 @@ function verifyUser($args){
         }
         else{
             //  Invalid username/password combination, so return to the Login page w/ an error message
-            header("Location: ../index.php");
             $_SESSION['login'] = true;
             $_SESSION['error_code'] = 1;
+            header("Location: ../index.php");
         }
     } catch(PDOException $ex) {
-        //print($ex->getMessage());     // Don't print any error message, for security reasons
+        log_to_server('ERROR during verifyUser', true);
+        log_object_to_server($ex, false);
+        die('PDS Exception 2⅓');
     }
 
 }
@@ -450,7 +489,8 @@ Please click this link to reset your PLAID password:  ' . $activation_link . '
             header("Location: ../send_link_to_reset_password_success.html");
         }
     } catch(PDOException $ex) {
-        //print($ex->getMessage());     // Don't print any error message, for security reasons
+        log_object_to_server($ex, true);
+        die('PDS Exception 3');
     }
 
 }
@@ -494,7 +534,8 @@ function resetPassword($args){
             $handle->bindValue(2, $email);
             $handle->execute();
         } catch(PDOException $ex) {
-            //print($ex->getMessage());     // Don't print any error message, for security reasons
+            log_object_to_server($ex, true);
+            die('PDS Exception 4');
         }
 
         //  Go to the Reset Password Success page
@@ -564,6 +605,7 @@ function getLabelInfo(){
  * @param {Object} $args object containing the name of the label inputted by the user
  */
 function storeNewLabel($args){
+    log_to_server('(3) USER ID is "' . $_SESSION['user_id'] . '"', true);
 
     global $LINK;
     global $MAX_FILE_SIZE, $XML_FILE_TYPE, $XML_FILE_EXTENSION, $IMPORT_DIR;
@@ -576,7 +618,18 @@ function storeNewLabel($args){
     var_dump($data);
     /** JPADAMS - load a file here **/
 
-    session_start();
+    $rc = session_start();
+    log_object_to_server($rc, true);
+    if (!$rc) {
+        log_to_server('session start return unexpected "' . $rc . '"', true);
+        die('Session failure');
+    }
+
+    log_to_server('(4) USER ID is "' . $_SESSION['user_id'] . '"', true);
+    if (!$_SESSION['user_id']) {
+        log_to_server('User id not set!', true);
+        die('Unknown user failure');
+    }
 
     // Initialize the XML string to Import to be null
     $_SESSION['xmlStringToImport'] = null;
@@ -617,6 +670,7 @@ function storeNewLabel($args){
         $handle->bindValue(1, $args['labelName']);
         $handle->bindValue(2, $data);
         $handle->bindValue(3, $args['version']);
+        log_to_server('==-==-==-==-== storeNewLabel with user_id = "' . $_SESSION['user_id'] . '"', true);
         $handle->bindValue(4, $_SESSION['user_id']);
         $handle->execute();
 
@@ -626,8 +680,11 @@ function storeNewLabel($args){
         $handle->bindValue(2, $newLabelId);
         $handle->execute();
     } catch(PDOException $ex) {
-        //print($ex->getMessage());     // Don't print any error message, for security reasons
+        log_object_to_server($ex, true);
+        die('PDS Exception 5');
     }
+
+    log_to_server('New label ID = "' . $newLabelId . '"', true);
 
     $_SESSION['label_id'] = intval($newLabelId);
     return $_SESSION['label_id'];
@@ -985,7 +1042,7 @@ function getXMLStringToImport() {
  */
 function checkIfLabelInUse($label_id) {
     global $LINK;
-    session_start();
+    @session_start();
     $result = $LINK->query('SELECT data FROM sessions');
     $current_user = $_SESSION['user_id'];
     $current_session = session_encode();
@@ -1032,9 +1089,10 @@ function checkForDuplicateUser($args){
                     return true;
         }
     } catch(PDOException $ex) {
+        log_object_to_server($ex, true);
         //print($ex->getMessage());     // Don't print any error message, for security reasons
         //  IF query error, return true so it won't continue to create a possible duplicate user
-        return true;
+        die('PDS Exception 6');
     }
     return false;
 }
