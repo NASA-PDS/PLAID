@@ -5,6 +5,21 @@ The "APPS PLAID" is a web GUI to help create PDS4-compliant metadata labels. The
 "APPS PLAID" consists of a [PHP](https://www.php.net)-based application front end and a [MariaDB](https://mariadb.org/) persistence layer. It also uses [SMTP](https://datatracker.ietf.org/doc/html/rfc5321) to send registration emails to new users. The [Docker](https://www.docker.com/) container and composition environment is used to run and orchestrate the services in a repeatable fashion in both development and in operational deployment.
 
 
+## 🏎 Quick Start
+
+To get going quickly, run:
+```console
+$ docker image build --tag plaid --file docker/Dockerfile .
+$ env PLAID_IMAGE_OWNER= PLAID_VERSION=latest PLAID_PORT=8080 SMTP_HOST=smtp.jpl.nasa.gov \
+        docker compose --file docker/docker-compose.yaml up
+```
+where `$` is the command prompt.
+
+Then, visit http://localhost:8080/ with a browser.
+
+For a full set of instructions, see the [development notes](deployment-docs/development.md) or the [production instructions](deployment-docs/production.md).
+
+
 ## ✋ Prerequsites
 
 "APPS PLAID" requires the following in order to run regardless of if it's in development or production:
